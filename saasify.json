@@ -1,0 +1,136 @@
+{
+  "name": "reacher",
+  "version": "0.1.0",
+  "openapi": "./openapi.json",
+  "saas": {
+    "name": "Reacher",
+    "heading": "Full-Featured Email Verification",
+    "subheading": "Real-time email verification that doesn't collect any data and guarantees 100% correct results.",
+    "theme": {
+      "name": "okta",
+      "buttonStyle": "rounded",
+      "color": "#2b74ed",
+      "gradientDark": true,
+      "codeBlockDark": true
+    },
+    "sections": {
+      "hero": {
+        "cta": "100 emails for free"
+      }
+    },
+    "htmlPostBody": "<script>window.$crisp=[];window.CRISP_WEBSITE_ID=\"76583d5a-660c-43a9-9fba-8c65c1cf9d49\";(function(){d=document;s=d.createElement(\"script\");s.src=\"https://client.crisp.chat/l.js\";s.async=1;d.getElementsByTagName(\"head\")[0].appendChild(s);})();</script>",
+    "repo": "https://github.com/reacherhq",
+    "features": [
+      {
+        "name": "100% accuracy",
+        "desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
+        "icon": "assets/img/global.svg"
+      },
+      {
+        "name": "Fully Featured",
+        "desc": "We perform domain & SMTP validation, hard bounce checks, catch-all domains checks, MTA validation... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
+        "icon": "assets/img/customizable.svg"
+      },
+      {
+        "name": "Secure & Private",
+        "desc": "We never store any of the emails that you upload. We are 100% GDPR compliant.",
+        "icon": "assets/img/secure.svg"
+      },
+      {
+        "name": "Simple Setup",
+        "desc": "Verify email addresses from your website by just copying three lines of code. It takes only a few minutes and requires no technical skills.",
+        "icon": "assets/img/customizable.svg"
+      },
+      {
+        "name": "Simple Pricing",
+        "desc": "Start with 100 **free** emails every month. Scale with our [pay-as-you-grow](/pricing) plans afterwards.",
+        "icon": "assets/img/stripe.svg"
+      },
+      {
+        "name": "State of the Art",
+        "desc": "We proxy verification requests via [Tor](https://www.torproject.org/) for privacy and to avoid being blacklisted.",
+        "icon": "assets/img/cluster.svg"
+      },
+      {
+        "name": "Bulk Verification (coming soon)",
+        "desc": "Say goodbye to invalid email and hard bounces. Upload your dirty list and download a clean list.",
+        "icon": "assets/img/powerful.svg"
+      },
+      {
+        "name": "Powerful API",
+        "desc": "Advanced integrations available programatically via our [REST API](/docs#section/API).",
+        "icon": "assets/img/api.svg"
+      },
+      {
+        "name": "Open Source",
+        "desc": "In order to guarantee transparency with your data, Reacher is 100% [open source](https://github.com/reacherhq)!",
+        "icon": "assets/img/open-source.svg"
+      }
+    ]
+  },
+  "pricingPlans": [
+    {
+      "name": "The Free Plan",
+      "rateLimit": {
+        "requestsInterval": "30d",
+        "requestsMaxPerInterval": 100
+      },
+      "features": [
+        "100 emails for **free** per month.",
+        "[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+        "No credit card required."
+      ]
+    },
+    {
+      "name": "The 10k Plan",
+      "amount": 1700,
+      "features": [
+        "First **10000 emails/mo** included in base fee.",
+        "Pay-as-you-go after 10000 emails.",
+        "[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+        "Cancel anytime."
+      ],
+      "requests": {
+        "amount": 1.7,
+        "usageType": "metered",
+        "billingScheme": "tiered",
+        "tiers": [
+          {
+            "upTo": "10000",
+            "flatAmount": 0
+          },
+          {
+            "upTo": "inf",
+            "unitAmount": 1.7
+          }
+        ]
+      }
+    },
+    {
+      "name": "The 60k Plan",
+      "amount": 5500,
+      "features": [
+        "First **60000 emails/mo** included in base fee.",
+        "Pay-as-you-go after 60000 emails.",
+        "[Full-Featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+        "Cancel anytime.",
+        "Priority support."
+      ],
+      "requests": {
+        "amount": 1.4,
+        "usageType": "metered",
+        "billingScheme": "tiered",
+        "tiers": [
+          {
+            "upTo": "60000",
+            "flatAmount": 0
+          },
+          {
+            "upTo": "inf",
+            "unitAmount": 1.4
+          }
+        ]
+      }
+    }
+  ]
+}

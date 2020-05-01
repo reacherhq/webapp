@@ -1,0 +1,13 @@
+{
+  "name": "@reacherhq/saasify",
+  "version": "0.1.0",
+  "description": "Full-Featured Email Verification",
+  "main": "saasify.json",
+  "repository": "https://github.com/reacherhq/saasify",
+  "author": "Amaury Martiny <amaury.martiny@protonmail.com>",
+  "license": "GPL-3.0",
+  "private": true,
+  "devDependencies": {
+    "saasify": "^1.18.30"
+  }
+}
