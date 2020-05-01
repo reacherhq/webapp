@@ -307,7 +307,7 @@
                 ]
               }
             ],
-            "description": "This field is present when the misc verifications succeed.",
+            "description": "Syntax validation of an email address.",
             "type": "object"
           }
         },
