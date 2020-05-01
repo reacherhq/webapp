@@ -22,7 +22,7 @@
   "paths": {
     "/check_email": {
       "post": {
-        "summary": "Perform a full verification of an email address.",
+        "summary": "Email verification.",
         "responses": {
           "200": {
             "description": "OK",
@@ -90,7 +90,7 @@
                     "type": "string",
                     "description": "In the SMTP connection, the EHLO hostname.",
                     "format": "hostname",
-                    "default": "localhost"
+                    "default": "example.org"
                   }
                 },
                 "required": [
