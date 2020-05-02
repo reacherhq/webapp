@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "lint": "prettier ./*.{md,json}"
+    "lint": "prettier ./*.{js,md,json}"
   },
   "devDependencies": {
     "@amaurymartiny/eslintrc": "^1.1.0",
