@@ -8,7 +8,8 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "lint": "prettier ./*.{js,md,json}"
+    "lint": "prettier ./*.{js,md,json}",
+    "start": "saasify dev"
   },
   "devDependencies": {
     "@amaurymartiny/eslintrc": "^1.1.0",

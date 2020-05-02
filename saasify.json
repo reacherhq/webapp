@@ -2,6 +2,17 @@
   "name": "reacher",
   "version": "0.1.0",
   "openapi": "./openapi/openapi.json",
+  "authProviders": {
+    "default": {
+      "enabled": true
+    },
+    "github": {
+      "enabled": true
+    },
+    "google": {
+      "enabled": true
+    }
+  },
   "saas": {
     "name": "Reacher",
     "heading": "Full-Featured Email Verification",
