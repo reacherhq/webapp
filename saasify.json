@@ -1,7 +1,6 @@
 {
   "name": "reacher",
   "version": "0.1.0",
-  "openapi": "./openapi/openapi.json",
   "authProviders": {
     "default": {
       "enabled": true
@@ -13,6 +12,7 @@
       "enabled": true
     }
   },
+  "openapi": "./openapi/openapi.json",
   "saas": {
     "name": "Reacher",
     "heading": "Full-Featured Email Verification",
@@ -83,7 +83,7 @@
     {
       "name": "The Free Plan",
       "rateLimit": {
-        "requestsInterval": "30d",
+        "requestsInterval": 2628000,
         "requestsMaxPerInterval": 100
       },
       "features": [
