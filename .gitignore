@@ -1,5 +1,6 @@
 # Generated
 node_modules
+*.log
 
 # OS-specific
 .DS_Store

@@ -7,7 +7,11 @@
   "author": "Amaury Martiny <amaury.martiny@protonmail.com>",
   "license": "GPL-3.0",
   "private": true,
+  "scripts": {
+    "lint": "prettier ./*.{md,json}"
+  },
   "devDependencies": {
+    "@amaurymartiny/eslintrc": "^1.1.0",
     "saasify": "^1.18.30"
   }
 }
