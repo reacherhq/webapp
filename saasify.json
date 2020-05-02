@@ -1,7 +1,7 @@
 {
   "name": "reacher",
   "version": "0.1.0",
-  "openapi": "./openapi.json",
+  "openapi": "./openapi/openapi.json",
   "saas": {
     "name": "Reacher",
     "heading": "Full-Featured Email Verification",
