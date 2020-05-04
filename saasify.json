@@ -18,9 +18,9 @@
     "heading": "Full-Featured Email Verification",
     "subheading": "Real-time email verification that doesn't collect any data and guarantees 100% correct results.",
     "theme": {
-      "name": "okta",
+      "name": "waves",
       "buttonStyle": "rounded",
-      "color": "#2b74ed",
+      "color": "#6C63FF",
       "gradientDark": true,
       "codeBlockDark": true
     },
