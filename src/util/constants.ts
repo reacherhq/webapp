@@ -14,16 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Reacher.  If not, see <http://www.gnu.org/licenses/>.
 
-import './global.css';
+/**
+ * URL of Reacher's backend.
+ */
+export const BACKEND_URL = 'https://reacher.fly.dev/check_email';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import { App } from './App';
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+/**
+ * Let users sign up to newsletter.
+ */
+export const NEWSLETTER_SIGNUP_URL = 'https://tinyletter.com/reacher';

@@ -14,16 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Reacher.  If not, see <http://www.gnu.org/licenses/>.
 
-import './global.css';
-
+import classNames from 'classnames';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import { App } from './App';
+type LineProps = React.HTMLAttributes<HTMLDivElement>;
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+export function Line(props: LineProps): React.ReactElement {
+  const { className, ...rest } = props;
+
+  return (
+    <div
+      className={classNames('border-r border-lightgray', className)}
+      {...rest}
+    ></div>
+  );
+}

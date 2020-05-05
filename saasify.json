@@ -35,47 +35,47 @@
       {
         "name": "100% accuracy",
         "desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
-        "icon": "assets/img/global.svg"
+        "icon": "src/assets/img/global.svg"
       },
       {
         "name": "Fully Featured",
         "desc": "We perform domain & SMTP validation, hard bounce checks, catch-all domains checks, MTA validation... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
-        "icon": "assets/img/customizable.svg"
+        "icon": "src/assets/img/customizable.svg"
       },
       {
         "name": "Secure & Private",
         "desc": "We never store any of the emails that you upload. We are 100% GDPR compliant.",
-        "icon": "assets/img/secure.svg"
+        "icon": "src/assets/img/secure.svg"
       },
       {
         "name": "Simple Setup",
         "desc": "Verify email addresses from your website by just copying three lines of code. It takes only a few minutes and requires no technical skills.",
-        "icon": "assets/img/customizable.svg"
+        "icon": "src/assets/img/customizable.svg"
       },
       {
         "name": "Simple Pricing",
         "desc": "Start with 100 **free** emails every month. Scale with our [pay-as-you-grow](/pricing) plans afterwards.",
-        "icon": "assets/img/stripe.svg"
+        "icon": "src/assets/img/stripe.svg"
       },
       {
         "name": "State of the Art",
         "desc": "We proxy verification requests via [Tor](https://www.torproject.org/) for privacy and to avoid being blacklisted.",
-        "icon": "assets/img/cluster.svg"
+        "icon": "src/assets/img/cluster.svg"
       },
       {
         "name": "Bulk Verification (coming soon)",
         "desc": "Say goodbye to invalid email and hard bounces. Upload your dirty list and download a clean list.",
-        "icon": "assets/img/powerful.svg"
+        "icon": "src/assets/img/powerful.svg"
       },
       {
         "name": "Powerful API",
         "desc": "Advanced integrations available programatically via our [REST API](/docs#section/API).",
-        "icon": "assets/img/api.svg"
+        "icon": "src/assets/img/api.svg"
       },
       {
         "name": "Open Source",
         "desc": "In order to guarantee transparency with your data, Reacher is 100% [open source](https://github.com/reacherhq)!",
-        "icon": "assets/img/open-source.svg"
+        "icon": "src/assets/img/open-source.svg"
       }
     ]
   },

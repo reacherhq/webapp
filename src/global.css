@@ -1,3 +1,4 @@
+/*
 // Reacher
 // Copyright (C) 2018-2020 Amaury Martiny
 
@@ -13,17 +14,29 @@
 
 // You should have received a copy of the GNU General Public License
 // along with Reacher.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-import './global.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+@font-face {
+  font-family: 'Gotham Bold';
+  src: url('./assets/fonts/Gotham_Bold_Regular.ttf');
+}
 
-import { App } from './App';
+body {
+  color: #393b3b;
+  font-family: 'Lato';
+  font-weight: 300;
+  letter-spacing: 0.025rem;
+}
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+a:hover {
+  @apply opacity-50;
+  cursor: pointer;
+}
+
+.rounded-xl {
+  border-radius: 50px;
+}
