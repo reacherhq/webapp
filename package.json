@@ -1,18 +1,40 @@
 {
   "name": "@reacherhq/saasify",
   "version": "0.1.0",
-  "description": "Full-Featured Email Verification",
-  "main": "saasify.json",
-  "repository": "https://github.com/reacherhq/saasify",
   "author": "Amaury Martiny <amaury.martiny@protonmail.com>",
+  "description": "Full-Featured Email Verification",
   "license": "GPL-3.0",
+  "main": "saasify.json",
   "private": true,
+  "repository": "https://github.com/reacherhq/saasify",
   "scripts": {
-    "lint": "prettier ./*.{js,md,json}",
-    "start": "saasify dev"
+    "build": "react-scripts build",
+    "lint": "tsc --noEmit && eslint . --ext js,ts,tsx",
+    "start:dashboard": "react-scripts start",
+    "start:saasify": "saasify dev",
+    "test": "react-scripts test"
+  },
+  "dependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1"
   },
   "devDependencies": {
-    "@amaurymartiny/eslintrc": "^1.1.0",
+    "@amaurymartiny/config": "^1.1.0",
     "saasify": "^1.18.30"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

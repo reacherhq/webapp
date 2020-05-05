@@ -1,3 +1,3 @@
 # saasify
 
-Reacher, powered by Saasify
+Reacher, powered by Saasify.
