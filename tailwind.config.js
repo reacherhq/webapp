@@ -6,7 +6,7 @@ module.exports = {
       lightgray: '#c4c4c4',
       gray: '#9c9999',
       purple: '#6c63ff',
-      red: '#DA0F0F',
+      red: '#da0f0f',
       yellow: '#ffcc80',
       white: '#ffffff',
     },
