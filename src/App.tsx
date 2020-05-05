@@ -18,7 +18,7 @@ import React from 'react';
 
 export function App(): React.ReactElement {
   return (
-    <div className="bg-red">
+    <div>
       <header>
         <p>
           Edit <code>src/App.js</code> and save to reload.
