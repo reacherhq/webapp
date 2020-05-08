@@ -1,6 +1,7 @@
 {
   "name": "reacher",
   "version": "0.1.0",
+  "alias": "reacher.email",
   "authProviders": {
     "default": {
       "enabled": true
@@ -15,8 +16,8 @@
   "openapi": "./backend/openapi.json",
   "saas": {
     "name": "Reacher",
-    "heading": "Full-Featured Email Verification",
-    "subheading": "Real-time email verification that doesn't collect any data and guarantees 100% correct results.",
+    "heading": "Full-Featured Private Email Verification",
+    "subheading": "Real-time email verification that doesn't collect any data and guarantees 99% correct results.",
     "theme": {
       "name": "waves",
       "buttonStyle": "rounded",
@@ -33,7 +34,7 @@
     "repo": "https://github.com/reacherhq",
     "features": [
       {
-        "name": "100% accuracy",
+        "name": "99% accuracy",
         "desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
         "icon": "src/assets/img/global.svg"
       },
@@ -81,7 +82,7 @@
   },
   "pricingPlans": [
     {
-      "name": "The Free Plan",
+      "name": "Free Plan",
       "rateLimit": {
         "requestsInterval": 2628000,
         "requestsMaxPerInterval": 100
@@ -93,7 +94,7 @@
       ]
     },
     {
-      "name": "The 10k Plan",
+      "name": "10k Plan",
       "amount": 1700,
       "features": [
         "First **10000 emails/mo** included in base fee.",
@@ -118,7 +119,7 @@
       }
     },
     {
-      "name": "The 60k Plan",
+      "name": "60k Plan",
       "amount": 5500,
       "features": [
         "First **60000 emails/mo** included in base fee.",

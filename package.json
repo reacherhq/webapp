@@ -2,50 +2,17 @@
   "name": "@reacherhq/saasify",
   "version": "0.1.0",
   "author": "Amaury Martiny <amaury.martiny@protonmail.com>",
-  "description": "Full-Featured Email Verification",
+  "description": "Full-Featured Private Email Verification",
   "license": "GPL-3.0",
   "main": "saasify.json",
   "private": true,
   "repository": "https://github.com/reacherhq/saasify",
   "scripts": {
-    "build": "yarn build:styles && react-scripts build",
-    "build:styles": "postcss src/tailwind.css -o src/global.css",
-    "lint": "tsc --noEmit && eslint . --ext js,ts,tsx",
-    "start:dashboard": "yarn build:styles && react-scripts start",
-    "start:saasify": "saasify dev",
-    "test": "react-scripts test"
-  },
-  "dependencies": {
-    "@types/classnames": "^2.2.10",
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.7",
-    "@types/react-router-dom": "^5.1.5",
-    "classnames": "^2.2.6",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1"
+    "lint": "prettier --check .",
+    "start:saasify": "saasify dev"
   },
   "devDependencies": {
     "@amaurymartiny/config": "^1.1.0",
-    "autoprefixer": "^9.7.6",
-    "postcss-cli": "^7.1.1",
-    "saasify": "^1.18.30",
-    "tailwindcss": "^1.4.4"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "resolutions": {
-    "typescript": "^3.8.3"
+    "saasify": "^1.18.30"
   }
 }
