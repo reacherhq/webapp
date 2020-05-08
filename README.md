@@ -1,5 +1,7 @@
-# saasify
+# @reacherhq/saasify
 
-Reacher, powered by Saasify.
+Reacher, powered by Saasify. Site live on https://reacher.email.
 
-##
+# Quickstart
+
+To be filled.

@@ -16,22 +16,8 @@
   "openapi": "./backend/openapi.json",
   "saas": {
     "name": "Reacher",
-    "heading": "Full-Featured Private Email Verification",
+    "heading": "**Full-Featured Private Email Verification**",
     "subheading": "Real-time email verification that doesn't collect any data and guarantees 99% correct results.",
-    "theme": {
-      "name": "waves",
-      "buttonStyle": "rounded",
-      "color": "#6C63FF",
-      "gradientDark": true,
-      "codeBlockDark": true
-    },
-    "sections": {
-      "hero": {
-        "cta": "100 emails/mo for free"
-      }
-    },
-    "htmlPostBody": "<script>window.$crisp=[];window.CRISP_WEBSITE_ID=\"76583d5a-660c-43a9-9fba-8c65c1cf9d49\";(function(){d=document;s=d.createElement(\"script\");s.src=\"https://client.crisp.chat/l.js\";s.async=1;d.getElementsByTagName(\"head\")[0].appendChild(s);})();</script>",
-    "repo": "https://github.com/reacherhq",
     "features": [
       {
         "name": "99% accuracy",
@@ -55,7 +41,7 @@
       },
       {
         "name": "Simple Pricing",
-        "desc": "Start with 100 **free** emails every month. Scale with our [pay-as-you-grow](/pricing) plans afterwards.",
+        "desc": "Start with **100 free** emails every month. Scale with our [pay-as-you-grow](/pricing) plans afterwards.",
         "icon": "src/assets/img/stripe.svg"
       },
       {
@@ -78,7 +64,29 @@
         "desc": "In order to guarantee transparency with your data, Reacher is 100% [open source](https://github.com/reacherhq)!",
         "icon": "src/assets/img/open-source.svg"
       }
-    ]
+    ],
+    "repo": "https://github.com/reacherhq",
+    "scripts": ["./src/assets/js/crisp.js"],
+    "sections": {
+      "hero": {
+        "cta": "100 emails/mo for free"
+      },
+      "navFooter": {
+        "email": "mailto:support@reacher.email",
+        "slack": false
+      },
+      "navHeader": {
+        "cta": "Sign up",
+        "support": "mailto:support@reacher.email"
+      }
+    },
+    "theme": {
+      "name": "waves",
+      "buttonStyle": "rounded",
+      "color": "#6C63FF",
+      "gradientDark": true,
+      "codeBlockDark": true
+    }
   },
   "pricingPlans": [
     {
@@ -126,7 +134,7 @@
         "Pay-as-you-go after 60000 emails.",
         "[Full-Featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
         "Cancel anytime.",
-        "Priority support."
+        "**Priority support.**"
       ],
       "requests": {
         "amount": 1.4,
