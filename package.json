@@ -8,7 +8,7 @@
   "private": true,
   "repository": "https://github.com/reacherhq/saasify",
   "scripts": {
-    "lint": "prettier --check .",
+    "lint": "prettier .",
     "start:saasify": "saasify dev"
   },
   "devDependencies": {
