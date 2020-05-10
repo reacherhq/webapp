@@ -130,14 +130,18 @@
         "icon": "src/assets/img/open-source.svg"
       }
     ],
-    "repo": "https://github.com/reacherhq",
-    "scripts": ["./src/assets/js/crisp.js"],
+    "repo": "https://github.com/reacherhq/webapp",
+    "scripts": [
+      "./src/assets/js/crisp.js",
+      "./src/assets/js/simple_analytics.js"
+    ],
     "sections": {
       "hero": {
         "cta": "50 emails/mo for free"
       },
       "navFooter": {
         "email": "mailto:support@reacher.email",
+        "location": "Made in a small independent studio in Berlin, Germany 🇩🇪.",
         "slack": false
       },
       "navHeader": {
