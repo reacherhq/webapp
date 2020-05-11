@@ -81,8 +81,9 @@
   ],
   "saas": {
     "name": "Reacher",
-    "heading": "**Full-Featured Private Email Verification**",
+    "heading": "**Full-Featured Open-Source Email Verification**",
     "subheading": "Real-time email verification that doesn't collect any data and guarantees 99% correct results.",
+    "favicon": "./src/assets/logo/reacher-64.png",
     "features": [
       {
         "name": "99% accuracy",
@@ -130,6 +131,7 @@
         "icon": "src/assets/img/open-source.svg"
       }
     ],
+    "logo": "./src/assets/logo/reacher.svg",
     "repo": "https://github.com/reacherhq/webapp",
     "scripts": [
       "./src/assets/js/crisp.js",
