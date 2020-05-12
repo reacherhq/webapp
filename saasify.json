@@ -1,0 +1,162 @@
+{
+  "name": "reacher",
+  "version": "0.1.1",
+  "alias": "reacher.email",
+  "authProviders": {
+    "default": {
+      "enabled": true
+    },
+    "github": {
+      "enabled": true
+    },
+    "google": {
+      "enabled": true
+    }
+  },
+  "openapi": "./backend/openapi.json",
+  "pricingPlans": [
+    {
+      "name": "Free Plan",
+      "rateLimit": {
+        "requestsInterval": 2628000,
+        "requestsMaxPerInterval": 50
+      },
+      "features": [
+        "50 emails for **free** per month.",
+        "[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+        "No credit card required."
+      ]
+    },
+    {
+      "name": "10k Plan",
+      "amount": 1700,
+      "features": [
+        "First **10000 emails/mo** included in base fee.",
+        "Pay-as-you-go after 10000 emails.",
+        "[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+        "Cancel anytime."
+      ],
+      "requests": {
+        "amount": 1.7,
+        "usageType": "metered",
+        "billingScheme": "tiered",
+        "tiers": [
+          {
+            "upTo": "10000",
+            "flatAmount": 0
+          },
+          {
+            "upTo": "inf",
+            "unitAmount": 1.7
+          }
+        ]
+      }
+    },
+    {
+      "name": "60k Plan",
+      "amount": 5500,
+      "features": [
+        "First **60000 emails/mo** included in base fee.",
+        "Pay-as-you-go after 60000 emails.",
+        "[Full-Featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+        "Cancel anytime.",
+        "**Priority support.**"
+      ],
+      "requests": {
+        "amount": 1.4,
+        "usageType": "metered",
+        "billingScheme": "tiered",
+        "tiers": [
+          {
+            "upTo": "60000",
+            "flatAmount": 0
+          },
+          {
+            "upTo": "inf",
+            "unitAmount": 1.4
+          }
+        ]
+      }
+    }
+  ],
+  "saas": {
+    "name": "Reacher",
+    "heading": "**Full-Featured Private Email Verification**",
+    "subheading": "Real-time email verification that doesn't collect any data and guarantees 99% correct results.",
+    "favicon": "./src/assets/logo/reacher-64.png",
+    "features": [
+      {
+        "name": "99% accuracy",
+        "desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
+        "icon": "src/assets/img/global.svg"
+      },
+      {
+        "name": "Fully Featured",
+        "desc": "We perform domain & SMTP validation, hard bounce checks, catch-all domains checks, MTA validation... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
+        "icon": "src/assets/img/customizable.svg"
+      },
+      {
+        "name": "Secure & Private",
+        "desc": "We never store any of the emails that you upload. We are 100% GDPR compliant.",
+        "icon": "src/assets/img/secure.svg"
+      },
+      {
+        "name": "Simple Setup",
+        "desc": "Verify email addresses from your website by just copying three lines of code. It takes only a few minutes and requires no technical skills.",
+        "icon": "src/assets/img/customizable.svg"
+      },
+      {
+        "name": "Simple Pricing",
+        "desc": "Start with **50 free** emails every month. Scale with our [pay-as-you-grow](/pricing) plans afterwards.",
+        "icon": "src/assets/img/stripe.svg"
+      },
+      {
+        "name": "State of the Art",
+        "desc": "We proxy verification requests via [Tor](https://www.torproject.org/) for privacy and to avoid being blacklisted.",
+        "icon": "src/assets/img/cluster.svg"
+      },
+      {
+        "name": "Bulk Verification (coming soon)",
+        "desc": "Say goodbye to invalid email and hard bounces. Upload your dirty list and download a clean list.",
+        "icon": "src/assets/img/powerful.svg"
+      },
+      {
+        "name": "Powerful API",
+        "desc": "Advanced integrations available programatically via our [REST API](/docs#section/API).",
+        "icon": "src/assets/img/api.svg"
+      },
+      {
+        "name": "Open Source",
+        "desc": "In order to guarantee transparency with your data, Reacher is 100% [open source](https://github.com/reacherhq)! We also offer the possibility to self-host the service yourself.",
+        "icon": "src/assets/img/open-source.svg"
+      }
+    ],
+    "logo": "./src/assets/logo/reacher.svg",
+    "repo": "https://github.com/reacherhq/webapp",
+    "scripts": [
+      "./src/assets/js/crisp.js",
+      "./src/assets/js/simple_analytics.js"
+    ],
+    "sections": {
+      "hero": {
+        "cta": "50 emails/mo for free"
+      },
+      "navFooter": {
+        "email": "mailto:support@reacher.email",
+        "location": "Made in a small independent studio in Berlin, Germany 🇩🇪.",
+        "slack": false
+      },
+      "navHeader": {
+        "cta": "Sign up",
+        "support": "mailto:support@reacher.email"
+      }
+    },
+    "theme": {
+      "name": "waves",
+      "buttonStyle": "rounded",
+      "color": "#6C63FF",
+      "gradientDark": true,
+      "codeBlockDark": true
+    }
+  }
+}
