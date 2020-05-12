@@ -1,6 +1,6 @@
 {
   "name": "reacher",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "alias": "reacher.email",
   "authProviders": {
     "default": {
@@ -31,7 +31,7 @@
       "name": "10k Plan",
       "amount": 1700,
       "features": [
-        "First **10000 emails/mo** included in base fee.",
+        "First **10000 emails/mo** included in base price.",
         "Pay-as-you-go after 10000 emails.",
         "[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
         "Cancel anytime."
@@ -56,7 +56,7 @@
       "name": "60k Plan",
       "amount": 5500,
       "features": [
-        "First **60000 emails/mo** included in base fee.",
+        "First **60000 emails/mo** included in base price.",
         "Pay-as-you-go after 60000 emails.",
         "[Full-Featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
         "Cancel anytime.",
@@ -81,7 +81,7 @@
   ],
   "saas": {
     "name": "Reacher",
-    "heading": "**Full-Featured Private Email Verification**",
+    "heading": "**World-Class Private Email Verification**",
     "subheading": "Real-time email verification that doesn't collect any data and guarantees 99% correct results.",
     "favicon": "./src/assets/logo/reacher-64.png",
     "features": [
