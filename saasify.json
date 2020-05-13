@@ -82,11 +82,11 @@
   "saas": {
     "name": "Reacher",
     "heading": "**World-Class Private Email Verification**",
-    "subheading": "Real-time email verification that doesn't collect any data and guarantees 99% correct results.",
+    "subheading": "Real-time email verification that doesn't store your email lists and guarantees 99.99% correct results.",
     "favicon": "./src/assets/logo/reacher-64.png",
     "features": [
       {
-        "name": "99% accuracy",
+        "name": "99.99% accuracy",
         "desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
         "icon": "src/assets/img/global.svg"
       },
@@ -97,12 +97,12 @@
       },
       {
         "name": "Secure & Private",
-        "desc": "We never store any of the emails that you upload. We are 100% GDPR compliant.",
+        "desc": "It's simple: once you get the result of your email verifications, we clear everything. We are 100% GDPR compliant.",
         "icon": "src/assets/img/secure.svg"
       },
       {
         "name": "Simple Setup",
-        "desc": "Verify email addresses from your website by just copying three lines of code. It takes only a few minutes and requires no technical skills.",
+        "desc": "Verify email addresses from your website by just copying three lines of code. It takes only a few minutes.",
         "icon": "src/assets/img/customizable.svg"
       },
       {
@@ -135,6 +135,7 @@
     "repo": "https://github.com/reacherhq/webapp",
     "scripts": [
       "./src/assets/js/crisp.js",
+      "./src/assets/js/fullstory.js",
       "./src/assets/js/simple_analytics.js"
     ],
     "sections": {
