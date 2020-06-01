@@ -1,6 +1,6 @@
 {
 	"name": "reacher",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"alias": "reacher.email",
 	"authProviders": {
 		"default": {
@@ -34,7 +34,6 @@
 				"First **10000 emails/mo** included in base price.",
 				"Pay-as-you-go after 10000 emails.",
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
-				"Credits never expire.",
 				"Cancel anytime."
 			],
 			"requests": {
@@ -60,7 +59,6 @@
 				"First **60000 emails/mo** included in base price.",
 				"Pay-as-you-go after 60000 emails.",
 				"[Full-Featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
-				"Credits never expire.",
 				"Cancel anytime.",
 				"**Priority support.**"
 			],
@@ -83,13 +81,13 @@
 	],
 	"saas": {
 		"name": "Reacher",
-		"heading": "**Free Email Verification API**",
-		"subheading": "Real-time email verification that doesn't store your email lists. Free for personal use.",
+		"heading": "**Real-Time Email Verification API**",
+		"subheading": "Instant email verification API that doesn't store your email lists. Free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure uses serverless and elastic horizontal scaling technologies. Verify 1M emails in under 10 minutes.",
+				"desc": "Our cutting-edge infrastructure uses serverless and elastic horizontal scaling technologies. Expect to verify **1M emails in under 10 minutes**.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
@@ -99,7 +97,7 @@
 			},
 			{
 				"name": "Fully Featured",
-				"desc": "We perform domain & SMTP validation, hard bounce checks, catch-all domains checks, MTA validation... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
+				"desc": "We check for MTA, MX, SMTP, hard bounces, catch-all, disposable email... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
 				"icon": "src/assets/img/customizable.svg"
 			},
 			{
@@ -145,7 +143,7 @@
 			},
 			"navFooter": {
 				"email": "mailto:support@reacher.email",
-				"location": "Made in a small independent studio in Berlin, Germany 🇩🇪.",
+				"location": "Made in a small independent studio in Berlin 🇩🇪.",
 				"slack": false
 			},
 			"navHeader": {

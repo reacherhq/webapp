@@ -1,6 +1,6 @@
 {
 	"name": "@reacherhq/webapp",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"author": "Amaury Martiny <amaury.martiny@protonmail.com>",
 	"description": "Full-Featured Private Email Verification",
 	"license": "GPL-3.0",
