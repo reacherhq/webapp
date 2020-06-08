@@ -4025,10 +4025,10 @@ saasify-faas-utils@^1.20.0:
     email-validator "^2.0.4"
     is-relative-url "^3.0.0"
 
-saasify-openapi-utils@^1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/saasify-openapi-utils/-/saasify-openapi-utils-1.20.0.tgz#b0a090bca6fb4d23688cc64a8b287a86aaf93b5f"
-  integrity sha512-do4jtfEmucamELrjcr7RUoRD2jjWvcBDBA6urrfOGdgEsrWcWXdJifLWbjvP2XZGXmppqWT6m0QpTBa1w2UCXg==
+saasify-openapi-utils@^1.20.1:
+  version "1.20.1"
+  resolved "https://registry.yarnpkg.com/saasify-openapi-utils/-/saasify-openapi-utils-1.20.1.tgz#43e0e40f8b57d9e1f37aae281087a993ec633c9f"
+  integrity sha512-7I25CesS5eeUrm72US4guNEB58thnIp2VgiCqe/W+sfLY/GU0yzENTyDpOZnHQ5UtpPaDdYu6pW/Ampf2/O/HQ==
   dependencies:
     "@sindresorhus/slugify" "^0.10.0"
     ajv "^6.11.0"
@@ -4070,10 +4070,10 @@ saasify-utils@^1.20.0:
     saasify-faas-utils "^1.20.0"
     tempy "^0.3.0"
 
-saasify@^1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/saasify/-/saasify-1.20.0.tgz#0d53a43d862ec98f08612b07394460c5006f2042"
-  integrity sha512-maX4/sQZZCtJTuSyUa4mf8eauac1KjKbR2pK5QGMYsDhnbzzNg0CjCwGsuyGc9StqtFDCd98fGx7UiY8uBIwlQ==
+saasify@^1.20.1:
+  version "1.20.1"
+  resolved "https://registry.yarnpkg.com/saasify/-/saasify-1.20.1.tgz#6bbe265b062cf49c398bffe15d87ddaaf572b8bd"
+  integrity sha512-NN+74zmR2PPzakHDOovG7svWNZpr/rh9OW84OgiHay7lxRTpDUPKnxanljS6dIlBzvGs2m0Ae4c8CsuAk1AyEw==
   dependencies:
     ajv "^6.10.2"
     axios "^0.19.0"
@@ -4122,7 +4122,7 @@ saasify@^1.20.0:
     pretty-error "^2.1.1"
     qs "^6.8.0"
     saasify-client "^1.20.0"
-    saasify-openapi-utils "^1.20.0"
+    saasify-openapi-utils "^1.20.1"
     saasify-utils "^1.20.0"
     semver "^6.3.0"
     slash "^3.0.0"
