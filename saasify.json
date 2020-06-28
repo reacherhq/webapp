@@ -16,7 +16,9 @@
 	"openapi": "./backend/openapi.json",
 	"pricingPlans": [
 		{
-			"name": "Free Plan",
+			"name": "Free Tier",
+			"slug": "free-plan",
+			"amount": 0,
 			"rateLimit": {
 				"requestsInterval": 2628000,
 				"requestsMaxPerInterval": 50
@@ -29,10 +31,9 @@
 		},
 		{
 			"name": "Pay-As-You-Go",
+			"slug": "pay-as-you-go-v1",
 			"auth": true,
 			"features": [
-				"First **10000 emails/mo** included in base price.",
-				"Pay-as-you-go after 10000 emails.",
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
 				"Cancel anytime."
 			],
@@ -77,8 +78,7 @@
 					}
 				],
 				"tiersMode": "volume"
-			},
-			"slug": "pay-as-you-go-v1"
+			}
 		}
 	],
 	"saas": {
