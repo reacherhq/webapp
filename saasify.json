@@ -84,7 +84,7 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Instant email verification API that doesn't store your email lists. Free for personal use.",
+		"subheading": "Email verification API that doesn't store your email lists. Made for developers, free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
