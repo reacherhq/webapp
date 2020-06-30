@@ -17,14 +17,13 @@
 	"pricingPlans": [
 		{
 			"name": "Free Tier",
-			"slug": "free-plan",
 			"amount": 0,
 			"rateLimit": {
 				"requestsInterval": 2628000,
 				"requestsMaxPerInterval": 50
 			},
 			"features": [
-				"50 emails for **free** per month.",
+				"**50 emails for free** per month.",
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
 				"No credit card required."
 			]
@@ -34,7 +33,10 @@
 			"slug": "pay-as-you-go-v1",
 			"auth": true,
 			"features": [
+				"See [Pay-As-You-Grow Pricing Details](https://www.notion.so/reacherhq/Enterprise-Pricing-dd54b64b2fcc43c1811ead80e004a1e2). The more you verify, the **lower your total cost**.",
+				"&nbsp;",
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+				"Dedicated customer support.",
 				"Cancel anytime."
 			],
 			"requests": {
@@ -84,7 +86,7 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Email verification API that doesn't store your email lists. Made for developers, free for personal use.",
+		"subheading": "Email verification API that doesn't store your data. Made by developers for developers.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
@@ -93,13 +95,13 @@
 				"icon": "src/assets/img/global.svg"
 			},
 			{
-				"name": "High Accuracy",
+				"name": "Highest Accuracy Possible",
 				"desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
 				"icon": "src/assets/img/secure.svg"
 			},
 			{
 				"name": "Fully Featured",
-				"desc": "We check for MTA, MX, SMTP, hard bounces, catch-all, disposable email... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
+				"desc": "We check for MTA, MX records, SMTP, hard bounces, catch-all, disposable email, role-based accounts... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
 				"icon": "src/assets/img/customizable.svg"
 			},
 			{
@@ -109,7 +111,7 @@
 			},
 			{
 				"name": "Free for Personal Use",
-				"desc": "Start with **50 free** emails every month. Scale with our [pay-as-you-grow](/pricing) plans afterwards.",
+				"desc": "Start with **50 free** emails every month. Scale with our [pay-as-you-go](/pricing) plans afterwards.",
 				"icon": "src/assets/img/stripe.svg"
 			},
 			{
