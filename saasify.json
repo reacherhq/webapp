@@ -33,8 +33,7 @@
 			"slug": "pay-as-you-go-v1",
 			"auth": true,
 			"features": [
-				"See [Pricing Details](https://www.notion.so/reacherhq/Enterprise-Pricing-dd54b64b2fcc43c1811ead80e004a1e2). The more you verify, the **lower your total cost**.",
-				"&nbsp;",
+				"The more you verify, the **lower your total cost**.",
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
 				"Priority **customer support**.",
 				"Cancel anytime."
@@ -75,8 +74,20 @@
 						"unitAmount": 0.067
 					},
 					{
-						"upTo": "inf",
+						"upTo": "499999",
 						"unitAmount": 0.053
+					},
+					{
+						"upTo": "999999",
+						"unitAmount": 0.042
+					},
+					{
+						"upTo": "2499999",
+						"unitAmount": 0.033
+					},
+					{
+						"upTo": "inf",
+						"unitAmount": 0.025
 					}
 				],
 				"tiersMode": "volume"
