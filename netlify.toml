@@ -1,0 +1,13 @@
+# Production context:
+# All deploys from the main repository branch
+# will inherit these settings.
+[context.production]
+  command = "make production"
+  [context.production.environment]
+    SAASIFY_DEPLOYMENT_ID = "amaurymartiny/reacher"
+
+# Deploy Preview context:
+# All deploys generated from a pull/merge request
+# will inherit these settings.
+[context.deploy-preview.environment]
+  ACCESS_TOKEN = "amaurymartiny/reacher@dev"

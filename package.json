@@ -8,6 +8,7 @@
 	"private": true,
 	"repository": "https://github.com/reacherhq/saasify",
 	"scripts": {
+		"build": "cd saasify-frontend-boilerplate-cra && yarn install && yarn update-deployment && yarn build",
 		"lint": "prettier .",
 		"start:saasify": "saasify dev"
 	},
