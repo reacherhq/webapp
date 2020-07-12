@@ -1,7 +1,6 @@
 {
 	"name": "reacher",
 	"version": "0.1.5",
-	"alias": "reacher.email",
 	"authProviders": {
 		"default": {
 			"enabled": true
@@ -27,6 +26,15 @@
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
 				"No credit card required."
 			]
+		},
+		{
+			"name": "Github Sponsor Special",
+			"slug": "github-sponsor-v1",
+			"amount": 0,
+			"rateLimit": {
+				"requestsInterval": 2628000,
+				"requestsMaxPerInterval": 1000
+			}
 		},
 		{
 			"name": "Pay-As-You-Go",
@@ -98,7 +106,7 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Email verification API that doesn't store your data. 100% open-source, built on Rust & Serverless.",
+		"subheading": "Email verification API that doesn't store any data. 100% open-source, built on Rust & Serverless.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
