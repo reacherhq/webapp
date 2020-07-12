@@ -1,7 +1,6 @@
 {
 	"name": "reacher",
 	"version": "0.1.5",
-	"alias": "reacher.email",
 	"authProviders": {
 		"default": {
 			"enabled": true
