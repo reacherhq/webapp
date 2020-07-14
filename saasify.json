@@ -31,6 +31,7 @@
 			"name": "Github Sponsor Special",
 			"slug": "github-sponsor-v1",
 			"amount": 0,
+			"auth": true,
 			"rateLimit": {
 				"requestsInterval": 2628000,
 				"requestsMaxPerInterval": 1000
@@ -106,12 +107,12 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Email verification API that doesn't store any data. 100% open-source, built on Rust & Serverless.",
+		"subheading": "Prevent bounced emails with professional grade email verification.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure uses serverless and elastic horizontal scaling technologies. Expect to verify **1M emails in under 10 minutes**.",
+				"desc": "Our cutting-edge infrastructure leverages Serverless and Rust technologies. This means Reacher verifies **1M emails in under 10 minutes**.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
