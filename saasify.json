@@ -28,15 +28,6 @@
 			]
 		},
 		{
-			"name": "Github Sponsor Special",
-			"slug": "github-sponsor-v1",
-			"amount": 0,
-			"rateLimit": {
-				"requestsInterval": 2628000,
-				"requestsMaxPerInterval": 1000
-			}
-		},
-		{
 			"name": "Pay-As-You-Go",
 			"slug": "pay-as-you-go-v1",
 			"auth": true,
@@ -106,12 +97,12 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Email verification API that doesn't store any data. 100% open-source, built on Rust & Serverless.",
+		"subheading": "Prevent bounced emails with professional grade email verification. Free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure uses serverless and elastic horizontal scaling technologies. Expect to verify **1M emails in under 10 minutes**.",
+				"desc": "Our cutting-edge infrastructure leverages Serverless and Rust technologies. This means Reacher verifies **1M emails in under 10 minutes**.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
@@ -156,7 +147,7 @@
 			}
 		],
 		"logo": "./src/assets/logo/reacher.svg",
-		"repo": "https://github.com/reacherhq/webapp",
+		"repo": "https://github.com/reacherhq",
 		"scripts": [
 			"./src/assets/js/crisp.js",
 			"./src/assets/js/simple_analytics.js"
