@@ -28,16 +28,6 @@
 			]
 		},
 		{
-			"name": "Github Sponsor Special",
-			"slug": "github-sponsor-v1",
-			"amount": 0,
-			"auth": true,
-			"rateLimit": {
-				"requestsInterval": 2628000,
-				"requestsMaxPerInterval": 1000
-			}
-		},
-		{
 			"name": "Pay-As-You-Go",
 			"slug": "pay-as-you-go-v1",
 			"auth": true,
@@ -107,7 +97,7 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Prevent bounced emails with professional grade email verification.",
+		"subheading": "Prevent bounced emails with professional grade email verification. Free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
@@ -157,7 +147,7 @@
 			}
 		],
 		"logo": "./src/assets/logo/reacher.svg",
-		"repo": "https://github.com/reacherhq/webapp",
+		"repo": "https://github.com/reacherhq",
 		"scripts": [
 			"./src/assets/js/crisp.js",
 			"./src/assets/js/simple_analytics.js"
