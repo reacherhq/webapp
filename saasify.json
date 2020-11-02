@@ -102,7 +102,7 @@
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology. **Prevent spam sign-ups**, or **clean large lists**, both with Reacher.",
+				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology.\n**Prevent spam sign-ups** on your website, or **clean large lists**, both with Reacher.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
