@@ -29,7 +29,7 @@
 		},
 		{
 			"name": "Pay-As-You-Go",
-			"slug": "pay-as-you-go-v1",
+			"slug": "pay-as-you-go-v2",
 			"auth": true,
 			"features": [
 				"See [Full Pricing Details](https://www.notion.so/Enterprise-Pricing-dd54b64b2fcc43c1811ead80e004a1e2), we offer flexible pricing options.",
@@ -43,51 +43,51 @@
 				"tiers": [
 					{
 						"upTo": "999",
-						"unitAmount": 0.467
+						"unitAmount": 1.4
 					},
 					{
 						"upTo": "2499",
-						"unitAmount": 0.387
+						"unitAmount": 1.16
 					},
 					{
 						"upTo": "4999",
-						"unitAmount": 0.327
+						"unitAmount": 0.98
 					},
 					{
 						"upTo": "9999",
-						"unitAmount": 0.23
+						"unitAmount": 0.69
 					},
 					{
 						"upTo": "24999",
-						"unitAmount": 0.198
+						"unitAmount": 0.593
 					},
 					{
 						"upTo": "49999",
-						"unitAmount": 0.133
+						"unitAmount": 0.398
 					},
 					{
 						"upTo": "99999",
-						"unitAmount": 0.1
+						"unitAmount": 0.299
 					},
 					{
 						"upTo": "249999",
-						"unitAmount": 0.067
+						"unitAmount": 0.2
 					},
 					{
 						"upTo": "499999",
-						"unitAmount": 0.053
+						"unitAmount": 0.16
 					},
 					{
 						"upTo": "999999",
-						"unitAmount": 0.042
+						"unitAmount": 0.125
 					},
 					{
 						"upTo": "2499999",
-						"unitAmount": 0.033
+						"unitAmount": 0.1
 					},
 					{
 						"upTo": "inf",
-						"unitAmount": 0.025
+						"unitAmount": 0.075
 					}
 				],
 				"tiersMode": "volume"
@@ -96,13 +96,13 @@
 	],
 	"saas": {
 		"name": "Reacher",
-		"heading": "**Real-Time Email Verification API**",
-		"subheading": "Prevent bounced emails with professional grade email verification. Free for personal use.",
+		"heading": "*Open-Source Email Verification API**",
+		"subheading": "Prevent bounced emails with real-time email verification. Free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure leverages Serverless and Rust technologies. This means Reacher verifies **1M emails in under 10 minutes**.",
+				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology, and is built with the Rust programming language.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
