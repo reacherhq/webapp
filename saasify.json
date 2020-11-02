@@ -102,12 +102,12 @@
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology. It fits well for high-volume **spam sign-up prevention**, or **cleaning large lists**.",
+				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology. **Prevent spam sign-ups**, or **clean large lists**, both with Reacher.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
 				"name": "Warp Speeds",
-				"desc": "Reacher is built with the fast and performant Rust programming language, using the [Warp](https://github.com/seanmonstar/warp) framework. For real-time email verification, it's fast.",
+				"desc": "Reacher is built with the fast and performant [Rust](https://www.rust-lang.org/) programming language, using the [Warp](https://github.com/seanmonstar/warp) web framework. For real-time email verification, **it's fast**.",
 				"icon": "src/assets/img/cluster.svg"
 			},
 			{
@@ -142,7 +142,7 @@
 			},
 			{
 				"name": "Open-Source",
-				"desc": "In order to guarantee transparency with your data, Reacher is 100% [open-source](https://github.com/reacherhq)! We also offer the possibility to self-host the service yourself.",
+				"desc": "In order to guarantee transparency with your data, Reacher is 100% [open-source](https://github.com/reacherhq/backend)! We also offer the possibility to self-host the service yourself.",
 				"icon": "src/assets/img/open-source.svg"
 			}
 		],
