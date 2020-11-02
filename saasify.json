@@ -97,13 +97,18 @@
 	"saas": {
 		"name": "Reacher",
 		"heading": "*Open-Source Email Verification API**",
-		"subheading": "Prevent bounced emails with real-time email verification. Free for personal use.",
+		"subheading": "Prevent bounced emails with world-class email verification. Free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology, and is built with the Rust programming language.",
+				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology. It adapts to your use cases, be it high-volume spam sign-up prevention, or cleaning email lists.",
 				"icon": "src/assets/img/global.svg"
+			},
+			{
+				"name": "Warp Speeds",
+				"desc": "Reacher is built with the fast and performant Rust programming language, using the [Warp](https://github.com/seanmonstar/warp) framework. For real-time email verification, it's fast.",
+				"icon": "src/assets/img/cluster.svg"
 			},
 			{
 				"name": "Highest Accuracy Possible",
@@ -126,11 +131,6 @@
 				"icon": "src/assets/img/stripe.svg"
 			},
 			{
-				"name": "State of the Art",
-				"desc": "We proxy verification requests via [Tor](https://www.torproject.org/) for privacy and to avoid being blacklisted.",
-				"icon": "src/assets/img/cluster.svg"
-			},
-			{
 				"name": "Bulk Verification [coming soon]",
 				"desc": "Say goodbye to invalid email and hard bounces. Upload your dirty list and download a clean list.",
 				"icon": "src/assets/img/powerful.svg"
@@ -141,8 +141,8 @@
 				"icon": "src/assets/img/api.svg"
 			},
 			{
-				"name": "Open Source",
-				"desc": "In order to guarantee transparency with your data, Reacher is 100% [open source](https://github.com/reacherhq)! We also offer the possibility to self-host the service yourself.",
+				"name": "Open-Source",
+				"desc": "In order to guarantee transparency with your data, Reacher is 100% [open-source](https://github.com/reacherhq)! We also offer the possibility to self-host the service yourself.",
 				"icon": "src/assets/img/open-source.svg"
 			}
 		],
