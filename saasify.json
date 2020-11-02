@@ -96,13 +96,13 @@
 	],
 	"saas": {
 		"name": "Reacher",
-		"heading": "*Open-Source Email Verification API**",
+		"heading": "**Open-Source Email Verification API**",
 		"subheading": "Prevent bounced emails with world-class email verification. Free for personal use.",
 		"favicon": "./src/assets/logo/reacher-64.png",
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology. It adapts to your use cases, be it high-volume spam sign-up prevention, or cleaning email lists.",
+				"desc": "Our cutting-edge infrastructure leverages horizontal scaling technology. It fits well for high-volume **spam sign-up prevention**, or **cleaning large lists**.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
@@ -112,7 +112,7 @@
 			},
 			{
 				"name": "Highest Accuracy Possible",
-				"desc": "We won't play small, this email verification tool actually connects to the mail server and checks in real-time if the email exists. We don't use historical data.",
+				"desc": "We won't play small, this email verification tool actually connects to the mail server and checks in **real-time** if the email exists. We don't use historical data.",
 				"icon": "src/assets/img/secure.svg"
 			},
 			{
@@ -122,7 +122,7 @@
 			},
 			{
 				"name": "Privacy Guaranteed",
-				"desc": "It's simple: once you get the result of your email verifications, we clear everything. We are 100% GDPR compliant.",
+				"desc": "It's simple: once you get the result of your email verifications, we delete everything on our side. We are 100% GDPR compliant.",
 				"icon": "src/assets/img/setup.svg"
 			},
 			{
@@ -131,8 +131,8 @@
 				"icon": "src/assets/img/stripe.svg"
 			},
 			{
-				"name": "Bulk Verification [coming soon]",
-				"desc": "Say goodbye to invalid email and hard bounces. Upload your dirty list and download a clean list.",
+				"name": "Bulk Verification",
+				"desc": "Clean your large email lists by using our [JavaScript SDK](https://github.com/reacherhq/reacher-js) to perform bulk email verification.",
 				"icon": "src/assets/img/powerful.svg"
 			},
 			{
