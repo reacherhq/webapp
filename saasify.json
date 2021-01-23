@@ -28,10 +28,11 @@
 			]
 		},
 		{
-			"name": "Pay-As-You-Go",
+			"name": "Pay-As-You-Go SaaS",
 			"slug": "pay-as-you-go-v2",
 			"auth": true,
 			"features": [
+				"API calls to Reacher's servers with **high IP reputation**.",
 				"See [Full Pricing Details](https://www.notion.so/Enterprise-Pricing-dd54b64b2fcc43c1811ead80e004a1e2), we offer flexible pricing options.",
 				"The more you verify, the **lower your total cost**.",
 				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
@@ -92,6 +93,25 @@
 				],
 				"tiersMode": "volume"
 			}
+		},
+		{
+			"name": "Commercial License for Self-Hosting",
+			"slug": "self-host-v1",
+			"amount": 309,
+			"auth": true,
+			"rateLimit": {
+				"requestsInterval": 2628000,
+				"requestsMaxPerInterval": 50
+			},
+			"features": [
+				"**Unlimited** email verifications from your own servers.",
+				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
+				"One-click deploy to Heroku.",
+				"Portable Docker format.",
+				"**Priority** customer support.",
+				"Cancel anytime.",
+				"See [more information](https://www.notion.so/reacherhq/Commercial-Licenses-for-OEMs-ISVs-and-VARs-52462945b3b0428d8b312188e2e6c4fd)."
+			]
 		}
 	],
 	"saas": {
@@ -157,13 +177,13 @@
 				"cta": "50 emails/mo for free"
 			},
 			"navFooter": {
-				"email": "mailto:support@reacher.email",
+				"email": "mailto:amaury@reacher.email",
 				"location": "Made in a small independent studio in Berlin 🇩🇪.",
 				"slack": false
 			},
 			"navHeader": {
 				"cta": "Sign up",
-				"support": "mailto:support@reacher.email"
+				"support": "mailto:amaury@reacher.email"
 			}
 		},
 		"theme": {
