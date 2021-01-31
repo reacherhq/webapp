@@ -22,8 +22,10 @@
 				"requestsMaxPerInterval": 50
 			},
 			"features": [
+				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
+				"Support via [Github Issues](https://github.com/reacherhq/check-if-email-exists/issues).",
+				"Use **Reacher servers** with high IP reputation.",
 				"**50 emails for free** per month.",
-				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
 				"No credit card required."
 			]
 		},
@@ -32,11 +34,12 @@
 			"slug": "pay-as-you-go-v2",
 			"auth": true,
 			"features": [
-				"Leverage our servers with **high IP reputation**.",
-				"See [Full Pricing Details](https://www.notion.so/Enterprise-Pricing-dd54b64b2fcc43c1811ead80e004a1e2) with flexible options.",
+				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
+				"**Priority** customer support.",
+				"Use **Reacher servers** with high IP reputation.",
+				"See Pay-as-you-Go [Pricing Details](https://help.reacher.email/pay-as-you-grow-saas-pricing).",
 				"The more you verify, the **lower your total cost**.",
-				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
-				"**Priority** customer support."
+				"Cancel anytime."
 			],
 			"requests": {
 				"billingScheme": "tiered",
@@ -103,12 +106,13 @@
 				"requestsMaxPerInterval": 50
 			},
 			"features": [
+				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
+				"**Priority** customer support with 2h call included.",
 				"Send email verifications from **your own servers**.",
-				"See [this document](https://www.notion.so/reacherhq/Commercial-Licenses-for-OEMs-ISVs-and-VARs-52462945b3b0428d8b312188e2e6c4fd) for more info and EULA.",
-				"[Full-featured](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d) email verifications.",
-				"**Docker** format, or one-click deploy to **Heroku**.",
-				"Try the open-source version **for free**.",
-				"**Priority** customer support."
+				"[Click here](https://help.reacher.email/commercial-license-for-oems-isvs-and-vars) for more info and EULA.",
+				"Comes with [one-click-deploys](https://help.reacher.email/self-host-guide) (Heroku, Docker).",
+				"Cancel anytime.",
+				"🤔 Want a **free trial** before you buy? Feel free to try self-hosting with our [open-source guide](https://help.reacher.email/self-host-guide), and subscribe once you're ready."
 			]
 		}
 	],
@@ -135,7 +139,7 @@
 			},
 			{
 				"name": "Fully Featured",
-				"desc": "We check for MTA, MX records, SMTP, hard bounces, catch-all, disposable email, role-based accounts... and [much more](https://www.notion.so/reacherhq/How-Reacher-Verifies-Emails-2927ca5191d744e6b15652fc08d2dd3d).",
+				"desc": "We check for MTA, MX records, SMTP, hard bounces, catch-all, disposable email, role-based accounts... and [much more](https://help.reacher.email/email-attributes-inside-json).",
 				"icon": "src/assets/img/customizable.svg"
 			},
 			{
@@ -155,7 +159,7 @@
 			},
 			{
 				"name": "Powerful API",
-				"desc": "Advanced integrations available programatically via our [REST API](/docs#section/API).",
+				"desc": "Advanced integrations available programatically via our [REST API](https://help.reacher.email/rest-api-documentation).",
 				"icon": "src/assets/img/api.svg"
 			},
 			{
