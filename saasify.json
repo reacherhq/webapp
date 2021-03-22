@@ -31,16 +31,20 @@
 		},
 		{
 			"name": "Pay-As-You-Go SaaS",
-			"slug": "pay-as-you-go-v2",
+			"slug": "pay-as-you-go-v3",
 			"auth": true,
 			"features": [
 				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
 				"**Priority** customer support.",
 				"Use **Reacher servers** with high IP reputation.",
-				"See Pay-as-you-Go [Pricing Details](https://help.reacher.email/pay-as-you-grow-saas-pricing).",
+				"Up to 10K calls/month, see [Pricing Details](https://help.reacher.email/pay-as-you-grow-saas-pricing).",
 				"The more you verify, the **lower your total cost**.",
 				"Cancel anytime."
 			],
+			"rateLimit": {
+				"requestsInterval": 2628000,
+				"requestsMaxPerInterval": 10000
+			},
 			"requests": {
 				"billingScheme": "tiered",
 				"tiers": [
@@ -97,7 +101,7 @@
 			}
 		},
 		{
-			"name": "Commercial License for Self-Hosting",
+			"name": "Commercial License",
 			"slug": "self-host-v1",
 			"amount": 39900,
 			"auth": true,
@@ -107,11 +111,11 @@
 			},
 			"features": [
 				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
-				"**Priority** customer support with 2h call included.",
+				"**Priority** customer support.",
 				"Send email verifications from **your own servers**.",
-				"[Click here](https://help.reacher.email/commercial-license-for-oems-isvs-and-vars) for more info and EULA.",
-				"Comes with [one-click-deploys](https://help.reacher.email/self-host-guide) (Heroku, Docker).",
-				"Cancel anytime.",
+				"Use Reacher in your own **commercial apps**.",
+				"Comes with [Self-Host Guides](https://help.reacher.email/self-host-guide) (Heroku, Docker).",
+				"Learn more about the full [terms and details](https://help.reacher.email/reacher-licenses).",
 				"🤔 Want a **free trial** before you buy? Feel free to try self-hosting with our [open-source guide](https://help.reacher.email/self-host-guide), and subscribe once you're ready."
 			]
 		}
@@ -124,7 +128,7 @@
 		"features": [
 			{
 				"name": "Yes, it scales",
-				"desc": "Our cutting-edge infrastructure leverages elastic horizontal scaling technology. **Prevent spam sign-ups** on your website, or **clean large lists**, both with Reacher.",
+				"desc": "Reacher is stateless, so fits well for horizontal scaling technologies. **Prevent spam sign-ups** on your website, or **clean large lists**, both with Reacher.",
 				"icon": "src/assets/img/global.svg"
 			},
 			{
@@ -134,7 +138,7 @@
 			},
 			{
 				"name": "Highest Accuracy Possible",
-				"desc": "We won't play small, this email verification tool actually connects to the mail server and checks in **real-time** if the email exists. We don't use historical data.",
+				"desc": "Reacher actually connects to the mail server and checks in **real-time** if the email exists. We don't use historical data.",
 				"icon": "src/assets/img/secure.svg"
 			},
 			{
@@ -144,7 +148,7 @@
 			},
 			{
 				"name": "Privacy Guaranteed",
-				"desc": "It's simple: once you get the result of your email verifications, we delete everything on our side. We are 100% GDPR compliant.",
+				"desc": "It's simple: once you get the result of your email verifications, we delete everything on our side. We are GDPR compliant.",
 				"icon": "src/assets/img/setup.svg"
 			},
 			{
