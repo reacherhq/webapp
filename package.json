@@ -1,8 +1,8 @@
 {
 	"name": "@reacherhq/webapp",
 	"version": "0.1.6",
-	"author": "Amaury Martiny <amaury.martiny@protonmail.com>",
-	"description": "Full-Featured Private Email Verification",
+	"author": "Amaury <amaurym10@protonmail.com>",
+	"description": "Open-Source Email Verification API",
 	"license": "GPL-3.0",
 	"main": "saasify.json",
 	"private": true,

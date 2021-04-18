@@ -30,74 +30,20 @@
 			]
 		},
 		{
-			"name": "Pay-As-You-Go SaaS",
-			"slug": "pay-as-you-go-v3",
+			"name": "10k Emails (SaaS)",
+			"slug": "10k-v2",
+			"amount": 6900,
 			"auth": true,
 			"features": [
 				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
-				"**Priority** customer support.",
+				"**Priority** customer support via email/chat.",
 				"Use **Reacher servers** with high IP reputation.",
-				"Up to 10K calls/month, see [Pricing Details](https://help.reacher.email/pay-as-you-grow-saas-pricing).",
-				"The more you verify, the **lower your total cost**.",
+				"Up to 10K calls/month.",
 				"Cancel anytime."
 			],
 			"rateLimit": {
 				"requestsInterval": 2628000,
 				"requestsMaxPerInterval": 10000
-			},
-			"requests": {
-				"billingScheme": "tiered",
-				"tiers": [
-					{
-						"upTo": "999",
-						"unitAmount": 1.4
-					},
-					{
-						"upTo": "2499",
-						"unitAmount": 1.16
-					},
-					{
-						"upTo": "4999",
-						"unitAmount": 0.98
-					},
-					{
-						"upTo": "9999",
-						"unitAmount": 0.69
-					},
-					{
-						"upTo": "24999",
-						"unitAmount": 0.593
-					},
-					{
-						"upTo": "49999",
-						"unitAmount": 0.398
-					},
-					{
-						"upTo": "99999",
-						"unitAmount": 0.299
-					},
-					{
-						"upTo": "249999",
-						"unitAmount": 0.2
-					},
-					{
-						"upTo": "499999",
-						"unitAmount": 0.16
-					},
-					{
-						"upTo": "999999",
-						"unitAmount": 0.125
-					},
-					{
-						"upTo": "2499999",
-						"unitAmount": 0.1
-					},
-					{
-						"upTo": "inf",
-						"unitAmount": 0.075
-					}
-				],
-				"tiersMode": "volume"
 			}
 		},
 		{
@@ -111,10 +57,9 @@
 			},
 			"features": [
 				"[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
-				"**Priority** customer support.",
-				"Send email verifications from **your own servers**.",
-				"Use Reacher in your own **commercial apps**.",
-				"Comes with [Self-Host Guides](https://help.reacher.email/self-host-guide) (Heroku, Docker).",
+				"**Priority** customer support via email/chat.",
+				"Self-host Reacher in your **commercial apps**.",
+				"Comes with [self-host guides](https://help.reacher.email/self-host-guide) (Heroku, Docker).",
 				"Learn more about the full [terms and details](https://help.reacher.email/reacher-licenses).",
 				"🤔 Want a **free trial** before you buy? Feel free to try self-hosting with our [open-source guide](https://help.reacher.email/self-host-guide), and subscribe once you're ready."
 			]
