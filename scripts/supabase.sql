@@ -10,7 +10,9 @@ create table users (
   -- The customer's billing address, stored in JSON format.
   billing_address jsonb,
   -- Stores your customer's payment instruments.
-  payment_method jsonb
+  payment_method jsonb,
+  -- Unique token per user, used for HTTP header authentication.
+  token text
 );
 alter table users enable row level security;
 create policy "Can view own user data." on users for select using (auth.uid() = id);
@@ -143,4 +145,3 @@ create policy "Can only view own subs data." on subscriptions for select using (
  */
 drop publication if exists supabase_realtime;
 create publication supabase_realtime for table products, prices;
-
