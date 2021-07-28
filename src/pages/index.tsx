@@ -17,8 +17,7 @@ export default function Index(): React.ReactElement {
 						Ranked.
 					</h1>
 					<p>
-						Devs in Crypto sorts developers by blockchain
-						ecosystems,
+						Reacher sorts developers by blockchain ecosystems,
 						<br />
 						and ranks them within each ecosystem by their Github
 						activity.

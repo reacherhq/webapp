@@ -14,7 +14,7 @@ export function Nav(): React.ReactElement {
 			<section className="navbar-section">
 				<Link href="/">
 					<a href="#" className="navbar-brand mr-2">
-						Devs in Crypto
+						Reacher
 					</a>
 				</Link>
 				<Link href="/pricing">

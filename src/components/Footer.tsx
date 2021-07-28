@@ -4,7 +4,7 @@ export function Footer(): React.ReactElement {
 	return (
 		<footer className="bg-gray">
 			<div className="thin-container section text-center">
-				<p>© Devs in Crypto 2021</p>
+				<p>© Reacher 2021</p>
 
 				<p>
 					Made by a crypto dev based in Paris 🇫🇷.
