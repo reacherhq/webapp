@@ -79,12 +79,18 @@ export const UserContextProvider: FunctionComponent = (
 			.from<SupabaseSubscription>('subscriptions')
 			.select('*, prices(*, products(*))')
 			.in('status', ['trialing', 'active'])
-			.single();
-
+			.eq('cancel_at_period_end', false)
+			.maybeSingle();
 	useEffect(() => {
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])
 				.then(([userDetails, sub]) => {
+					if (userDetails.error) {
+						throw userDetails.error;
+					}
+					if (sub.error) {
+						throw sub.error;
+					}
 					setUserDetails(userDetails.data);
 					setSubscription(sub.data);
 					setUserLoaded(true);

@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { PostgrestError } from '@supabase/supabase-js';
+import axios, { AxiosError } from 'axios';
 
 export const getURL = (): string => {
 	const url =
@@ -36,12 +37,21 @@ export const postData = async <T = unknown>({
 	token?: string;
 	data?: unknown;
 }): Promise<T> => {
-	const { data: res } = await axios.post<T>(url, data, {
-		headers: { 'Content-Type': 'application/json', token },
-		withCredentials: true,
-	});
+	try {
+		const { data: res } = await axios.post<T>(url, data, {
+			headers: { 'Content-Type': 'application/json', token },
+			withCredentials: true,
+		});
 
-	return res;
+		return res;
+	} catch (err) {
+		if ((err as AxiosError).response?.data) {
+			throw (err as AxiosError<{ error: PostgrestError }>).response?.data
+				.error;
+		} else {
+			throw err;
+		}
+	}
 };
 
 export const toDateTime = (secs: number): Date => {

@@ -57,6 +57,7 @@ export interface SupabaseCustomer {
 export interface SupabaseUser {
 	full_name?: string;
 	id: string;
+	token: string;
 }
 
 export const supabase = createClient(

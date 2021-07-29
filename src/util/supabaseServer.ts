@@ -17,14 +17,16 @@ export const getUser = async (jwt: string): Promise<User | null> => {
 	return data;
 };
 
-export async function getActiveSubscriptions(
+export async function getActiveSubscription(
 	user: User
-): Promise<SupabaseSubscription[] | null> {
+): Promise<SupabaseSubscription | null> {
 	const { data, error } = await supabaseAdmin
 		.from<SupabaseSubscription>('subscriptions')
 		.select('*, prices(*, products(*))')
 		.in('status', ['trialing', 'active'])
-		.eq('user_id', user.id);
+		.eq('cancel_at_period_end', false)
+		.eq('user_id', user.id)
+		.maybeSingle();
 
 	if (error) throw error;
 

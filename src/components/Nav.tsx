@@ -14,17 +14,8 @@ export function Nav(): React.ReactElement {
 			<section className="navbar-section">
 				<Link href="/">
 					<a href="#" className="navbar-brand mr-2">
-						Reacher
+						Reacher Dashboard
 					</a>
-				</Link>
-				<Link href="/pricing">
-					<button className="btn btn-link">Pricing</button>
-				</Link>
-				<Link href="/analysis">
-					<button className="btn btn-link">Analysis</button>
-				</Link>
-				<Link href="/faq">
-					<button className="btn btn-link">FAQ</button>
 				</Link>
 			</section>
 			<section className="navbar-section">
@@ -45,14 +36,11 @@ export function Nav(): React.ReactElement {
 								</div>
 							</li>
 							<li className="menu-item">
-								<Link href="/account">Dashboard</Link>
-							</li>
-							<li className="menu-item">
 								<a
 									href="#"
 									onClick={() =>
 										signOut()
-											.then(() => router.push('/'))
+											.then(() => router.push('/signin'))
 											.catch(sentryException)
 									}
 								>

@@ -7,12 +7,12 @@ export function Footer(): React.ReactElement {
 				<p>© Reacher 2021</p>
 
 				<p>
-					Made by a crypto dev based in Paris 🇫🇷.
+					Made in a small independent studio in Paris 🇫🇷.
 					<br />
-					<a href="mailto:amaury@devsincrypto.com">Support Email</a>
+					<a href="mailto:amaury@reacher.email">Email support</a>
 					{' - '}
 					<a
-						href="https://github.com/devsincrypto/webapp"
+						href="https://github.com/reacherhq/check-if-email-exists"
 						target="_blank"
 						rel="noopener noreferrer"
 					>

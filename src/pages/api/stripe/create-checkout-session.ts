@@ -5,7 +5,7 @@ import { getURL } from '../../../util/helpers';
 import { sentryException } from '../../../util/sentry';
 import { stripe } from '../../../util/stripeServer';
 import { SupabasePrice } from '../../../util/supabaseClient';
-import { getUser } from '../../../util/supabaseServer';
+import { getActiveSubscription, getUser } from '../../../util/supabaseServer';
 import { createOrRetrieveCustomer } from '../../../util/useDatabase';
 
 const createCheckoutSession = async (
@@ -31,6 +31,16 @@ const createCheckoutSession = async (
 				throw new Error(`Got empty user.`);
 			}
 			const customer = await createOrRetrieveCustomer(user);
+			const subscription = await getActiveSubscription(user);
+			if (subscription) {
+				throw new Error(
+					`You can only have one active subscription at a time. Please cancel your existing subscription${
+						subscription.prices?.products?.name
+							? ` "${subscription.prices?.products?.name}"`
+							: ''
+					}.`
+				);
+			}
 
 			const session = await stripe.checkout.sessions.create({
 				payment_method_types: ['card'],
@@ -48,7 +58,7 @@ const createCheckoutSession = async (
 					trial_from_plan: true,
 					metadata,
 				},
-				success_url: `${getURL()}/account`,
+				success_url: `${getURL()}/`,
 				cancel_url: `${getURL()}/`,
 			});
 

@@ -38,7 +38,7 @@ export default function Signin(): React.ReactElement {
 
 	useEffect(() => {
 		if (user) {
-			router.replace('/account').catch(sentryException);
+			router.replace('/').catch(sentryException);
 		}
 	}, [router, user]);
 
