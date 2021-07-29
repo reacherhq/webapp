@@ -2,13 +2,13 @@ import { withSentry } from '@sentry/nextjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
-import { sentryException } from '../../util/sentry';
-import { stripe } from '../../util/stripeServer';
+import { sentryException } from '../../../util/sentry';
+import { stripe } from '../../../util/stripeServer';
 import {
 	manageSubscriptionStatusChange,
 	upsertPriceRecord,
 	upsertProductRecord,
-} from '../../util/useDatabase';
+} from '../../../util/useDatabase';
 
 // Stripe requires the raw body to construct the event.
 export const config = {
