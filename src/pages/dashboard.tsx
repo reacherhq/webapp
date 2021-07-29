@@ -39,7 +39,7 @@ export default function Account({
 	const redirectToCustomerPortal = async () => {
 		setLoading(true);
 		await postData({
-			url: '/api/create-portal-link',
+			url: '/api/stripe/create-portal-link',
 			token: session?.access_token,
 		});
 
