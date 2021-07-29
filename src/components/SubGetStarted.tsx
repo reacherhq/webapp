@@ -55,6 +55,18 @@ export function SubGetStarted({
 								<mark>{userDetails.token}</mark>
 							</p>
 							<p>
+								For example, a <code>curl</code> request looks
+								like:
+								<br />
+								<code>{`curl -X POST \
+	https://api.reacher.email/v0/check_email \
+	-H 'content-type: application/json' \
+	-H 'authorization: ${userDetails.token}' \
+	-d '{
+		"to_email": "test@gmail.com"
+	}'`}</code>
+							</p>
+							<p>
 								For more details, check out our{' '}
 								<a
 									href="https://help.reacher.email"
