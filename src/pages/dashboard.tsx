@@ -14,23 +14,20 @@ import { useUser } from '../util/useUser';
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductsWithPrices();
 
-	// We just have one product for now.
-	if (products.length !== 1) {
-		throw new Error(`Expected 1 product, found ${products.length}.`);
-	}
-
 	return {
 		props: {
-			product: products[0],
+			products,
 		},
 	};
 };
 
 interface AccountProps {
-	product: SupabaseProductWithPrice;
+	products: SupabaseProductWithPrice[];
 }
 
-export default function Account({ product }: AccountProps): React.ReactElement {
+export default function Account({
+	products,
+}: AccountProps): React.ReactElement {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const { userLoaded, user, session, subscription } = useUser();
