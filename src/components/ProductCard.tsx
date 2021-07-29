@@ -64,7 +64,7 @@ export function ProductCard({
 	}).format(price.unit_amount / 100);
 
 	return (
-		<div className="column col-4 col-mx-auto card" key={price.product_id}>
+		<div className="column col-6 col-mx-auto card" key={price.product_id}>
 			<div className="card-header">
 				<div className="card-title">
 					<h5 className="text-center">{product.name}</h5>
