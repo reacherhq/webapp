@@ -1,11 +1,11 @@
 import { withSentry } from '@sentry/nextjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getURL } from '../../util/helpers';
-import { sentryException } from '../../util/sentry';
-import { stripe } from '../../util/stripeServer';
-import { getUser } from '../../util/supabaseServer';
-import { createOrRetrieveCustomer } from '../../util/useDatabase';
+import { getURL } from '../../../util/helpers';
+import { sentryException } from '../../../util/sentry';
+import { stripe } from '../../../util/stripeServer';
+import { getUser } from '../../../util/supabaseServer';
+import { createOrRetrieveCustomer } from '../../../util/useDatabase';
 
 const createPortalLink = async (
 	req: NextApiRequest,
