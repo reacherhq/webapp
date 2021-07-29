@@ -2,13 +2,14 @@ import React from 'react';
 
 import { SupabaseProduct, SupabaseSubscription } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
+import {
+	COMMERCIAL_LICENSE_PRODUCT_ID,
+	SAAS_10K_PRODUCT_ID,
+} from './ProductCard';
 
 interface SubGetStartedProps {
 	subscription: SupabaseSubscription | null; // null means Free Trial
 }
-
-const SAAS_10K_PRODUCT_ID = 'prod_JwU31ryqYd7r8Y';
-const COMMERCIAL_LICENSE_PRODUCT_ID = 'prod_HvO8qL4nV1sjfJ';
 
 export function subscriptionName(product?: SupabaseProduct): string {
 	return product?.name || 'Free Trial';

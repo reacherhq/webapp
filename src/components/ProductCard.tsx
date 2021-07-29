@@ -17,6 +17,9 @@ export interface ProductCardProps {
 	subscription: SupabaseSubscription | null;
 }
 
+export const SAAS_10K_PRODUCT_ID = 'prod_JwU31ryqYd7r8Y';
+export const COMMERCIAL_LICENSE_PRODUCT_ID = 'prod_HvO8qL4nV1sjfJ';
+
 export function ProductCard({
 	product,
 	subscription,
