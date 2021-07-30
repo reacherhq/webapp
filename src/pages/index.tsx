@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 import { Nav, ProductCard } from '../components';
-import { SubGetStarted, subscriptionName } from '../components/SubGetStarted/';
+import { SubGetStarted } from '../components/SubGetStarted/';
 import { sentryException } from '../util/sentry';
+import { productName } from '../util/subs';
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
@@ -43,10 +44,7 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 							<h2>Active Subscriptions</h2>
 							<p>
 								You are currently subscribed to the{' '}
-								{subscriptionName(
-									subscription?.prices?.products
-								)}
-								.
+								{productName(subscription?.prices?.products)}.
 							</p>
 							<div className="columns">
 								{products.map((product) => (

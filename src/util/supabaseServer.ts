@@ -1,6 +1,10 @@
 import { createClient, User } from '@supabase/supabase-js';
 
-import { SupabaseSubscription, SupabaseUser } from './supabaseClient';
+import {
+	SupabaseCall,
+	SupabaseSubscription,
+	SupabaseUser,
+} from './supabaseClient';
 
 export const supabaseAdmin = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -47,4 +51,17 @@ export async function getActiveSubscription(
 	if (error) throw error;
 
 	return data;
+}
+
+export async function getApiUsageServer(user: SupabaseUser): Promise<number> {
+	const { data, error } = await supabaseAdmin
+		.from<SupabaseCall>('calls')
+		.select('*')
+		.eq('user_id', user.id);
+
+	if (error) {
+		throw error;
+	}
+
+	return data?.length || 0;
 }

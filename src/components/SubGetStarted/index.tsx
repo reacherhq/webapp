@@ -1,16 +1,9 @@
 import React from 'react';
 
-import {
-	SupabaseProduct,
-	SupabaseSubscription,
-} from '../../util/supabaseClient';
-import { COMMERCIAL_LICENSE_PRODUCT_ID } from '../ProductCard';
+import { COMMERCIAL_LICENSE_PRODUCT_ID } from '../../util/subs';
+import { SupabaseSubscription } from '../../util/supabaseClient';
 import { GetStartedLicense } from './GetStartedLicense';
 import { GetStartedSaas } from './GetStartedSaas';
-
-export function subscriptionName(product?: SupabaseProduct): string {
-	return product?.name || 'Free Trial';
-}
 
 interface SubGetStartedProps {
 	subscription: SupabaseSubscription | null; // null means Free Trial
@@ -21,7 +14,9 @@ export function SubGetStarted({
 }: SubGetStartedProps): React.ReactElement {
 	return subscription?.prices?.products?.id ===
 		COMMERCIAL_LICENSE_PRODUCT_ID ? (
-		<GetStartedLicense subscription={subscription} />
+		<GetStartedLicense
+			subscription={subscription as SupabaseSubscription}
+		/>
 	) : (
 		<GetStartedSaas subscription={subscription} />
 	);

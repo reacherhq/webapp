@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { productName } from '../../util/subs';
 import type { SupabaseSubscription } from '../../util/supabaseClient';
-import { subscriptionName } from './';
 
 interface GetStartedLicenseProps {
 	subscription: SupabaseSubscription;
@@ -10,13 +10,13 @@ interface GetStartedLicenseProps {
 export function GetStartedLicense({
 	subscription,
 }: GetStartedLicenseProps): React.ReactElement {
-	const subName = subscriptionName(subscription?.prices?.products);
+	const prodName = productName(subscription?.prices?.products);
 
 	return (
 		<section className="section">
-			<h2>Getting Started with the {subName}</h2>
+			<h2>Getting Started with the {prodName}</h2>
 			<p>
-				Thanks for using Reacher {subName}! You should have received on
+				Thanks for using Reacher {prodName}! You should have received on
 				your email a PDF containing the commercial license for the
 				current period. This means that you can safely use
 				Reacher&apos;s code in your own project.

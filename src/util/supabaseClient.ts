@@ -64,7 +64,7 @@ export interface SupabaseCall {
 	id: number;
 	user_id: string;
 	endpoint: string;
-	timestamp: number;
+	created_at: number;
 }
 
 export const supabase = createClient(
@@ -108,7 +108,7 @@ export function updateUserName(
 		.eq('id', user.id);
 }
 
-export async function getApiUsage(user: User): Promise<SupabaseCall[]> {
+export async function getApiUsageClient(user: User): Promise<number> {
 	const { data, error } = await supabase
 		.from<SupabaseCall>('calls')
 		.select('*')
@@ -118,5 +118,5 @@ export async function getApiUsage(user: User): Promise<SupabaseCall[]> {
 		throw error;
 	}
 
-	return data || [];
+	return data?.length || 0;
 }

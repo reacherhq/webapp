@@ -154,7 +154,7 @@ create table calls (
   -- UUID from auth.users
   user_id uuid references auth.users not null,
   endpoint text not null,
-  timestamp timestamp default current_timestamp
+  created_at timestamp default current_timestamp
 );
 alter table calls enable row level security;
 create policy "Can only view own calls data." on calls for select using (auth.uid() = user_id);

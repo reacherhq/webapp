@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 import { sentryException } from '../../util/sentry';
+import { productName, subApiMaxCalls } from '../../util/subs';
 import {
-	getApiUsage,
-	SupabaseProduct,
+	getApiUsageClient,
 	SupabaseSubscription,
 } from '../../util/supabaseClient';
 import { useUser } from '../../util/useUser';
-import { SAAS_10K_PRODUCT_ID } from '../ProductCard';
 
 interface GetStartedSaasProps {
 	subscription: SupabaseSubscription | null; // null means Free Trial
-}
-
-export function subscriptionName(product?: SupabaseProduct): string {
-	return product?.name || 'Free Trial';
 }
 
 export function GetStartedSaas({
@@ -23,19 +18,14 @@ export function GetStartedSaas({
 	const { user, userDetails } = useUser();
 	const [apiCalls, setApiCalls] = useState(0);
 
-	const subName = subscriptionName(subscription?.prices?.products);
+	const subName = productName(subscription?.prices?.products);
 
 	useEffect(() => {
 		if (!user) {
 			return;
 		}
 
-		getApiUsage(user)
-			.then((calls) => {
-				console.log(calls);
-				setApiCalls(calls.length);
-			})
-			.catch(sentryException);
+		getApiUsageClient(user).then(setApiCalls).catch(sentryException);
 	}, [user]);
 
 	return (
@@ -90,7 +80,7 @@ export function GetStartedSaas({
 					</p>
 					<h4>
 						API usage this month: {apiCalls}/
-						{subscription?.id === SAAS_10K_PRODUCT_ID ? 10000 : 50}.
+						{subApiMaxCalls(subscription)}.
 					</h4>
 				</>
 			) : (

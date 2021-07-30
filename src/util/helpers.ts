@@ -1,6 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 
+// Gets the currently depoloyed URL.
 export const getURL = (): string => {
 	const url =
 		process?.env?.URL && process.env.URL !== ''
@@ -10,22 +11,6 @@ export const getURL = (): string => {
 			: 'http://localhost:3000';
 
 	return url.includes('http') ? url : `https://${url}`;
-};
-
-export const getData = async <T = unknown>({
-	url,
-	token,
-}: {
-	url: string;
-	token?: string;
-	data?: unknown;
-}): Promise<T> => {
-	const { data: res } = await axios.get<T>(url, {
-		headers: { 'Content-Type': 'application/json', token },
-		withCredentials: true,
-	});
-
-	return res;
 };
 
 export const postData = async <T = unknown>({
@@ -60,35 +45,3 @@ export const toDateTime = (secs: number): Date => {
 
 	return t;
 };
-
-/**
- * Like Promise.all, but with max concurrency.
- *
- * @see https://gist.github.com/jcouyang/632709f30e12a7879a73e9e132c0d56b#gistcomment-3253738
- */
-export async function promiseAllLimit<T>(
-	n: number,
-	list: (() => Promise<T>)[]
-): Promise<T[]> {
-	const head = list.slice(0, n);
-	const tail = list.slice(n);
-	const result: T[] = [];
-	const execute = async (
-		promise: () => Promise<T>,
-		i: number,
-		runNext: () => Promise<void>
-	) => {
-		result[i] = await promise();
-		await runNext();
-	};
-	const runNext = async () => {
-		const i = list.length - tail.length;
-		const promise = tail.shift();
-		if (promise !== undefined) {
-			await execute(promise, i, runNext);
-		}
-	};
-	await Promise.all(head.map((promise, i) => execute(promise, i, runNext)));
-
-	return result;
-}

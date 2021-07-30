@@ -1,10 +1,17 @@
 import { withSentry } from '@sentry/nextjs';
+import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { sentryException } from '../../../util/sentry';
-import { SupabaseCall } from '../../../util/supabaseClient';
-import { getUserByApiToken, supabaseAdmin } from '../../../util/supabaseServer';
+import { subApiMaxCalls } from '../../../util/subs';
+import type { SupabaseCall } from '../../../util/supabaseClient';
+import {
+	getActiveSubscription,
+	getApiUsageServer,
+	getUserByApiToken,
+	supabaseAdmin,
+} from '../../../util/supabaseServer';
 
 // Reacher only exposes one endpoint right now, so we're hardcoding it.
 const ENDPOINT = `/v0/check_email`;
@@ -29,6 +36,26 @@ const checkEmail = async (
 		if (!user) {
 			throw new Error(`Got empty user.`);
 		}
+
+		// Safe to type cast here, as we only need the `id` field below.
+		const authUser = { id: user.id } as User;
+
+		// TODO instead of doing another round of network call, we should do a
+		// join for subscriptions and API calls inside getUserByApiToken.
+		const [sub, used] = await Promise.all([
+			getActiveSubscription(authUser),
+			getApiUsageServer(user),
+		]);
+
+		const max = subApiMaxCalls(sub);
+		if (used > max) {
+			res.status(429).json({
+				error:
+					'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
+			});
+			return;
+		}
+
 		const reacherBackend = process.env.RCH_BACKEND_URL;
 		if (!reacherBackend) {
 			throw new Error('Got empty reacher backend url.');
