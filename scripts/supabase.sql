@@ -12,7 +12,7 @@ create table users (
   -- Stores your customer's payment instruments.
   payment_method jsonb,
   -- Unique API token per user, used for HTTP header authentication.
-  api_token text not null unique
+  api_token text not null unique default uuid_generate_v1()
 );
 alter table users enable row level security;
 create policy "Can view own user data." on users for select using (auth.uid() = id);
