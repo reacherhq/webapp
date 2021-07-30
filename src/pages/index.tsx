@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Nav, ProductCard } from '../components';
 import { SubGetStarted, subscriptionName } from '../components/SubGetStarted';
@@ -8,7 +8,6 @@ import { sentryException } from '../util/sentry';
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
-	SupabaseSubscription,
 } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
 
@@ -29,9 +28,6 @@ interface IndexProps {
 export default function Index({ products }: IndexProps): React.ReactElement {
 	const router = useRouter();
 	const { userLoaded, user, subscription } = useUser();
-	const [getStarted, setGetStarted] = useState<SupabaseSubscription | null>(
-		subscription
-	);
 
 	useEffect(() => {
 		if (!user) router.replace('/signin').catch(sentryException);
@@ -68,7 +64,7 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 							</div>
 						</section>
 
-						<SubGetStarted subscription={getStarted} />
+						<SubGetStarted subscription={subscription} />
 
 						<section className="section">
 							<h2>Your Details</h2>
