@@ -84,7 +84,7 @@ export function GetStartedSaas({
 					</h4>
 				</>
 			) : (
-				<p>ERROR: userDetails token is empty</p>
+				<p>Error: userDetails token is empty</p>
 			)}
 		</section>
 	);
