@@ -27,7 +27,7 @@ export const getUserByApiToken = async (
 	const { data, error } = await supabaseAdmin
 		.from<SupabaseUser>('users')
 		.select('*')
-		.eq('token', apiToken)
+		.eq('api_token', apiToken)
 		.single();
 
 	if (error) {
@@ -53,11 +53,16 @@ export async function getActiveSubscription(
 	return data;
 }
 
+// Get the api calls of a user in the past month. Same as
+// `getApiUsageClient`, but for server usage.
 export async function getApiUsageServer(user: SupabaseUser): Promise<number> {
+	const oneMonthAgo = new Date();
+	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 	const { data, error } = await supabaseAdmin
 		.from<SupabaseCall>('calls')
 		.select('*')
-		.eq('user_id', user.id);
+		.eq('user_id', user.id)
+		.gt('created_at', oneMonthAgo.toUTCString());
 
 	if (error) {
 		throw error;

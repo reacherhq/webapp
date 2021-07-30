@@ -2,10 +2,14 @@ import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-import { Nav, ProductCard } from '../components';
+import { FreeTrial, Nav, ProductCard } from '../components';
 import { SubGetStarted } from '../components/SubGetStarted/';
 import { sentryException } from '../util/sentry';
-import { productName } from '../util/subs';
+import {
+	COMMERCIAL_LICENSE_PRODUCT_ID,
+	productName,
+	SAAS_10K_PRODUCT_ID,
+} from '../util/subs';
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
@@ -28,11 +32,19 @@ interface IndexProps {
 
 export default function Index({ products }: IndexProps): React.ReactElement {
 	const router = useRouter();
-	const { userLoaded, user, subscription } = useUser();
+	const { userDetails, userLoaded, user, subscription } = useUser();
 
 	useEffect(() => {
 		if (!user) router.replace('/signin').catch(sentryException);
 	}, [router, user]);
+
+	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
+	const licenseProduct = products.find(
+		({ id }) => id === COMMERCIAL_LICENSE_PRODUCT_ID
+	);
+	if (!saasProduct || !licenseProduct) {
+		throw new Error('Index: saasProduct or licenseProduct not found.');
+	}
 
 	return (
 		<>
@@ -47,18 +59,25 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 								{productName(subscription?.prices?.products)}.
 							</p>
 							<div className="columns">
-								{products.map((product) => (
-									<ProductCard
-										key={product.id}
-										product={product}
-										subscription={
-											subscription?.prices?.product_id ===
-											product.id
-												? subscription
-												: null
-										}
-									/>
-								))}
+								<FreeTrial active={!subscription} />
+								<ProductCard
+									product={saasProduct}
+									subscription={
+										subscription?.prices?.product_id ===
+										SAAS_10K_PRODUCT_ID
+											? subscription
+											: null
+									}
+								/>
+								<ProductCard
+									product={licenseProduct}
+									subscription={
+										subscription?.prices?.product_id ===
+										COMMERCIAL_LICENSE_PRODUCT_ID
+											? subscription
+											: null
+									}
+								/>
 							</div>
 						</section>
 
@@ -66,6 +85,13 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 
 						<section className="section">
 							<h2>Your Details</h2>
+							<p>
+								Please contact ✉️{' '}
+								<a href="mailto:amaury@reacher.email">
+									amaury@reacher.email
+								</a>{' '}
+								if you want to modify this information.
+							</p>
 							<div className="columns">
 								<form className="column col-8 col-mx-auto">
 									<div className="form-group">
@@ -73,12 +99,15 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 											className="form-label"
 											htmlFor="input-name"
 										>
-											Please enter your full name, or a
-											display name you are comfortable
-											with.
+											Full name, or a display name you are
+											comfortable with:
 										</label>
 										<input
 											className="form-input"
+											defaultValue={
+												userDetails?.full_name
+											}
+											disabled
 											id="input-name"
 											placeholder="Name"
 										/>
@@ -88,16 +117,14 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 											className="form-label"
 											htmlFor="input-email"
 										>
-											Please enter the email address you
-											want to use to login.
-											<br /> We will email you to verify
-											the change.
+											Email address for login:
 										</label>
 										<input
 											className="form-input"
+											disabled
 											id="input-email"
 											placeholder="Email"
-											value={user?.email}
+											defaultValue={user?.email}
 										/>
 									</div>
 								</form>

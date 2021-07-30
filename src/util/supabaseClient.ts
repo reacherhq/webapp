@@ -57,14 +57,14 @@ export interface SupabaseCustomer {
 export interface SupabaseUser {
 	full_name?: string;
 	id: string;
-	token: string;
+	api_token: string;
 }
 
 export interface SupabaseCall {
 	id: number;
 	user_id: string;
 	endpoint: string;
-	created_at: number;
+	created_at: string;
 }
 
 export const supabase = createClient(
@@ -108,11 +108,16 @@ export function updateUserName(
 		.eq('id', user.id);
 }
 
+// Get the api calls of a user in the past month. Same as
+// `getApiUsageServer`, but for client usage.
 export async function getApiUsageClient(user: User): Promise<number> {
+	const oneMonthAgo = new Date();
+	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 	const { data, error } = await supabase
 		.from<SupabaseCall>('calls')
 		.select('*')
-		.eq('user_id', user.id);
+		.eq('user_id', user.id)
+		.gt('created_at', oneMonthAgo.toUTCString());
 
 	if (error) {
 		throw error;

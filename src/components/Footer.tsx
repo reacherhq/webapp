@@ -9,7 +9,18 @@ export function Footer(): React.ReactElement {
 				<p>
 					Made in a small independent studio in Paris 🇫🇷.
 					<br />
-					<a href="mailto:amaury@reacher.email">Email support</a>
+					✉️{' '}
+					<a href="mailto:amaury@reacher.email">
+						amaury@reacher.email
+					</a>
+					{' - '}
+					<a
+						href="https://help.reacher.email"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Help Center
+					</a>
 					{' - '}
 					<a
 						href="https://github.com/reacherhq/check-if-email-exists"

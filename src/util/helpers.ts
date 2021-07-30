@@ -31,8 +31,11 @@ export const postData = async <T = unknown>({
 		return res;
 	} catch (err) {
 		if ((err as AxiosError).response?.data) {
-			throw (err as AxiosError<{ error: PostgrestError }>).response?.data
-				.error;
+			throw new Error(
+				(err as AxiosError<{
+					error: string;
+				}>).response?.data.error
+			);
 		} else {
 			throw err;
 		}

@@ -1,16 +1,17 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { postData } from '../util/helpers';
-import { sentryException } from '../util/sentry';
-import { getStripe } from '../util/stripeClient';
+import { postData } from '../../util/helpers';
+import { sentryException } from '../../util/sentry';
+import { getStripe } from '../../util/stripeClient';
 import type {
 	SupabasePrice,
 	SupabaseProductWithPrice,
 	SupabaseSubscription,
-} from '../util/supabaseClient';
-import { useUser } from '../util/useUser';
-import { StripeMananageButton } from './StripeManageButton';
+} from '../../util/supabaseClient';
+import { useUser } from '../../util/useUser';
+import { Card } from '../Card';
+import { StripeMananageButton } from '../StripeManageButton';
 
 export interface ProductCardProps {
 	product: SupabaseProductWithPrice;
@@ -49,8 +50,10 @@ export function ProductCard({
 			if (!stripe) {
 				throw new Error('Empty stripe object at checkout');
 			}
-			stripe.redirectToCheckout({ sessionId }).catch(sentryException);
+
+			await stripe.redirectToCheckout({ sessionId });
 		} catch (err) {
+			sentryException(err);
 			alert((err as Error).message);
 		} finally {
 			setPriceIdLoading(false);
@@ -64,12 +67,23 @@ export function ProductCard({
 	}).format(price.unit_amount / 100);
 
 	return (
-		<div className="column col-6 col-mx-auto card" key={price.product_id}>
-			<div className="card-header">
-				<div className="card-title">
-					<h5 className="text-center">{product.name}</h5>
-				</div>
-				<div className="card-subtitle text-center">
+		<Card
+			body="TODO Features"
+			footer={
+				active ? (
+					<>
+						<StripeMananageButton>
+							Cancel Subscription
+						</StripeMananageButton>
+						<StripeMananageButton>
+							Billing History &amp; Invoices
+						</StripeMananageButton>
+					</>
+				) : undefined
+			}
+			key={price.product_id}
+			subtitle={
+				<>
 					<p>
 						{priceString}/month.{' '}
 						{subscription?.cancel_at_period_end &&
@@ -91,19 +105,9 @@ export function ProductCard({
 							? 'Active Subscription'
 							: 'Subscribe'}
 					</button>
-				</div>
-			</div>
-			<div className="card-body">TODO Put features</div>
-			{active && (
-				<div className="card-footer p-centered">
-					<StripeMananageButton>
-						Cancel Subscription
-					</StripeMananageButton>
-					<StripeMananageButton>
-						Billing History &amp; Invoices
-					</StripeMananageButton>
-				</div>
-			)}
-		</div>
+				</>
+			}
+			title={product.name}
+		/>
 	);
 }

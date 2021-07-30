@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { postData } from '../util/helpers';
+import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
 
 export interface StripeMananageButton {
@@ -23,6 +24,7 @@ export function StripeMananageButton({
 
 			window.open(url, '_blank');
 		} catch (err) {
+			sentryException(err);
 			alert((err as Error).message);
 		}
 

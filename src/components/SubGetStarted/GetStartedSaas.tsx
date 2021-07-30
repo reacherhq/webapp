@@ -35,7 +35,7 @@ export function GetStartedSaas({
 				Thanks for using Reacher {subName}! Below is how to get started
 				with email verifications.
 			</p>
-			{userDetails?.token ? (
+			{userDetails?.api_token ? (
 				<>
 					<p>
 						Use your private auth token below, and send a HTTP
@@ -54,7 +54,7 @@ export function GetStartedSaas({
 					</p>
 					<p>
 						<code>AUTH_TOKEN</code>:{' '}
-						<mark>{userDetails.token}</mark>
+						<mark>{userDetails.api_token}</mark>
 					</p>
 					<p>
 						For example, a <code>curl</code> request looks like:
@@ -62,7 +62,7 @@ export function GetStartedSaas({
 						<code>{`curl -X POST \
 	https://api.reacher.email/v0/check_email \
 	-H 'content-type: application/json' \
-	-H 'authorization: ${userDetails.token}' \
+	-H 'authorization: ${userDetails.api_token}' \
 	-d '{
 		"to_email": "test@gmail.com"
 	}'`}</code>
