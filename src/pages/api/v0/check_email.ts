@@ -6,6 +6,7 @@ import { sentryException } from '../../../util/sentry';
 import { SupabaseCall } from '../../../util/supabaseClient';
 import { getUserByApiToken, supabaseAdmin } from '../../../util/supabaseServer';
 
+// Reacher only exposes one endpoint right now, so we're hardcoding it.
 const ENDPOINT = `/v0/check_email`;
 
 const checkEmail = async (

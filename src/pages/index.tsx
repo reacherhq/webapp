@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 import { Nav, ProductCard } from '../components';
-import { SubGetStarted, subscriptionName } from '../components/SubGetStarted';
+import { SubGetStarted, subscriptionName } from '../components/SubGetStarted/';
 import { sentryException } from '../util/sentry';
 import {
 	getActiveProductsWithPrices,
