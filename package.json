@@ -8,11 +8,29 @@
 	"private": true,
 	"repository": "https://github.com/reacherhq/saasify",
 	"scripts": {
-		"build": "cd saasify-frontend-boilerplate-cra && yarn install && yarn build",
-		"lint": "prettier ."
+		"dev": "next dev",
+		"build": "next build",
+		"generate-json": "ts-node -P ./scripts/tsconfig.json ./scripts/generateJSON.ts",
+		"legacy:build": "cd saasify-frontend-boilerplate-cra && yarn install && yarn build",
+		"lint": "tsc --noEmit && eslint . --ext js,ts,tsx",
+		"start": "next start"
+	},
+	"dependencies": {
+		"@sentry/nextjs": "^6.9.0",
+		"@stripe/stripe-js": "^1.16.0",
+		"@supabase/supabase-js": "^1.19.0",
+		"@types/react": "^17.0.14",
+		"@types/react-dom": "^17.0.9",
+		"next": "^11.0.1",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"stripe": "^8.163.0"
 	},
 	"devDependencies": {
 		"@amaurym/config": "^1.3.5",
-		"saasify": "^1.20.8"
+		"eslint-config-next": "^11.0.1",
+		"saasify": "^1.20.8",
+		"typescript": "^4.3.5",
+		"vercel": "^23.0.1"
 	}
 }

@@ -1,6 +1,0 @@
-[submodule "backend"]
-	path = backend
-	url = https://github.com/reacherhq/backend
-[submodule "saasify-frontend-boilerplate-cra"]
-	path = saasify-frontend-boilerplate-cra
-	url = https://github.com/reacherhq/saasify-frontend-boilerplate-cra

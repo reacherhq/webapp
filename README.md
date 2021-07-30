@@ -1,13 +1,7 @@
-## Quick Start
+# `@reacherhq/webapp`
 
-Whether you’re new to email verifications or seasoned in all things SMTP, this is where you’ll find out how to develop applications with Reacher. We offer simple code snippets for several popular programming languages.
+This is the new Reacher webapp, currently deployed at https://staging.reacher.email.
 
-The Reacher API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). Our API has predictable resource-oriented URLs, accepts [form-encoded](<https://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms>) request bodies, returns [JSON-encoded](www.json.org) responses, and uses standard HTTP response codes, authentication, and verbs.
+## IMPORTANT: This is still beta software, please don't use it!
 
-The documentation on this page focuses on the technical side of Reacher. If you have non-technical question, be sure to also check our [Help Center](https://help.reacher.email).
-
-### Working with Reacher's API
-
-The first step is to fetch your unique API Auth Token. You can do so in your [accounts page](https://reacher.email/account). Copy the token inside your clipboard.
-
-The next step is to make a REST API request to the reacher servers. There's only one endpoint for now: check an email. Scroll down to see the [endpoint's specifications](#operation/post-check-email), as well as code snippets using cURL, Node.js, Python and Go.
+The current REAL Reacher website (https://reacher.email) is open-source at https://github.com/reacherhq/saasify-frontend-boilerplate-cra.
