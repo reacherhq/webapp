@@ -10,6 +10,10 @@ export interface LayoutProps {
 export function Layout({ children }: LayoutProps): ReactElement {
 	return (
 		<>
+			<div className="toast toast-error">
+				⚠️ 🚧 This site is still under construction. Don&apos;t try to
+				pay with Stripe just yet. 🚧 ⚠️
+			</div>
 			<Head />
 			<div className="p-2">
 				{children}

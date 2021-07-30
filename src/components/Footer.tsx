@@ -9,7 +9,7 @@ export function Footer(): React.ReactElement {
 				<p>
 					Made in a small independent studio in Paris 🇫🇷.
 					<br />
-					✉️{' '}
+					Support: ✉️{' '}
 					<a href="mailto:amaury@reacher.email">
 						amaury@reacher.email
 					</a>
