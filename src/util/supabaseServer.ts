@@ -1,6 +1,6 @@
 import { createClient, User } from '@supabase/supabase-js';
 
-import { SupabaseSubscription } from './supabaseClient';
+import { SupabaseSubscription, SupabaseUser } from './supabaseClient';
 
 export const supabaseAdmin = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -9,6 +9,22 @@ export const supabaseAdmin = createClient(
 
 export const getUser = async (jwt: string): Promise<User | null> => {
 	const { data, error } = await supabaseAdmin.auth.api.getUser(jwt);
+
+	if (error) {
+		throw error;
+	}
+
+	return data;
+};
+
+export const getUserByApiToken = async (
+	apiToken: string
+): Promise<SupabaseUser | null> => {
+	const { data, error } = await supabaseAdmin
+		.from<SupabaseUser>('users')
+		.select('*')
+		.eq('token', apiToken)
+		.single();
 
 	if (error) {
 		throw error;

@@ -60,6 +60,12 @@ export interface SupabaseUser {
 	token: string;
 }
 
+export interface SupabaseCall {
+	id: number;
+	user_id: string;
+	endpoint: string;
+}
+
 export const supabase = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
 	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string

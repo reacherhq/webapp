@@ -11,8 +11,8 @@ create table users (
   billing_address jsonb,
   -- Stores your customer's payment instruments.
   payment_method jsonb,
-  -- Unique token per user, used for HTTP header authentication.
-  token text
+  -- Unique API token per user, used for HTTP header authentication.
+  api_token text not null unique
 );
 alter table users enable row level security;
 create policy "Can view own user data." on users for select using (auth.uid() = id);
@@ -145,3 +145,16 @@ create policy "Can only view own subs data." on subscriptions for select using (
  */
 drop publication if exists supabase_realtime;
 create publication supabase_realtime for table products, prices;
+
+/**
+ * API CALLS
+ */
+create table calls (
+  id serial not null primary key,
+  -- UUID from auth.users
+  user_id uuid references auth.users not null,
+  endpoint text not null,
+  timestamp timestamp default current_timestamp
+);
+alter table calls enable row level security;
+create policy "Can only view own calls data." on calls for select using (auth.uid() = user_id);
