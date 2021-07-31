@@ -13,9 +13,10 @@ export function Nav(): React.ReactElement {
 		<header className="navbar">
 			<section className="navbar-section">
 				<Link href="/">
-					<a href="#" className="navbar-brand mr-2">
-						Reacher Dashboard
-					</a>
+					<a className="navbar-brand mr-2">Reacher Dashboard</a>
+				</Link>
+				<Link href="/pricing">
+					<a>Pricing</a>
 				</Link>
 			</section>
 			<section className="navbar-section">
