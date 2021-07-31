@@ -1,4 +1,3 @@
-import { PostgrestError } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 
 // Gets the currently depoloyed URL.

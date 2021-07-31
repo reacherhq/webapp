@@ -1,3 +1,4 @@
+import { Button } from '@geist-ui/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -101,8 +102,7 @@ export function ProductCard({
 									.split('T')[0]
 							}.`}
 					</p>
-					<button
-						className="btn btn-primary btn-lg"
+					<Button
 						disabled={!!priceIdLoading || active}
 						onClick={() => handleCheckout(price)}
 					>
@@ -111,7 +111,7 @@ export function ProductCard({
 							: active
 							? 'Active Subscription'
 							: 'Subscribe'}
-					</button>
+					</Button>
 				</>
 			}
 			title={product.name}
