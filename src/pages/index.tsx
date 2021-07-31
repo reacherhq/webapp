@@ -2,7 +2,8 @@ import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-import { FreeTrial, Nav, ProductCard } from '../components';
+import { Nav } from '../components';
+import { StripeMananageButton } from '../components/StripeManageButton';
 import { SubGetStarted } from '../components/SubGetStarted/';
 import { sentryException } from '../util/sentry';
 import {
@@ -58,27 +59,16 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 								You are currently subscribed to the{' '}
 								{productName(subscription?.prices?.products)}.
 							</p>
-							<div className="columns">
-								<FreeTrial active={!subscription} />
-								<ProductCard
-									product={saasProduct}
-									subscription={
-										subscription?.prices?.product_id ===
-										SAAS_10K_PRODUCT_ID
-											? subscription
-											: null
-									}
-								/>
-								<ProductCard
-									product={licenseProduct}
-									subscription={
-										subscription?.prices?.product_id ===
-										COMMERCIAL_LICENSE_PRODUCT_ID
-											? subscription
-											: null
-									}
-								/>
-							</div>
+							{subscription && (
+								<p>
+									<StripeMananageButton>
+										Manage Subscription
+									</StripeMananageButton>
+									<StripeMananageButton>
+										Billing History &amp; Invoices
+									</StripeMananageButton>
+								</p>
+							)}
 						</section>
 
 						<SubGetStarted subscription={subscription} />
