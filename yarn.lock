@@ -369,10 +369,10 @@
   resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.16.0.tgz#73bce24fb7f47d719caa6b151e58e49b4167d463"
   integrity sha512-ZSHbiwTrISoaTbpercmYGuY7QTg7HxfFyNgbJBaYbwHWbzMhpEdGTsmMpaBXIU6iiqwEEDaIyD8O6yJ+H5DWCg==
 
-"@supabase/gotrue-js@^1.16.6":
-  version "1.16.6"
-  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-1.16.6.tgz#d9d63740b11ad51d2f8d6c68e9ac16bb83439888"
-  integrity sha512-tLaG4G4sMW2P1hyq05Nr0jM/6AbdiWkjOPbM+QZsuVSsNbZ/z+BNxuE5q+6zHOnoP+YKEHup7x9xKR0zy2UqUQ==
+"@supabase/gotrue-js@^1.17.0":
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-1.17.0.tgz#0ff46f844ddd124543d2769da8eda58ab479b49b"
+  integrity sha512-c+GSSoW+PIT3/r7TnBdc4gPjtWDutO/2ROafSKUFl39Pb8aHIUbUvzK9sjuedaaLKH7bV8VefuRy2L8c0BUAzg==
   dependencies:
     cross-fetch "^3.0.6"
 
@@ -391,22 +391,22 @@
     "@types/websocket" "^1.0.3"
     websocket "^1.0.34"
 
-"@supabase/storage-js@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@supabase/storage-js/-/storage-js-1.2.2.tgz#6eeef2d1365af2497b35ae6c6384f5dfbd75f5b6"
-  integrity sha512-EJ2BsfD7Mc+fXJqRef3YiWF8kg/GhBdxIil7EzmrAFBSJ3VCbN4sqzvCCUYK2dtNICUV3JOKh5SBX2RrgROIOA==
+"@supabase/storage-js@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@supabase/storage-js/-/storage-js-1.4.0.tgz#0692782ccaf10df27d539d9349031ed87c7ec426"
+  integrity sha512-7+SGyXOgdhtz8qHzXo64HiS66PT/y4F8YFNMtXqYOu1LjHh0YwtOgpPLDA8obiSsNVwZiKwpgBJkz4LHG1YvRQ==
   dependencies:
     cross-fetch "^3.1.0"
 
-"@supabase/supabase-js@^1.19.0":
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-1.19.0.tgz#41fe4fbd50b713cf80b87ed3ac94199e27fd5694"
-  integrity sha512-ZSzAtVCI/OTL/pV/wp7egUKVZMtPDDOc1TAt5ANo2cGJRhVtZwBTOgmjHr2Z/PLMmhD6kkMd6k4dS/ZPh5nh0g==
+"@supabase/supabase-js@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-1.21.0.tgz#7fe3575a41644048ecbe2ed6eba89e830959d47b"
+  integrity sha512-SJgRQCdHRpnnuXVCb7X8XA/u2S4oo1Jdn92eLBl0QaUKGhREFHk2x4XlJZA9bJNzAhby9eQZ56FCtBrUda2CRQ==
   dependencies:
-    "@supabase/gotrue-js" "^1.16.6"
+    "@supabase/gotrue-js" "^1.17.0"
     "@supabase/postgrest-js" "^0.33.0"
     "@supabase/realtime-js" "^1.1.1"
-    "@supabase/storage-js" "^1.2.2"
+    "@supabase/storage-js" "^1.4.0"
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
