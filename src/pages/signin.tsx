@@ -15,7 +15,23 @@ export default function Signin(): React.ReactElement {
 		{}
 	);
 	const router = useRouter();
-	const { user, signIn } = useUser();
+	const { user, resetPassword, signIn } = useUser();
+
+	const handleResetPassword = async () => {
+		setLoading(true);
+		setMessage({});
+
+		const { error } = await resetPassword(email);
+		setLoading(false);
+		if (error) {
+			setMessage({ type: 'error', content: error.message });
+		} else {
+			setMessage({
+				type: 'note',
+				content: 'Check your email for resetting the password.',
+			});
+		}
+	};
 
 	const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -24,16 +40,20 @@ export default function Signin(): React.ReactElement {
 		setMessage({});
 
 		const { error } = await signIn({ email, password });
+		setLoading(false);
 		if (error) {
 			setMessage({ type: 'error', content: error.message });
-		}
-		if (!password) {
+		} else if (!password) {
 			setMessage({
 				type: 'note',
 				content: 'Check your email for the magic link.',
 			});
+		} else {
+			setMessage({
+				type: 'success',
+				content: 'Success, redirecting to your dashboard.',
+			});
 		}
-		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -119,8 +139,11 @@ export default function Signin(): React.ReactElement {
 										required
 									/>
 								</div>
-								<button type="submit" disabled={!email.length}>
-									Send magic link
+								<button
+									type="submit"
+									disabled={!email.length || loading}
+								>
+									{loading ? 'Sending...' : 'Send magic link'}
 								</button>
 							</form>
 						)}
@@ -146,6 +169,17 @@ export default function Signin(): React.ReactElement {
 								</button>
 							</Link>
 						</p>
+						{email && (
+							<p>
+								Forgot your password?
+								<button
+									className="btn btn-link"
+									onClick={handleResetPassword}
+								>
+									Reset password.
+								</button>
+							</p>
+						)}
 					</div>
 				</section>
 			)}

@@ -12,6 +12,7 @@ import React, {
 	useState,
 } from 'react';
 
+import { getURL } from '../util/helpers';
 import { sentryException } from './sentry';
 import { supabase, SupabaseSubscription, SupabaseUser } from './supabaseClient';
 
@@ -26,6 +27,9 @@ interface UserContext {
 		url?: string | null;
 		error: Error | null;
 	}>;
+	resetPassword: (
+		email: string
+	) => Promise<{ data: unknown | null; error: Error | null }>;
 	signOut: () => Promise<void>;
 	signUp: (
 		options: UserCredentials
@@ -105,8 +109,14 @@ export const UserContextProvider: FunctionComponent = (
 		userDetails,
 		userLoaded,
 		subscription,
-		signIn: (options: UserCredentials) => supabase.auth.signIn(options),
-		signUp: (options: UserCredentials) => supabase.auth.signUp(options),
+		resetPassword: (email: string) =>
+			supabase.auth.api.resetPasswordForEmail(email, {
+				redirectTo: getURL(),
+			}),
+		signIn: (creds: UserCredentials) =>
+			supabase.auth.signIn(creds, { redirectTo: getURL() }),
+		signUp: (creds: UserCredentials) =>
+			supabase.auth.signUp(creds, { redirectTo: getURL() }),
 		signOut: async () => {
 			setUserDetails(null);
 			setSubscription(null);

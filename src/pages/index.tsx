@@ -1,10 +1,12 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 
 import { Nav } from '../components';
 import { StripeMananageButton } from '../components/StripeManageButton';
 import { SubGetStarted } from '../components/SubGetStarted/';
+import { parseHashComponents } from '../util/helpers';
 import { sentryException } from '../util/sentry';
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
@@ -33,10 +35,29 @@ interface IndexProps {
 
 export default function Index({ products }: IndexProps): React.ReactElement {
 	const router = useRouter();
-	const { userDetails, userLoaded, user, subscription } = useUser();
+	const { userDetails, user, subscription } = useUser();
+	const [isRedirecting, setIsRedirecting] = useState(true);
 
 	useEffect(() => {
-		if (!user) router.replace('/signin').catch(sentryException);
+		setIsRedirecting(true);
+		// Password recovery.
+		// https://supabase.io/docs/reference/javascript/reset-password-email#notes
+		if (typeof window !== 'undefined' && window.location.hash) {
+			const hashComponents = parseHashComponents(window.location.hash);
+			if (hashComponents.access_token) {
+				router
+					.replace(`/reset_password${window.location.hash}`)
+					.then(() => setIsRedirecting(false))
+					.catch(sentryException);
+			}
+		} else if (!user) {
+			router
+				.replace('/signin')
+				.then(() => setIsRedirecting(false))
+				.catch(sentryException);
+		} else {
+			setIsRedirecting(false);
+		}
 	}, [router, user]);
 
 	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
@@ -51,7 +72,7 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 		<>
 			<Nav />
 			<div className="thin-container">
-				{userLoaded ? (
+				{!isRedirecting ? (
 					<>
 						<section className="section">
 							<h2>Active Subscriptions</h2>
