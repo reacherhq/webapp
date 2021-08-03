@@ -67,7 +67,7 @@ export default function Signin(): React.ReactElement {
 			<Nav />
 
 			{user ? (
-				<p>Redirecting...</p>
+				<p>Loading...</p>
 			) : (
 				<section className="section thin-container columns">
 					<div className="column col-8 col-mx-auto">

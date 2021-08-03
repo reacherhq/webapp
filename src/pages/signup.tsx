@@ -23,18 +23,23 @@ export default function SignUp(): React.ReactElement {
 
 		setLoading(true);
 		setMessage({});
-		const { error, user: newUser } = await signUp({ email, password });
+		const { error, session, user: newUser } = await signUp({
+			email,
+			password,
+		});
 		if (error) {
 			setMessage({ type: 'error', content: error?.message });
 		} else {
-			if (newUser) {
+			// "If "Email Confirmations" is turned on, a user is returned but session will be null"
+			// https://supabase.io/docs/reference/javascript/auth-signup#notes
+			if (session && newUser) {
 				await updateUserName(newUser, name);
-			} else {
-				setMessage({
-					type: 'note',
-					content: 'Check your email for the confirmation link.',
-				});
 			}
+			setMessage({
+				type: 'success',
+				content:
+					'Signed up successfully. Check your email for the confirmation link.',
+			});
 		}
 		setLoading(false);
 	};
@@ -49,7 +54,7 @@ export default function SignUp(): React.ReactElement {
 		<>
 			<Nav />
 			{user ? (
-				<p>Redirecting...</p>
+				<p>Loading...</p>
 			) : (
 				<section className="section thin-container columns">
 					<div className="column col-8 col-mx-auto">
