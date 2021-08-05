@@ -40,7 +40,7 @@ export function ProductCard({
 		setPriceIdLoading(price.id);
 
 		if (!session) {
-			return router.push('/signin');
+			return router.push('/login');
 		}
 
 		try {

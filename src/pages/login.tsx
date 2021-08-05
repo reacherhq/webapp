@@ -10,42 +10,37 @@ import {
 	SigninMessage,
 } from '../components';
 import { sentryException } from '../util/sentry';
-import { updateUserName } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
 
-export default function SignUp(): React.ReactElement {
+export default function Login(): React.ReactElement {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [name, setName] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
 	);
 	const router = useRouter();
-	const { user, signUp } = useUser();
+	const { user, signIn } = useUser();
 
-	const handleSignup = async () => {
+	const handleSignin = async () => {
 		setLoading(true);
 		setMessage(undefined);
-		const { error, session, user: newUser } = await signUp({
-			email,
-			password,
-		});
+
+		const { error } = await signIn({ email, password });
+		setLoading(false);
 		if (error) {
-			setMessage({ type: 'error', content: error?.message });
-		} else {
-			// "If "Email Confirmations" is turned on, a user is returned but session will be null"
-			// https://supabase.io/docs/reference/javascript/auth-signup#notes
-			if (session && newUser) {
-				await updateUserName(newUser, name);
-			}
+			setMessage({ type: 'error', content: error.message });
+		} else if (!password) {
 			setMessage({
 				type: 'success',
-				content:
-					'Signed up successfully. Check your email for the confirmation link.',
+				content: 'Check your email for the magic link.',
+			});
+		} else {
+			setMessage({
+				type: 'success',
+				content: 'Success, redirecting to your dashboard.',
 			});
 		}
-		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -55,18 +50,11 @@ export default function SignUp(): React.ReactElement {
 	}, [router, user]);
 
 	return (
-		<SigninLayout title="Sign Up">
-			<Input
-				placeholder="Name"
-				onChange={(e) => setName(e.currentTarget.value)}
-				width="100%"
-			>
-				Name
-			</Input>
-			<Spacer />
+		<SigninLayout title="Log In">
 			<Input
 				type="email"
-				placeholder="Email"
+				placeholder="ex. john.doe@gmail.com"
+				value={email}
 				onChange={(e) => setEmail(e.currentTarget.value)}
 				required
 				size="large"
@@ -76,9 +64,12 @@ export default function SignUp(): React.ReactElement {
 				Email
 			</Input>
 			<Spacer />
+
 			<Input.Password
+				className="full-width"
 				type="password"
 				placeholder="Password"
+				value={password}
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required
 				size="large"
@@ -87,23 +78,32 @@ export default function SignUp(): React.ReactElement {
 			>
 				Password
 			</Input.Password>
+
 			{message && <SigninLayoutMessage message={message} />}
+
+			<Text className="text-right mt-0" small p type="secondary">
+				<GLink className="text-underline" underline>
+					<Link href="/reset_password_part_one">
+						Forgot password?
+					</Link>
+				</GLink>
+			</Text>
 
 			<Spacer />
 
 			<SigninButton
 				disabled={loading}
 				loading={loading}
-				onClick={handleSignup}
+				onClick={handleSignin}
 			>
-				{loading ? 'Signing up...' : 'Sign up'}
+				{loading ? 'Signing in...' : 'Sign in'}
 			</SigninButton>
 
 			<Text p className="text-center">
-				Already have an account?{' '}
-				<Link href="/login">
+				Don&apos;t have an account?{' '}
+				<Link href="/signup">
 					<GLink color underline>
-						Log in.
+						Sign up.
 					</GLink>
 				</Link>
 			</Text>

@@ -1,66 +1,70 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+import { ButtonDropdown, Link as GLink, Text } from '@geist-ui/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import logo from '../assets/logo/reacher.svg';
 import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
+import styles from './Nav.module.css';
 
 export function Nav(): React.ReactElement {
-	const { user, signOut } = useUser();
+	const { user, userDetails, signOut } = useUser();
 	const router = useRouter();
 
 	return (
-		<header className="navbar">
-			<section className="navbar-section">
+		<header className={styles.container}>
+			<div>
 				<Link href="/">
-					<a className="navbar-brand mr-2">Reacher Dashboard</a>
+					<a className="flex">
+						<Image height={24} src={logo} width={24} />
+						<Text className={`mb-0 ${styles.reacher}`} h3>
+							Reacher
+						</Text>
+						{user && (
+							<Text className="mb-0" h3 type="secondary">
+								Dashboard
+							</Text>
+						)}
+					</a>
 				</Link>
-				<Link href="/pricing">
-					<a>Pricing</a>
-				</Link>
-			</section>
-			<section className="navbar-section">
-				{user ? (
-					<div className="dropdown dropdown-right">
-						<button className="btn btn-link dropdown-toggle">
-							My Account
-						</button>
+			</div>
 
-						<ul className="menu">
-							<li className="menu-item">
-								<div className="chip">
-									<figure
-										className="avatar avatar-sm"
-										data-initial={user.email?.slice(0, 2)}
-									></figure>
-									{user.email}
-								</div>
-							</li>
-							<li className="menu-item">
-								<a
-									href="#"
-									onClick={() =>
-										signOut()
-											.then(() => router.push('/signin'))
-											.catch(sentryException)
-									}
-								>
-									Sign out
-								</a>
-							</li>
-						</ul>
-					</div>
-				) : (
-					<>
-						<Link href="/signin">
-							<button className="btn btn-sm">Sign In</button>
-						</Link>
-						<Link href="/signup">
-							<button className="btn btn-sm">Sign Up</button>
-						</Link>
-					</>
-				)}
-			</section>
+			<div className="flex-grow" />
+
+			<div>
+				<GLink className={styles.link}>
+					<Link href="/pricing">Pricing</Link>
+				</GLink>
+
+				<GLink
+					className={styles.link}
+					href="https://help.reacher.email"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Help Center
+				</GLink>
+			</div>
+			{user && (
+				<ButtonDropdown className={styles.dropdown}>
+					<ButtonDropdown.Item main>
+						{userDetails?.full_name || user.email}
+					</ButtonDropdown.Item>
+					<ButtonDropdown.Item
+						onClick={() =>
+							signOut()
+								.then(() => router.push('/login'))
+								.catch(sentryException)
+						}
+					>
+						Log Out
+					</ButtonDropdown.Item>
+				</ButtonDropdown>
+			)}
 		</header>
 	);
 }

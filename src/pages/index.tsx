@@ -1,3 +1,4 @@
+import { Loading } from '@geist-ui/react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -46,13 +47,13 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 			const hashComponents = parseHashComponents(window.location.hash);
 			if (hashComponents.access_token) {
 				router
-					.replace(`/reset_password${window.location.hash}`)
+					.replace(`/reset_password_part_two${window.location.hash}`)
 					.then(() => setIsRedirecting(false))
 					.catch(sentryException);
 			}
 		} else if (!user) {
 			router
-				.replace('/signin')
+				.replace('/login')
 				.then(() => setIsRedirecting(false))
 				.catch(sentryException);
 		} else {
@@ -143,7 +144,7 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 						</section>
 					</>
 				) : (
-					<p>Loading...</p>
+					<Loading />
 				)}
 			</div>
 		</>

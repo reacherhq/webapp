@@ -39,7 +39,7 @@ export default function Pricing({
 	);
 
 	useEffect(() => {
-		if (!user) router.replace('/signin').catch(sentryException);
+		if (!user) router.replace('/login').catch(sentryException);
 	}, [router, user]);
 
 	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
