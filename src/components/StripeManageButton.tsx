@@ -1,3 +1,4 @@
+import { Link as GLink } from '@geist-ui/react';
 import React, { useState } from 'react';
 
 import { postData } from '../util/helpers';
@@ -32,8 +33,8 @@ export function StripeMananageButton({
 	};
 
 	return (
-		<button disabled={loading} onClick={redirectToCustomerPortal}>
-			{loading ? 'Redirecting to Stripe...' : children}
-		</button>
+		<GLink href="#" color icon onClick={redirectToCustomerPortal}>
+			<strong>{loading ? 'Redirecting to Stripe...' : children}</strong>
+		</GLink>
 	);
 }

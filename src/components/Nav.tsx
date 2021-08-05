@@ -33,7 +33,7 @@ export function Nav(): React.ReactElement {
 				</Link>
 			</div>
 
-			<div className="flex-grow" />
+			<div className={styles.filler} />
 
 			<div>
 				<GLink className={styles.link}>

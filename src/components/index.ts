@@ -1,3 +1,4 @@
+export * from './Dashboard';
 export * from './Head';
 export * from './Nav';
 export * from './Footer';

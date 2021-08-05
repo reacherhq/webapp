@@ -1,16 +1,19 @@
 .container {
-	background-color: #f9fafc;
 	border-bottom: solid 1px #eaeaea;
 	display: flex;
 	align-items: center;
 	flex-direction: row;
 	height: 80px;
-	padding-left: 64px;
-	padding-right: 64px;
+	margin-left: 64px;
+	margin-right: 64px;
 }
 
 .dropdown {
 	margin-left: 24px;
+}
+
+.filler {
+	flex-grow: 1;
 }
 
 .link {

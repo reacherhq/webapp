@@ -1,3 +1,10 @@
+body {
+	background-color: #f9fafc !important;
+}
+
+/**
+ * Make Geist's Link play well with Next's Link.
+ */
 .link a {
 	color: inherit !important;
 }
@@ -7,10 +14,6 @@
  */
 .flex {
 	display: flex;
-}
-
-.flex-grow {
-	flex-grow: 1;
 }
 
 .text-center {
