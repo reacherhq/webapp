@@ -3,7 +3,7 @@ import React from 'react';
 export function Footer(): React.ReactElement {
 	return (
 		<footer className="bg-gray">
-			<div className="thin-container section text-center">
+			<div>
 				<p>© Reacher 2021</p>
 
 				<p>

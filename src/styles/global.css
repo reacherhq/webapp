@@ -12,6 +12,15 @@ body {
 /**
  * Helpers
  */
+
+.align-center {
+	align-items: center;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
 .flex {
 	display: flex;
 }
@@ -24,16 +33,8 @@ body {
 	text-align: right;
 }
 
-.text-underline {
-	text-decoration: underline;
-}
-
 .full-width {
-	width: 100%;
-}
-
-.mb-0 {
-	margin-bottom: 0;
+	width: 100% !important;
 }
 
 .mt-0 {

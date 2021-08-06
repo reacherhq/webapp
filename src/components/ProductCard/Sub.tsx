@@ -1,4 +1,5 @@
-import { Button } from '@geist-ui/react';
+import { Button, Text } from '@geist-ui/react';
+import { Info } from '@geist-ui/react-icons';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -12,8 +13,8 @@ import type {
 	SupabaseSubscription,
 } from '../../util/supabaseClient';
 import { useUser } from '../../util/useUser';
-import { Card } from '../Card';
-import { StripeMananageButton } from '../StripeManageButton';
+import { Card } from './Card';
+import styles from './Card.module.css';
 
 export interface ProductCardProps {
 	currency: string;
@@ -72,125 +73,128 @@ export function ProductCard({
 
 	return (
 		<Card
-			body={
+			cta={
+				<Button
+					className="full-width"
+					disabled={!!priceIdLoading || active}
+					onClick={() => handleCheckout(price)}
+					type="success"
+				>
+					{priceIdLoading
+						? 'Redirecting to Stripe...'
+						: active
+						? 'Current Plan'
+						: 'Get Started'}
+				</Button>
+			}
+			features={
 				product.id === COMMERCIAL_LICENSE_PRODUCT_ID
 					? licenseFeatures()
 					: saasFeatures()
 			}
 			footer={
-				active ? (
-					<>
-						<StripeMananageButton>
-							Cancel Subscription
-						</StripeMananageButton>
-						<StripeMananageButton>
-							Billing History &amp; Invoices
-						</StripeMananageButton>
-					</>
+				product.id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
+					<div className="flex">
+						<div>
+							<Info className={styles.icon} width={24} />
+						</div>
+						<Text small>
+							Want a <strong>free trial</strong> before
+							committing? Feel free to try self-hosting with our{' '}
+							<a
+								href="https://help.reacher.email/self-host-guide"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								open-source guide
+							</a>
+							, and subscribe once you&apos;re ready.
+						</Text>
+					</div>
 				) : undefined
 			}
+			header={
+				product.id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
+					<Text small type="success">
+						For self-hosting
+					</Text>
+				) : (
+					<Text small type="warning">
+						Most popular
+					</Text>
+				)
+			}
 			key={price.product_id}
+			price={priceString}
 			subtitle={
-				<>
-					<p>
-						{priceString}/month.{' '}
-						{subscription?.cancel_at_period_end &&
-							subscription.cancel_at &&
-							` Ends at ${
-								subscription.cancel_at
-									.toLocaleString()
-									.split('T')[0]
-							}.`}
-					</p>
-					<Button
-						disabled={!!priceIdLoading || active}
-						onClick={() => handleCheckout(price)}
-					>
-						{priceIdLoading
-							? 'Redirecting to Stripe...'
-							: active
-							? 'Active Subscription'
-							: 'Subscribe'}
-					</Button>
-				</>
+				product.id === COMMERCIAL_LICENSE_PRODUCT_ID
+					? "Use Reacher's servers with high IP reputation."
+					: 'Self-host Reacher with your own infrastructure.'
 			}
 			title={product.name}
 		/>
 	);
 }
 
-function saasFeatures(): React.ReactElement {
-	return (
-		<>
-			<p>
-				10000 email verifications per month.
-				<br />
-				<br />
-			</p>
-			<p>
-				<a
-					href="https://help.reacher.email/email-attributes-inside-json"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Full-featured
-				</a>{' '}
-				email verifications.
-				<br />
-				Customer support via email/chat.
-			</p>
-			<p>
-				Use <strong>Reacher servers</strong> with high IP reputation.
-				<br />
-				Cancel anytime.
-			</p>
-		</>
-	);
+function saasFeatures(): (string | React.ReactElement)[] {
+	return [
+		'10000 email verifications per month.',
+		<span key="saasFeatures-2">
+			<a
+				href="https://help.reacher.email/email-attributes-inside-json"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Full-featured
+			</a>{' '}
+			email verifications.
+		</span>,
+		'Customer support via email/chat.',
+		'Cancel anytime.',
+	];
 }
 
-function licenseFeatures(): React.ReactElement {
-	return (
-		<>
-			<p>
-				<strong>Unlimited</strong> email verifications.
-				<br />
-				Self-host. No data sent back to Reacher.
-			</p>
-			<p>
-				<a
-					href="https://help.reacher.email/email-attributes-inside-json"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Full-featured
-				</a>{' '}
-				email verifications.
-				<br />
-				Customer support via email/chat.
-			</p>
-			<p>
-				Self-host Reacher in your <strong>commercial apps</strong>.
-				<br />
-				Comes with{' '}
-				<a
-					href="https://help.reacher.email/self-host-guide"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					self-host guides
-				</a>{' '}
-				(Heroku, Docker).
-				<br />
-				Learn more about the{' '}
-				<a
-					href="https://help.reacher.email/reacher-licenses"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					full terms and details
-				</a>
-				.
-			</p>
-		</>
-	);
+function licenseFeatures(): (string | React.ReactElement)[] {
+	return [
+		<span key="licenseFeatures-1">
+			<strong>Unlimited</strong> email verifications.
+		</span>,
+		<span key="licenseFeatures-2">
+			Self-host in your <strong>commercial apps</strong>. No data sent
+			back to Reacher.
+		</span>,
+		<span key="licenseFeatures-3">
+			<a
+				href="https://help.reacher.email/email-attributes-inside-json"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Full-featured
+			</a>{' '}
+			email verifications.
+		</span>,
+		'Customer support via email/chat.',
+		<span key="licenseFeatures-4">
+			Comes with{' '}
+			<a
+				href="https://help.reacher.email/self-host-guide"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				self-host guides
+			</a>{' '}
+			(Heroku, Docker).
+		</span>,
+		<span key="licenseFeatures-5">
+			Learn more about the{' '}
+			<a
+				href="https://help.reacher.email/reacher-licenses"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				full terms and details
+			</a>
+			.
+		</span>,
+	];
 }

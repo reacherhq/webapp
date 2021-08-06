@@ -2,7 +2,6 @@
 
 import { ButtonDropdown, Link as GLink, Text } from '@geist-ui/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -18,26 +17,24 @@ export function Nav(): React.ReactElement {
 	return (
 		<header className={styles.container}>
 			<div>
-				<Link href="/">
-					<a className="flex">
-						<Image height={24} src={logo} width={24} />
-						<Text className={`mb-0 ${styles.reacher}`} h3>
-							Reacher
-						</Text>
+				<a className="flex" href="/">
+					<Image height={24} src={logo} width={24} />
+					<Text className={styles.reacher} h3>
+						Reacher
 						{user && (
-							<Text className="mb-0" h3 type="secondary">
+							<Text span type="secondary">
 								Dashboard
 							</Text>
 						)}
-					</a>
-				</Link>
+					</Text>
+				</a>
 			</div>
 
 			<div className={styles.filler} />
 
 			<div>
-				<GLink className={styles.link}>
-					<Link href="/pricing">Pricing</Link>
+				<GLink className={styles.link} href="/pricing">
+					Pricing
 				</GLink>
 
 				<GLink

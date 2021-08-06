@@ -1,5 +1,4 @@
-import { Input, Link as GLink, Spacer, Text } from '@geist-ui/react';
-import Link from 'next/link';
+import { Input, Link as GLink, Link, Spacer, Text } from '@geist-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -82,10 +81,8 @@ export default function Login(): React.ReactElement {
 			{message && <SigninLayoutMessage message={message} />}
 
 			<Text className="text-right mt-0" small p type="secondary">
-				<GLink className="text-underline" underline>
-					<Link href="/reset_password_part_one">
-						Forgot password?
-					</Link>
+				<GLink underline href="/reset_password_part_one">
+					Forgot password?
 				</GLink>
 			</Text>
 
@@ -101,11 +98,9 @@ export default function Login(): React.ReactElement {
 
 			<Text p className="text-center">
 				Don&apos;t have an account?{' '}
-				<Link href="/signup">
-					<GLink color underline>
-						Sign up.
-					</GLink>
-				</Link>
+				<GLink color href="/signup" underline>
+					Sign up.
+				</GLink>
 			</Text>
 		</SigninLayout>
 	);

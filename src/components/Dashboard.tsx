@@ -1,4 +1,4 @@
-import { Page, Spacer, Text } from '@geist-ui/react';
+import { Link as GLink, Page, Spacer, Text } from '@geist-ui/react';
 import React from 'react';
 
 import { StripeMananageButton } from '../components/StripeManageButton';
@@ -25,7 +25,7 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 		({ id }) => id === COMMERCIAL_LICENSE_PRODUCT_ID
 	);
 	if (!saasProduct || !licenseProduct) {
-		throw new Error('Index: saasProduct or licenseProduct not found.');
+		throw new Error('Dashboard: saasProduct or licenseProduct not found.');
 	}
 
 	return (
@@ -40,9 +40,15 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 						Below is how to get started with email verifications.
 					</Text>
 					<div className="flex">
-						<StripeMananageButton>
-							Manage Subscription
-						</StripeMananageButton>
+						{subscription ? (
+							<StripeMananageButton>
+								Manage Subscription
+							</StripeMananageButton>
+						) : (
+							<GLink color href="/pricing">
+								<strong>Upgrade Plan</strong>
+							</GLink>
+						)}
 						<Spacer />
 						<StripeMananageButton>
 							Billing History

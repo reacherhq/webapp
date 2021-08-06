@@ -1,5 +1,4 @@
 import { Input, Link as GLink, Spacer, Text } from '@geist-ui/react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -101,11 +100,9 @@ export default function SignUp(): React.ReactElement {
 
 			<Text p className="text-center">
 				Already have an account?{' '}
-				<Link href="/login">
-					<GLink color underline>
-						Log in.
-					</GLink>
-				</Link>
+				<GLink color href="/login" underline>
+					Log in.
+				</GLink>
 			</Text>
 		</SigninLayout>
 	);

@@ -57,13 +57,7 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 	return (
 		<>
 			<Nav />
-			<div className="thin-container">
-				{!isRedirecting ? (
-					<Dashboard products={products} />
-				) : (
-					<Loading />
-				)}
-			</div>
+			{!isRedirecting ? <Dashboard products={products} /> : <Loading />}
 		</>
 	);
 }
