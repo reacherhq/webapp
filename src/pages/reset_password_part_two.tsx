@@ -27,7 +27,10 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		// https://supabase.io/docs/reference/javascript/reset-password-email#notes
 		if (typeof window !== 'undefined' && window.location.hash) {
 			const hashComponents = parseHashComponents(window.location.hash);
-			if (!hashComponents.access_token) {
+			if (
+				hashComponents.type !== 'recovery' ||
+				!hashComponents.access_token
+			) {
 				router.replace('/').catch(sentryException);
 				return;
 			}
