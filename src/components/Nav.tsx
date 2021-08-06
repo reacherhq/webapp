@@ -1,66 +1,68 @@
-import Link from 'next/link';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+import { Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import logo from '../assets/logo/reacher.svg';
 import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
+import styles from './Nav.module.css';
 
 export function Nav(): React.ReactElement {
-	const { user, signOut } = useUser();
+	const { user, userDetails, signOut } = useUser();
 	const router = useRouter();
 
 	return (
-		<header className="navbar">
-			<section className="navbar-section">
-				<Link href="/">
-					<a className="navbar-brand mr-2">Reacher Dashboard</a>
-				</Link>
-				<Link href="/pricing">
-					<a>Pricing</a>
-				</Link>
-			</section>
-			<section className="navbar-section">
-				{user ? (
-					<div className="dropdown dropdown-right">
-						<button className="btn btn-link dropdown-toggle">
-							My Account
-						</button>
+		<header className={styles.container}>
+			<div>
+				<a className="flex" href="/">
+					<Image height={24} src={logo} width={24} />
+					<Text className={styles.reacher} h3>
+						Reacher
+						{user && (
+							<Text span type="secondary">
+								Dashboard
+							</Text>
+						)}
+					</Text>
+					<Spacer x={0.5} />
+				</a>
+			</div>
 
-						<ul className="menu">
-							<li className="menu-item">
-								<div className="chip">
-									<figure
-										className="avatar avatar-sm"
-										data-initial={user.email?.slice(0, 2)}
-									></figure>
-									{user.email}
-								</div>
-							</li>
-							<li className="menu-item">
-								<a
-									href="#"
-									onClick={() =>
-										signOut()
-											.then(() => router.push('/signin'))
-											.catch(sentryException)
-									}
-								>
-									Sign out
-								</a>
-							</li>
-						</ul>
-					</div>
-				) : (
-					<>
-						<Link href="/signin">
-							<button className="btn btn-sm">Sign In</button>
-						</Link>
-						<Link href="/signup">
-							<button className="btn btn-sm">Sign Up</button>
-						</Link>
-					</>
-				)}
-			</section>
+			<div className={styles.filler} />
+
+			<div>
+				<GLink className={styles.link} href="/pricing">
+					Pricing
+				</GLink>
+
+				<GLink
+					className={styles.link}
+					href="https://help.reacher.email"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Help Center
+				</GLink>
+			</div>
+			{user && (
+				<Select
+					className={styles.dropdown}
+					placeholder={userDetails?.full_name || user.email}
+				>
+					<Select.Option
+						onClick={() =>
+							signOut()
+								.then(() => router.push('/login'))
+								.catch(sentryException)
+						}
+					>
+						Log Out{' '}
+					</Select.Option>
+				</Select>
+			)}
 		</header>
 	);
 }

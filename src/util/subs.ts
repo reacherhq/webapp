@@ -17,6 +17,8 @@ export function productName(product?: SupabaseProduct): string {
 }
 
 // Return the max monthly calls
-export function subApiMaxCalls(sub: SupabaseSubscription | null): number {
+export function subApiMaxCalls(
+	sub: SupabaseSubscription | null | undefined
+): number {
 	return sub?.prices?.products?.id === SAAS_10K_PRODUCT_ID ? 10000 : 50;
 }

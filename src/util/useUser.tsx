@@ -12,6 +12,7 @@ import React, {
 	useState,
 } from 'react';
 
+import { getURL } from '../util/helpers';
 import { sentryException } from './sentry';
 import { supabase, SupabaseSubscription, SupabaseUser } from './supabaseClient';
 
@@ -26,6 +27,9 @@ interface UserContext {
 		url?: string | null;
 		error: Error | null;
 	}>;
+	resetPassword: (
+		email: string
+	) => Promise<{ data: unknown | null; error: Error | null }>;
 	signOut: () => Promise<void>;
 	signUp: (
 		options: UserCredentials
@@ -40,6 +44,7 @@ interface UserContext {
 	user: User | null;
 	userDetails: SupabaseUser | null;
 	userLoaded: boolean;
+	userFinishedLoading: boolean;
 }
 
 export const UserContext = createContext({} as UserContext);
@@ -48,6 +53,7 @@ export const UserContextProvider: FunctionComponent = (
 	props
 ): React.ReactElement => {
 	const [userLoaded, setUserLoaded] = useState(false);
+	const [userFinishedLoading, setUserFinishedLoading] = useState(false);
 	const [session, setSession] = useState<Session | null>(null);
 	const [user, setUser] = useState<User | null>(null);
 	const [userDetails, setUserDetails] = useState<SupabaseUser | null>(null);
@@ -60,6 +66,9 @@ export const UserContextProvider: FunctionComponent = (
 		const session = supabase.auth.session();
 		setSession(session);
 		setUser(session?.user ?? null);
+		if (!session?.user) {
+			setUserFinishedLoading(true);
+		}
 		const { data: authListener } = supabase.auth.onAuthStateChange(
 			(_event, session) => {
 				setSession(session);
@@ -94,6 +103,7 @@ export const UserContextProvider: FunctionComponent = (
 					setUserDetails(userDetails.data);
 					setSubscription(sub.data);
 					setUserLoaded(true);
+					setUserFinishedLoading(true);
 				})
 				.catch(sentryException);
 		}
@@ -103,10 +113,17 @@ export const UserContextProvider: FunctionComponent = (
 		session,
 		user,
 		userDetails,
+		userFinishedLoading,
 		userLoaded,
 		subscription,
-		signIn: (options: UserCredentials) => supabase.auth.signIn(options),
-		signUp: (options: UserCredentials) => supabase.auth.signUp(options),
+		resetPassword: (email: string) =>
+			supabase.auth.api.resetPasswordForEmail(email, {
+				redirectTo: getURL(),
+			}),
+		signIn: (creds: UserCredentials) =>
+			supabase.auth.signIn(creds, { redirectTo: getURL() }),
+		signUp: (creds: UserCredentials) =>
+			supabase.auth.signUp(creds, { redirectTo: getURL() }),
 		signOut: async () => {
 			setUserDetails(null);
 			setSubscription(null);

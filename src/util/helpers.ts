@@ -47,3 +47,18 @@ export const toDateTime = (secs: number): Date => {
 
 	return t;
 };
+
+// Parse a URL hash, taken from window.location.hash.
+// In our case, window.location.hash is of format:
+// '#access_token={JWT}&expires_in=3600&refresh_token={TOKEN}&token_type=bearer&type=recovery'
+export function parseHashComponents(hash: string): Record<string, string> {
+	return hash
+		.slice(1)
+		.split('&')
+		.reduce((acc, c) => {
+			const [key, value] = c.split('=');
+			acc[key] = value;
+
+			return acc;
+		}, {} as Record<string, string>);
+}

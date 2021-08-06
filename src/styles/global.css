@@ -1,22 +1,42 @@
-.section {
-	padding-bottom: 2rem;
-	padding-top: 2rem;
+body {
+	background-color: #f9fafc !important;
 }
 
-.thin-container {
-	margin-left: auto;
-	margin-right: auto;
-	width: 100%;
+/**
+ * Make Geist's Link play well with Next's Link.
+ */
+.link a {
+	color: inherit !important;
 }
 
-@media (min-width: 640px) {
-	.thin-container {
-		max-width: 640px;
-	}
+/**
+ * Helpers
+ */
+
+.align-center {
+	align-items: center;
 }
 
-@media (min-width: 1024px) {
-	.thin-container {
-		max-width: 1024px;
-	}
+.justify-center {
+	justify-content: center;
+}
+
+.flex {
+	display: flex;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.full-width {
+	width: 100% !important;
+}
+
+.mt-0 {
+	margin-top: 0;
 }

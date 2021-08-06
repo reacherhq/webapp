@@ -10,9 +10,10 @@ import { UserContextProvider } from '../util/useUser';
 const myTheme = Themes.createFromLight({
 	type: 'default',
 	palette: {
-		success: '#7928ca',
-		successDark: '#5a2ed1',
-		successLight: '#ae76d3',
+		foreground: '#3a3a3a', // Neutral Almost Black
+		success: '#6979f8', // Primary Blue
+		link: '#6979f8',
+		cyan: '#6979f8',
 	},
 });
 

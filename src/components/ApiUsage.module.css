@@ -1,0 +1,8 @@
+.capacity {
+	width: 100% !important;
+}
+
+.textContainer {
+	display: flex;
+	justify-content: space-between;
+}
