@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Link as GLink, Select, Text } from '@geist-ui/react';
+import { Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -27,6 +27,7 @@ export function Nav(): React.ReactElement {
 							</Text>
 						)}
 					</Text>
+					<Spacer x={0.5} />
 				</a>
 			</div>
 

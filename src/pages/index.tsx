@@ -1,4 +1,4 @@
-import { Loading } from '@geist-ui/react';
+import { Loading, Page } from '@geist-ui/react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -29,35 +29,39 @@ interface IndexProps {
 
 export default function Index({ products }: IndexProps): React.ReactElement {
 	const router = useRouter();
-	const { user } = useUser();
-	const [isRedirecting, setIsRedirecting] = useState(true);
+	const { user, userFinishedLoading } = useUser();
+	const [isResetPW, setIsResetPW] = useState(false);
 
 	useEffect(() => {
-		setIsRedirecting(true);
+		if (isResetPW || user) {
+			return;
+		}
+
 		// Password recovery.
 		// https://supabase.io/docs/reference/javascript/reset-password-email#notes
 		if (typeof window !== 'undefined' && window.location.hash) {
 			const hashComponents = parseHashComponents(window.location.hash);
 			if (hashComponents.access_token) {
+				setIsResetPW(true);
 				router
 					.replace(`/reset_password_part_two${window.location.hash}`)
-					.then(() => setIsRedirecting(false))
 					.catch(sentryException);
 			}
-		} else if (!user) {
-			router
-				.replace('/login')
-				.then(() => setIsRedirecting(false))
-				.catch(sentryException);
-		} else {
-			setIsRedirecting(false);
+		} else if (userFinishedLoading && !user) {
+			router.replace('/login').catch(sentryException);
 		}
-	}, [router, user]);
+	}, [isResetPW, router, userFinishedLoading, user]);
 
 	return (
 		<>
 			<Nav />
-			{!isRedirecting ? <Dashboard products={products} /> : <Loading />}
+			{user && !isResetPW ? (
+				<Dashboard products={products} />
+			) : (
+				<Page>
+					<Loading />
+				</Page>
+			)}
 		</>
 	);
 }

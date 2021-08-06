@@ -44,6 +44,7 @@ interface UserContext {
 	user: User | null;
 	userDetails: SupabaseUser | null;
 	userLoaded: boolean;
+	userFinishedLoading: boolean;
 }
 
 export const UserContext = createContext({} as UserContext);
@@ -52,6 +53,7 @@ export const UserContextProvider: FunctionComponent = (
 	props
 ): React.ReactElement => {
 	const [userLoaded, setUserLoaded] = useState(false);
+	const [userFinishedLoading, setUserFinishedLoading] = useState(false);
 	const [session, setSession] = useState<Session | null>(null);
 	const [user, setUser] = useState<User | null>(null);
 	const [userDetails, setUserDetails] = useState<SupabaseUser | null>(null);
@@ -64,6 +66,9 @@ export const UserContextProvider: FunctionComponent = (
 		const session = supabase.auth.session();
 		setSession(session);
 		setUser(session?.user ?? null);
+		if (!session?.user) {
+			setUserFinishedLoading(true);
+		}
 		const { data: authListener } = supabase.auth.onAuthStateChange(
 			(_event, session) => {
 				setSession(session);
@@ -98,6 +103,7 @@ export const UserContextProvider: FunctionComponent = (
 					setUserDetails(userDetails.data);
 					setSubscription(sub.data);
 					setUserLoaded(true);
+					setUserFinishedLoading(true);
 				})
 				.catch(sentryException);
 		}
@@ -107,6 +113,7 @@ export const UserContextProvider: FunctionComponent = (
 		session,
 		user,
 		userDetails,
+		userFinishedLoading,
 		userLoaded,
 		subscription,
 		resetPassword: (email: string) =>

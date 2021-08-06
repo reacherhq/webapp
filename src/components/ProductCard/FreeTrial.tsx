@@ -22,12 +22,8 @@ export function FreeTrial({
 	return (
 		<Card
 			cta={
-				<Button
-					className="full-width"
-					disabled={active}
-					type="secondary"
-				>
-					{active ? 'Current Plan' : 'Downgrade'}
+				<Button className="full-width" disabled type="secondary">
+					{active ? 'Current Plan' : 'Not available'}
 				</Button>
 			}
 			features={[

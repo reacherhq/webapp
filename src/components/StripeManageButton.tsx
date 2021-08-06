@@ -23,7 +23,7 @@ export function StripeMananageButton({
 				token: session?.access_token,
 			});
 
-			window.open(url, '_blank');
+			window.open(url);
 		} catch (err) {
 			sentryException(err);
 			alert((err as Error).message);
