@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { ButtonDropdown, Link as GLink, Text } from '@geist-ui/react';
+import { Link as GLink, Select, Text } from '@geist-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -47,20 +47,20 @@ export function Nav(): React.ReactElement {
 				</GLink>
 			</div>
 			{user && (
-				<ButtonDropdown className={styles.dropdown}>
-					<ButtonDropdown.Item main>
-						{userDetails?.full_name || user.email}
-					</ButtonDropdown.Item>
-					<ButtonDropdown.Item
+				<Select
+					className={styles.dropdown}
+					placeholder={userDetails?.full_name || user.email}
+				>
+					<Select.Option
 						onClick={() =>
 							signOut()
 								.then(() => router.push('/login'))
 								.catch(sentryException)
 						}
 					>
-						Log Out
-					</ButtonDropdown.Item>
-				</ButtonDropdown>
+						Log Out{' '}
+					</Select.Option>
+				</Select>
 			)}
 		</header>
 	);

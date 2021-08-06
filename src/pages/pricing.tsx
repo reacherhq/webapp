@@ -1,4 +1,4 @@
-import { Grid, Spacer, Text } from '@geist-ui/react';
+import { Grid, Select, Spacer, Text } from '@geist-ui/react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ interface PricingProps {
 export default function Pricing({
 	products,
 }: PricingProps): React.ReactElement {
-	const { user, subscription } = useUser();
+	const { subscription } = useUser();
 	const subscriptionCurrency = subscription?.prices?.currency;
 	const [currency, setCurrency] = useState<string>(
 		subscriptionCurrency || 'eur'
@@ -53,16 +53,19 @@ export default function Pricing({
 			<Text className="text-center" h2>
 				Pricing
 			</Text>
-			<Spacer y={3} />
-			<section>
-				<select
+			<div className="flex justify-center">
+				<Select
 					disabled={!!subscriptionCurrency} // Can't change currency if user already has a subscription
-					onChange={({ target }) => setCurrency(target.value)}
+					onChange={(c) => setCurrency(c as string)}
 					value={currency}
 				>
-					<option value="eur">EUR</option>
-					<option value="usd">USD</option>
-				</select>
+					<Select.Option value="eur">EUR</Select.Option>
+					<Select.Option value="usd">USD</Select.Option>
+				</Select>
+			</div>
+
+			<Spacer y={3} />
+			<section>
 				<Grid.Container gap={2} justify="center">
 					<Grid xs={6}>
 						<FreeTrial active={!subscription} currency={currency} />

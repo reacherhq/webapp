@@ -31,7 +31,7 @@ export function Card({
 			<Text className="text-center" h3>
 				{title}
 			</Text>
-			<Text className="flex justify-center" small>
+			<Text className="text-center flex justify-center" small>
 				{subtitle}
 			</Text>
 			<Spacer y={2} />

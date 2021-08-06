@@ -128,8 +128,8 @@ export function ProductCard({
 			price={priceString}
 			subtitle={
 				product.id === COMMERCIAL_LICENSE_PRODUCT_ID
-					? "Use Reacher's servers with high IP reputation."
-					: 'Self-host Reacher with your own infrastructure.'
+					? 'Self-host Reacher with your own infrastructure.'
+					: "Use Reacher's servers with high IP reputation."
 			}
 			title={product.name}
 		/>

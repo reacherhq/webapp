@@ -1,0 +1,20 @@
+.bottom {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.container {
+	margin-left: 64px;
+	margin-right: 64px;
+	margin-top: 120px;
+}
+
+.grid {
+	display: block !important;
+}
+
+.top {
+	display: flex;
+	justify-content: space-between;
+}
