@@ -1,3 +1,7 @@
+.container {
+	padding-top: 24px !important;
+}
+
 .icon {
 	margin-right: 16px;
 }

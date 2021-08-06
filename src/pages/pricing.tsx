@@ -51,24 +51,26 @@ export default function Pricing({
 			<Text className="text-center" h2>
 				Pricing
 			</Text>
-			<div className="flex justify-center">
-				<Select
-					disabled={!!subscriptionCurrency} // Can't change currency if user already has a subscription
-					onChange={(c) => setCurrency(c as string)}
-					value={currency}
-				>
-					<Select.Option value="eur">EUR</Select.Option>
-					<Select.Option value="usd">USD</Select.Option>
-				</Select>
-			</div>
 
 			<Spacer y={3} />
 			<section>
 				<Grid.Container gap={2} justify="center">
+					<Grid xs={18}></Grid>
 					<Grid xs={6}>
+						<Select
+							width="auto"
+							disabled={!!subscriptionCurrency} // Can't change currency if user already has a subscription
+							onChange={(c) => setCurrency(c as string)}
+							value={currency}
+						>
+							<Select.Option value="eur">EUR</Select.Option>
+							<Select.Option value="usd">USD</Select.Option>
+						</Select>
+					</Grid>
+					<Grid xs={20} sm={6}>
 						<FreeTrial active={!subscription} currency={currency} />
 					</Grid>
-					<Grid xs={6}>
+					<Grid xs={20} sm={6}>
 						<ProductCard
 							currency={currency}
 							product={saasProduct}
@@ -80,7 +82,7 @@ export default function Pricing({
 							}
 						/>
 					</Grid>
-					<Grid xs={6}>
+					<Grid xs={20} sm={6}>
 						<ProductCard
 							currency={currency}
 							product={licenseProduct}

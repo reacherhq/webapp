@@ -26,8 +26,11 @@ export function Card({
 	footer,
 }: CardProps): React.ReactElement {
 	return (
-		<GCard>
-			<Text className="text-center">{header}</Text>
+		<GCard className={styles.container}>
+			<Text className="text-center flex justify-center" small b>
+				{header}
+			</Text>
+			<Spacer y={0.5} />
 			<Text className="text-center" h3>
 				{title}
 			</Text>

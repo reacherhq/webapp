@@ -13,6 +13,7 @@ const myTheme = Themes.createFromLight({
 		foreground: '#3a3a3a', // Neutral Almost Black
 		success: '#6979f8', // Primary Blue
 		link: '#6979f8',
+		cyan: '#6979f8',
 	},
 });
 

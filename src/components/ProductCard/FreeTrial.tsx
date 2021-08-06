@@ -56,7 +56,12 @@ export function FreeTrial({
 				'No credit card required.',
 			]}
 			header="Free Forever"
-			subtitle="Use Reacher's servers with high IP reputation."
+			subtitle={
+				<span>
+					Use Reacher&apos;s servers with <br />
+					high IP reputation.
+				</span>
+			}
 			title={productName()}
 			price={priceString}
 		/>

@@ -29,7 +29,7 @@ export function ProductCard({
 }: ProductCardProps): React.ReactElement {
 	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
-	const { session } = useUser();
+	const { session, user } = useUser();
 
 	const active = !!subscription;
 	const price = product.prices.find(({ currency: c }) => currency === c);
@@ -84,6 +84,8 @@ export function ProductCard({
 						? 'Redirecting to Stripe...'
 						: active
 						? 'Current Plan'
+						: user
+						? 'Upgrade Plan'
 						: 'Get Started'}
 				</Button>
 			}
@@ -115,11 +117,11 @@ export function ProductCard({
 			}
 			header={
 				product.id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
-					<Text small type="success">
+					<Text b small type="success">
 						For self-hosting
 					</Text>
 				) : (
-					<Text small type="warning">
+					<Text b small type="warning">
 						Most popular
 					</Text>
 				)
@@ -127,9 +129,14 @@ export function ProductCard({
 			key={price.product_id}
 			price={priceString}
 			subtitle={
-				product.id === COMMERCIAL_LICENSE_PRODUCT_ID
-					? 'Self-host Reacher with your own infrastructure.'
-					: "Use Reacher's servers with high IP reputation."
+				product.id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
+					'Self-host Reacher with your own infrastructure.'
+				) : (
+					<span>
+						Use Reacher&apos;s servers with <br />
+						high IP reputation.
+					</span>
+				)
 			}
 			title={product.name}
 		/>

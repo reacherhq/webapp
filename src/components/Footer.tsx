@@ -114,6 +114,7 @@ export function Footer(): React.ReactElement {
 					<img src="/powered-by-vercel.svg" />
 				</a>
 			</div>
+			<Spacer />
 		</footer>
 	);
 }
