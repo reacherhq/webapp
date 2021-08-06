@@ -14,10 +14,8 @@ export function SubGetStarted({
 }: SubGetStartedProps): React.ReactElement {
 	return subscription?.prices?.products?.id ===
 		COMMERCIAL_LICENSE_PRODUCT_ID ? (
-		<GetStartedLicense
-			subscription={subscription as SupabaseSubscription}
-		/>
+		<GetStartedLicense />
 	) : (
-		<GetStartedSaas subscription={subscription} />
+		<GetStartedSaas />
 	);
 }
