@@ -3,7 +3,10 @@ import axios, { AxiosError } from 'axios';
 // Gets the currently depoloyed URL.
 export const getURL = (): string => {
 	const url =
-		process?.env?.URL && process.env.URL !== ''
+		// DEPLOY_MAIN_URL has been set to app.reacher.email for production only.
+		process?.env?.DEPLOY_MAIN_URL && process.env.DEPLOY_MAIN_URL !== ''
+			? process.env.DEPLOY_MAIN_URL
+			: process?.env?.URL && process.env.URL !== ''
 			? process.env.URL
 			: process?.env?.VERCEL_URL && process.env.VERCEL_URL !== ''
 			? process.env.VERCEL_URL
