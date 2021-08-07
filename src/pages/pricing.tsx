@@ -47,12 +47,12 @@ export default function Pricing({
 	return (
 		<>
 			<Nav />
-			<Spacer y={3} />
+			<Spacer y={5} />
 			<Text className="text-center" h2>
 				Pricing
 			</Text>
 
-			<Spacer y={3} />
+			<Spacer y={2} />
 			<section>
 				<Grid.Container gap={2} justify="center">
 					<Grid xs={18}></Grid>

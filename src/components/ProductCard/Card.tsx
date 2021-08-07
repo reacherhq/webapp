@@ -30,10 +30,11 @@ export function Card({
 			<Text className="text-center flex justify-center" small b>
 				{header}
 			</Text>
-			<Spacer y={0.5} />
+			<Spacer y={1} />
 			<Text className="text-center" h3>
 				{title}
 			</Text>
+			<Spacer y={1} />
 			<Text className="text-center flex justify-center" small>
 				{subtitle}
 			</Text>

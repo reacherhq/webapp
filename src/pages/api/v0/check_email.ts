@@ -20,6 +20,7 @@ const checkEmail = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
+	console.log('checkEmail');
 	if (req.method !== 'POST') {
 		res.setHeader('Allow', 'POST');
 		res.status(405).json({ error: 'Method Not Allowed' });

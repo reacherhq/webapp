@@ -48,6 +48,7 @@ export function GetStartedSaas(): React.ReactElement {
 						text={[
 							'curl -X POST \\',
 							'  https://api.reacher.email/v0/check_email \\',
+							'  -L \\',
 							"  -H 'content-type: application/json' \\",
 							`  -H 'authorization: ${userDetails.api_token}' \\`,
 							`  -d '{"to_email": "test@gmail.com"}'`,

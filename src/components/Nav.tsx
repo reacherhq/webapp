@@ -22,7 +22,11 @@ export function Nav(): React.ReactElement {
 					<Text className={styles.reacher} h3>
 						Reacher
 						{user && (
-							<Text span type="secondary">
+							<Text
+								className={styles.dashboard}
+								span
+								type="secondary"
+							>
 								Dashboard
 							</Text>
 						)}
