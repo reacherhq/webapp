@@ -41,7 +41,9 @@ export function ProductCard({
 		setPriceIdLoading(price.id);
 
 		if (!session) {
-			return router.push('/login');
+			router.push('/signup').catch(sentryException);
+
+			return;
 		}
 
 		try {
@@ -81,7 +83,9 @@ export function ProductCard({
 					type="success"
 				>
 					{priceIdLoading
-						? 'Redirecting to Stripe...'
+						? session
+							? 'Redirecting to Stripe...'
+							: 'Redirecting to sign up page...'
 						: active
 						? 'Current Plan'
 						: user

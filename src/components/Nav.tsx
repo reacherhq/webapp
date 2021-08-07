@@ -21,15 +21,13 @@ export function Nav(): React.ReactElement {
 					<Image height={24} src={logo} width={24} />
 					<Text className={styles.reacher} h3>
 						Reacher
-						{user && (
-							<Text
-								className={styles.dashboard}
-								span
-								type="secondary"
-							>
-								Dashboard
-							</Text>
-						)}
+						<Text
+							className={styles.dashboard}
+							span
+							type="secondary"
+						>
+							Dashboard
+						</Text>
 					</Text>
 					<Spacer x={0.5} />
 				</a>
