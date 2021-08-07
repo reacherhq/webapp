@@ -6,7 +6,18 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const moduleExports = {
-	// Your existing module.exports
+	async redirects() {
+		return [
+			{
+				// Redirect `api.reacher.email/v0/check_email` to
+				// `reacher.email/api/v0/check_email` to be handled by the
+				// Next.js API handlers.
+				source: '/v0/check_email',
+				destination: '/api/v0/check_email',
+				permanent: true,
+			},
+		];
+	},
 };
 
 const SentryWebpackPluginOptions = {
