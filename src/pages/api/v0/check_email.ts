@@ -42,7 +42,7 @@ const checkEmail = async (
 		const token = req.headers.authorization || req.headers.Authorization;
 
 		if (typeof token !== 'string') {
-			throw new Error(`Expected token as string, got ${typeof token}.`);
+			throw new Error('Expected API token in the Authorization header.');
 		}
 		const user = await getUserByApiToken(token);
 		if (!user) {
