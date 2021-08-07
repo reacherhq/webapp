@@ -17,17 +17,22 @@ export function Nav(): React.ReactElement {
 	return (
 		<header className={styles.container}>
 			<div>
-				<a className="flex" href="/dashboard">
+				<a
+					className="flex"
+					href={user ? '/dashboard' : 'https://reacher.email'}
+				>
 					<Image height={24} src={logo} width={24} />
 					<Text className={styles.reacher} h3>
 						Reacher
-						<Text
-							className={styles.dashboard}
-							span
-							type="secondary"
-						>
-							Dashboard
-						</Text>
+						{user && (
+							<Text
+								className={styles.dashboard}
+								span
+								type="secondary"
+							>
+								Dashboard
+							</Text>
+						)}
 					</Text>
 					<Spacer x={0.5} />
 				</a>
