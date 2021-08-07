@@ -14,7 +14,7 @@ export function GetStartedSaas(): React.ReactElement {
 			{userDetails?.api_token ? (
 				<>
 					<Text p>
-						Use your private auth token below, and send a HTTP
+						Use your private auth token below, and send a HTTP POST
 						request to:
 					</Text>
 					<Snippet
@@ -48,6 +48,7 @@ export function GetStartedSaas(): React.ReactElement {
 						text={[
 							'curl -X POST \\',
 							'  https://api.reacher.email/v0/check_email \\',
+							'  -L \\',
 							"  -H 'content-type: application/json' \\",
 							`  -H 'authorization: ${userDetails.api_token}' \\`,
 							`  -d '{"to_email": "test@gmail.com"}'`,

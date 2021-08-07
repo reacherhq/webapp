@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { sentryException } from '../../../util/sentry';
 import { subApiMaxCalls } from '../../../util/subs';
-import type { SupabaseCall } from '../../../util/supabaseClient';
+import type { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
 import {
 	getActiveSubscription,
 	getApiUsageServer,
@@ -27,14 +27,29 @@ const checkEmail = async (
 	}
 
 	try {
+		// Handle legacy saasify requests.
+		// Saasify deployments prior to 02d0b224 forward requests to
+		// `api.reacher.email`, which is where this code is deployed. To avoid
+		// cyclic requests, we simply forward the request to Heroku.
+		// TODO Remove https://github.com/reacherhq/webapp/issues/54
+		if (
+			req.headers['x-saasify-proxy-secret'] ===
+			process.env.LEGACY_SAASIFY_SECRET
+		) {
+			return forwardToHeroku(req, res);
+		}
+
 		const token = req.headers.authorization || req.headers.Authorization;
 
 		if (typeof token !== 'string') {
-			throw new Error(`Expected token as string, got ${typeof token}.`);
+			throw new Error('Expected API token in the Authorization header.');
 		}
 		const user = await getUserByApiToken(token);
 		if (!user) {
-			throw new Error(`Got empty user.`);
+			// Once we migrate away from Saasify, we only use our own tokens,
+			// so we should instead return 401 if the user is not found.
+			// TODO https://github.com/reacherhq/webapp/issues/54
+			return forwardToHeroku(req, res);
 		}
 
 		// Safe to type cast here, as we only need the `id` field below.
@@ -56,36 +71,7 @@ const checkEmail = async (
 			return;
 		}
 
-		const reacherBackend = process.env.RCH_BACKEND_URL;
-		if (!reacherBackend) {
-			throw new Error('Got empty reacher backend url.');
-		}
-
-		try {
-			// Send an API request to Reacher backend, which handles email
-			// verifications, see https://github.com/reacherhq/backend.
-			const result = await axios.post(
-				`${reacherBackend}${ENDPOINT}`,
-				req.body
-			);
-
-			// If successful, also log an API call entry in the database.
-			await supabaseAdmin.from<SupabaseCall>('calls').insert({
-				endpoint: ENDPOINT,
-				user_id: user.id,
-			});
-
-			return res.status(200).json(result.data);
-		} catch (err) {
-			const statusCode = (err as AxiosError).response?.status;
-			if (!statusCode) {
-				throw err;
-			}
-
-			return res.status(statusCode).json({
-				error: (err as AxiosError<unknown>).response?.data,
-			});
-		}
+		return forwardToHeroku(req, res, user);
 	} catch (err) {
 		sentryException(err as Error);
 		res.status(500).json({
@@ -95,3 +81,42 @@ const checkEmail = async (
 };
 
 export default withSentry(checkEmail);
+
+async function forwardToHeroku(
+	req: NextApiRequest,
+	res: NextApiResponse,
+	user?: SupabaseUser
+) {
+	try {
+		const reacherBackend = process.env.RCH_BACKEND_URL;
+		if (!reacherBackend) {
+			throw new Error('Got empty reacher backend url.');
+		}
+
+		// Send an API request to Reacher backend, which handles email
+		// verifications, see https://github.com/reacherhq/backend.
+		const result = await axios.post(
+			`${reacherBackend}${ENDPOINT}`,
+			req.body
+		);
+
+		if (user) {
+			// If successful, also log an API call entry in the database.
+			await supabaseAdmin.from<SupabaseCall>('calls').insert({
+				endpoint: ENDPOINT,
+				user_id: user.id,
+			});
+		}
+
+		return res.status(200).json(result.data);
+	} catch (err) {
+		const statusCode = (err as AxiosError).response?.status;
+		if (!statusCode) {
+			throw err;
+		}
+
+		return res.status(statusCode).json({
+			error: (err as AxiosError<unknown>).response?.data,
+		});
+	}
+}

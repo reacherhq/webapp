@@ -49,7 +49,7 @@ export default function SignUp(): React.ReactElement {
 
 	useEffect(() => {
 		if (user) {
-			router.replace('/').catch(sentryException);
+			router.replace('/dashboard').catch(sentryException);
 		}
 	}, [router, user]);
 

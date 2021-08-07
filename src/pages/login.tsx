@@ -44,7 +44,7 @@ export default function Login(): React.ReactElement {
 
 	useEffect(() => {
 		if (user) {
-			router.replace('/').catch(sentryException);
+			router.replace('/dashboard').catch(sentryException);
 		}
 	}, [router, user]);
 

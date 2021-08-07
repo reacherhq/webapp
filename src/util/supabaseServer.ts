@@ -28,7 +28,7 @@ export const getUserByApiToken = async (
 		.from<SupabaseUser>('users')
 		.select('*')
 		.eq('api_token', apiToken)
-		.single();
+		.maybeSingle();
 
 	if (error) {
 		throw error;

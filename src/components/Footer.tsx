@@ -28,7 +28,7 @@ export function Footer(): React.ReactElement {
 						<Text h5>Sitemap</Text>
 						<Spacer y={2} />
 						<div>
-							<Link href="/">Home</Link>
+							<Link href="/dashboard">Home</Link>
 						</div>
 						<Spacer />
 						<div>
