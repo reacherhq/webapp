@@ -17,7 +17,7 @@ export function Nav(): React.ReactElement {
 	return (
 		<header className={styles.container}>
 			<div>
-				<a className="flex" href="/">
+				<a className="flex" href="/dashboard">
 					<Image height={24} src={logo} width={24} />
 					<Text className={styles.reacher} h3>
 						Reacher

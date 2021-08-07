@@ -1,4 +1,4 @@
-import { Input, Spacer } from '@geist-ui/react';
+import { Input, Note, Spacer } from '@geist-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -11,6 +11,7 @@ import {
 import { parseHashComponents } from '../util/helpers';
 import { sentryException } from '../util/sentry';
 import { supabase } from '../util/supabaseClient';
+import { useUser } from '../util/useUser';
 
 export default function ResetPasswordPartTwo(): React.ReactElement {
 	const router = useRouter();
@@ -21,6 +22,9 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
 	);
+	const [isInvite, setIsInvite] = useState(false); // Landed on this page on first visit, via Invite Link.
+
+	const { user } = useUser();
 
 	useEffect(() => {
 		// Password recovery.
@@ -28,13 +32,15 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		if (typeof window !== 'undefined' && window.location.hash) {
 			const hashComponents = parseHashComponents(window.location.hash);
 			if (
-				hashComponents.type !== 'recovery' ||
-				!hashComponents.access_token
+				!hashComponents.access_token ||
+				(hashComponents.type !== 'invite' &&
+					hashComponents.type !== 'recovery')
 			) {
-				router.replace('/').catch(sentryException);
+				router.replace('/dashboard').catch(sentryException);
 				return;
 			}
 
+			setIsInvite(hashComponents.type === 'invite');
 			setAccessToken(hashComponents.access_token);
 		}
 	}, [router]);
@@ -62,12 +68,29 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 				type: 'success',
 				content: 'Password updated successfully.',
 			});
-			router.push('/').catch(sentryException);
+			router.push('/dashboard').catch(sentryException);
 		}
 	};
 
 	return (
 		<SigninLayout title="Reset Password">
+			{isInvite && (
+				<>
+					<Spacer />
+					<Note label={false} type="success">
+						You have been invited to the new Reacher Dashboard via
+						an invite link
+						{user?.email && (
+							<span>
+								{' '}
+								to <strong>{user.email}</strong>
+							</span>
+						)}
+						. Please set a password below for future logins.
+					</Note>
+					<Spacer />
+				</>
+			)}
 			<Input.Password
 				type="password"
 				placeholder="Password"
