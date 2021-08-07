@@ -14,7 +14,7 @@ export function GetStartedSaas(): React.ReactElement {
 			{userDetails?.api_token ? (
 				<>
 					<Text p>
-						Use your private auth token below, and send a HTTP
+						Use your private auth token below, and send a HTTP POST
 						request to:
 					</Text>
 					<Snippet
