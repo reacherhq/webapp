@@ -87,7 +87,7 @@ export const UserContextProvider: FunctionComponent = (
 		supabase
 			.from<SupabaseSubscription>('subscriptions')
 			.select('*, prices(*, products(*))')
-			.in('status', ['trialing', 'active'])
+			.in('status', ['trialing', 'active', 'past_due'])
 			.eq('cancel_at_period_end', false)
 			.maybeSingle();
 	useEffect(() => {
