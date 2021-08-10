@@ -43,7 +43,7 @@ export async function getActiveSubscription(
 	const { data, error } = await supabaseAdmin
 		.from<SupabaseSubscription>('subscriptions')
 		.select('*, prices(*, products(*))')
-		.in('status', ['trialing', 'active'])
+		.in('status', ['trialing', 'active', 'past_due'])
 		.eq('cancel_at_period_end', false)
 		.eq('user_id', user.id)
 		.maybeSingle();
