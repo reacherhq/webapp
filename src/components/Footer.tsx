@@ -105,7 +105,32 @@ export function Footer(): React.ReactElement {
 			<Spacer />
 
 			<div className={styles.bottom}>
-				<Text>© Reacher 2020-2021</Text>
+				<Text small>
+					© Reacher 2020-2021,{' '}
+					<Link
+						href="https://help.reacher.email/mentions-lgales"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Mentions légales
+					</Link>
+					,{' '}
+					<Link
+						href="https://help.reacher.email/cgu-cgv"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						CGU/CGV
+					</Link>
+					,{' '}
+					<Link
+						href="https://help.reacher.email/politique-de-confidentialit"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Politique de Confidentialité
+					</Link>
+				</Text>
 				<a
 					href="https://vercel.com?utm_source=devsincrypto&utm_campaign=oss"
 					target="_blank"
