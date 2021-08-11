@@ -45,6 +45,12 @@ const createCheckoutSession = async (
 			);
 		}
 
+		if (!process.env.NEXT_PUBLIC_FRANCE_TAX_RATE_ID) {
+			throw new Error(
+				'Env variable NEXT_PUBLIC_FRANCE_TAX_RATE_ID needs to be set.'
+			);
+		}
+
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ['card'],
 			billing_address_collection: 'required',
@@ -52,6 +58,9 @@ const createCheckoutSession = async (
 			line_items: [
 				{
 					price: price.id,
+					dynamic_tax_rates: [
+						process.env.NEXT_PUBLIC_FRANCE_TAX_RATE_ID,
+					],
 					quantity,
 				},
 			],
