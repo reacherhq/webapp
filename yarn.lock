@@ -413,17 +413,17 @@
   dependencies:
     cross-fetch "^3.0.6"
 
-"@supabase/postgrest-js@^0.33.0":
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-0.33.0.tgz#36e0bfd0f79a0fa01a4bb7c7881ee463fd7d60a8"
-  integrity sha512-og6Evdkan7Qp6+tOch7Pyq+ZWMnrCQtPHWwPpsN5A3iYQSro2yn21Yvazs9qAFoWAeTGNkuTOVpShT5Mbc9WcQ==
+"@supabase/postgrest-js@^0.33.1":
+  version "0.33.1"
+  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-0.33.1.tgz#aaf9644d72a7e4297c47415c3a0c2ffef9534982"
+  integrity sha512-VDOYv9RgGJmbI/qz6NNwayJqazLss/g0pVdf1KEAhE+Hvo6DggkrwUy4H+yiClszPcTxKiW5sDSaE5Urq2Q7nA==
   dependencies:
     cross-fetch "^3.0.6"
 
-"@supabase/realtime-js@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-1.1.1.tgz#3a1be101eecbc2413d41bfdd6757d964a5f82b14"
-  integrity sha512-kUew5KPjgWYtenxrQJWZ/tHMGlg5Qz++bbsiY8Y89AjZQioSO557MlGHaEoT6k4s7CJ6e/ctNsT7tRhCKJimcQ==
+"@supabase/realtime-js@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-1.1.2.tgz#6bdb0411df292c9d6a2d1a5a4e11c2673aec5f76"
+  integrity sha512-YNFiWF0T9+IuZZgswzHbGb7/O1eWJSwXvi0WlbARHTIcYBu4GQQXBdVWdFdG4bTLMS3L4K2qHpvMP91QYSasMw==
   dependencies:
     "@types/websocket" "^1.0.3"
     websocket "^1.0.34"
@@ -435,14 +435,14 @@
   dependencies:
     cross-fetch "^3.1.0"
 
-"@supabase/supabase-js@^1.21.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-1.21.0.tgz#7fe3575a41644048ecbe2ed6eba89e830959d47b"
-  integrity sha512-SJgRQCdHRpnnuXVCb7X8XA/u2S4oo1Jdn92eLBl0QaUKGhREFHk2x4XlJZA9bJNzAhby9eQZ56FCtBrUda2CRQ==
+"@supabase/supabase-js@^1.21.3":
+  version "1.21.3"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-1.21.3.tgz#b730e00caa8bb3475c421ec89e456921c078ff1d"
+  integrity sha512-+CLJr2q0fHCVDTqxSGyhrH0qQig5CkNNeXUi5UFAb8sksWCpWWKf9cSqbamOZFg1fkRuDTd3G+mcixL4Cuhi1w==
   dependencies:
     "@supabase/gotrue-js" "^1.17.0"
-    "@supabase/postgrest-js" "^0.33.0"
-    "@supabase/realtime-js" "^1.1.1"
+    "@supabase/postgrest-js" "^0.33.1"
+    "@supabase/realtime-js" "^1.1.2"
     "@supabase/storage-js" "^1.4.0"
 
 "@szmarczak/http-timer@^1.1.2":
