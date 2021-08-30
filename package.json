@@ -20,7 +20,7 @@
 		"@geist-ui/react-icons": "^1.0.1",
 		"@sentry/nextjs": "^6.11.0",
 		"@stripe/stripe-js": "^1.16.0",
-		"@supabase/supabase-js": "^1.21.3",
+		"@supabase/supabase-js": "^1.22.3",
 		"@types/cors": "^2.8.12",
 		"@types/mailgun-js": "^0.22.12",
 		"@types/markdown-pdf": "^9.0.1",
