@@ -25,7 +25,7 @@
 		"@types/mailgun-js": "^0.22.12",
 		"@types/markdown-pdf": "^9.0.1",
 		"@types/mustache": "^4.1.2",
-		"@types/react": "^17.0.16",
+		"@types/react": "^17.0.20",
 		"@types/react-dom": "^17.0.9",
 		"cors": "^2.8.5",
 		"mailgun-js": "^0.22.0",
