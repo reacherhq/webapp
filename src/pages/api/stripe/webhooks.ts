@@ -185,7 +185,6 @@ Amaury`,
 							host: 'api.eu.mailgun.net',
 						});
 
-						console.log('SNEDING!!!!');
 						await mg.messages().send(data);
 
 						break;
