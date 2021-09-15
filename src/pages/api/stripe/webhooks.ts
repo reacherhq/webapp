@@ -132,6 +132,9 @@ const webhookHandler = async (
 						// We only send an email to the $399/mo plan subscribers.
 						// For all other invoices, just skip.
 						if (invoice.total !== 39900) {
+							res.status(200).json({
+								skipped: true,
+							});
 							return;
 						}
 
