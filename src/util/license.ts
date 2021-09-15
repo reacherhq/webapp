@@ -61,13 +61,6 @@ export async function generateLicense(
 		stripe_buy_date: format(metadata.stripe_buy_date, 'MMMM dd yyyy'),
 	});
 
-	const filename = `license_${metadata.stripe_buyer_name
-		.replace(/ /g, '-')
-		.replace(/\./g, '')}_${format(
-		metadata.stripe_buy_date,
-		'yyyyMMdd'
-	)}-${format(metadata.license_end_date, 'yyyyMMdd')}.pdf`;
-
 	return new Promise<{ filename: string; data: Buffer }>(
 		(resolve, reject) => {
 			mdPdf()
@@ -76,6 +69,13 @@ export async function generateLicense(
 					if (err) {
 						return reject(err);
 					}
+
+					const filename = `license_${metadata.stripe_buyer_name
+						.replace(/ /g, '-')
+						.replace(/\./g, '')}_${format(
+						metadata.stripe_buy_date,
+						'yyyyMMdd'
+					)}-${format(metadata.license_end_date, 'yyyyMMdd')}.pdf`;
 
 					return resolve({ filename, data });
 				});
