@@ -19,7 +19,7 @@
 		"@geist-ui/react": "^2.1.5",
 		"@geist-ui/react-icons": "^1.0.1",
 		"@sentry/nextjs": "^6.13.2",
-		"@stripe/stripe-js": "^1.17.1",
+		"@stripe/stripe-js": "^1.18.0",
 		"@supabase/supabase-js": "^1.23.0",
 		"@types/cors": "^2.8.12",
 		"@types/mailgun-js": "^0.22.12",
