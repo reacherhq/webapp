@@ -99,8 +99,17 @@ export default function Login(): React.ReactElement {
 			<Text p className="text-center">
 				Don&apos;t have an account?{' '}
 				<GLink color href="/signup" underline>
-					Sign up.
+					Sign up
 				</GLink>
+				.
+			</Text>
+
+			<Text p className="text-center">
+				Have an account on the old Reacher login page? Head{' '}
+				<GLink color href="https://old.reacher.email/login" underline>
+					there
+				</GLink>
+				.
 			</Text>
 		</SigninLayout>
 	);
