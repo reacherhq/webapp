@@ -7331,10 +7331,10 @@ stripe@^7.6.0:
   dependencies:
     qs "^6.6.0"
 
-stripe@^8.188.0:
-  version "8.188.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.188.0.tgz#1d892c2f9000847c627db06a374529e7fbd2b83e"
-  integrity sha512-AW5IOKq4y+ENfHddJPrLL/GSvGj1MnBvUe6QMI1z27x/4pMNrU7v0ZqzRSJCihWqP0tUuCmQibSYSbsV4XJ3zA==
+stripe@^8.191.0:
+  version "8.191.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.191.0.tgz#7bb56080dce2e2e9cc4f52dc05792626ea46bfd6"
+  integrity sha512-3oyuIbuW3WDsbGnMUtIZPkr+sOUJ3NEtEwghd81ZuWc+Tq09MrgWXGekbVnbxA3TMFwfKOILw6QoiPA7za4JUg==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.6.0"
