@@ -18,9 +18,13 @@ export function StripeMananageButton({
 	const redirectToCustomerPortal = async () => {
 		setLoading(true);
 		try {
+			if (!session?.access_token) {
+				throw new Error('session access_token is empty');
+			}
+
 			const { url } = await postData<{ url: string }>({
 				url: '/api/stripe/create-portal-link',
-				token: session?.access_token,
+				token: session.access_token,
 			});
 
 			window.location.assign(url);

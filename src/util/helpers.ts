@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Gets the currently depoloyed URL.
 export const getURL = (): string => {
@@ -21,11 +21,11 @@ export const postData = async <T = unknown>({
 	data,
 }: {
 	url: string;
-	token?: string;
+	token: string;
 	data?: unknown;
 }): Promise<T> => {
 	try {
-		const { data: res } = await axios.post<T>(url, data, {
+		const { data: res } = await axios.post<T, AxiosResponse<T>>(url, data, {
 			headers: { 'Content-Type': 'application/json', token },
 			withCredentials: true,
 		});
