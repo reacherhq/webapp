@@ -63,18 +63,6 @@ const checkEmail = async (
 	}
 
 	try {
-		// Handle legacy saasify requests.
-		// Saasify deployments prior to 02d0b224 forward requests to
-		// `api.reacher.email`, which is where this code is deployed. To avoid
-		// cyclic requests, we simply forward the request to Heroku.
-		// TODO Remove https://github.com/reacherhq/webapp/issues/54
-		if (
-			req.headers['x-saasify-proxy-secret'] ===
-			process.env.LEGACY_SAASIFY_SECRET
-		) {
-			return forwardToHeroku(req, res);
-		}
-
 		const token = req.headers.authorization || req.headers.Authorization;
 
 		if (typeof token !== 'string') {
@@ -82,10 +70,8 @@ const checkEmail = async (
 		}
 		const user = await getUserByApiToken(token);
 		if (!user) {
-			// Once we migrate away from Saasify, we only use our own tokens,
-			// so we should instead return 401 if the user is not found.
-			// TODO https://github.com/reacherhq/webapp/issues/54
-			return forwardToHeroku(req, res);
+			res.status(401).json({ error: 'User not found' });
+			return;
 		}
 
 		// Safe to type cast here, as we only need the `id` field below.

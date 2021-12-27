@@ -4,14 +4,11 @@
 	"author": "Amaury <amaurym10@protonmail.com>",
 	"description": "Open-Source Email Verification API",
 	"license": "GPL-3.0",
-	"main": "saasify.json",
 	"private": true,
-	"repository": "https://github.com/reacherhq/saasify",
+	"repository": "https://github.com/reacherhq/webapp",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"generate-json": "ts-node -P ./scripts/tsconfig.json ./scripts/generateJSON.ts",
-		"legacy:build": "cd saasify-frontend-boilerplate-cra && yarn install && yarn build",
 		"lint": "tsc --noEmit && eslint . --ext js,ts,tsx",
 		"start": "next start"
 	},
@@ -39,7 +36,6 @@
 	"devDependencies": {
 		"@amaurym/config": "^1.3.5",
 		"eslint-config-next": "^12.0.7",
-		"saasify": "^1.20.8",
 		"typescript": "^4.3.5",
 		"vercel": "^23.1.2"
 	}
