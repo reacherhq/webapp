@@ -3,7 +3,10 @@ import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
+import { getClientIp } from 'request-ip';
 
+import { setRateLimitHeaders } from '../../../util/helpers';
 import { sentryException } from '../../../util/sentry';
 import { subApiMaxCalls } from '../../../util/subs';
 import type { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
@@ -49,6 +52,19 @@ const cors = initMiddleware(
 	})
 );
 
+/**
+ * The API token on the landing page, for public demo usage, heavily
+ * rate-limited.
+ */
+const TEST_API_TOKEN = 'test_api_token';
+
+const EMAILS_PER_MINUTE = 5;
+
+const rateLimiter = new RateLimiterMemory({
+	points: EMAILS_PER_MINUTE, // 5 emails
+	duration: 60, // Per minute
+});
+
 const checkEmail = async (
 	req: NextApiRequest,
 	res: NextApiResponse
@@ -68,6 +84,28 @@ const checkEmail = async (
 		if (typeof token !== 'string') {
 			throw new Error('Expected API token in the Authorization header.');
 		}
+
+		// Handle the landing page demo token.
+		if (token === TEST_API_TOKEN) {
+			try {
+				const rateLimiterRes = await rateLimiter.consume(
+					getClientIp(req) || 'FALLBACK_IP',
+					1
+				); // Consume 1 email verification
+				setRateLimitHeaders(res, rateLimiterRes, EMAILS_PER_MINUTE);
+
+				return forwardToHeroku(req, res);
+			} catch (rateLimiterRes) {
+				res.status(429).json({ error: 'Rate limit exceeded' });
+				setRateLimitHeaders(
+					res,
+					rateLimiterRes as RateLimiterRes,
+					EMAILS_PER_MINUTE
+				);
+				return;
+			}
+		}
+
 		const user = await getUserByApiToken(token);
 		if (!user) {
 			res.status(401).json({ error: 'User not found' });
