@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { NextApiResponse } from 'next';
+import { RateLimiterRes } from 'rate-limiter-flexible';
 
 // Gets the currently depoloyed URL.
 export const getURL = (): string => {
@@ -64,4 +66,30 @@ export function parseHashComponents(hash: string): Record<string, string> {
 
 			return acc;
 		}, {} as Record<string, string>);
+}
+
+/**
+ * Sets the Rate Limit headers on the response.
+ *
+ * @param res - The NextJS API response.
+ * @param rateLimiterRes - The response object from rate-limiter-flexible.
+ * @param limit - The limit per interval.
+ */
+export function setRateLimitHeaders(
+	res: NextApiResponse,
+	rateLimiterRes: RateLimiterRes,
+	limit: number
+): void {
+	const headers = {
+		'Retry-After': rateLimiterRes.msBeforeNext / 1000,
+		'X-RateLimit-Limit': limit,
+		'X-RateLimit-Remaining': rateLimiterRes.remainingPoints,
+		'X-RateLimit-Reset': new Date(
+			Date.now() + rateLimiterRes.msBeforeNext
+		).toISOString(),
+	};
+
+	Object.keys(headers).forEach((k) =>
+		res.setHeader(k, headers[k as keyof typeof headers])
+	);
 }
