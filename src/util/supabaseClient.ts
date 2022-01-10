@@ -115,7 +115,7 @@ export async function getApiUsageClient(user: User): Promise<number> {
 	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 	const { data, error } = await supabase
 		.from<SupabaseCall>('calls')
-		.select('*')
+		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
 		.gt('created_at', oneMonthAgo.toUTCString());
 
