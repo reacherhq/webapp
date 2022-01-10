@@ -113,7 +113,7 @@ export function updateUserName(
 export async function getApiUsageClient(user: User): Promise<number> {
 	const oneMonthAgo = new Date();
 	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-	const { data, error } = await supabase
+	const { count, error } = await supabase
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
@@ -123,5 +123,5 @@ export async function getApiUsageClient(user: User): Promise<number> {
 		throw error;
 	}
 
-	return data?.length || 0;
+	return count || 0;
 }
