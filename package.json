@@ -13,7 +13,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@geist-ui/react": "^2.1.5",
+		"@geist-ui/react": "^2.2.1",
 		"@geist-ui/react-icons": "^1.0.1",
 		"@sentry/nextjs": "^6.13.3",
 		"@stripe/stripe-js": "^1.22.0",
