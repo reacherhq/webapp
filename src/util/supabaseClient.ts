@@ -1,6 +1,6 @@
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { createClient, User } from '@supabase/supabase-js';
-import { isDate, subMonths } from 'date-fns';
+import { parseISO, subMonths } from 'date-fns';
 
 export interface SupabasePrice {
 	active: boolean;
@@ -33,20 +33,20 @@ export interface SupabaseProductWithPrice extends SupabaseProduct {
 
 export interface SupabaseSubscription {
 	id: string;
-	cancel_at: Date | null;
+	cancel_at: string | Date | null;
 	cancel_at_period_end: boolean;
-	canceled_at: Date | null;
-	created: Date;
-	current_period_end: Date;
-	current_period_start: Date;
-	ended_at: Date | null;
+	canceled_at: string | Date | null;
+	created: string | Date;
+	current_period_end: string | Date;
+	current_period_start: string | Date;
+	ended_at: string | Date | null;
 	metadata: Record<string, string>;
 	price_id: string;
 	prices?: SupabasePrice; // Populated on join.
 	quantity: string;
 	status?: string;
-	trial_end: Date | null;
-	trial_start: Date | null;
+	trial_end: string | Date | null;
+	trial_start: string | Date | null;
 	user_id: string;
 }
 
@@ -119,7 +119,7 @@ export async function getApiUsageClient(
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.gt('created_at', getUsageStartDate(subscription).toUTCString());
+		.gt('created_at', getUsageStartDate(subscription).toISOString());
 
 	if (error) {
 		throw error;
@@ -131,7 +131,7 @@ export async function getApiUsageClient(
 		);
 	}
 
-	return count || 0;
+	return count;
 }
 
 // Returns the start date of the usage metering.
@@ -145,7 +145,7 @@ export function getUsageStartDate(
 		return subMonths(new Date(), 1);
 	}
 
-	return isDate(subscription.current_period_start)
-		? subscription.current_period_start
-		: new Date(subscription.current_period_start);
+	return typeof subscription.current_period_start === 'string'
+		? parseISO(subscription.current_period_start)
+		: subscription.current_period_start;
 }

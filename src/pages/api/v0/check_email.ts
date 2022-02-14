@@ -2,7 +2,7 @@ import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
-import { addMonths, differenceInMilliseconds } from 'date-fns';
+import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { getClientIp } from 'request-ip';
@@ -132,7 +132,11 @@ const checkEmail = async (
 
 		// Set rate limit headers.
 		const now = new Date();
-		const nextReset = sub ? sub.current_period_end : addMonths(now, 1);
+		const nextReset = sub
+			? typeof sub.current_period_end === 'string'
+				? parseISO(sub.current_period_end)
+				: sub.current_period_end
+			: addMonths(now, 1);
 		const msDiff = differenceInMilliseconds(nextReset, now);
 		setRateLimitHeaders(
 			res,

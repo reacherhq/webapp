@@ -106,7 +106,7 @@ export function Footer(): React.ReactElement {
 
 			<div className={styles.bottom}>
 				<Text small>
-					© Reacher 2020-2021,{' '}
+					© Reacher 2020-2022,{' '}
 					<Link
 						href="https://help.reacher.email/mentions-lgales"
 						target="_blank"
