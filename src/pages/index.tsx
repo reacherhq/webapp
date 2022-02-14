@@ -34,7 +34,7 @@ export default function Index(): React.ReactElement {
 			typeof window !== 'undefined' && window.location.hash
 				? parseHashComponents(window.location.hash)
 				: {};
-		console.log(hashComponents);
+
 		// Password recovery.
 		// https://supabase.io/docs/reference/javascript/reset-password-email#notes
 		if (

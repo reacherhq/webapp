@@ -4,30 +4,23 @@ import React, { useEffect, useState } from 'react';
 
 import { sentryException } from '../util/sentry';
 import { subApiMaxCalls } from '../util/subs';
-import {
-	getApiUsageClient,
-	SupabaseSubscription,
-} from '../util/supabaseClient';
+import { getApiUsageClient } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
 import styles from './ApiUsage.module.css';
 
-interface ApiUsageProps {
-	subscription?: SupabaseSubscription | null;
-}
-
-export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
-	const { user } = useUser();
-	const [apiCalls, setApiCalls] = useState(0);
+export function ApiUsage(): React.ReactElement {
+	const { subscription, user, userFinishedLoading } = useUser();
+	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
 
 	useEffect(() => {
-		if (!user) {
+		if (!user || !userFinishedLoading) {
 			return;
 		}
 
 		getApiUsageClient(user, subscription)
 			.then(setApiCalls)
 			.catch(sentryException);
-	}, [user, subscription]);
+	}, [user, userFinishedLoading, subscription]);
 
 	return (
 		<section>
@@ -46,7 +39,7 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 
 				<Text h4>
 					<Text type="success" span>
-						{apiCalls}
+						{apiCalls === undefined ? '...' : apiCalls}
 					</Text>
 					/{subApiMaxCalls(subscription)}
 				</Text>
@@ -54,7 +47,7 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 
 			<Capacity
 				className={styles.capacity}
-				value={(apiCalls / subApiMaxCalls(subscription)) * 100}
+				value={((apiCalls || 0) / subApiMaxCalls(subscription)) * 100}
 			/>
 		</section>
 	);

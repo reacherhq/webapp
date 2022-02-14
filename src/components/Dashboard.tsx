@@ -1,4 +1,4 @@
-import { Link as GLink, Page, Spacer, Text } from '@geist-ui/react';
+import { Link as GLink, Loading, Page, Spacer, Text } from '@geist-ui/react';
 import React from 'react';
 
 import { StripeMananageButton } from '../components/StripeManageButton';
@@ -18,7 +18,7 @@ interface DashboardProps {
 }
 
 export function Dashboard({ products }: DashboardProps): React.ReactElement {
-	const { userDetails, subscription } = useUser();
+	const { userDetails, subscription, userFinishedLoading } = useUser();
 
 	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
 	const licenseProduct = products.find(
@@ -26,6 +26,14 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 	);
 	if (!saasProduct || !licenseProduct) {
 		throw new Error('Dashboard: saasProduct or licenseProduct not found.');
+	}
+
+	if (!userFinishedLoading) {
+		return (
+			<Page>
+				<Loading />
+			</Page>
+		);
 	}
 
 	return (
@@ -68,9 +76,7 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 			<Spacer y={3} />
 
 			{subscription?.prices?.product_id !==
-				COMMERCIAL_LICENSE_PRODUCT_ID && (
-				<ApiUsage subscription={subscription} />
-			)}
+				COMMERCIAL_LICENSE_PRODUCT_ID && <ApiUsage />}
 
 			<Spacer y={3} />
 
