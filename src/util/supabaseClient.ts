@@ -1,6 +1,6 @@
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { createClient, User } from '@supabase/supabase-js';
-import { subMonths } from 'date-fns';
+import { isDate, subMonths } from 'date-fns';
 
 export interface SupabasePrice {
 	active: boolean;
@@ -145,5 +145,7 @@ export function getUsageStartDate(
 		return subMonths(new Date(), 1);
 	}
 
-	return subscription.current_period_start;
+	return isDate(subscription.current_period_start)
+		? subscription.current_period_start
+		: new Date(subscription.current_period_start);
 }
