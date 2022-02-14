@@ -23,8 +23,10 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 			return;
 		}
 
-		getApiUsageClient(user).then(setApiCalls).catch(sentryException);
-	}, [user]);
+		getApiUsageClient(user, subscription)
+			.then(setApiCalls)
+			.catch(sentryException);
+	}, [user, subscription]);
 
 	return (
 		<section>
