@@ -2,6 +2,7 @@ import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
+import { addMonths, differenceInMilliseconds } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { getClientIp } from 'request-ip';
@@ -9,7 +10,7 @@ import { getClientIp } from 'request-ip';
 import { setRateLimitHeaders } from '../../../util/helpers';
 import { sentryException } from '../../../util/sentry';
 import { subApiMaxCalls } from '../../../util/subs';
-import type { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
+import { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
 import {
 	getActiveSubscription,
 	getApiUsageServer,
@@ -117,10 +118,8 @@ const checkEmail = async (
 
 		// TODO instead of doing another round of network call, we should do a
 		// join for subscriptions and API calls inside getUserByApiToken.
-		const [sub, used] = await Promise.all([
-			getActiveSubscription(authUser),
-			getApiUsageServer(user),
-		]);
+		const sub = await getActiveSubscription(authUser);
+		const used = await getApiUsageServer(user, sub);
 
 		const max = subApiMaxCalls(sub);
 		if (used > max) {
@@ -130,6 +129,16 @@ const checkEmail = async (
 			});
 			return;
 		}
+
+		// Set rate limit headers.
+		const now = new Date();
+		const nextReset = sub ? sub.current_period_end : addMonths(now, 1);
+		const msDiff = differenceInMilliseconds(nextReset, now);
+		setRateLimitHeaders(
+			res,
+			new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
+			max
+		);
 
 		return forwardToHeroku(req, res, user);
 	} catch (err) {

@@ -1,5 +1,6 @@
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { createClient, User } from '@supabase/supabase-js';
+import { subMonths } from 'date-fns';
 
 export interface SupabasePrice {
 	active: boolean;
@@ -110,18 +111,39 @@ export function updateUserName(
 
 // Get the api calls of a user in the past month. Same as
 // `getApiUsageServer`, but for client usage.
-export async function getApiUsageClient(user: User): Promise<number> {
-	const oneMonthAgo = new Date();
-	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+export async function getApiUsageClient(
+	user: User,
+	subscription: SupabaseSubscription | null | undefined
+): Promise<number> {
 	const { count, error } = await supabase
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.gt('created_at', oneMonthAgo.toUTCString());
+		.gt('created_at', getUsageStartDate(subscription).toUTCString());
 
 	if (error) {
 		throw error;
 	}
 
+	if (count === null) {
+		throw new Error(
+			`Got null count in getApiUsageClient for user ${user.id}.`
+		);
+	}
+
 	return count || 0;
+}
+
+// Returns the start date of the usage metering.
+// - If the user has an active subscription, it's the current period's start
+//   date.
+// - If not, then it's 1 month rolling.
+export function getUsageStartDate(
+	subscription: SupabaseSubscription | null | undefined
+): Date {
+	if (!subscription) {
+		return subMonths(new Date(), 1);
+	}
+
+	return subscription.current_period_start;
 }

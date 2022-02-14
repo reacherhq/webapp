@@ -1,6 +1,7 @@
 import { createClient, User } from '@supabase/supabase-js';
 
 import {
+	getUsageStartDate,
 	SupabaseCall,
 	SupabaseSubscription,
 	SupabaseUser,
@@ -55,18 +56,25 @@ export async function getActiveSubscription(
 
 // Get the api calls of a user in the past month. Same as
 // `getApiUsageClient`, but for server usage.
-export async function getApiUsageServer(user: SupabaseUser): Promise<number> {
-	const oneMonthAgo = new Date();
-	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-	const { data, error } = await supabaseAdmin
+export async function getApiUsageServer(
+	user: SupabaseUser,
+	subscription: SupabaseSubscription | null | undefined
+): Promise<number> {
+	const { count, error } = await supabaseAdmin
 		.from<SupabaseCall>('calls')
-		.select('*')
+		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.gt('created_at', oneMonthAgo.toUTCString());
+		.gt('created_at', getUsageStartDate(subscription).toUTCString());
 
 	if (error) {
 		throw error;
 	}
 
-	return data?.length || 0;
+	if (count === null) {
+		throw new Error(
+			`Got null count in getApiUsageServer for user ${user.id}.`
+		);
+	}
+
+	return count || 0;
 }
