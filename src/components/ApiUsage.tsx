@@ -1,4 +1,5 @@
 import { Capacity, Text } from '@geist-ui/react';
+import { format, parseISO } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
 import { sentryException } from '../util/sentry';
@@ -31,7 +32,17 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 	return (
 		<section>
 			<div className={styles.textContainer}>
-				<Text h5>API usage this month</Text>
+				<Text h5>
+					API usage this month
+					{subscription && (
+						<>
+							{' '}
+							({formatDate(
+								subscription.current_period_start
+							)} - {formatDate(subscription.current_period_end)})
+						</>
+					)}
+				</Text>
 
 				<Text h4>
 					<Text type="success" span>
@@ -47,4 +58,8 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 			/>
 		</section>
 	);
+}
+
+function formatDate(d: string | Date): string {
+	return format(typeof d === 'string' ? parseISO(d) : d, 'do MMM yyyy');
 }

@@ -64,7 +64,7 @@ export async function getApiUsageServer(
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.gt('created_at', getUsageStartDate(subscription).toUTCString());
+		.gt('created_at', getUsageStartDate(subscription).toISOString());
 
 	if (error) {
 		throw error;
@@ -76,5 +76,5 @@ export async function getApiUsageServer(
 		);
 	}
 
-	return count || 0;
+	return count;
 }
