@@ -88,6 +88,13 @@ const checkEmail = async (
 
 		// Handle the landing page demo token.
 		if (token === TEST_API_TOKEN) {
+			res.status(401).json({
+				error:
+					'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
+			});
+
+			return;
+
 			try {
 				const rateLimiterRes = await rateLimiter.consume(
 					getClientIp(req) || 'FALLBACK_IP',
