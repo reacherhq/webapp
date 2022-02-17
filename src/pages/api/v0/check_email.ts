@@ -90,7 +90,7 @@ const checkEmail = async (
 		if (token === TEST_API_TOKEN) {
 			res.status(401).json({
 				error:
-					'Turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now, until an anti-spam measure has been deployed.',
+					'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
 			});
 
 			return;
