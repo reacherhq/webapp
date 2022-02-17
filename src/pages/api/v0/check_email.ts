@@ -93,6 +93,8 @@ const checkEmail = async (
 					'Turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now, until an anti-spam measure has been deployed.',
 			});
 
+			return;
+
 			try {
 				const rateLimiterRes = await rateLimiter.consume(
 					getClientIp(req) || 'FALLBACK_IP',
