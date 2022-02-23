@@ -128,15 +128,6 @@ const checkEmail = async (
 		const sub = await getActiveSubscription(authUser);
 		const used = await getApiUsageServer(user, sub);
 
-		const max = subApiMaxCalls(sub);
-		if (used > max) {
-			res.status(429).json({
-				error:
-					'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
-			});
-			return;
-		}
-
 		// Set rate limit headers.
 		const now = new Date();
 		const nextReset = sub
@@ -145,11 +136,21 @@ const checkEmail = async (
 				: sub.current_period_end
 			: addMonths(now, 1);
 		const msDiff = differenceInMilliseconds(nextReset, now);
+		const max = subApiMaxCalls(sub);
 		setRateLimitHeaders(
 			res,
 			new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
 			max
 		);
+
+		if (used > max) {
+			res.status(429).json({
+				error:
+					'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
+			});
+
+			return;
+		}
 
 		return forwardToHeroku(req, res, user);
 	} catch (err) {
