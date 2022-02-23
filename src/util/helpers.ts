@@ -83,7 +83,10 @@ export function setRateLimitHeaders(
 	const headers = {
 		'Retry-After': rateLimiterRes.msBeforeNext / 1000,
 		'X-RateLimit-Limit': limit,
-		'X-RateLimit-Remaining': rateLimiterRes.remainingPoints,
+		// When I first introduced rate limiting, some users had used for than
+		// 10k emails per month. Their remaining showed e.g. -8270. We decide
+		// to show 0 in these cases, hence the Math.max.
+		'X-RateLimit-Remaining': Math.max(0, rateLimiterRes.remainingPoints),
 		'X-RateLimit-Reset': new Date(
 			Date.now() + rateLimiterRes.msBeforeNext
 		).toISOString(),
