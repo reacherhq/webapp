@@ -121,7 +121,9 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 			<SigninButton
 				disabled={loading}
 				loading={loading}
-				onClick={handleReset}
+				onClick={() => {
+					handleReset().catch(sentryException);
+				}}
 			>
 				{loading ? 'Resetting...' : 'Reset Password'}
 			</SigninButton>

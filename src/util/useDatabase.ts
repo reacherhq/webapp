@@ -132,10 +132,7 @@ export const manageSubscriptionStatusChange = async (
 	createAction = false
 ): Promise<void> => {
 	// Get customer's UUID from mapping table.
-	const {
-		data,
-		error: noCustomerError,
-	} = await supabaseAdmin
+	const { data, error: noCustomerError } = await supabaseAdmin
 		.from<SupabaseCustomer>('customers')
 		.select('id')
 		.eq('stripe_customer_id', customerId)

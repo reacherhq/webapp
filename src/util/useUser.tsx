@@ -18,9 +18,7 @@ import { supabase, SupabaseSubscription, SupabaseUser } from './supabaseClient';
 
 interface UserContext {
 	session: Session | null;
-	signIn: (
-		options: UserCredentials
-	) => Promise<{
+	signIn: (options: UserCredentials) => Promise<{
 		session: Session | null;
 		user: User | null;
 		provider?: Provider;
@@ -31,9 +29,7 @@ interface UserContext {
 		email: string
 	) => Promise<{ data: unknown | null; error: Error | null }>;
 	signOut: () => Promise<void>;
-	signUp: (
-		options: UserCredentials
-	) => Promise<{
+	signUp: (options: UserCredentials) => Promise<{
 		session: Session | null;
 		user: User | null;
 		provider?: Provider;
@@ -57,10 +53,8 @@ export const UserContextProvider: FunctionComponent = (
 	const [session, setSession] = useState<Session | null>(null);
 	const [user, setUser] = useState<User | null>(null);
 	const [userDetails, setUserDetails] = useState<SupabaseUser | null>(null);
-	const [
-		subscription,
-		setSubscription,
-	] = useState<SupabaseSubscription | null>(null);
+	const [subscription, setSubscription] =
+		useState<SupabaseSubscription | null>(null);
 
 	useEffect(() => {
 		const session = supabase.auth.session();
