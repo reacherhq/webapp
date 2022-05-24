@@ -88,12 +88,14 @@ const checkEmail = async (
 
 		// Handle the landing page demo token.
 		if (token === TEST_API_TOKEN) {
-			res.status(401).json({
-				error:
-					'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
-			});
+			if (process.env.DISABLE_HOMEPAGE_DEMO) {
+				res.status(401).json({
+					error:
+						'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
+				});
 
-			return;
+				return;
+			}
 
 			try {
 				const rateLimiterRes = await rateLimiter.consume(
@@ -102,7 +104,7 @@ const checkEmail = async (
 				); // Consume 1 email verification
 				setRateLimitHeaders(res, rateLimiterRes, EMAILS_PER_MINUTE);
 
-				return forwardToHeroku(req, res);
+				return forwardToBackend(req, res);
 			} catch (rateLimiterRes) {
 				res.status(429).json({ error: 'Rate limit exceeded' });
 				setRateLimitHeaders(
@@ -152,7 +154,7 @@ const checkEmail = async (
 			return;
 		}
 
-		return forwardToHeroku(req, res, user);
+		return forwardToBackend(req, res, user);
 	} catch (err) {
 		sentryException(err as Error);
 		res.status(500).json({
@@ -163,7 +165,16 @@ const checkEmail = async (
 
 export default withSentry(checkEmail);
 
-async function forwardToHeroku(
+/**
+ * Forwards the Next.JS request to Reacher's backend, hosted on one of:
+ * - OVH
+ * - Heroku
+ *
+ * The backend URL is stored in `RCH_BACKEND_URL` env variable, it can be a
+ * comma-separated string representing an array of backends, in which case
+ * each URL will be tried if the previous one returned "unknown".
+ */
+async function forwardToBackend(
 	req: NextApiRequest,
 	res: NextApiResponse,
 	user?: SupabaseUser
