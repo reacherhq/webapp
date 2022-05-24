@@ -20,7 +20,11 @@ const createCheckoutSession = async (
 
 	try {
 		const token = req.headers.token;
-		const { price, quantity = 1, metadata = {} } = req.body as {
+		const {
+			price,
+			quantity = 1,
+			metadata = {},
+		} = req.body as {
 			price: SupabasePrice;
 			quantity: number;
 			metadata: Record<string, string>;

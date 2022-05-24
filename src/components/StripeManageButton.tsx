@@ -29,7 +29,7 @@ export function StripeMananageButton({
 
 			window.location.assign(url);
 		} catch (err) {
-			sentryException(err);
+			sentryException(err as Error);
 			alert((err as Error).message);
 		}
 
@@ -37,7 +37,14 @@ export function StripeMananageButton({
 	};
 
 	return (
-		<GLink href="#" color icon onClick={redirectToCustomerPortal}>
+		<GLink
+			href="#"
+			color
+			icon
+			onClick={() => {
+				redirectToCustomerPortal().catch(sentryException);
+			}}
+		>
 			<strong>{loading ? 'Redirecting to Stripe...' : children}</strong>
 		</GLink>
 	);

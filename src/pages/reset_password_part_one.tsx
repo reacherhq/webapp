@@ -7,6 +7,7 @@ import {
 	SigninLayoutMessage,
 	SigninMessage,
 } from '../components';
+import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
 
 export default function ResetPasswordPartOne(): React.ReactElement {
@@ -53,7 +54,9 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 			<SigninButton
 				disabled={loading}
 				loading={loading}
-				onClick={handleResetPassword}
+				onClick={() => {
+					handleResetPassword().catch(sentryException);
+				}}
 			>
 				{loading ? 'Resetting...' : 'Reset Password'}
 			</SigninButton>

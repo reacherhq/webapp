@@ -40,7 +40,7 @@
 		"stripe": "^9.2.0"
 	},
 	"devDependencies": {
-		"@amaurym/config": "^1.3.5",
+		"@amaurym/config": "^1.3.6",
 		"eslint-config-next": "^12.1.0",
 		"typescript": "^4.3.5",
 		"vercel": "^24.2.4"

@@ -91,7 +91,9 @@ export default function Login(): React.ReactElement {
 			<SigninButton
 				disabled={loading}
 				loading={loading}
-				onClick={handleSignin}
+				onClick={() => {
+					handleSignin().catch(sentryException);
+				}}
 			>
 				{loading ? 'Signing in...' : 'Sign in'}
 			</SigninButton>

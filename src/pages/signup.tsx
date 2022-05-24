@@ -26,7 +26,11 @@ export default function SignUp(): React.ReactElement {
 	const handleSignup = async () => {
 		setLoading(true);
 		setMessage(undefined);
-		const { error, session, user: newUser } = await signUp({
+		const {
+			error,
+			session,
+			user: newUser,
+		} = await signUp({
 			email,
 			password,
 		});
@@ -93,7 +97,9 @@ export default function SignUp(): React.ReactElement {
 			<SigninButton
 				disabled={loading}
 				loading={loading}
-				onClick={handleSignup}
+				onClick={() => {
+					handleSignup().catch(sentryException);
+				}}
 			>
 				{loading ? 'Signing up...' : 'Sign up'}
 			</SigninButton>

@@ -60,11 +60,11 @@ export function Nav(): React.ReactElement {
 					placeholder={userDetails?.full_name || user.email}
 				>
 					<Select.Option
-						onClick={() =>
+						onClick={() => {
 							signOut()
 								.then(() => router.push('/login'))
-								.catch(sentryException)
-						}
+								.catch(sentryException);
+						}}
 					>
 						Log Out{' '}
 					</Select.Option>
