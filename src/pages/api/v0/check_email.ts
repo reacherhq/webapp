@@ -88,11 +88,9 @@ const checkEmail = async (
 
 		// Handle the landing page demo token.
 		if (token === TEST_API_TOKEN) {
-			if (process.env.DISABLE_HOMEPAGE_DEMO) {
-				res.status(401).json({
-					error:
-						'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
-				});
+			res.status(401).json({
+				error: 'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
+			});
 
 				return;
 			}
@@ -147,8 +145,7 @@ const checkEmail = async (
 
 		if (used > max) {
 			res.status(429).json({
-				error:
-					'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
+				error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
 			});
 
 			return;

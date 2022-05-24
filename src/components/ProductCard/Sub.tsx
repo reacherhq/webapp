@@ -60,7 +60,7 @@ export function ProductCard({
 
 			await stripe.redirectToCheckout({ sessionId });
 		} catch (err) {
-			sentryException(err);
+			sentryException(err as Error);
 			alert((err as Error).message);
 		} finally {
 			setPriceIdLoading(false);
@@ -79,7 +79,9 @@ export function ProductCard({
 				<Button
 					className="full-width"
 					disabled={!!priceIdLoading || active}
-					onClick={() => handleCheckout(price)}
+					onClick={() => {
+						handleCheckout(price).catch(sentryException);
+					}}
 					type="success"
 				>
 					{priceIdLoading
