@@ -34,3 +34,7 @@ yarn-error.log*
 .env
 
 .vercel
+
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
