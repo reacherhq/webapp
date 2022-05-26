@@ -66,6 +66,10 @@ export interface SupabaseCall {
 	user_id: string;
 	endpoint: string;
 	created_at: string;
+	duration?: number;
+	backend?: string;
+	backend_ip: string;
+	is_reachable: 'safe' | 'invalid' | 'risky' | 'unknown';
 }
 
 export const supabase = createClient(
