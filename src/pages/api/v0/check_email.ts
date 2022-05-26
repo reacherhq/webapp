@@ -1,3 +1,4 @@
+import type { CheckEmailOutput } from '@reacherhq/api';
 import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
@@ -86,9 +87,18 @@ const checkEmail = async (
 			throw new Error('Expected API token in the Authorization header.');
 		}
 
+		const user = await getUserByApiToken(token);
+		if (!user) {
+			res.status(401).json({ error: 'User not found' });
+			return;
+		}
+
+		// Safe to type cast here, as we only need the `id` field below.
+		const authUser = { id: user.id } as User;
+
 		// Handle the landing page demo token.
 		if (token === TEST_API_TOKEN) {
-			if (process.env.DISABLE_DEMO_TOKEN) {
+			if (process.env.DISABLE_TEST_API_TOKEN) {
 				res.status(401).json({
 					error: 'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
 				});
@@ -103,7 +113,7 @@ const checkEmail = async (
 				); // Consume 1 email verification
 				setRateLimitHeaders(res, rateLimiterRes, EMAILS_PER_MINUTE);
 
-				return forwardToBackend(req, res);
+				return forwardToBackend(req, res, user);
 			} catch (rateLimiterRes) {
 				res.status(429).json({ error: 'Rate limit exceeded' });
 				setRateLimitHeaders(
@@ -113,46 +123,39 @@ const checkEmail = async (
 				);
 				return;
 			}
+		} else {
+			// Handle a normal user doing an API call.
+
+			// TODO instead of doing another round of network call, we should do a
+			// join for subscriptions and API calls inside getUserByApiToken.
+			const sub = await getActiveSubscription(authUser);
+			const used = await getApiUsageServer(user, sub);
+
+			// Set rate limit headers.
+			const now = new Date();
+			const nextReset = sub
+				? typeof sub.current_period_end === 'string'
+					? parseISO(sub.current_period_end)
+					: sub.current_period_end
+				: addMonths(now, 1);
+			const msDiff = differenceInMilliseconds(nextReset, now);
+			const max = subApiMaxCalls(sub);
+			setRateLimitHeaders(
+				res,
+				new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
+				max
+			);
+
+			if (used > max) {
+				res.status(429).json({
+					error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
+				});
+
+				return;
+			}
+
+			return forwardToBackend(req, res, user);
 		}
-
-		const user = await getUserByApiToken(token);
-		if (!user) {
-			res.status(401).json({ error: 'User not found' });
-			return;
-		}
-
-		// Safe to type cast here, as we only need the `id` field below.
-		const authUser = { id: user.id } as User;
-
-		// TODO instead of doing another round of network call, we should do a
-		// join for subscriptions and API calls inside getUserByApiToken.
-		const sub = await getActiveSubscription(authUser);
-		const used = await getApiUsageServer(user, sub);
-
-		// Set rate limit headers.
-		const now = new Date();
-		const nextReset = sub
-			? typeof sub.current_period_end === 'string'
-				? parseISO(sub.current_period_end)
-				: sub.current_period_end
-			: addMonths(now, 1);
-		const msDiff = differenceInMilliseconds(nextReset, now);
-		const max = subApiMaxCalls(sub);
-		setRateLimitHeaders(
-			res,
-			new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
-			max
-		);
-
-		if (used > max) {
-			res.status(429).json({
-				error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
-			});
-
-			return;
-		}
-
-		return forwardToBackend(req, res, user);
 	} catch (err) {
 		sentryException(err as Error);
 		res.status(500).json({
@@ -169,7 +172,7 @@ export default withSentry(checkEmail);
 async function forwardToBackend(
 	req: NextApiRequest,
 	res: NextApiResponse,
-	user?: SupabaseUser
+	user: SupabaseUser
 ) {
 	try {
 		const reacherBackend = process.env.RCH_BACKEND_URL;
@@ -177,20 +180,28 @@ async function forwardToBackend(
 			throw new Error('Got empty reacher backend url.');
 		}
 
+		// Measure the API request time.
+		const startDate = new Date();
+
 		// Send an API request to Reacher backend, which handles email
 		// verifications, see https://github.com/reacherhq/backend.
-		const result = await axios.post(
+		const result = await axios.post<CheckEmailOutput>(
 			`${reacherBackend}${ENDPOINT}`,
 			req.body
 		);
 
-		if (user) {
-			// If successful, also log an API call entry in the database.
-			await supabaseAdmin.from<SupabaseCall>('calls').insert({
-				endpoint: ENDPOINT,
-				user_id: user.id,
-			});
-		}
+		const endDate = new Date();
+
+		// If successful, also log an API call entry in the database.
+		await supabaseAdmin.from<SupabaseCall>('calls').insert({
+			endpoint: ENDPOINT,
+			user_id: user.id,
+			backend: reacherBackend,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			backend_ip: result.request?.socket?.remoteAddress as string,
+			duration: endDate.getTime() - startDate.getTime(), // In ms.
+			is_reachable: result.data.is_reachable,
+		});
 
 		return res.status(200).json(result.data);
 	} catch (err) {

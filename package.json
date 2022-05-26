@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@geist-ui/react": "^2.1.5",
 		"@geist-ui/react-icons": "^1.0.1",
+		"@reacherhq/api": "^0.3.2",
 		"@sentry/nextjs": "^6.19.7",
 		"@stripe/stripe-js": "^1.29.0",
 		"@supabase/supabase-js": "^1.24.0",
