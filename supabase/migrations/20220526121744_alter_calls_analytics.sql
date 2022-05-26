@@ -14,9 +14,6 @@ ALTER TYPE public.is_reachable_type
     OWNER TO postgres;
 
 ALTER TABLE IF EXISTS public.calls
-    ADD COLUMN domain text COLLATE pg_catalog."default";
-
-ALTER TABLE IF EXISTS public.calls
     ADD COLUMN backend text COLLATE pg_catalog."default";
 
 ALTER TABLE IF EXISTS public.calls
