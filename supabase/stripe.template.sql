@@ -1,3 +1,14 @@
+/**
+ * This file is copy-pasted from Supabase's "SaaS with Stripe" template.
+ * ref: https://github.com/vercel/nextjs-subscription-payments
+ *
+ * It is not included in the migrations folder. The file
+ * "20220526115429_create_setup.sql" contains the same commands as this file,
+ * but that one was auto-generated.
+ *
+ * This file is here only for informational purposes.
+ */
+
 /** 
 * USERS
 * Note: This table contains user data. Users should only be able to view and update their own data.
