@@ -17,6 +17,12 @@ ALTER TABLE IF EXISTS public.calls
     ADD COLUMN domain text COLLATE pg_catalog."default";
 
 ALTER TABLE IF EXISTS public.calls
+    ADD COLUMN backend text COLLATE pg_catalog."default";
+
+ALTER TABLE IF EXISTS public.calls
+    ADD COLUMN backend_ip text COLLATE pg_catalog."default";
+
+ALTER TABLE IF EXISTS public.calls
     ADD COLUMN duration integer;
 
 ALTER TABLE IF EXISTS public.calls
