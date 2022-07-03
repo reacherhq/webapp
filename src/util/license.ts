@@ -4,7 +4,7 @@ import mdPdf from 'markdown-pdf';
 import { render } from 'mustache';
 
 const LICENSE_TEMPLATE =
-	'https://raw.githubusercontent.com/reacherhq/policies/master/license/commercial.md';
+	'https://raw.githubusercontent.com/reacherhq/policies/master/license/commercial.en.md';
 
 export interface LicenseMetadata {
 	/**
@@ -32,6 +32,10 @@ export interface LicenseMetadata {
 	 */
 	stripe_buy_date: Date;
 	/**
+	 * The address of the buyer.
+	 */
+	stripe_buyer_address: string;
+	/**
 	 * The formatted name of the buyer.
 	 */
 	stripe_buyer_name: string;
@@ -57,7 +61,7 @@ export async function generateLicense(
 	const filledMd = render(template, {
 		...metadata,
 		license_end_date: format(metadata.license_end_date, 'MMMM dd yyyy'),
-		number_devs: '8 (eight) Licensed developers', // For now we hardcode to 8.
+		number_devs: '8 (eight)', // For now we hardcode to 8.
 		stripe_buy_date: format(metadata.stripe_buy_date, 'MMMM dd yyyy'),
 	});
 
