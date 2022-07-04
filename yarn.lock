@@ -3553,10 +3553,10 @@ remarkable@^2.0.0:
     argparse "^1.0.10"
     autolinker "^3.11.0"
 
-request-ip@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/request-ip/-/request-ip-2.1.3.tgz#99ab2bafdeaf2002626e28083cb10597511d9e14"
-  integrity sha512-J3qdE/IhVM3BXkwMIVO4yFrvhJlU3H7JH16+6yHucadT4fePnR8dyh+vEs6FIx0S2x5TCt2ptiPfHcn0sqhbYQ==
+request-ip@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/request-ip/-/request-ip-3.0.2.tgz#d99e759e79ad4b6cac6bc80674ddbdcdd4e8b39e"
+  integrity sha512-uH2rCq8yug89KD1r59obP6n2PySNmXKtqzUgYlR+7b3njx9QM2e7mG+P5PMWp3ipUH4XjidUjZbjPnQRY+QdpA==
   dependencies:
     is_js "^0.9.0"
 
