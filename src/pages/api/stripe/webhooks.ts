@@ -138,8 +138,11 @@ const webhookHandler = async (
 							return;
 						}
 
-						const customerName =
-							invoice.customer_name || 'Reacher customer';
+						if (!invoice.customer_name) {
+							throw new Error(
+								'customer_name is empty in invoice'
+							);
+						}
 
 						// Generate PDF with the given info.
 						const stripeBuyDate = new Date(invoice.created * 1000);
@@ -150,8 +153,11 @@ const webhookHandler = async (
 							license_end_date: licenseEndDate,
 							number_devs: 8,
 							stripe_buy_date: stripeBuyDate,
-							stripe_buyer_name: customerName,
+							stripe_buyer_name: invoice.customer_name,
 							stripe_buyer_email: invoice.customer_email,
+							stripe_buyer_address: stripeAddressToString(
+								invoice.customer_address
+							),
 						});
 
 						// Send the email with the attached PDF.
@@ -162,7 +168,7 @@ const webhookHandler = async (
 								stripeBuyDate,
 								'dd/MM/yyyy'
 							)} to ${format(licenseEndDate, 'dd/MM/yyyy')}`,
-							text: `Hello ${customerName},
+							text: `Hello ${invoice.customer_name},
 
 Thank you for using Reacher. You will find attached the Commercial License for the period of ${format(
 								stripeBuyDate,
@@ -210,5 +216,31 @@ Amaury`,
 		res.status(405).json({ error: 'Method Not Allowed' });
 	}
 };
+
+/**
+ * Convert a Stripe.Address object to string representing the address.
+ */
+function stripeAddressToString(addr: Stripe.Address | null): string {
+	if (
+		!addr ||
+		!addr.line1 ||
+		!addr.postal_code ||
+		!addr.city ||
+		!addr.country
+	) {
+		throw new Error(`Got invalid address: ${JSON.stringify(addr)}`);
+	}
+
+	return [
+		addr.line1,
+		addr.line2,
+		addr.postal_code,
+		addr.city,
+		addr.state,
+		addr.country,
+	]
+		.filter((x) => !!x)
+		.join(', ');
+}
 
 export default withSentry(webhookHandler);

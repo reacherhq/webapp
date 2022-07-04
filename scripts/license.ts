@@ -9,12 +9,12 @@ async function main(): Promise<void> {
 
 	if (myArgs.length < 2 || myArgs.length > 3) {
 		console.error(
-			'Usage: yarn gen:license [name] [email] [optional_start_date]'
+			'Usage: yarn gen:license [name] [email] [address] [optional_start_date]'
 		);
 		process.exit(1);
 	}
 
-	const startDate = myArgs[2] ? new Date(myArgs[2]) : new Date();
+	const startDate = myArgs[3] ? new Date(myArgs[3]) : new Date();
 
 	// Generate with dummy data.
 	const pdf = await generateLicense({
@@ -25,6 +25,7 @@ async function main(): Promise<void> {
 		stripe_buy_date: startDate,
 		stripe_buyer_name: myArgs[0],
 		stripe_buyer_email: myArgs[1],
+		stripe_buyer_address: myArgs[2],
 	});
 
 	const path = `${tmpdir()}/${pdf.filename}`;
