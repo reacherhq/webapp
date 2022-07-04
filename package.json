@@ -19,7 +19,7 @@
 		"@reacherhq/api": "^0.3.2",
 		"@sentry/nextjs": "^6.19.7",
 		"@stripe/stripe-js": "^1.29.0",
-		"@supabase/supabase-js": "^1.24.0",
+		"@supabase/supabase-js": "^1.35.4",
 		"@types/cors": "^2.8.12",
 		"@types/mailgun-js": "^0.22.12",
 		"@types/markdown-pdf": "^9.0.1",
