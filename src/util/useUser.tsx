@@ -1,4 +1,5 @@
 import type {
+	ApiError,
 	Provider,
 	Session,
 	User,
@@ -23,18 +24,18 @@ interface UserContext {
 		user: User | null;
 		provider?: Provider;
 		url?: string | null;
-		error: Error | null;
+		error: ApiError | null;
 	}>;
 	resetPassword: (
 		email: string
-	) => Promise<{ data: unknown | null; error: Error | null }>;
+	) => Promise<{ data: unknown | null; error: ApiError | null }>;
 	signOut: () => Promise<void>;
 	signUp: (options: UserCredentials) => Promise<{
 		session: Session | null;
 		user: User | null;
 		provider?: Provider;
 		url?: string | null;
-		error: Error | null;
+		error: ApiError | null;
 	}>;
 	subscription: SupabaseSubscription | null;
 	user: User | null;
