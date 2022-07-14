@@ -187,7 +187,11 @@ async function forwardToBackend(
 		// one gets treated specially, as we'll always return its response.
 		for (let i = 0; i < reacherBackends.length - 1; i++) {
 			try {
-				const result = await makeBackendCall(reacherBackends[i], req, user)
+				const result = await makeBackendCall(
+					reacherBackends[i],
+					req,
+					user
+				);
 
 				if (result.is_reachable != 'unknown') {
 					return res.status(200).json(result);
@@ -195,13 +199,16 @@ async function forwardToBackend(
 			} catch {
 				// Continue loop
 			}
-
 		}
 
 		// If we arrive here, it means all previous backend calls errored or
 		// returned "unknown". We make the last backend call, and always return
 		// its response.
-		const result = await makeBackendCall(reacherBackends[reacherBackends.length - 1], req, user)
+		const result = await makeBackendCall(
+			reacherBackends[reacherBackends.length - 1],
+			req,
+			user
+		);
 
 		return res.status(200).json(result);
 	} catch (err) {
@@ -244,5 +251,5 @@ async function makeBackendCall(
 		is_reachable: result.data.is_reachable,
 	});
 
-	return result.data
+	return result.data;
 }
