@@ -193,7 +193,7 @@ async function forwardToBackend(
 					user
 				);
 
-				if (result.is_reachable != 'unknown') {
+				if (result.is_reachable !== 'unknown') {
 					return res.status(200).json(result);
 				}
 			} catch {
@@ -223,6 +223,9 @@ async function forwardToBackend(
 	}
 }
 
+/**
+ * Make a single call to the backend, and log some metadata to the DB.
+ */
 async function makeBackendCall(
 	reacherBackend: string,
 	req: NextApiRequest,
