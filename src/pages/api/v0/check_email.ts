@@ -175,35 +175,42 @@ async function forwardToBackend(
 	user: SupabaseUser
 ) {
 	try {
-		const reacherBackend = process.env.RCH_BACKEND_URL;
-		if (!reacherBackend) {
+		if (!process.env.RCH_BACKEND_URL) {
 			throw new Error('Got empty reacher backend url.');
 		}
 
-		// Measure the API request time.
-		const startDate = new Date();
+		// RCH_BACKEND_URL is a comma-separated string of multiple backend URLs
+		// that we try sequentially.
+		const reacherBackends = process.env.RCH_BACKEND_URL.split(',');
 
-		// Send an API request to Reacher backend, which handles email
-		// verifications, see https://github.com/reacherhq/backend.
-		const result = await axios.post<CheckEmailOutput>(
-			`${reacherBackend}${ENDPOINT}`,
-			req.body
+		// Note that we don't loop the last element of reacherBackends. That
+		// one gets treated specially, as we'll always return its response.
+		for (let i = 0; i < reacherBackends.length - 1; i++) {
+			try {
+				const result = await makeBackendCall(
+					reacherBackends[i],
+					req,
+					user
+				);
+
+				if (result.is_reachable !== 'unknown') {
+					return res.status(200).json(result);
+				}
+			} catch {
+				// Continue loop
+			}
+		}
+
+		// If we arrive here, it means all previous backend calls errored or
+		// returned "unknown". We make the last backend call, and always return
+		// its response.
+		const result = await makeBackendCall(
+			reacherBackends[reacherBackends.length - 1],
+			req,
+			user
 		);
 
-		const endDate = new Date();
-
-		// If successful, also log an API call entry in the database.
-		await supabaseAdmin.from<SupabaseCall>('calls').insert({
-			endpoint: ENDPOINT,
-			user_id: user.id,
-			backend: reacherBackend,
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			backend_ip: result.request?.socket?.remoteAddress as string,
-			duration: endDate.getTime() - startDate.getTime(), // In ms.
-			is_reachable: result.data.is_reachable,
-		});
-
-		return res.status(200).json(result.data);
+		return res.status(200).json(result);
 	} catch (err) {
 		const statusCode = (err as AxiosError).response?.status;
 		if (!statusCode) {
@@ -214,4 +221,38 @@ async function forwardToBackend(
 			error: (err as AxiosError<unknown>).response?.data,
 		});
 	}
+}
+
+/**
+ * Make a single call to the backend, and log some metadata to the DB.
+ */
+async function makeBackendCall(
+	reacherBackend: string,
+	req: NextApiRequest,
+	user: SupabaseUser
+): Promise<CheckEmailOutput> {
+	// Measure the API request time.
+	const startDate = new Date();
+
+	// Send an API request to Reacher backend, which handles email
+	// verifications, see https://github.com/reacherhq/backend.
+	const result = await axios.post<CheckEmailOutput>(
+		`${reacherBackend}${ENDPOINT}`,
+		req.body
+	);
+
+	const endDate = new Date();
+
+	// If successful, also log an API call entry in the database.
+	await supabaseAdmin.from<SupabaseCall>('calls').insert({
+		endpoint: ENDPOINT,
+		user_id: user.id,
+		backend: reacherBackend,
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		backend_ip: result.request?.socket?.remoteAddress as string,
+		duration: endDate.getTime() - startDate.getTime(), // In ms.
+		is_reachable: result.data.is_reachable,
+	});
+
+	return result.data;
 }
