@@ -136,7 +136,10 @@ export function ProductCard({
 			price={priceString}
 			subtitle={
 				product.id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
-					'Self-host Reacher with your own infrastructure.'
+					<span>
+						Self-host Reacher <br />
+						with your own infrastructure.
+					</span>
 				) : (
 					<span>
 						Use Reacher&apos;s servers with <br />
@@ -169,11 +172,21 @@ function saasFeatures(): (string | React.ReactElement)[] {
 
 function licenseFeatures(): (string | React.ReactElement)[] {
 	return [
+		<span key="licenseFeatures-0">
+			<strong>Unlimited</strong> email verifications per month.
+		</span>,
 		<span key="licenseFeatures-1">
-			<strong>Unlimited</strong> email verifications.
+			<strong>💪 Bulk</strong> email verification.{' '}
+			<a
+				href="https://help.reacher.email/bulk-email-verification"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Read more.
+			</a>
 		</span>,
 		<span key="licenseFeatures-2">
-			Self-host in your <strong>commercial apps</strong>. No data sent
+			Self-host in <strong>your commercial apps</strong>. No data sent
 			back to Reacher.
 		</span>,
 		<span key="licenseFeatures-3">
@@ -199,7 +212,7 @@ function licenseFeatures(): (string | React.ReactElement)[] {
 			(Heroku, Docker).
 		</span>,
 		<span key="licenseFeatures-5">
-			Learn more about the{' '}
+			See{' '}
 			<a
 				href="https://help.reacher.email/reacher-licenses"
 				target="_blank"
