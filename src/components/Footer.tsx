@@ -17,9 +17,9 @@ export function Footer(): React.ReactElement {
 							<Image height={48} src={logo} width={48} />
 							<Spacer />
 							<Text>
-								Made in a small independent
+								Made by Amaury, an indie
 								<br />
-								studio in Paris 🇫🇷.
+								developer based in Paris 🇫🇷.
 							</Text>
 						</div>
 					</Grid>
@@ -69,7 +69,7 @@ export function Footer(): React.ReactElement {
 						</div>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
-						<Text h5>Contact Us</Text>
+						<Text h5>Contact</Text>
 						<Spacer y={2} />
 						<div>
 							<Link href="mailto:amaury@reacher.email">

@@ -69,6 +69,8 @@ export interface SupabaseCall {
 	duration?: number;
 	backend?: string;
 	backend_ip: string;
+	domain?: string;
+	verification_id: string;
 	is_reachable: 'safe' | 'invalid' | 'risky' | 'unknown';
 }
 
@@ -119,9 +121,11 @@ export async function getApiUsageClient(
 	user: User,
 	subscription: SupabaseSubscription | null | undefined
 ): Promise<number> {
-	const { count, error } = await supabase
+	// Supabase-js doesn't allow for GROUP BY yet, so we fetch all
+	// verification_ids, and filter out duplicates here.
+	const { data, error } = await supabase
 		.from<SupabaseCall>('calls')
-		.select('*', { count: 'exact' })
+		.select('verification_id')
 		.eq('user_id', user.id)
 		.gt('created_at', getUsageStartDate(subscription).toISOString());
 
@@ -129,11 +133,14 @@ export async function getApiUsageClient(
 		throw error;
 	}
 
-	if (count === null) {
+	if (data === null) {
 		throw new Error(
-			`Got null count in getApiUsageClient for user ${user.id}.`
+			`Got null data in getApiUsageClient for user ${user.id}.`
 		);
 	}
+
+	const count = new Set(data.map(({ verification_id }) => verification_id))
+		.size;
 
 	return count;
 }

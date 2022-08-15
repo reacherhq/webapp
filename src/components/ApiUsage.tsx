@@ -1,4 +1,5 @@
 import { Capacity, Text } from '@geist-ui/react';
+import { Loader } from '@geist-ui/react-icons';
 import { format, parseISO } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
@@ -39,7 +40,11 @@ export function ApiUsage(): React.ReactElement {
 
 				<Text h4>
 					<Text type="success" span>
-						{apiCalls === undefined ? '...' : apiCalls}
+						{apiCalls === undefined ? (
+							<Loader size={16} />
+						) : (
+							apiCalls
+						)}
 					</Text>
 					/{subApiMaxCalls(subscription)}
 				</Text>
