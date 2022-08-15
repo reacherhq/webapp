@@ -1,4 +1,4 @@
-import type { CheckEmailOutput } from '@reacherhq/api';
+import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
 import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
@@ -7,6 +7,7 @@ import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { getClientIp } from 'request-ip';
+import { v4 } from 'uuid';
 
 import { setRateLimitHeaders } from '../../../util/helpers';
 import { sentryException } from '../../../util/sentry';
@@ -166,6 +167,21 @@ const checkEmail = async (
 
 export default withSentry(checkEmail);
 
+interface ReacherBackend {
+	/**
+	 * Is bulk email verification enabled
+	 */
+	hasBulk: boolean;
+	/**
+	 * IP address of the backend (if known).
+	 */
+	ip?: string;
+	/**
+	 * Backend URL.
+	 */
+	url: string;
+}
+
 /**
  * Forwards the Next.JS request to Reacher's backend.
  */
@@ -175,19 +191,28 @@ async function forwardToBackend(
 	user: SupabaseUser
 ) {
 	try {
-		if (!process.env.RCH_BACKEND_URL) {
-			throw new Error('Got empty reacher backend url.');
+		if (!process.env.RCH_BACKENDS) {
+			throw new Error('Got empty RCH_BACKENDS env var.');
 		}
 
 		// RCH_BACKEND_URL is a comma-separated string of multiple backend URLs
 		// that we try sequentially.
-		const reacherBackends = process.env.RCH_BACKEND_URL.split(',');
+		const reacherBackends = JSON.parse(
+			process.env.RCH_BACKENDS
+		) as ReacherBackend[];
+
+		// Create a unique UUID for each verification. The purpose of this
+		// verificationId is that we insert one row in the `calls` table per
+		// backend call. However, if we try the backends sequentially, we don't
+		// want to charge the user 2 credits for 1 email verification.
+		const verificationId = v4();
 
 		// Note that we don't loop the last element of reacherBackends. That
 		// one gets treated specially, as we'll always return its response.
 		for (let i = 0; i < reacherBackends.length - 1; i++) {
 			try {
 				const result = await makeBackendCall(
+					verificationId,
 					reacherBackends[i],
 					req,
 					user
@@ -205,6 +230,7 @@ async function forwardToBackend(
 		// returned "unknown". We make the last backend call, and always return
 		// its response.
 		const result = await makeBackendCall(
+			verificationId,
 			reacherBackends[reacherBackends.length - 1],
 			req,
 			user
@@ -227,7 +253,8 @@ async function forwardToBackend(
  * Make a single call to the backend, and log some metadata to the DB.
  */
 async function makeBackendCall(
-	reacherBackend: string,
+	verificationId: string,
+	reacherBackend: ReacherBackend,
 	req: NextApiRequest,
 	user: SupabaseUser
 ): Promise<CheckEmailOutput> {
@@ -237,22 +264,33 @@ async function makeBackendCall(
 	// Send an API request to Reacher backend, which handles email
 	// verifications, see https://github.com/reacherhq/backend.
 	const result = await axios.post<CheckEmailOutput>(
-		`${reacherBackend}${ENDPOINT}`,
+		`${reacherBackend.url}${ENDPOINT}`,
 		req.body
 	);
 
 	const endDate = new Date();
 
+	// Get the domain of the email, i.e. the part after '@'.
+	const email = req.body as CheckEmailInput;
+	const parts = email.to_email.split('@');
+	const domain = parts && parts[1];
+
 	// If successful, also log an API call entry in the database.
-	await supabaseAdmin.from<SupabaseCall>('calls').insert({
+	const { error } = await supabaseAdmin.from<SupabaseCall>('calls').insert({
 		endpoint: ENDPOINT,
 		user_id: user.id,
-		backend: reacherBackend,
+		backend: reacherBackend.url,
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		backend_ip: result.request?.socket?.remoteAddress as string,
+		backend_ip:
+			reacherBackend.ip ||
+			(result.request?.socket?.remoteAddress as string),
+		domain,
+		verification_id: verificationId,
 		duration: endDate.getTime() - startDate.getTime(), // In ms.
 		is_reachable: result.data.is_reachable,
 	});
+
+	if (error) throw error;
 
 	return result.data;
 }

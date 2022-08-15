@@ -30,7 +30,6 @@ export const upsertProductRecord = async (
 		.from('products')
 		.insert([productData], { upsert: true });
 	if (error) throw error;
-	console.log(`Product inserted/updated: ${product.id}`);
 };
 
 export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
@@ -55,7 +54,6 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 		.from('prices')
 		.insert([priceData], { upsert: true });
 	if (error) throw error;
-	console.log(`Price inserted/updated: ${price.id}`);
 };
 
 export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
@@ -84,8 +82,6 @@ export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 			.insert([{ id: uuid, stripe_customer_id: customer.id }]);
 
 		if (supabaseError) throw supabaseError;
-
-		console.log(`New customer created and inserted for ${uuid}.`);
 
 		return customer.id;
 	}
@@ -181,9 +177,6 @@ export const manageSubscriptionStatusChange = async (
 		.from('subscriptions')
 		.insert([subscriptionData], { upsert: true });
 	if (error) throw error;
-	console.log(
-		`Inserted/updated subscription [${subscription.id}] for user [${uuid}]`
-	);
 
 	// For a new subscription copy the billing details to the customer object.
 	// NOTE: This is a costly operation and should happen at the very end.

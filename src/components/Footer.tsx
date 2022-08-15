@@ -17,7 +17,9 @@ export function Footer(): React.ReactElement {
 							<Image height={48} src={logo} width={48} />
 							<Spacer />
 							<Text>
-								Made by Amaury, an indie<br />developer based in Paris 🇫🇷.
+								Made by Amaury, an indie
+								<br />
+								developer based in Paris 🇫🇷.
 							</Text>
 						</div>
 					</Grid>
