@@ -108,7 +108,7 @@ export function ProductCard({
 						</div>
 						<Text small>
 							Want a <strong>free trial</strong> before
-							committing? Feel free to try self-hosting with our{' '}
+							committing? Feel free to try self-hosting with the{' '}
 							<a
 								href="https://help.reacher.email/self-host-guide"
 								target="_blank"
