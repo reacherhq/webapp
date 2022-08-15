@@ -280,9 +280,9 @@ async function makeBackendCall(
 		endpoint: ENDPOINT,
 		user_id: user.id,
 		backend: reacherBackend.url,
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		backend_ip:
 			reacherBackend.ip ||
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			(result.request?.socket?.remoteAddress as string),
 		domain,
 		verification_id: verificationId,
