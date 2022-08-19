@@ -49,7 +49,6 @@ export function FreeTrial({
 					</a>
 					.
 				</span>,
-				'No credit card required.',
 			]}
 			header="Free Forever"
 			subtitle={
