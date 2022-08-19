@@ -219,7 +219,7 @@ function SignUp(): React.ReactElement {
 				<Spacer />
 				<Text em small>
 					We won&apos;t charge you until you <u>manually</u> upgrade
-					your pricing plan.
+					to a paid plan.
 				</Text>
 
 				{message && <SigninLayoutMessage message={message} />}
