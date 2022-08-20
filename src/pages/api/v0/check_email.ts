@@ -61,10 +61,10 @@ const cors = initMiddleware(
  */
 const TEST_API_TOKEN = 'test_api_token';
 
-const EMAILS_PER_MINUTE = 5;
+const EMAILS_PER_MINUTE = 2;
 
 const rateLimiter = new RateLimiterMemory({
-	points: EMAILS_PER_MINUTE, // 5 emails
+	points: EMAILS_PER_MINUTE, // 2 emails
 	duration: 60, // Per minute
 });
 
