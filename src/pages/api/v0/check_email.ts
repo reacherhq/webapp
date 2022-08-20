@@ -114,7 +114,15 @@ const checkEmail = async (
 				); // Consume 1 email verification
 				setRateLimitHeaders(res, rateLimiterRes, EMAILS_PER_MINUTE);
 
-				return forwardToBackend(req, res, user);
+				const reacherBackends = getReacherBackends();
+				const backendRes = await makeSingleBackendCall(
+					v4(),
+					reacherBackends[reacherBackends.length - 1], // Make the call to only 1 backend, the last one, to avoid spamming all others.
+					req,
+					user
+				);
+
+				return res.status(200).json(backendRes);
 			} catch (rateLimiterRes) {
 				res.status(429).json({ error: 'Rate limit exceeded' });
 				setRateLimitHeaders(
@@ -155,7 +163,7 @@ const checkEmail = async (
 				return;
 			}
 
-			return forwardToBackend(req, res, user);
+			return tryAllBackends(req, res, user);
 		}
 	} catch (err) {
 		sentryException(err as Error);
@@ -167,39 +175,17 @@ const checkEmail = async (
 
 export default withSentry(checkEmail);
 
-interface ReacherBackend {
-	/**
-	 * Is bulk email verification enabled
-	 */
-	hasBulk: boolean;
-	/**
-	 * IP address of the backend (if known).
-	 */
-	ip?: string;
-	/**
-	 * Backend URL.
-	 */
-	url: string;
-}
-
 /**
- * Forwards the Next.JS request to Reacher's backend.
+ * Forwards the Next.JS request to Reacher's backends, try them all in the
+ * order given by `RCH_BACKENDS` env variable.
  */
-async function forwardToBackend(
+async function tryAllBackends(
 	req: NextApiRequest,
 	res: NextApiResponse,
 	user: SupabaseUser
 ) {
 	try {
-		if (!process.env.RCH_BACKENDS) {
-			throw new Error('Got empty RCH_BACKENDS env var.');
-		}
-
-		// RCH_BACKEND_URL is a comma-separated string of multiple backend URLs
-		// that we try sequentially.
-		const reacherBackends = JSON.parse(
-			process.env.RCH_BACKENDS
-		) as ReacherBackend[];
+		const reacherBackends = getReacherBackends();
 
 		// Create a unique UUID for each verification. The purpose of this
 		// verificationId is that we insert one row in the `calls` table per
@@ -211,7 +197,7 @@ async function forwardToBackend(
 		// one gets treated specially, as we'll always return its response.
 		for (let i = 0; i < reacherBackends.length - 1; i++) {
 			try {
-				const result = await makeBackendCall(
+				const result = await makeSingleBackendCall(
 					verificationId,
 					reacherBackends[i],
 					req,
@@ -229,7 +215,7 @@ async function forwardToBackend(
 		// If we arrive here, it means all previous backend calls errored or
 		// returned "unknown". We make the last backend call, and always return
 		// its response.
-		const result = await makeBackendCall(
+		const result = await makeSingleBackendCall(
 			verificationId,
 			reacherBackends[reacherBackends.length - 1],
 			req,
@@ -252,7 +238,7 @@ async function forwardToBackend(
 /**
  * Make a single call to the backend, and log some metadata to the DB.
  */
-async function makeBackendCall(
+async function makeSingleBackendCall(
 	verificationId: string,
 	reacherBackend: ReacherBackend,
 	req: NextApiRequest,
@@ -293,4 +279,42 @@ async function makeBackendCall(
 	if (error) throw error;
 
 	return result.data;
+}
+
+interface ReacherBackend {
+	/**
+	 * Is bulk email verification enabled
+	 */
+	hasBulk: boolean;
+	/**
+	 * IP address of the backend (if known).
+	 */
+	ip?: string;
+	/**
+	 * Backend URL.
+	 */
+	url: string;
+}
+
+// Cache the result of the getReacherBackends parsing function.
+let cachedReacherBackends: ReacherBackend[] | undefined;
+
+/**
+ * Get all of Reacher's internal backends, as an array.
+ */
+function getReacherBackends(): ReacherBackend[] {
+	if (cachedReacherBackends) {
+		return cachedReacherBackends;
+	}
+	cachedReacherBackends;
+	if (!process.env.RCH_BACKENDS) {
+		throw new Error('Got empty RCH_BACKENDS env var.');
+	}
+
+	// RCH_BACKENDS is an array of all Reacher's internal backends.
+	cachedReacherBackends = JSON.parse(
+		process.env.RCH_BACKENDS
+	) as ReacherBackend[];
+
+	return cachedReacherBackends;
 }
