@@ -209,7 +209,7 @@ function licenseFeatures(): (string | React.ReactElement)[] {
 			>
 				self-host guides
 			</a>{' '}
-			(Docker, OVH).
+			(Heroku, Docker).
 		</span>,
 		<span key="licenseFeatures-5">
 			See{' '}

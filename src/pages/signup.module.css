@@ -1,8 +1,0 @@
-/**
- * Make the stripe CC input same style as the Geist inputs.
- */
-.inputWrapper {
-    border: 1px solid #eaeaea;
-    border-radius: 5px;
-    padding: 12px;
-}
