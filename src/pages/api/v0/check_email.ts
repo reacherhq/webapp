@@ -1,7 +1,7 @@
 import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
 import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosRequestHeaders } from 'axios';
 import Cors from 'cors';
 import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -251,7 +251,12 @@ async function makeSingleBackendCall(
 	// verifications, see https://github.com/reacherhq/backend.
 	const result = await axios.post<CheckEmailOutput>(
 		`${reacherBackend.url}${ENDPOINT}`,
-		req.body
+		req.body,
+		{
+			headers: {
+				'x-reacher-secret': process.env.RCH_HEADER_SECRET || '',
+			},
+		}
 	);
 
 	const endDate = new Date();
