@@ -1,7 +1,7 @@
 import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
 import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
-import axios, { AxiosError, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
 import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -99,7 +99,15 @@ const checkEmail = async (
 
 		// Handle the landing page demo token.
 		if (token === TEST_API_TOKEN) {
-			if (process.env.DISABLE_TEST_API_TOKEN) {
+			// Sometimes, I see that people are abusing the public demo, so I
+			// turn it off by setting this env variable to 1. In that case, we
+			// only allow Gmail verifications.
+			if (
+				process.env.DISABLE_TEST_API_TOKEN &&
+				!(req.body as CheckEmailInput)?.to_email?.endsWith(
+					'gmail.com'
+				)
+			) {
 				res.status(401).json({
 					error: 'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
 				});
