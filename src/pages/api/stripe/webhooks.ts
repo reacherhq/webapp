@@ -138,11 +138,7 @@ const webhookHandler = async (
 							return;
 						}
 
-						if (!invoice.customer_name) {
-							throw new Error(
-								'customer_name is empty in invoice'
-							);
-						}
+						const customerName = await getCustomerName(invoice);
 
 						// Generate PDF with the given info.
 						const stripeBuyDate = new Date(invoice.created * 1000);
@@ -153,7 +149,7 @@ const webhookHandler = async (
 							license_end_date: licenseEndDate,
 							number_devs: 8,
 							stripe_buy_date: stripeBuyDate,
-							stripe_buyer_name: invoice.customer_name,
+							stripe_buyer_name: customerName,
 							stripe_buyer_email: invoice.customer_email,
 							stripe_buyer_address: stripeAddressToString(
 								invoice.customer_address
@@ -163,12 +159,12 @@ const webhookHandler = async (
 						// Send the email with the attached PDF.
 						const data = {
 							from: 'Amaury <amaury@reacher.email>',
-							to: 'amaury@reacher.email',
+							to: 'test@reacher.email', // TODO Change to real recipient
 							subject: `Reacher Commercial License: ${format(
 								stripeBuyDate,
 								'dd/MM/yyyy'
 							)} to ${format(licenseEndDate, 'dd/MM/yyyy')}`,
-							text: `Hello ${invoice.customer_name},
+							text: `Hello ${customerName},
 
 Thank you for using Reacher. You will find attached the Commercial License for the period of ${format(
 								stripeBuyDate,
@@ -241,6 +237,24 @@ function stripeAddressToString(addr: Stripe.Address | null): string {
 	]
 		.filter((x) => !!x)
 		.join(', ');
+}
+
+// / Stripe invoice object doesn't always include the customer name. If it's
+// not present, we make an additional API call.
+async function getCustomerName(invoice: Stripe.Invoice): Promise<string> {
+	if (invoice.customer_name) {
+		return invoice.customer_name;
+	}
+
+	try {
+		const c = (await stripe.customers.retrieve(
+			invoice.customer as string
+		)) as Stripe.Customer;
+
+		return c.name || 'Reacher customer';
+	} catch (e) {
+		return 'Reacher customer';
+	}
 }
 
 export default withSentry(webhookHandler);

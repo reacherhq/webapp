@@ -1,7 +1,7 @@
 import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
 import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
-import axios, { AxiosError, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
 import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
