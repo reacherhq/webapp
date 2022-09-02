@@ -159,12 +159,12 @@ const webhookHandler = async (
 						// Send the email with the attached PDF.
 						const data = {
 							from: 'Amaury <amaury@reacher.email>',
-							to: 'amaury@reacher.email',
+							to: 'amaury@reacher.email', // TODO Change to real recipient
 							subject: `Reacher Commercial License: ${format(
 								stripeBuyDate,
 								'dd/MM/yyyy'
 							)} to ${format(licenseEndDate, 'dd/MM/yyyy')}`,
-							text: `Hello ${invoice.customer_name},
+							text: `Hello ${customerName},
 
 Thank you for using Reacher. You will find attached the Commercial License for the period of ${format(
 								stripeBuyDate,
