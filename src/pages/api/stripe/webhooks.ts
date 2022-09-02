@@ -159,7 +159,7 @@ const webhookHandler = async (
 						// Send the email with the attached PDF.
 						const data = {
 							from: 'Amaury <amaury@reacher.email>',
-							to: 'amaury@reacher.email', // TODO Change to real recipient
+							to: 'test@reacher.email', // TODO Change to real recipient
 							subject: `Reacher Commercial License: ${format(
 								stripeBuyDate,
 								'dd/MM/yyyy'

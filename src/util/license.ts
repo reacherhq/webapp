@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { format } from 'date-fns';
 import mdPdf from 'markdown-pdf';
-import { render } from 'mustache';
+import mustache from 'mustache';
 
 const LICENSE_TEMPLATE =
 	'https://raw.githubusercontent.com/reacherhq/policies/master/license/commercial.en.md';
@@ -58,7 +58,7 @@ export async function generateLicense(
 	const { data: template } = await axios.get<string>(LICENSE_TEMPLATE);
 
 	// Format date nicely.
-	const filledMd = render(template, {
+	const filledMd = mustache.render(template, {
 		...metadata,
 		license_end_date: format(metadata.license_end_date, 'MMMM dd yyyy'),
 		number_devs: '8 (eight)', // For now we hardcode to 8.
