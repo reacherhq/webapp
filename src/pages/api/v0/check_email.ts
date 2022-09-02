@@ -104,9 +104,7 @@ const checkEmail = async (
 			// only allow Gmail verifications.
 			if (
 				process.env.DISABLE_TEST_API_TOKEN &&
-				!(req.body as CheckEmailInput)?.to_email?.endsWith(
-					'gmail.com'
-				)
+				!(req.body as CheckEmailInput)?.to_email?.endsWith('gmail.com')
 			) {
 				res.status(401).json({
 					error: 'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
