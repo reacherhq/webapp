@@ -41,7 +41,7 @@ describe('/api/stripe/webhooks', () => {
 	/**
 	 * This test requires a server running on `getURL()`. Skipped by default.
 	 */
-	it('sends an email on invoice payment succeeded', async () => {
+	it.skip('sends an email on invoice payment succeeded', async () => {
 		dotenv.config({
 			path: path.resolve(process.cwd(), '.env.development.local'),
 		});
