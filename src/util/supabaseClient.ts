@@ -124,7 +124,7 @@ export async function getApiUsageClient(
 	// Supabase-js doesn't allow for GROUP BY yet, so we fetch all
 	// calls to backend1 (our 1st backend). All calls to other backends are
 	// free.
-	// TODO Use verification ID.
+	// TODO Switch to use verification_id once GROUP BY is implemented.
 	const { error, count } = await supabase
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
