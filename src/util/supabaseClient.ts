@@ -127,7 +127,9 @@ export async function getApiUsageClient(
 		.from<SupabaseCall>('calls')
 		.select('verification_id')
 		.eq('user_id', user.id)
-		.gt('created_at', getUsageStartDate(subscription).toISOString());
+		.gt('created_at', getUsageStartDate(subscription).toISOString())
+		.order('created_at', { ascending: false })
+		.limit(10000); // Since our highest plan is 10k, we're sure to get all requests
 
 	if (error) {
 		throw error;
