@@ -122,29 +122,21 @@ export async function getApiUsageClient(
 	subscription: SupabaseSubscription | null | undefined
 ): Promise<number> {
 	// Supabase-js doesn't allow for GROUP BY yet, so we fetch all
-	// verification_ids, and filter out duplicates here.
-	const { data, error } = await supabase
+	// calls to backend1 (our 1st backend). All calls to other backends are
+	// free.
+	// TODO Use verification ID.
+	const { error, count } = await supabase
 		.from<SupabaseCall>('calls')
-		.select('verification_id')
+		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.gt('created_at', getUsageStartDate(subscription).toISOString())
-		.order('created_at', { ascending: false })
-		.limit(10000); // Since our highest plan is 10k, we're sure to get all requests
+		.eq('backend', process.env.NEXT_PUBLIC_RCH_BACKEND_1)
+		.gt('created_at', getUsageStartDate(subscription).toISOString());
 
 	if (error) {
 		throw error;
 	}
 
-	if (data === null) {
-		throw new Error(
-			`Got null data in getApiUsageClient for user ${user.id}.`
-		);
-	}
-
-	const count = new Set(data.map(({ verification_id }) => verification_id))
-		.size;
-
-	return count;
+	return count || 0;
 }
 
 // Returns the start date of the usage metering.
