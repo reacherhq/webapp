@@ -304,7 +304,7 @@ interface ReacherBackend {
 	/**
 	 * Human-readable name of the backend.
 	 */
-	name: string
+	name: string;
 	/**
 	 * Backend URL.
 	 */
