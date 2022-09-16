@@ -276,7 +276,7 @@ async function makeSingleBackendCall(
 	const { error } = await supabaseAdmin.from<SupabaseCall>('calls').insert({
 		endpoint: ENDPOINT,
 		user_id: user.id,
-		backend: reacherBackend.url,
+		backend: reacherBackend.name,
 		backend_ip:
 			reacherBackend.ip ||
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -301,6 +301,10 @@ interface ReacherBackend {
 	 * IP address of the backend (if known).
 	 */
 	ip?: string;
+	/**
+	 * Human-readable name of the backend.
+	 */
+	name: string
 	/**
 	 * Backend URL.
 	 */
