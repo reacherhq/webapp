@@ -4909,10 +4909,10 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-rate-limiter-flexible@^2.3.9:
-  version "2.3.9"
-  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-2.3.9.tgz#67e2ac539ea01f57e000f69bebb85ae041d4c3ca"
-  integrity sha512-N8VlhY2yztqpF+YUqb2TX7ROV9naBLlnpacxJVA5FkZ3LQZplM7dIy9qU8wFzpgmMER2GfVb5n++kmMVChfvXA==
+rate-limiter-flexible@^2.3.10:
+  version "2.3.10"
+  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-2.3.10.tgz#3d707b165b06fa4f193e0d3c6c5684f6e3acd1d3"
+  integrity sha512-bXqRBBb85WmnJemw9+xLdA7ezLXwZ+hXcOD8ZzfGMhbus4jHRrjTMXZ1kJqpKnpGu34scZc6f0qYNSxBwO7yrg==
 
 raw-body@^2.2.0:
   version "2.4.1"
