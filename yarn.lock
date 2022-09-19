@@ -6066,10 +6066,10 @@ vary@^1:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vercel@^28.2.4:
-  version "28.2.4"
-  resolved "https://registry.yarnpkg.com/vercel/-/vercel-28.2.4.tgz#3ee1247fa294914aa4b1cbc77a2e87859dce7bd5"
-  integrity sha512-LC9tcGVqDCJyopKqsgwdW2IUVFJvP1Fc0I/2A1wMmRXtEeHwNHctPP8VlBXpO+i8DaRdQYipsFcKqdDJHZrwBw==
+vercel@^28.2.5:
+  version "28.2.5"
+  resolved "https://registry.yarnpkg.com/vercel/-/vercel-28.2.5.tgz#54d03217e4fcf57b58dded686d248b652ab8ad6b"
+  integrity sha512-EFXHq/zYeBXNvsQ8FPtJ1Qw86qvQQvA7Rwb3/jljS3Ub55QQ8Tn8o5hqzee4V/Y3/aGJIU5n4hL37oooyIuZaw==
   dependencies:
     "@vercel/build-utils" "5.4.2"
     "@vercel/go" "2.2.5"
