@@ -1,4 +1,4 @@
-import { Input, Link as GLink, Spacer, Text } from '@geist-ui/react';
+import { Input, Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -9,39 +9,92 @@ import {
 	SigninMessage,
 } from '../components';
 import { sentryException } from '../util/sentry';
-import { updateUserName } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
+
+function Feedback({
+	onChange,
+}: {
+	onChange: (f: string) => void;
+}): React.ReactElement {
+	const [option, setOption] = useState<string | undefined>();
+
+	return (
+		<>
+			<Text>How did you hear about Reacher?</Text>
+			<Select
+				placeholder="Please select an option"
+				onChange={(o) => {
+					setOption(o as string);
+					onChange(o as string);
+				}}
+				size="medium"
+				width="100%"
+			>
+				<Select.Option value="google">Google Search</Select.Option>
+				<Select.Option value="github">Github</Select.Option>
+				<Select.Option value="blog-geekflare">Geekflare</Select.Option>
+				<Select.Option value="blog-du-modérateur">
+					Blog du Modérateur
+				</Select.Option>
+				<Select.Option value="other">Other</Select.Option>
+			</Select>
+
+			{option === 'google' && (
+				<>
+					<Spacer />
+					<Input
+						placeholder='e.g. "email verification api"'
+						onChange={(e) => {
+							const s = e.currentTarget.value;
+							onChange(`${option}:${s}`);
+						}}
+						width="100%"
+					>
+						Which search terms did you use?
+					</Input>
+				</>
+			)}
+			{option === 'other' && (
+				<>
+					<Spacer />
+					<Input
+						placeholder='e.g. "word of mouth", "blog <name>", "website <name.com>"...'
+						onChange={(e) => {
+							const s = e.currentTarget.value;
+							onChange(`${option}:${s}`);
+						}}
+						width="100%"
+					>
+						Could you share some details?
+					</Input>
+				</>
+			)}
+		</>
+	);
+}
 
 export default function SignUp(): React.ReactElement {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [name, setName] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
 	);
+	const [feedback, setFeedback] = useState<string | undefined>();
+
 	const router = useRouter();
 	const { user, signUp } = useUser();
 
 	const handleSignup = async () => {
 		setLoading(true);
 		setMessage(undefined);
-		const {
-			error,
-			session,
-			user: newUser,
-		} = await signUp({
+		const { error } = await signUp({
 			email,
 			password,
 		});
 		if (error) {
 			setMessage({ type: 'error', content: error?.message });
 		} else {
-			// "If "Email Confirmations" is turned on, a user is returned but session will be null"
-			// https://supabase.io/docs/reference/javascript/auth-signup#notes
-			if (session && newUser) {
-				await updateUserName(newUser, name);
-			}
 			setMessage({
 				type: 'success',
 				content:
@@ -59,14 +112,6 @@ export default function SignUp(): React.ReactElement {
 
 	return (
 		<SigninLayout title="Sign Up">
-			<Input
-				placeholder="Name"
-				onChange={(e) => setName(e.currentTarget.value)}
-				width="100%"
-			>
-				Name
-			</Input>
-			<Spacer />
 			<Input
 				type="email"
 				placeholder="Email"
@@ -90,6 +135,7 @@ export default function SignUp(): React.ReactElement {
 			>
 				Password
 			</Input.Password>
+			<Feedback onChange={setFeedback} />
 			{message && <SigninLayoutMessage message={message} />}
 
 			<Spacer />
