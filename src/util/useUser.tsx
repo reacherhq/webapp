@@ -21,7 +21,7 @@ interface UserMetadata {
 	/**
 	 * From where did the user heard Reacher from?
 	 */
-	 heardFrom?: string;
+	heardFrom?: string;
 }
 
 interface UserContext {
