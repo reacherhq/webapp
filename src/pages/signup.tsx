@@ -93,7 +93,7 @@ export default function SignUp(): React.ReactElement {
 				email,
 				password,
 			},
-			{ heard_from: feedback }
+			feedback ? { heardFrom: feedback } : undefined
 		);
 		if (error) {
 			setMessage({ type: 'error', content: error?.message });

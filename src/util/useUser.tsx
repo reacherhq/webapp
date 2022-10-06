@@ -21,7 +21,7 @@ interface UserMetadata {
 	/**
 	 * From where did the user heard Reacher from?
 	 */
-	heard_from?: string;
+	 heardFrom?: string;
 }
 
 interface UserContext {
@@ -39,7 +39,7 @@ interface UserContext {
 	signOut: () => Promise<void>;
 	signUp: (
 		options: UserCredentials,
-		userMetadata: UserMetadata
+		userMetadata?: UserMetadata
 	) => Promise<{
 		session: Session | null;
 		user: User | null;
@@ -127,7 +127,7 @@ export const UserContextProvider: FunctionComponent = (
 			}),
 		signIn: (creds: UserCredentials) =>
 			supabase.auth.signIn(creds, { redirectTo: getURL() }),
-		signUp: (creds: UserCredentials, userMetadata: UserMetadata) =>
+		signUp: (creds: UserCredentials, userMetadata?: UserMetadata) =>
 			supabase.auth.signUp(creds, {
 				redirectTo: getURL(),
 				data: userMetadata,
