@@ -17,6 +17,13 @@ import { getURL } from '../util/helpers';
 import { sentryException } from './sentry';
 import { supabase, SupabaseSubscription, SupabaseUser } from './supabaseClient';
 
+interface UserMetadata {
+	/**
+	 * From where did the user heard Reacher from?
+	 */
+	heardFrom?: string;
+}
+
 interface UserContext {
 	session: Session | null;
 	signIn: (options: UserCredentials) => Promise<{
@@ -30,7 +37,10 @@ interface UserContext {
 		email: string
 	) => Promise<{ data: unknown | null; error: ApiError | null }>;
 	signOut: () => Promise<void>;
-	signUp: (options: UserCredentials) => Promise<{
+	signUp: (
+		options: UserCredentials,
+		userMetadata?: UserMetadata
+	) => Promise<{
 		session: Session | null;
 		user: User | null;
 		provider?: Provider;
@@ -117,8 +127,11 @@ export const UserContextProvider: FunctionComponent = (
 			}),
 		signIn: (creds: UserCredentials) =>
 			supabase.auth.signIn(creds, { redirectTo: getURL() }),
-		signUp: (creds: UserCredentials) =>
-			supabase.auth.signUp(creds, { redirectTo: getURL() }),
+		signUp: (creds: UserCredentials, userMetadata?: UserMetadata) =>
+			supabase.auth.signUp(creds, {
+				redirectTo: getURL(),
+				data: userMetadata,
+			}),
 		signOut: async () => {
 			setUserDetails(null);
 			setSubscription(null);
