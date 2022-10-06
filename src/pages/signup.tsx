@@ -88,10 +88,13 @@ export default function SignUp(): React.ReactElement {
 	const handleSignup = async () => {
 		setLoading(true);
 		setMessage(undefined);
-		const { error } = await signUp({
-			email,
-			password,
-		});
+		const { error } = await signUp(
+			{
+				email,
+				password,
+			},
+			{ heard_from: feedback }
+		);
 		if (error) {
 			setMessage({ type: 'error', content: error?.message });
 		} else {
