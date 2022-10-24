@@ -18,7 +18,7 @@
 		"@geist-ui/react-icons": "^1.0.1",
 		"@reacherhq/api": "^0.3.2",
 		"@sentry/nextjs": "^7.14.0",
-		"@stripe/stripe-js": "^1.36.0",
+		"@stripe/stripe-js": "^1.42.0",
 		"@supabase/supabase-js": "^1.35.7",
 		"@types/cors": "^2.8.12",
 		"@types/mailgun-js": "^0.22.12",
