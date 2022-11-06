@@ -11,13 +11,13 @@ export function GetStartedSaas(): React.ReactElement {
 			<Text h4>How to get started with email verifications?</Text>
 			<Spacer />
 			<Note type="warning" label={false}>
-				💡 If this is your first time with Reacher, check out our{' '}
+				💡 If this is your first time with Reacher, check out the{' '}
 				<a
 					href="https://help.reacher.email/verify-your-1st-email"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					beginner's guide
+					beginner&apos;s guide
 				</a>
 				.
 			</Note>
@@ -89,7 +89,7 @@ export function GetStartedSaas(): React.ReactElement {
 			)}
 
 			<Spacer />
-			<Text h4>Help! I still don't understand what to do.</Text>
+			<Text h4>Help! I still don&apos;t understand what to do.</Text>
 			<Text p>
 				Use the chat widget on the bottom right corner to send me a
 				message, or shoot me an email at{' '}
