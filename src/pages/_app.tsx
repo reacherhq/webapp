@@ -2,7 +2,6 @@ import '../styles/global.css';
 
 import { CssBaseline, GeistProvider, Themes } from '@geist-ui/react';
 import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { Layout } from '../components';
@@ -20,11 +19,6 @@ const myTheme = Themes.createFromLight({
 	},
 });
 
-// https://help.crisp.chat/en/article/how-to-install-crisp-live-chat-on-nextjs-xh9yse/
-const CrispWithNoSSR = dynamic(() => import('../components/Crisp'), {
-	ssr: false,
-});
-
 export default function MyApp({
 	Component,
 	pageProps,
@@ -36,7 +30,6 @@ export default function MyApp({
 				<Layout>
 					<Component {...pageProps} />
 				</Layout>
-				<CrispWithNoSSR />
 			</UserContextProvider>
 		</GeistProvider>
 	);
