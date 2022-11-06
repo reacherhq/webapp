@@ -1,4 +1,4 @@
-import { Card, Snippet, Spacer, Text } from '@geist-ui/react';
+import { Card, Note, Snippet, Spacer, Text } from '@geist-ui/react';
 import React from 'react';
 
 import { useUser } from '../../util/useUser';
@@ -10,6 +10,17 @@ export function GetStartedSaas(): React.ReactElement {
 		<Card>
 			<Text h4>How to get started with email verifications?</Text>
 			<Spacer />
+			<Note type="warning" label={false}>
+				💡 If this is your first time with Reacher, check out our{' '}
+				<a
+					href="https://help.reacher.email/verify-your-1st-email"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					beginner's guide
+				</a>
+				.
+			</Note>
 
 			{userDetails?.api_token ? (
 				<>
@@ -57,9 +68,11 @@ export function GetStartedSaas(): React.ReactElement {
 						width="100%"
 					/>
 					<Text p>
-						For more details, check out our{' '}
+						The most important field to check is{' '}
+						<code>is_reachable</code>.To understand the full API
+						response, check out the{' '}
 						<a
-							href="https://help.reacher.email"
+							href="https://help.reacher.email/email-attributes-inside-json"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -74,6 +87,14 @@ export function GetStartedSaas(): React.ReactElement {
 					amaury@reacher.email if you see this error.
 				</Text>
 			)}
+
+			<Spacer />
+			<Text h4>Help! I still don't understand what to do.</Text>
+			<Text p>
+				Use the chat widget on the bottom right corner to send me a
+				message, or shoot me an email at{' '}
+				<a href="mailto:amaury@reacher.email">amaury@reacher.email</a>.
+			</Text>
 		</Card>
 	);
 }
