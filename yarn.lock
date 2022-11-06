@@ -257,6 +257,15 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
+"@sendinblue/client@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@sendinblue/client/-/client-3.2.2.tgz#3c745394274fbdd172f9e9bfbf8a09f5e1f3c765"
+  integrity sha512-CSsXDv94Uv1/NKNAgu2HhaPp0kK6Ag0inFWsJbH+SAOxjuSyYUefwU6tEXGLWg8gwze9BiJBMEOMI8BmfLlV3w==
+  dependencies:
+    bluebird "^3.5.0"
+    lodash "^4.17.21"
+    request "^2.81.0"
+
 "@sentry/browser@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-7.14.0.tgz#bc2c6934f9270e1287ae1437b63e4b0edd67a9f0"
@@ -1113,6 +1122,11 @@ bindings@^1.4.0:
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   dependencies:
     file-uri-to-path "1.0.0"
+
+bluebird@^3.5.0:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
+  integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
 boxen@^5.0.0:
   version "5.1.2"
@@ -3196,7 +3210,7 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@^4.17.13, lodash@^4.17.14:
+lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==

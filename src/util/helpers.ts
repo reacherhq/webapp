@@ -28,7 +28,11 @@ export const postData = async <T = unknown>({
 }): Promise<T> => {
 	try {
 		const { data: res } = await axios.post<T, AxiosResponse<T>>(url, data, {
-			headers: { 'Content-Type': 'application/json', token },
+			headers: {
+				'Content-Type': 'application/json',
+				token,
+				Authorization: token,
+			},
 			withCredentials: true,
 		});
 
