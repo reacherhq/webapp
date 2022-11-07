@@ -59,6 +59,7 @@ export interface SupabaseUser {
 	full_name?: string;
 	id: string;
 	api_token: string;
+	sendinblue_contact_id?: string;
 }
 
 export interface SupabaseCall {
