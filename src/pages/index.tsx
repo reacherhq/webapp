@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import { Nav } from '../components';
-import { parseHashComponents } from '../util/helpers';
+import { parseHashComponents, postData } from '../util/helpers';
 import { sentryException } from '../util/sentry';
 import { getActiveProductsWithPrices } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
@@ -24,6 +24,7 @@ export default function Index(): React.ReactElement {
 	const router = useRouter();
 	const { user, userFinishedLoading } = useUser();
 	const [isRedirecting, setIsRedirecting] = useState(false);
+	const [emailSent, setEmailSent] = useState(false); // Set if we sent an email upon confirmation. Only do it once.
 
 	useEffect(() => {
 		if (isRedirecting) {
@@ -34,6 +35,25 @@ export default function Index(): React.ReactElement {
 			typeof window !== 'undefined' && window.location.hash
 				? parseHashComponents(window.location.hash)
 				: {};
+
+		// On signup (after email confirmation), add a contact to SendInBlue.
+		// Only do it once.
+		if (
+			!emailSent &&
+			hashComponents.access_token &&
+			hashComponents.type === 'signup'
+		) {
+			setEmailSent(true);
+			postData({
+				url: '/api/sendinblue/create-contact',
+				token: hashComponents.access_token,
+			}).catch(sentryException);
+		}
+
+		// Below is the router from the index '/' page. It's one of:
+		// - /reset_password_part_two
+		// - /login
+		// - /dashboard
 
 		// Password recovery.
 		// https://supabase.io/docs/reference/javascript/reset-password-email#notes
@@ -53,7 +73,7 @@ export default function Index(): React.ReactElement {
 			setIsRedirecting(true);
 			router.replace('/dashboard').catch(sentryException);
 		}
-	}, [isRedirecting, router, userFinishedLoading, user]);
+	}, [isRedirecting, router, userFinishedLoading, user, emailSent]);
 
 	return (
 		<>

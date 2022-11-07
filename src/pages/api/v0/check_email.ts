@@ -99,6 +99,11 @@ const checkEmail = async (
 
 		// Handle the landing page demo token.
 		if (token === TEST_API_TOKEN) {
+			// Always allow test@gmail.com.
+			if ((req.body as CheckEmailInput).to_email === 'test@gmail.com') {
+				res.status(200).json(hardcodedResponse);
+			}
+
 			// Sometimes, I see that people are abusing the public demo, so I
 			// turn it off by setting this env variable to 1. In that case, we
 			// only allow Gmail verifications.
@@ -330,3 +335,38 @@ function getReacherBackends(): ReacherBackend[] {
 
 	return cachedReacherBackends;
 }
+
+// API response for test@gmail.com. Serves as a cache.
+const hardcodedResponse = {
+	input: 'test@gmail.com',
+	is_reachable: 'risky',
+	misc: {
+		is_disposable: false,
+		is_role_account: true,
+		gravatar_url: null,
+	},
+	mx: {
+		accepts_mail: true,
+		records: [
+			'alt1.gmail-smtp-in.l.google.com.',
+			'alt4.gmail-smtp-in.l.google.com.',
+			'gmail-smtp-in.l.google.com.',
+			'alt2.gmail-smtp-in.l.google.com.',
+			'alt3.gmail-smtp-in.l.google.com.',
+		],
+	},
+	smtp: {
+		can_connect_smtp: true,
+		has_full_inbox: false,
+		is_catch_all: false,
+		is_deliverable: false,
+		is_disabled: false,
+	},
+	syntax: {
+		address: 'test@gmail.com',
+		domain: 'gmail.com',
+		is_valid_syntax: true,
+		username: 'test',
+		suggestion: null,
+	},
+};

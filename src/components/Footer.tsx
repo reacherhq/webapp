@@ -12,7 +12,7 @@ export function Footer(): React.ReactElement {
 		<footer className={styles.container}>
 			<div className={styles.top}>
 				<Grid.Container justify="space-between">
-					<Grid className={styles.grid} xs={4}>
+					<Grid className={styles.grid} xs={5}>
 						<div>
 							<Image height={48} src={logo} width={48} />
 							<Spacer />
@@ -23,7 +23,7 @@ export function Footer(): React.ReactElement {
 							</Text>
 						</div>
 					</Grid>
-					<Grid xs={5}></Grid>
+					<Grid xs={4}></Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>Sitemap</Text>
 						<Spacer y={2} />
