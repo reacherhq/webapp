@@ -1,14 +1,11 @@
-import { ContactsApi, ContactsApiApiKeys } from '@sendinblue/client';
+import { CreateUpdateContactModel } from '@sendinblue/client';
+import type { User } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { sendinblueApi } from '../../../util/sendinblue';
 import { sentryException } from '../../../util/sentry';
-import { getUser } from '../../../util/supabaseServer';
-
-const api = new ContactsApi();
-api.setApiKey(
-	ContactsApiApiKeys.apiKey,
-	process.env.SENDINBLUE_API_KEY as string
-);
+import type { SupabaseUser } from '../../../util/supabaseClient';
+import { getUser, supabaseAdmin } from '../../../util/supabaseServer';
 
 const createContact = async (
 	req: NextApiRequest,
@@ -32,16 +29,19 @@ const createContact = async (
 			return;
 		}
 
-		await api.createContact({
+		const { body } = await sendinblueApi.createContact({
 			email: user.email,
 			attributes: {
 				WEBAPP_ENV:
 					process.env.VERCEL_ENV === 'production'
 						? 'production'
 						: 'staging',
+				SUPABASE_UUID: user.id,
 			},
 			listIds: [7], // List #7 is the Reacher sign up contact list.
 		});
+
+		await updateUserSendinblueContactId(user, body);
 
 		res.status(200).json({ ok: true });
 	} catch (err) {
@@ -53,3 +53,29 @@ const createContact = async (
 };
 
 export default createContact;
+
+/**
+ * Update the Sendinblue contact id for the given user.
+ */
+async function updateUserSendinblueContactId(
+	user: User,
+	body: CreateUpdateContactModel
+): Promise<void> {
+	if (!body.id) {
+		sentryException(
+			new Error(
+				`Got invalid body for Sendinblue create contact: ${JSON.stringify(
+					body
+				)}`
+			)
+		);
+		return;
+	}
+
+	await supabaseAdmin
+		.from<SupabaseUser>('users')
+		.update({
+			sendinblue_contact_id: body.id.toString(),
+		})
+		.eq('id', user.id);
+}

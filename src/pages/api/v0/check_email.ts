@@ -10,6 +10,7 @@ import { getClientIp } from 'request-ip';
 import { v4 } from 'uuid';
 
 import { setRateLimitHeaders } from '../../../util/helpers';
+import { sendinblueApi, sendinblueDateFormat } from '../../../util/sendinblue';
 import { sentryException } from '../../../util/sentry';
 import { subApiMaxCalls } from '../../../util/subs';
 import { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
@@ -171,7 +172,10 @@ const checkEmail = async (
 				return;
 			}
 
-			return tryAllBackends(req, res, user);
+			await tryAllBackends(req, res, user);
+
+			// Update the LAST_API_CALL field in Sendinblue.
+			await updateSendinblue(user);
 		}
 	} catch (err) {
 		sentryException(err as Error);
@@ -370,3 +374,27 @@ const hardcodedResponse = {
 		suggestion: null,
 	},
 };
+
+/**
+ * Update the LAST_API_CALL field on Sendinblue.
+ */
+async function updateSendinblue(user: SupabaseUser): Promise<void> {
+	if (!user.sendinblue_contact_id) {
+		sentryException(
+			new Error(`User ${user.id} does not have a sendinblue_contact_id`)
+		);
+		return;
+	}
+
+	return sendinblueApi
+		.updateContact(user.sendinblue_contact_id, {
+			attributes: {
+				SUPABASE_UUID: user.id, // This should be set already, but we re-set it just in case.
+				LAST_API_CALL: sendinblueDateFormat(new Date()),
+			},
+		})
+		.then(() => {
+			/* do nothing */
+		})
+		.catch(sentryException);
+}
