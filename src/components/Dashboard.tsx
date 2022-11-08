@@ -12,6 +12,7 @@ import { SupabaseProductWithPrice } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
 import { ApiUsage } from './ApiUsage';
 import styles from './Dashboard.module.css';
+import { Demo } from './Demo';
 
 interface DashboardProps {
 	products: SupabaseProductWithPrice[];
@@ -82,7 +83,11 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 			{subscription?.prices?.product_id !==
 				COMMERCIAL_LICENSE_PRODUCT_ID && <ApiUsage />}
 
-			<Spacer y={3} />
+			<Spacer />
+
+			<Demo />
+
+			<Spacer />
 
 			<SubGetStarted subscription={subscription} />
 		</Page>
