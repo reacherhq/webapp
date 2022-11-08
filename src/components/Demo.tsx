@@ -35,7 +35,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 		setLoading(true);
 		postData<CheckEmailOutput>({
-			url: 'https://api.reacher.email/v0/check_email',
+			url: 'https://app.reacher.email/v0/check_email',
 			token: userDetails?.api_token,
 			data: {
 				to_email: email,
