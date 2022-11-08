@@ -12,7 +12,11 @@ function alertError(e: string) {
 	);
 }
 
-export function Demo(): React.ReactElement {
+interface DemoProps {
+	onVerified?(result: CheckEmailOutput): void;
+}
+
+export function Demo({ onVerified }: DemoProps): React.ReactElement {
 	const { user, userDetails } = useUser();
 	const [email, setEmail] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -40,6 +44,7 @@ export function Demo(): React.ReactElement {
 			.then((r) => {
 				setResult(r);
 				setLoading(false);
+				onVerified && onVerified(r);
 			})
 			.catch((err: Error) => {
 				alertError(err.message);

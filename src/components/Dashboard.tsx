@@ -12,7 +12,6 @@ import { SupabaseProductWithPrice } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
 import { ApiUsage } from './ApiUsage';
 import styles from './Dashboard.module.css';
-import { Demo } from './Demo';
 
 interface DashboardProps {
 	products: SupabaseProductWithPrice[];
@@ -45,8 +44,7 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 					<Text h2>Hello{userDetails?.full_name || ''},</Text>
 					<Text p>
 						Thanks for using the Reacher{' '}
-						{productName(subscription?.prices?.products)}!<br />
-						Below is how to get started with email verifications.
+						{productName(subscription?.prices?.products)}!
 					</Text>
 					<div className="flex">
 						{subscription ? (
@@ -82,12 +80,6 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 
 			{subscription?.prices?.product_id !==
 				COMMERCIAL_LICENSE_PRODUCT_ID && <ApiUsage />}
-
-			<Spacer />
-
-			<Demo />
-
-			<Spacer />
 
 			<SubGetStarted subscription={subscription} />
 		</Page>
