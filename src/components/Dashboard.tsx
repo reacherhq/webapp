@@ -44,8 +44,7 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 					<Text h2>Hello{userDetails?.full_name || ''},</Text>
 					<Text p>
 						Thanks for using the Reacher{' '}
-						{productName(subscription?.prices?.products)}!<br />
-						Below is how to get started with email verifications.
+						{productName(subscription?.prices?.products)}!
 					</Text>
 					<div className="flex">
 						{subscription ? (
@@ -53,7 +52,11 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 								Manage Subscription
 							</StripeMananageButton>
 						) : (
-							<GLink color href="/pricing">
+							<GLink
+								color
+								href="/pricing"
+								data-sa-link-event="dashboard:upgrade:click"
+							>
 								<strong>Upgrade Plan</strong>
 							</GLink>
 						)}
@@ -77,8 +80,6 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 
 			{subscription?.prices?.product_id !==
 				COMMERCIAL_LICENSE_PRODUCT_ID && <ApiUsage />}
-
-			<Spacer y={3} />
 
 			<SubGetStarted subscription={subscription} />
 		</Page>

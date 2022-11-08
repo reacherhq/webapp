@@ -1,4 +1,4 @@
-import { Card, Note, Snippet, Spacer, Text } from '@geist-ui/react';
+import { Card, Snippet, Spacer, Text } from '@geist-ui/react';
 import React from 'react';
 
 import { useUser } from '../../util/useUser';
@@ -8,25 +8,20 @@ export function GetStartedSaas(): React.ReactElement {
 
 	return (
 		<Card>
-			<Text h4>How to get started with email verifications?</Text>
+			<Text h4>How to use the API?</Text>
 			<Spacer />
-			<Note type="warning" label={false}>
-				💡 If this is your first time with Reacher, check out the{' '}
-				<a
-					href="https://help.reacher.email/verify-your-1st-email"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					beginner&apos;s guide
-				</a>
-				.
-			</Note>
+
+			<Text>
+				Reacher is the most powerful when it integrates with your own
+				tools. This is done using the API, or &quot;Application
+				Programming Interface&quot;.
+			</Text>
 
 			{userDetails?.api_token ? (
 				<>
 					<Text p>
-						Use your private auth token below, and send a HTTP POST
-						request to:
+						To get started, use your private auth token below, and
+						send a HTTP POST request to:
 					</Text>
 					<Snippet
 						symbol=""
@@ -59,7 +54,6 @@ export function GetStartedSaas(): React.ReactElement {
 						text={[
 							'curl -X POST \\',
 							'  https://api.reacher.email/v0/check_email \\',
-							'  -L \\',
 							"  -H 'content-type: application/json' \\",
 							`  -H 'authorization: ${userDetails.api_token}' \\`,
 							`  -d '{"to_email": "test@gmail.com"}'`,
@@ -69,14 +63,21 @@ export function GetStartedSaas(): React.ReactElement {
 					/>
 					<Text p>
 						The most important field to check is{' '}
-						<code>is_reachable</code>.To understand the full API
-						response, check out the{' '}
+						<code>is_reachable</code>, and you can also understand{' '}
 						<a
 							href="https://help.reacher.email/email-attributes-inside-json"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							documentation
+							all the other fields
+						</a>{' '}
+						or read the{' '}
+						<a
+							href="https://reacher.stoplight.io/docs/backend"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							API reference guide
 						</a>
 						.
 					</Text>
@@ -89,10 +90,19 @@ export function GetStartedSaas(): React.ReactElement {
 			)}
 
 			<Spacer />
-			<Text h4>Help! I still don&apos;t understand what to do.</Text>
+			<Text h4>Help! I still don&apos;t understand what to do. 😱</Text>
 			<Text p>
-				Use the chat widget on the bottom right corner to send me a
-				message, or shoot me an email at{' '}
+				Don&apos;t worry, I have prepared a{' '}
+				<a
+					href="https://help.reacher.email/verify-your-1st-email"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					beginner&apos;s guide
+				</a>{' '}
+				for using the API, with a program called Postman. If you still
+				have questions, just use the chat widget on the bottom right
+				corner to send me a message, or shoot me an email at{' '}
 				<a href="mailto:amaury@reacher.email">amaury@reacher.email</a>.
 			</Text>
 		</Card>

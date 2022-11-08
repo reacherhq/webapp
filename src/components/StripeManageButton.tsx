@@ -44,6 +44,7 @@ export function StripeMananageButton({
 			onClick={() => {
 				redirectToCustomerPortal().catch(sentryException);
 			}}
+			data-sa-link-event="dashboard:stripe-billing:click"
 		>
 			<strong>{loading ? 'Redirecting to Stripe...' : children}</strong>
 		</GLink>
