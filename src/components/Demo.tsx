@@ -2,7 +2,7 @@ import { Button, Card, Code, Input, Spacer, Text } from '@geist-ui/react';
 import { CheckEmailOutput } from '@reacherhq/api/lib';
 import React, { useState } from 'react';
 
-import { getURL, postData } from '../util/helpers';
+import { postData } from '../util/helpers';
 import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
 
@@ -23,6 +23,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
 
 	function handleVerify() {
+		window.sa_event && window.sa_event('dashboard:verify:click');
 		setResult(undefined);
 
 		if (!userDetails) {
@@ -33,9 +34,8 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 		}
 
 		setLoading(true);
-		const url = `${getURL()}/v0/check_email`;
 		postData<CheckEmailOutput>({
-			url,
+			url: 'https://api.reacher.email/v0/check_email',
 			token: userDetails?.api_token,
 			data: {
 				to_email: email,
