@@ -1,4 +1,4 @@
-import { Card, Note, Snippet, Spacer, Text } from '@geist-ui/react';
+import { Card, Snippet, Spacer, Text } from '@geist-ui/react';
 import React from 'react';
 
 import { useUser } from '../../util/useUser';
@@ -8,19 +8,8 @@ export function GetStartedSaas(): React.ReactElement {
 
 	return (
 		<Card>
-			<Text h4>How to get started with email verifications?</Text>
+			<Text h4>How to use the API?</Text>
 			<Spacer />
-			<Note type="warning" label={false}>
-				💡 If this is your first time with Reacher, check out the{' '}
-				<a
-					href="https://help.reacher.email/verify-your-1st-email"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					beginner&apos;s guide
-				</a>
-				.
-			</Note>
 
 			{userDetails?.api_token ? (
 				<>
