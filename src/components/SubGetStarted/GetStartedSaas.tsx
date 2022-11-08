@@ -14,15 +14,7 @@ export function GetStartedSaas(): React.ReactElement {
 			<Text>
 				Reacher is the most powerful when it integrates with your own
 				tools. This is done using the API, or &quot;Application
-				Programming Interface&quot;. Check out the{' '}
-				<a
-					href="https://reacher.stoplight.io/docs/backend"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					API reference guide
-				</a>
-				.
+				Programming Interface&quot;.
 			</Text>
 
 			{userDetails?.api_token ? (
@@ -78,6 +70,14 @@ export function GetStartedSaas(): React.ReactElement {
 							rel="noopener noreferrer"
 						>
 							all the other fields
+						</a>{' '}
+						or read the{' '}
+						<a
+							href="https://reacher.stoplight.io/docs/backend"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							API reference guide
 						</a>
 						.
 					</Text>
