@@ -27,7 +27,7 @@ export function ApiUsage(): React.ReactElement {
 		<section>
 			<div className={styles.textContainer}>
 				<Text h5>
-					API usage this month
+					Email verifications this month
 					{subscription && (
 						<>
 							{' '}

@@ -41,7 +41,11 @@ export function Nav(): React.ReactElement {
 			<div className={styles.filler} />
 
 			<div>
-				<GLink className={styles.link} href="/pricing">
+				<GLink
+					className={styles.link}
+					href="/pricing"
+					data-sa-link-event="nav:pricing:click"
+				>
 					Pricing
 				</GLink>
 
@@ -50,6 +54,7 @@ export function Nav(): React.ReactElement {
 					href="https://help.reacher.email"
 					target="_blank"
 					rel="noopener noreferrer"
+					data-sa-link-event="nav:help:click"
 				>
 					Help Center
 				</GLink>

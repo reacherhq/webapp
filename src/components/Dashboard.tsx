@@ -53,7 +53,11 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 								Manage Subscription
 							</StripeMananageButton>
 						) : (
-							<GLink color href="/pricing">
+							<GLink
+								color
+								href="/pricing"
+								data-sa-link-event="dashboard:upgrade:click"
+							>
 								<strong>Upgrade Plan</strong>
 							</GLink>
 						)}

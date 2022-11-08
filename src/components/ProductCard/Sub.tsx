@@ -80,6 +80,14 @@ export function ProductCard({
 					className="full-width"
 					disabled={!!priceIdLoading || active}
 					onClick={() => {
+						window.sa_event &&
+							window.sa_event(
+								`pricing:${
+									product.id === COMMERCIAL_LICENSE_PRODUCT_ID
+										? 'commercial'
+										: 'saas'
+								}`
+							);
 						handleCheckout(price).catch(sentryException);
 					}}
 					type="success"

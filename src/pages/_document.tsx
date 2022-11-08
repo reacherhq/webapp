@@ -30,19 +30,26 @@ export default class extends Document {
 	render(): React.ReactElement {
 		return (
 			<Html>
-				<Head>
+				<Head />
+				<body>
+					<Main />
+					<NextScript />
 					<script
 						async
 						src="https://scripts.simpleanalyticscdn.com/latest.js"
 					/>
 					<script
+						async
+						src="https://scripts.simpleanalyticscdn.com/auto-events.js"
+					></script>
+					<script
+						src="/js/simpleanalytics.js"
+						type="text/javascript"
+					></script>
+					<script
 						src="/js/sendinblue.js"
 						type="text/javascript"
 					></script>
-				</Head>
-				<body>
-					<Main />
-					<NextScript />
 				</body>
 			</Html>
 		);
