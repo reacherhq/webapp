@@ -1,0 +1,15 @@
+.banner {
+    background-color: black;
+    color: white;
+    height: 36px;
+    line-height: 36px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 20;
+  }
+  
+  .banner a {
+    color: #EA4293
+  }
