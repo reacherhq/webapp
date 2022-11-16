@@ -1,5 +1,4 @@
 import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
-import { withSentry } from '@sentry/nextjs';
 import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
@@ -185,7 +184,7 @@ const checkEmail = async (
 	}
 };
 
-export default withSentry(checkEmail);
+export default checkEmail;
 
 /**
  * Forwards the Next.JS request to Reacher's backends, try them all in the

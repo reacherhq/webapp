@@ -8,7 +8,7 @@ import { useUser } from '../util/useUser';
 
 function alertError(e: string) {
 	alert(
-		`Some weird error happened. Can you email amaury@reacher.email with this message (or a screenshot)? ${e}`
+		`Some weird error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\n${e}`
 	);
 }
 
@@ -24,6 +24,10 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 	function handleVerify() {
 		window.sa_event && window.sa_event('dashboard:verify:click');
+		if (!email) {
+			return;
+		}
+
 		setResult(undefined);
 
 		if (!userDetails) {
@@ -47,7 +51,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 				onVerified && onVerified(r);
 			})
 			.catch((err: Error) => {
-				alertError(err.message);
+				alertError(JSON.stringify(err));
 				sentryException(err);
 			});
 	}

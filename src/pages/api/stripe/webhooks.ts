@@ -1,4 +1,3 @@
-import { withSentry } from '@sentry/nextjs';
 import { addMonths, format } from 'date-fns';
 import mailgun from 'mailgun-js';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -243,4 +242,4 @@ function stripeAddressToString(addr: Stripe.Address | null): string {
 		.join(', ');
 }
 
-export default withSentry(webhookHandler);
+export default webhookHandler;
