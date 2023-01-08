@@ -13,7 +13,7 @@ function alertError(e: string) {
 }
 
 interface DemoProps {
-	onVerified?(result: CheckEmailOutput): void;
+	onVerified?(result: CheckEmailOutput): Promise<void>;
 }
 
 export function Demo({ onVerified }: DemoProps): React.ReactElement {
@@ -48,11 +48,12 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 			.then((r) => {
 				setResult(r);
 				setLoading(false);
-				onVerified && onVerified(r);
+				return onVerified && onVerified(r);
 			})
 			.catch((err: Error) => {
-				alertError(JSON.stringify(err));
 				sentryException(err);
+				alertError(err.message);
+				setLoading(false);
 			});
 	}
 

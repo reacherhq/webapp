@@ -241,7 +241,7 @@ async function tryAllBackends(
 		}
 
 		return res.status(statusCode).json({
-			error: (err as AxiosError<unknown>).response?.data,
+			error: (err as AxiosError).response?.data,
 		});
 	}
 }
