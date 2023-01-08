@@ -43,10 +43,12 @@ export const postData = async <T = unknown>({
 			let m: string;
 			if (err.response) {
 				// Request made and server responded
-				m = `${err.response.status?.toString()} ${err.response.data?.toString()}`; // eslint-disable-line
+				m = `${err.response.status?.toString()} ${JSON.stringify(
+					err.response.data
+				)}`; // eslint-disable-line
 			} else if (err.request) {
 				// The request was made but no response was received
-				m = 'Error in request: ' + err.request.toString(); // eslint-disable-line
+				m = 'Error in request';
 			} else {
 				// Something happened in setting up the request that triggered an Error
 				m = 'Error: ' + err.message;
