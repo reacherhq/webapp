@@ -1,26 +1,14 @@
 import { Capacity, Loading, Spacer, Text } from '@geist-ui/react';
 import { Loader } from '@geist-ui/react-icons';
-import { User } from '@supabase/supabase-js';
 import { format, parseISO } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
 import { sentryException } from '../util/sentry';
 import { subApiMaxCalls } from '../util/subs';
-import {
-	getApiUsageClient,
-	SupabaseSubscription,
-} from '../util/supabaseClient';
+import { getApiUsageClient } from '../util/supabaseClient';
 import { useUser } from '../util/useUser';
 import styles from './ApiUsage.module.css';
 import { Demo } from './Demo';
-
-function fetchApiCalls(
-	user: User,
-	subscription: SupabaseSubscription | null,
-	onResult: (count: number) => void
-) {
-	getApiUsageClient(user, subscription).then(onResult).catch(sentryException);
-}
 
 export function ApiUsage(): React.ReactElement {
 	const { subscription, user, userFinishedLoading } = useUser();
@@ -30,7 +18,9 @@ export function ApiUsage(): React.ReactElement {
 		if (!user || !userFinishedLoading) {
 			return;
 		}
-		fetchApiCalls(user, subscription, setApiCalls);
+		getApiUsageClient(user, subscription)
+			.then(setApiCalls)
+			.catch(sentryException);
 	}, [user, userFinishedLoading, subscription]);
 
 	if (!user) {
@@ -71,9 +61,9 @@ export function ApiUsage(): React.ReactElement {
 
 			<Spacer />
 			<Demo
-				onVerified={() => {
-					fetchApiCalls(user, subscription, setApiCalls);
-				}}
+				onVerified={() =>
+					getApiUsageClient(user, subscription).then(setApiCalls)
+				}
 			/>
 			<Spacer />
 		</section>
