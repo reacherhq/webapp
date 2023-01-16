@@ -46,6 +46,6 @@
 		"@amaurym/config": "^1.3.6",
 		"eslint-config-next": "^13.1.1",
 		"typescript": "^4.9.4",
-		"vercel": "^28.10.3"
+		"vercel": "^28.12.4"
 	}
 }
