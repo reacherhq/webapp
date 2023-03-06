@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@geist-ui/react": "^2.1.5",
 		"@geist-ui/react-icons": "^1.0.1",
+		"@hcaptcha/react-hcaptcha": "^1.4.4",
 		"@reacherhq/api": "^0.3.2",
 		"@sendinblue/client": "^3.2.2",
 		"@sentry/nextjs": "^7.24.2",
