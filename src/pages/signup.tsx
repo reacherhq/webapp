@@ -1,7 +1,7 @@
 import { Input, Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
 	SigninButton,
@@ -84,18 +84,8 @@ export default function SignUp(): React.ReactElement {
 	const [feedback, setFeedback] = useState<string | undefined>();
 	const [passedCatpcha, setPassedCatpcha] = useState(false);
 
-	const captchaRef = useRef<HCaptcha>(null);
-
 	const router = useRouter();
 	const { user, signUp } = useUser();
-
-	const onLoad = () => {
-		// this reaches out to the hCaptcha JS API and runs the
-		// execute function on it. you can use other functions as
-		// documented here:
-		// https://docs.hcaptcha.com/configuration#jsapi
-		captchaRef?.current?.execute();
-	};
 
 	const handleSignup = async () => {
 		setLoading(true);
@@ -158,9 +148,7 @@ export default function SignUp(): React.ReactElement {
 			<div className="text-center">
 				<HCaptcha
 					sitekey="e8cdd278-b060-4c52-9625-7719ee025d5a" // Public site key
-					onLoad={onLoad}
 					onVerify={() => setPassedCatpcha(true)}
-					ref={captchaRef}
 				/>
 			</div>
 
