@@ -1,4 +1,5 @@
 import { Input, Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -81,6 +82,7 @@ export default function SignUp(): React.ReactElement {
 		undefined
 	);
 	const [feedback, setFeedback] = useState<string | undefined>();
+	const [passedCatpcha, setPassedCatpcha] = useState(false);
 
 	const router = useRouter();
 	const { user, signUp } = useUser();
@@ -143,8 +145,17 @@ export default function SignUp(): React.ReactElement {
 
 			<Spacer />
 
+			<div className="text-center">
+				<HCaptcha
+					sitekey="e8cdd278-b060-4c52-9625-7719ee025d5a" // Public site key
+					onVerify={() => setPassedCatpcha(true)}
+				/>
+			</div>
+
+			<Spacer />
+
 			<SigninButton
-				disabled={loading}
+				disabled={loading || !passedCatpcha}
 				loading={loading}
 				onClick={() => {
 					handleSignup().catch(sentryException);
