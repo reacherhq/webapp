@@ -46,10 +46,6 @@ export default class extends Document {
 						src="/js/simpleanalytics.js"
 						type="text/javascript"
 					></script>
-					<script
-						src="/js/sendinblue.js"
-						type="text/javascript"
-					></script>
 				</body>
 			</Html>
 		);
