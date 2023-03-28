@@ -186,6 +186,9 @@ const checkEmail = async (
 
 export default checkEmail;
 
+// Vercel functions time out after 30s.
+const VERCEL_TIMEOUT = 30;
+
 /**
  * Forwards the Next.JS request to Reacher's backends, try them all in the
  * order given by `RCH_BACKENDS` env variable.
@@ -196,6 +199,18 @@ async function tryAllBackends(
 	user: SupabaseUser
 ) {
 	try {
+		// The final result to return.
+		let result: CheckEmailOutput;
+
+		// Just before Vercel times out, we'll return the response from the
+		// last backend call (even if it's unknown). This is because we prefer
+		// to return an unknown result than a timeout error.
+		const t = setTimeout(() => {
+			if (result) {
+				return res.status(200).json(result);
+			}
+		}, VERCEL_TIMEOUT - 2);
+
 		const reacherBackends = getReacherBackends();
 
 		// Create a unique UUID for each verification. The purpose of this
@@ -208,7 +223,7 @@ async function tryAllBackends(
 		// one gets treated specially, as we'll always return its response.
 		for (let i = 0; i < reacherBackends.length - 1; i++) {
 			try {
-				const result = await makeSingleBackendCall(
+				result = await makeSingleBackendCall(
 					verificationId,
 					reacherBackends[i],
 					req,
@@ -226,13 +241,14 @@ async function tryAllBackends(
 		// If we arrive here, it means all previous backend calls errored or
 		// returned "unknown". We make the last backend call, and always return
 		// its response.
-		const result = await makeSingleBackendCall(
+		result = await makeSingleBackendCall(
 			verificationId,
 			reacherBackends[reacherBackends.length - 1],
 			req,
 			user
 		);
 
+		clearTimeout(t);
 		return res.status(200).json(result);
 	} catch (err) {
 		const statusCode = (err as AxiosError).response?.status;
