@@ -1618,10 +1618,10 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@reacherhq/api@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@reacherhq/api/-/api-0.3.4.tgz#4f2cc2784f685a048801b1ef00dea0538ca5cd3b"
-  integrity sha512-0NZF9jSWGowI0J8c6NGZmWbLLSJ/S7eYaltz61JqngzHOckL/tfwHfNWnKa3h3xbANVO/VwT9FY39edxDaLcDA==
+"@reacherhq/api@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@reacherhq/api/-/api-0.3.5.tgz#72c53828d7b971afe03c9705ed084eb73b4bd50d"
+  integrity sha512-Kc6ur7G198WcbtGGHo4DtUBJsvIYkTZVWo1JXrRjyVuZAjTYOmKWIy6On3nCGHMkZVd4XYtLwqA3u/WvlQcbNQ==
   dependencies:
     "@types/async" "^3.2.16"
     "@types/debug" "^4.1.7"
