@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 } from 'uuid';
 
 import { checkUserInDB, cors } from '../../../util/api';
+import { getReacherBackends, ReacherBackend } from '../../../util/backend';
 import { updateSendinblue } from '../../../util/sendinblue';
 import { sentryException } from '../../../util/sentry';
 import { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
@@ -25,8 +26,8 @@ const checkEmail = async (
 		return;
 	}
 
-	const { user, resWasSent } = await checkUserInDB(req, res);
-	if (resWasSent) {
+	const { user, sentResponse } = await checkUserInDB(req, res);
+	if (sentResponse) {
 		return;
 	}
 
@@ -170,46 +171,4 @@ async function makeSingleBackendCall(
 	if (error) throw error;
 
 	return result.data;
-}
-
-interface ReacherBackend {
-	/**
-	 * Is bulk email verification enabled
-	 */
-	hasBulk: boolean;
-	/**
-	 * IP address of the backend (if known).
-	 */
-	ip?: string;
-	/**
-	 * Human-readable name of the backend.
-	 */
-	name: string;
-	/**
-	 * Backend URL.
-	 */
-	url: string;
-}
-
-// Cache the result of the getReacherBackends parsing function.
-let cachedReacherBackends: ReacherBackend[] | undefined;
-
-/**
- * Get all of Reacher's internal backends, as an array.
- */
-function getReacherBackends(): ReacherBackend[] {
-	if (cachedReacherBackends) {
-		return cachedReacherBackends;
-	}
-	cachedReacherBackends;
-	if (!process.env.RCH_BACKENDS) {
-		throw new Error('Got empty RCH_BACKENDS env var.');
-	}
-
-	// RCH_BACKENDS is an array of all Reacher's internal backends.
-	cachedReacherBackends = JSON.parse(
-		process.env.RCH_BACKENDS
-	) as ReacherBackend[];
-
-	return cachedReacherBackends;
 }

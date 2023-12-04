@@ -48,11 +48,11 @@ export const cors = initMiddleware(
 type CheckUserReturnType =
 	| {
 			user?: undefined;
-			resWasSent: true;
+			sentResponse: true;
 	  }
 	| {
 			user: SupabaseUser;
-			resWasSent: false;
+			sentResponse: false;
 	  };
 
 /**
@@ -76,7 +76,7 @@ export async function checkUserInDB(
 	const user = await getUserByApiToken(token);
 	if (!user) {
 		res.status(401).json({ error: 'User not found' });
-		return { resWasSent: true };
+		return { sentResponse: true };
 	}
 
 	// Safe to type cast here, as we only need the `id` field below.
@@ -107,8 +107,8 @@ export async function checkUserInDB(
 			error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
 		});
 
-		return { resWasSent: true };
+		return { sentResponse: true };
 	}
 
-	return { user, resWasSent: false };
+	return { user, sentResponse: false };
 }
