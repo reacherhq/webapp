@@ -2,7 +2,7 @@ import { Button, Card, Code, Input, Spacer, Text } from '@geist-ui/react';
 import { CheckEmailOutput } from '@reacherhq/api/lib';
 import React, { useState } from 'react';
 
-import { getWebappURL, postData } from '../util/helpers';
+import { postData } from '../util/helpers';
 import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
 
@@ -38,9 +38,8 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 		}
 
 		setLoading(true);
-		console.log(getWebappURL());
 		postData<CheckEmailOutput>({
-			url: `${getWebappURL()}/api/v0/check_email`,
+			url: `/api/v0/check_email`,
 			token: userDetails?.api_token,
 			data: {
 				to_email: email,
