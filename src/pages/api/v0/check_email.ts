@@ -4,8 +4,7 @@ import axios, { AxiosError } from 'axios';
 import Cors from 'cors';
 import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
-import { getClientIp } from 'request-ip';
+import { RateLimiterRes } from 'rate-limiter-flexible';
 import { v4 } from 'uuid';
 
 import { setRateLimitHeaders } from '../../../util/helpers';
@@ -55,19 +54,6 @@ const cors = initMiddleware(
 	})
 );
 
-/**
- * The API token on the landing page, for public demo usage, heavily
- * rate-limited.
- */
-const TEST_API_TOKEN = 'test_api_token';
-
-const EMAILS_PER_MINUTE = 2;
-
-const rateLimiter = new RateLimiterMemory({
-	points: EMAILS_PER_MINUTE, // 2 emails
-	duration: 60, // Per minute
-});
-
 const checkEmail = async (
 	req: NextApiRequest,
 	res: NextApiResponse
@@ -97,85 +83,38 @@ const checkEmail = async (
 		// Safe to type cast here, as we only need the `id` field below.
 		const authUser = { id: user.id } as User;
 
-		// Handle the landing page demo token.
-		if (token === TEST_API_TOKEN) {
-			// Always allow test@gmail.com.
-			if ((req.body as CheckEmailInput).to_email === 'test@gmail.com') {
-				res.status(200).json(hardcodedResponse);
-			}
+		// TODO instead of doing another round of network call, we should do a
+		// join for subscriptions and API calls inside getUserByApiToken.
+		const sub = await getActiveSubscription(authUser);
+		const used = await getApiUsageServer(user, sub);
 
-			// Sometimes, I see that people are abusing the public demo, so I
-			// turn it off by setting this env variable to 1. In that case, we
-			// only allow Gmail verifications.
-			if (process.env.DISABLE_TEST_API_TOKEN) {
-				res.status(401).json({
-					error: 'Reacher is turning off the public endpoint to prevent spam abuse. Please create a free Reacher account for now for 50 emails / month, until an anti-spam measure has been deployed.',
-				});
+		// Set rate limit headers.
+		const now = new Date();
+		const nextReset = sub
+			? typeof sub.current_period_end === 'string'
+				? parseISO(sub.current_period_end)
+				: sub.current_period_end
+			: addMonths(now, 1);
+		const msDiff = differenceInMilliseconds(nextReset, now);
+		const max = subApiMaxCalls(sub);
+		setRateLimitHeaders(
+			res,
+			new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
+			max
+		);
 
-				return;
-			}
+		if (used > max) {
+			res.status(429).json({
+				error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
+			});
 
-			try {
-				const rateLimiterRes = await rateLimiter.consume(
-					getClientIp(req) || 'FALLBACK_IP',
-					1
-				); // Consume 1 email verification
-				setRateLimitHeaders(res, rateLimiterRes, EMAILS_PER_MINUTE);
-
-				const reacherBackends = getReacherBackends();
-				const backendRes = await makeSingleBackendCall(
-					v4(),
-					reacherBackends[reacherBackends.length - 1], // Make the call to only 1 backend, the last one, to avoid spamming all others.
-					req,
-					user
-				);
-
-				return res.status(200).json(backendRes);
-			} catch (rateLimiterRes) {
-				res.status(429).json({ error: 'Rate limit exceeded' });
-				setRateLimitHeaders(
-					res,
-					rateLimiterRes as RateLimiterRes,
-					EMAILS_PER_MINUTE
-				);
-				return;
-			}
-		} else {
-			// Handle a normal user doing an API call.
-
-			// TODO instead of doing another round of network call, we should do a
-			// join for subscriptions and API calls inside getUserByApiToken.
-			const sub = await getActiveSubscription(authUser);
-			const used = await getApiUsageServer(user, sub);
-
-			// Set rate limit headers.
-			const now = new Date();
-			const nextReset = sub
-				? typeof sub.current_period_end === 'string'
-					? parseISO(sub.current_period_end)
-					: sub.current_period_end
-				: addMonths(now, 1);
-			const msDiff = differenceInMilliseconds(nextReset, now);
-			const max = subApiMaxCalls(sub);
-			setRateLimitHeaders(
-				res,
-				new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
-				max
-			);
-
-			if (used > max) {
-				res.status(429).json({
-					error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
-				});
-
-				return;
-			}
-
-			await tryAllBackends(req, res, user);
-
-			// Update the LAST_API_CALL field in Sendinblue.
-			await updateSendinblue(user);
+			return;
 		}
+
+		await tryAllBackends(req, res, user);
+
+		// Update the LAST_API_CALL field in Sendinblue.
+		await updateSendinblue(user);
 	} catch (err) {
 		sentryException(err as Error);
 		res.status(500).json({
@@ -354,41 +293,6 @@ function getReacherBackends(): ReacherBackend[] {
 
 	return cachedReacherBackends;
 }
-
-// API response for test@gmail.com. Serves as a cache.
-const hardcodedResponse = {
-	input: 'test@gmail.com',
-	is_reachable: 'risky',
-	misc: {
-		is_disposable: false,
-		is_role_account: true,
-		gravatar_url: null,
-	},
-	mx: {
-		accepts_mail: true,
-		records: [
-			'alt1.gmail-smtp-in.l.google.com.',
-			'alt4.gmail-smtp-in.l.google.com.',
-			'gmail-smtp-in.l.google.com.',
-			'alt2.gmail-smtp-in.l.google.com.',
-			'alt3.gmail-smtp-in.l.google.com.',
-		],
-	},
-	smtp: {
-		can_connect_smtp: true,
-		has_full_inbox: false,
-		is_catch_all: false,
-		is_deliverable: false,
-		is_disabled: false,
-	},
-	syntax: {
-		address: 'test@gmail.com',
-		domain: 'gmail.com',
-		is_valid_syntax: true,
-		username: 'test',
-		suggestion: null,
-	},
-};
 
 /**
  * Update the LAST_API_CALL field on Sendinblue.

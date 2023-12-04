@@ -2,13 +2,13 @@ import { Button, Card, Code, Input, Spacer, Text } from '@geist-ui/react';
 import { CheckEmailOutput } from '@reacherhq/api/lib';
 import React, { useState } from 'react';
 
-import { postData } from '../util/helpers';
+import { getWebappURL, postData } from '../util/helpers';
 import { sentryException } from '../util/sentry';
 import { useUser } from '../util/useUser';
 
 function alertError(e: string) {
 	alert(
-		`Some weird error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\n${e}`
+		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\n${e}`
 	);
 }
 
@@ -38,8 +38,9 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 		}
 
 		setLoading(true);
+		console.log(getWebappURL());
 		postData<CheckEmailOutput>({
-			url: 'https://app.reacher.email/v0/check_email',
+			url: `${getWebappURL()}/api/v0/check_email`,
 			token: userDetails?.api_token,
 			data: {
 				to_email: email,

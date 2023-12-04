@@ -13,7 +13,7 @@ import React, {
 	useState,
 } from 'react';
 
-import { getURL } from '../util/helpers';
+import { getWebappURL } from '../util/helpers';
 import { sentryException } from './sentry';
 import { supabase, SupabaseSubscription, SupabaseUser } from './supabaseClient';
 
@@ -93,8 +93,7 @@ export const UserContextProvider: FunctionComponent = (
 			.from<SupabaseSubscription>('subscriptions')
 			.select('*, prices(*, products(*))')
 			.in('status', ['trialing', 'active', 'past_due'])
-			.eq('cancel_at_period_end', false)
-			.maybeSingle();
+			.eq('cancel_at_period_end', false);
 	useEffect(() => {
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])
@@ -106,7 +105,7 @@ export const UserContextProvider: FunctionComponent = (
 						throw sub.error;
 					}
 					setUserDetails(userDetails.data);
-					setSubscription(sub.data);
+					setSubscription(sub.data?.[0]);
 					setUserLoaded(true);
 					setUserFinishedLoading(true);
 				})
@@ -123,13 +122,13 @@ export const UserContextProvider: FunctionComponent = (
 		subscription,
 		resetPassword: (email: string) =>
 			supabase.auth.api.resetPasswordForEmail(email, {
-				redirectTo: getURL(),
+				redirectTo: getWebappURL(),
 			}),
 		signIn: (creds: UserCredentials) =>
-			supabase.auth.signIn(creds, { redirectTo: getURL() }),
+			supabase.auth.signIn(creds, { redirectTo: getWebappURL() }),
 		signUp: (creds: UserCredentials, userMetadata?: UserMetadata) =>
 			supabase.auth.signUp(creds, {
-				redirectTo: getURL(),
+				redirectTo: getWebappURL(),
 				data: userMetadata,
 			}),
 		signOut: async () => {

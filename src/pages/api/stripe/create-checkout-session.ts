@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getURL } from '../../../util/helpers';
+import { getWebappURL } from '../../../util/helpers';
 import { sentryException } from '../../../util/sentry';
 import { stripe } from '../../../util/stripeServer';
 import { SupabasePrice } from '../../../util/supabaseClient';
@@ -73,8 +73,8 @@ const createCheckoutSession = async (
 				trial_from_plan: true,
 				metadata,
 			},
-			success_url: `${getURL()}/`,
-			cancel_url: `${getURL()}/`,
+			success_url: `${getWebappURL()}/`,
+			cancel_url: `${getWebappURL()}/`,
 		});
 
 		return res.status(200).json({ sessionId: session.id });

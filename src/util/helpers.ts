@@ -3,11 +3,12 @@ import { NextApiResponse } from 'next';
 import { RateLimiterRes } from 'rate-limiter-flexible';
 
 // Gets the currently depoloyed URL.
-export const getURL = (): string => {
+export const getWebappURL = (): string => {
 	const url =
-		// DEPLOY_MAIN_URL has been set to app.reacher.email for production only.
-		process?.env?.DEPLOY_MAIN_URL && process.env.DEPLOY_MAIN_URL !== ''
-			? process.env.DEPLOY_MAIN_URL
+		// NEXT_PUBLIC_DEPLOY_MAIN_URL has been set to app.reacher.email for production only.
+		process?.env?.NEXT_PUBLIC_DEPLOY_MAIN_URL &&
+		process.env.NEXT_PUBLIC_DEPLOY_MAIN_URL !== ''
+			? process.env.NEXT_PUBLIC_DEPLOY_MAIN_URL
 			: process?.env?.URL && process.env.URL !== ''
 			? process.env.URL
 			: process?.env?.VERCEL_URL && process.env.VERCEL_URL !== ''
