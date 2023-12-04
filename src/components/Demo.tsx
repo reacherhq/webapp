@@ -8,7 +8,7 @@ import { useUser } from '../util/useUser';
 
 function alertError(e: string) {
 	alert(
-		`Some weird error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\n${e}`
+		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\n${e}`
 	);
 }
 
@@ -39,7 +39,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 		setLoading(true);
 		postData<CheckEmailOutput>({
-			url: 'https://app.reacher.email/v0/check_email',
+			url: `/api/v0/check_email`,
 			token: userDetails?.api_token,
 			data: {
 				to_email: email,

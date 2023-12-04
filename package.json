@@ -1,7 +1,7 @@
 {
 	"name": "@reacherhq/webapp",
 	"version": "0.1.6",
-	"author": "Amaury <amaurym10@protonmail.com>",
+	"author": "Amaury <amaury@reacher.email>",
 	"description": "Open-Source Email Verification API",
 	"license": "GPL-3.0",
 	"private": true,
@@ -40,7 +40,6 @@
 		"rate-limiter-flexible": "^2.4.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
-		"request-ip": "^3.3.0",
 		"stripe": "^9.13.0"
 	},
 	"devDependencies": {

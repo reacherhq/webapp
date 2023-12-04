@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getURL } from '../../../util/helpers';
+import { getWebappURL } from '../../../util/helpers';
 import { sentryException } from '../../../util/sentry';
 import { stripe } from '../../../util/stripeServer';
 import { getUser } from '../../../util/supabaseServer';
@@ -30,7 +30,7 @@ const createPortalLink = async (
 
 		const { url } = await stripe.billingPortal.sessions.create({
 			customer,
-			return_url: `${getURL()}/`,
+			return_url: `${getWebappURL()}/`,
 		});
 
 		return res.status(200).json({ url });

@@ -28,14 +28,13 @@ export const getUserByApiToken = async (
 	const { data, error } = await supabaseAdmin
 		.from<SupabaseUser>('users')
 		.select('*')
-		.eq('api_token', apiToken)
-		.maybeSingle();
+		.eq('api_token', apiToken);
 
 	if (error) {
 		throw error;
 	}
 
-	return data;
+	return data?.[0];
 };
 
 export async function getActiveSubscription(
@@ -46,12 +45,11 @@ export async function getActiveSubscription(
 		.select('*, prices(*, products(*))')
 		.in('status', ['trialing', 'active', 'past_due'])
 		.eq('cancel_at_period_end', false)
-		.eq('user_id', user.id)
-		.maybeSingle();
+		.eq('user_id', user.id);
 
 	if (error) throw error;
 
-	return data;
+	return data?.[0];
 }
 
 // Get the api calls of a user in the past month. Same as
