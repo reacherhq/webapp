@@ -1,23 +1,13 @@
 import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
-import { User } from '@supabase/supabase-js';
 import axios, { AxiosError } from 'axios';
-import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { RateLimiterRes } from 'rate-limiter-flexible';
 import { v4 } from 'uuid';
 
-import { cors } from '../../../backend/api';
-import { setRateLimitHeaders } from '../../../util/helpers';
-import { sendinblueApi, sendinblueDateFormat } from '../../../util/sendinblue';
+import { checkUserInDB, cors } from '../../../util/api';
+import { updateSendinblue } from '../../../util/sendinblue';
 import { sentryException } from '../../../util/sentry';
-import { subApiMaxCalls } from '../../../util/subs';
 import { SupabaseCall, SupabaseUser } from '../../../util/supabaseClient';
-import {
-	getActiveSubscription,
-	getApiUsageServer,
-	getUserByApiToken,
-	supabaseAdmin,
-} from '../../../util/supabaseServer';
+import { supabaseAdmin } from '../../../util/supabaseServer';
 
 // Reacher only exposes one endpoint right now, so we're hardcoding it.
 const ENDPOINT = `/v0/check_email`;
@@ -35,50 +25,12 @@ const checkEmail = async (
 		return;
 	}
 
+	const { user, resWasSent } = await checkUserInDB(req, res);
+	if (resWasSent) {
+		return;
+	}
+
 	try {
-		const token = req.headers.authorization || req.headers.Authorization;
-
-		if (typeof token !== 'string') {
-			throw new Error('Expected API token in the Authorization header.');
-		}
-
-		const user = await getUserByApiToken(token);
-		if (!user) {
-			res.status(401).json({ error: 'User not found' });
-			return;
-		}
-
-		// Safe to type cast here, as we only need the `id` field below.
-		const authUser = { id: user.id } as User;
-
-		// TODO instead of doing another round of network call, we should do a
-		// join for subscriptions and API calls inside getUserByApiToken.
-		const sub = await getActiveSubscription(authUser);
-		const used = await getApiUsageServer(user, sub);
-
-		// Set rate limit headers.
-		const now = new Date();
-		const nextReset = sub
-			? typeof sub.current_period_end === 'string'
-				? parseISO(sub.current_period_end)
-				: sub.current_period_end
-			: addMonths(now, 1);
-		const msDiff = differenceInMilliseconds(nextReset, now);
-		const max = subApiMaxCalls(sub);
-		setRateLimitHeaders(
-			res,
-			new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
-			max
-		);
-
-		if (used > max) {
-			res.status(429).json({
-				error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
-			});
-
-			return;
-		}
-
 		await tryAllBackends(req, res, user);
 
 		// Update the LAST_API_CALL field in Sendinblue.
@@ -260,28 +212,4 @@ function getReacherBackends(): ReacherBackend[] {
 	) as ReacherBackend[];
 
 	return cachedReacherBackends;
-}
-
-/**
- * Update the LAST_API_CALL field on Sendinblue.
- */
-async function updateSendinblue(user: SupabaseUser): Promise<void> {
-	if (!user.sendinblue_contact_id) {
-		sentryException(
-			new Error(`User ${user.id} does not have a sendinblue_contact_id`)
-		);
-		return;
-	}
-
-	return sendinblueApi
-		.updateContact(user.sendinblue_contact_id, {
-			attributes: {
-				SUPABASE_UUID: user.id, // This should be set already, but we re-set it just in case.
-				LAST_API_CALL: sendinblueDateFormat(new Date()),
-			},
-		})
-		.then(() => {
-			/* do nothing */
-		})
-		.catch(sentryException);
 }
