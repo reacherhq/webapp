@@ -47,7 +47,7 @@ const checkEmail = async (
 export default checkEmail;
 
 // Vercel functions time out after 30s.
-const VERCEL_TIMEOUT = 30;
+const VERCEL_TIMEOUT = 30_000; // ms
 
 /**
  * Forwards the Next.JS request to Reacher's backends, try them all in the
@@ -69,7 +69,7 @@ async function tryAllBackends(
 			if (result) {
 				return res.status(200).json(result);
 			}
-		}, VERCEL_TIMEOUT - 2);
+		}, VERCEL_TIMEOUT - 2000);
 
 		const reacherBackends = getReacherBackends();
 
