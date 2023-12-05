@@ -73,6 +73,7 @@ export interface SupabaseCall {
 	domain?: string;
 	verification_id: string;
 	is_reachable: 'safe' | 'invalid' | 'risky' | 'unknown';
+	verif_method?: string;
 }
 
 export const supabase = createClient(

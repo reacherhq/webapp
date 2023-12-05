@@ -166,6 +166,7 @@ async function makeSingleBackendCall(
 		verification_id: verificationId,
 		duration: endDate.getTime() - startDate.getTime(), // In ms.
 		is_reachable: result.data.is_reachable,
+		verif_method: result.data.debug?.smtp?.verif_method?.type,
 	});
 
 	if (error) throw error;
