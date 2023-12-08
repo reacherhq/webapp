@@ -1,3 +1,4 @@
+import { CheckEmailOutput } from '@reacherhq/api';
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { createClient, User } from '@supabase/supabase-js';
 import { parseISO, subMonths } from 'date-fns';
@@ -74,6 +75,7 @@ export interface SupabaseCall {
 	verification_id: string;
 	is_reachable: 'safe' | 'invalid' | 'risky' | 'unknown';
 	verif_method?: string;
+	result?: CheckEmailOutput; // JSON
 }
 
 export const supabase = createClient(

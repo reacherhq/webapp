@@ -39,28 +39,32 @@ export const postData = async <T = unknown>({
 
 		return res;
 	} catch (err) {
-		if (err instanceof AxiosError) {
-			// Inspired by https://stackoverflow.com/questions/49967779/axios-handling-errors
-			let m: string;
-			if (err.response) {
-				// Request made and server responded
-				m = `${err.response.status?.toString()} ${JSON.stringify(
-					err.response.data
-				)}`; // eslint-disable-line
-			} else if (err.request) {
-				// The request was made but no response was received
-				m = 'Error in request';
-			} else {
-				// Something happened in setting up the request that triggered an Error
-				m = 'Error: ' + err.message;
-			}
-
-			throw new Error(m);
-		} else {
-			throw err;
-		}
+		throw convertAxiosError(err as AxiosError);
 	}
 };
+
+export function convertAxiosError(err: AxiosError): Error {
+	if (err instanceof AxiosError) {
+		// Inspired by https://stackoverflow.com/questions/49967779/axios-handling-errors
+		let m: string;
+		if (err.response) {
+			// Request made and server responded
+			m = `${err.response.status?.toString()} ${JSON.stringify(
+				err.response.data
+			)}`; // eslint-disable-line
+		} else if (err.request) {
+			// The request was made but no response was received
+			m = 'Error in request';
+		} else {
+			// Something happened in setting up the request that triggered an Error
+			m = 'Error: ' + err.message;
+		}
+
+		return new Error(m);
+	} else {
+		return err;
+	}
+}
 
 export const toDateTime = (secs: number): Date => {
 	const t = new Date('1970-01-01T00:30:00Z'); // Unix epoch start.
