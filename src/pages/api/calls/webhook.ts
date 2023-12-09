@@ -35,11 +35,6 @@ const POST = async (
 
 	const { extra, data: output } = req.body as WebhookPayload;
 
-	// Remove sensitive data before storing to DB.
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	delete output.debug?.server_name;
-
 	// Add to supabase
 	const response = await supabaseAdmin.from<SupabaseCall>('calls').insert({
 		endpoint: extra.endpoint,
@@ -53,7 +48,7 @@ const POST = async (
 		),
 		is_reachable: output.is_reachable,
 		verif_method: output.debug?.smtp?.verif_method?.type,
-		result: output,
+		result: removeSensitiveData(output),
 	});
 	if (response.error) {
 		res.status(response.status).json(response.error);
@@ -64,3 +59,14 @@ const POST = async (
 };
 
 export default POST;
+
+// Remove sensitive data before storing to DB.
+function removeSensitiveData(output: CheckEmailOutput): CheckEmailOutput {
+	const newOutput = { ...output };
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	delete newOutput.debug?.server_name;
+
+	return newOutput;
+}
