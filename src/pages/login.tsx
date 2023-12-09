@@ -1,19 +1,19 @@
-import { Input, Link as GLink, Spacer, Text } from '@geist-ui/react';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { Input, Link as GLink, Spacer, Text } from "@geist-ui/react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 import {
 	SigninButton,
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from '../components';
-import { sentryException } from '../util/sentry';
-import { useUser } from '../util/useUser';
+} from "../components";
+import { sentryException } from "../util/sentry";
+import { useUser } from "../util/useUser";
 
 export default function Login(): React.ReactElement {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
@@ -28,23 +28,23 @@ export default function Login(): React.ReactElement {
 		const { error } = await signIn({ email, password });
 		setLoading(false);
 		if (error) {
-			setMessage({ type: 'error', content: error.message });
+			setMessage({ type: "error", content: error.message });
 		} else if (!password) {
 			setMessage({
-				type: 'success',
-				content: 'Check your email for the magic link.',
+				type: "success",
+				content: "Check your email for the magic link.",
 			});
 		} else {
 			setMessage({
-				type: 'success',
-				content: 'Success, redirecting to your dashboard.',
+				type: "success",
+				content: "Success, redirecting to your dashboard.",
 			});
 		}
 	};
 
 	useEffect(() => {
 		if (user) {
-			router.replace('/dashboard').catch(sentryException);
+			router.replace("/dashboard").catch(sentryException);
 		}
 	}, [router, user]);
 
@@ -95,11 +95,11 @@ export default function Login(): React.ReactElement {
 					handleSignin().catch(sentryException);
 				}}
 			>
-				{loading ? 'Signing in...' : 'Sign in'}
+				{loading ? "Signing in..." : "Sign in"}
 			</SigninButton>
 
 			<Text p className="text-center">
-				Don&apos;t have an account?{' '}
+				Don&apos;t have an account?{" "}
 				<GLink color href="/signup" underline>
 					Sign up
 				</GLink>
@@ -107,7 +107,7 @@ export default function Login(): React.ReactElement {
 			</Text>
 
 			<Text p className="text-center">
-				Have an account on the old Reacher login page? Head{' '}
+				Have an account on the old Reacher login page? Head{" "}
 				<GLink color href="https://old.reacher.email/login" underline>
 					there
 				</GLink>

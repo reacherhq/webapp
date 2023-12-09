@@ -1,21 +1,21 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { NextApiResponse } from 'next';
-import { RateLimiterRes } from 'rate-limiter-flexible';
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { NextApiResponse } from "next";
+import { RateLimiterRes } from "rate-limiter-flexible";
 
 // Gets the currently depoloyed URL.
 export const getWebappURL = (): string => {
 	const url =
 		// NEXT_PUBLIC_DEPLOY_MAIN_URL has been set to app.reacher.email for production only.
 		process?.env?.NEXT_PUBLIC_DEPLOY_MAIN_URL &&
-		process.env.NEXT_PUBLIC_DEPLOY_MAIN_URL !== ''
+		process.env.NEXT_PUBLIC_DEPLOY_MAIN_URL !== ""
 			? process.env.NEXT_PUBLIC_DEPLOY_MAIN_URL
-			: process?.env?.URL && process.env.URL !== ''
+			: process?.env?.URL && process.env.URL !== ""
 			? process.env.URL
-			: process?.env?.VERCEL_URL && process.env.VERCEL_URL !== ''
+			: process?.env?.VERCEL_URL && process.env.VERCEL_URL !== ""
 			? process.env.VERCEL_URL
-			: 'http://localhost:3000';
+			: "http://localhost:3000";
 
-	return url.includes('http') ? url : `https://${url}`;
+	return url.includes("http") ? url : `https://${url}`;
 };
 
 export const postData = async <T = unknown>({
@@ -30,7 +30,7 @@ export const postData = async <T = unknown>({
 	try {
 		const { data: res } = await axios.post<T, AxiosResponse<T>>(url, data, {
 			headers: {
-				'Content-Type': 'application/json',
+				"Content-Type": "application/json",
 				token,
 				Authorization: token,
 			},
@@ -54,10 +54,10 @@ export function convertAxiosError(err: AxiosError): Error {
 			)} ${err.message}`; // eslint-disable-line
 		} else if (err.request) {
 			// The request was made but no response was received
-			m = 'Error in request, no response received: ' + err.message;
+			m = "Error in request, no response received: " + err.message;
 		} else {
 			// Something happened in setting up the request that triggered an Error
-			m = 'Error: ' + err.message;
+			m = "Error: " + err.message;
 		}
 
 		throw m ? new Error(m) : err;
@@ -67,7 +67,7 @@ export function convertAxiosError(err: AxiosError): Error {
 }
 
 export const toDateTime = (secs: number): Date => {
-	const t = new Date('1970-01-01T00:30:00Z'); // Unix epoch start.
+	const t = new Date("1970-01-01T00:30:00Z"); // Unix epoch start.
 	t.setSeconds(secs);
 
 	return t;
@@ -79,9 +79,9 @@ export const toDateTime = (secs: number): Date => {
 export function parseHashComponents(hash: string): Record<string, string> {
 	return hash
 		.slice(1)
-		.split('&')
+		.split("&")
 		.reduce((acc, c) => {
-			const [key, value] = c.split('=');
+			const [key, value] = c.split("=");
 			acc[key] = value;
 
 			return acc;
@@ -101,13 +101,13 @@ export function setRateLimitHeaders(
 	limit: number
 ): void {
 	const headers = {
-		'Retry-After': rateLimiterRes.msBeforeNext / 1000,
-		'X-RateLimit-Limit': limit,
+		"Retry-After": rateLimiterRes.msBeforeNext / 1000,
+		"X-RateLimit-Limit": limit,
 		// When I first introduced rate limiting, some users had used for than
 		// 10k emails per month. Their remaining showed e.g. -8270. We decide
 		// to show 0 in these cases, hence the Math.max.
-		'X-RateLimit-Remaining': Math.max(0, rateLimiterRes.remainingPoints),
-		'X-RateLimit-Reset': new Date(
+		"X-RateLimit-Remaining": Math.max(0, rateLimiterRes.remainingPoints),
+		"X-RateLimit-Reset": new Date(
 			Date.now() + rateLimiterRes.msBeforeNext
 		).toISOString(),
 	};

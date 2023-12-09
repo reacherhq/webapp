@@ -1,4 +1,4 @@
-import { CssBaseline } from '@geist-ui/react';
+import { CssBaseline } from "@geist-ui/react";
 import Document, {
 	DocumentContext,
 	DocumentInitialProps,
@@ -6,8 +6,8 @@ import Document, {
 	Html,
 	Main,
 	NextScript,
-} from 'next/document';
-import React from 'react';
+} from "next/document";
+import React from "react";
 
 export const getInitialProps = async (
 	ctx: DocumentContext

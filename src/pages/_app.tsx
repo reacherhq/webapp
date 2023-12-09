@@ -1,27 +1,27 @@
-import '../styles/global.css';
+import "../styles/global.css";
 
-import { CssBaseline, GeistProvider, Themes } from '@geist-ui/react';
-import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
-import React from 'react';
+import { CssBaseline, GeistProvider, Themes } from "@geist-ui/react";
+import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
+import React from "react";
 
-import { Layout } from '../components';
-import { UserContextProvider } from '../util/useUser';
+import { Layout } from "../components";
+import { UserContextProvider } from "../util/useUser";
 
 const myTheme = Themes.createFromLight({
-	type: 'default',
+	type: "default",
 	palette: {
-		errorDark: '#ff128a', // Accent Color Pink
-		foreground: '#3a3a3a', // Neutral Almost Black
-		success: '#6979f8', // Primary Blue
-		link: '#6979f8',
-		cyan: '#6979f8',
-		secondary: '#999999', // Neutral Light Gray
+		errorDark: "#ff128a", // Accent Color Pink
+		foreground: "#3a3a3a", // Neutral Almost Black
+		success: "#6979f8", // Primary Blue
+		link: "#6979f8",
+		cyan: "#6979f8",
+		secondary: "#999999", // Neutral Light Gray
 	},
 });
 
 // https://help.crisp.chat/en/article/how-to-install-crisp-live-chat-on-nextjs-xh9yse/
-const CrispWithNoSSR = dynamic(() => import('../components/Crisp'), {
+const CrispWithNoSSR = dynamic(() => import("../components/Crisp"), {
 	ssr: false,
 });
 

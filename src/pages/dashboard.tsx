@@ -1,15 +1,15 @@
-import { Loading, Page } from '@geist-ui/react';
-import { GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import { Loading, Page } from "@geist-ui/react";
+import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
-import { Dashboard, Nav } from '../components';
-import { sentryException } from '../util/sentry';
+import { Dashboard, Nav } from "../components";
+import { sentryException } from "../util/sentry";
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
-} from '../util/supabaseClient';
-import { useUser } from '../util/useUser';
+} from "../util/supabaseClient";
+import { useUser } from "../util/useUser";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductsWithPrices();
@@ -31,7 +31,7 @@ export default function Index({ products }: IndexProps): React.ReactElement {
 
 	useEffect(() => {
 		if (userFinishedLoading && !user) {
-			router.replace('/login').catch(sentryException);
+			router.replace("/login").catch(sentryException);
 		}
 	}, [router, userFinishedLoading, user]);
 

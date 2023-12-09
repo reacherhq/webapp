@@ -1,16 +1,16 @@
-import { Input, Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
-import HCaptcha from '@hcaptcha/react-hcaptcha';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { Input, Link as GLink, Select, Spacer, Text } from "@geist-ui/react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 import {
 	SigninButton,
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from '../components';
-import { sentryException } from '../util/sentry';
-import { useUser } from '../util/useUser';
+} from "../components";
+import { sentryException } from "../util/sentry";
+import { useUser } from "../util/useUser";
 
 function Feedback({
 	onChange,
@@ -40,7 +40,7 @@ function Feedback({
 				<Select.Option value="other">Other</Select.Option>
 			</Select>
 
-			{option === 'google' && (
+			{option === "google" && (
 				<>
 					<Spacer />
 					<Input
@@ -55,7 +55,7 @@ function Feedback({
 					</Input>
 				</>
 			)}
-			{option === 'other' && (
+			{option === "other" && (
 				<>
 					<Spacer />
 					<Input
@@ -75,8 +75,8 @@ function Feedback({
 }
 
 export default function SignUp(): React.ReactElement {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
@@ -98,12 +98,12 @@ export default function SignUp(): React.ReactElement {
 			feedback ? { heardFrom: feedback } : undefined
 		);
 		if (error) {
-			setMessage({ type: 'error', content: error?.message });
+			setMessage({ type: "error", content: error?.message });
 		} else {
 			setMessage({
-				type: 'success',
+				type: "success",
 				content:
-					'Signed up successfully. Check your email for the confirmation link.',
+					"Signed up successfully. Check your email for the confirmation link.",
 			});
 		}
 		setLoading(false);
@@ -111,7 +111,7 @@ export default function SignUp(): React.ReactElement {
 
 	useEffect(() => {
 		if (user) {
-			router.replace('/dashboard').catch(sentryException);
+			router.replace("/dashboard").catch(sentryException);
 		}
 	}, [router, user]);
 
@@ -161,11 +161,11 @@ export default function SignUp(): React.ReactElement {
 					handleSignup().catch(sentryException);
 				}}
 			>
-				{loading ? 'Signing up...' : 'Sign up'}
+				{loading ? "Signing up..." : "Sign up"}
 			</SigninButton>
 
 			<Text p className="text-center">
-				Already have an account?{' '}
+				Already have an account?{" "}
 				<GLink color href="/login" underline>
 					Log in.
 				</GLink>

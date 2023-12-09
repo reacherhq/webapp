@@ -1,17 +1,17 @@
-import { Grid, Select, Spacer, Text } from '@geist-ui/react';
-import { GetStaticProps } from 'next';
-import React, { useState } from 'react';
+import { Grid, Select, Spacer, Text } from "@geist-ui/react";
+import { GetStaticProps } from "next";
+import React, { useState } from "react";
 
-import { FreeTrial, Nav, ProductCard } from '../components';
+import { FreeTrial, Nav, ProductCard } from "../components";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_10K_PRODUCT_ID,
-} from '../util/subs';
+} from "../util/subs";
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
-} from '../util/supabaseClient';
-import { useUser } from '../util/useUser';
+} from "../util/supabaseClient";
+import { useUser } from "../util/useUser";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductsWithPrices();
@@ -33,7 +33,7 @@ export default function Pricing({
 	const { subscription } = useUser();
 	const subscriptionCurrency = subscription?.prices?.currency;
 	const [currency, setCurrency] = useState<string>(
-		subscriptionCurrency || 'eur'
+		subscriptionCurrency || "eur"
 	);
 
 	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
@@ -41,7 +41,7 @@ export default function Pricing({
 		({ id }) => id === COMMERCIAL_LICENSE_PRODUCT_ID
 	);
 	if (!saasProduct || !licenseProduct) {
-		throw new Error('Pricing: saasProduct or licenseProduct not found.');
+		throw new Error("Pricing: saasProduct or licenseProduct not found.");
 	}
 
 	return (

@@ -1,23 +1,23 @@
-import { Input, Note, Spacer } from '@geist-ui/react';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { Input, Note, Spacer } from "@geist-ui/react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 import {
 	SigninButton,
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from '../components';
-import { parseHashComponents } from '../util/helpers';
-import { sentryException } from '../util/sentry';
-import { supabase } from '../util/supabaseClient';
-import { useUser } from '../util/useUser';
+} from "../components";
+import { parseHashComponents } from "../util/helpers";
+import { sentryException } from "../util/sentry";
+import { supabase } from "../util/supabaseClient";
+import { useUser } from "../util/useUser";
 
 export default function ResetPasswordPartTwo(): React.ReactElement {
 	const router = useRouter();
-	const [accessToken, setAccessToken] = useState('');
-	const [password, setPassword] = useState('');
-	const [repeat, setRepeat] = useState('');
+	const [accessToken, setAccessToken] = useState("");
+	const [password, setPassword] = useState("");
+	const [repeat, setRepeat] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
@@ -29,18 +29,18 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 	useEffect(() => {
 		// Password recovery.
 		// https://supabase.io/docs/reference/javascript/reset-password-email#notes
-		if (typeof window !== 'undefined' && window.location.hash) {
+		if (typeof window !== "undefined" && window.location.hash) {
 			const hashComponents = parseHashComponents(window.location.hash);
 			if (
 				!hashComponents.access_token ||
-				(hashComponents.type !== 'invite' &&
-					hashComponents.type !== 'recovery')
+				(hashComponents.type !== "invite" &&
+					hashComponents.type !== "recovery")
 			) {
-				router.replace('/dashboard').catch(sentryException);
+				router.replace("/dashboard").catch(sentryException);
 				return;
 			}
 
-			setIsInvite(hashComponents.type === 'invite');
+			setIsInvite(hashComponents.type === "invite");
 			setAccessToken(hashComponents.access_token);
 		}
 	}, [router]);
@@ -48,8 +48,8 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 	const handleReset = async () => {
 		if (password !== repeat) {
 			setMessage({
-				type: 'error',
-				content: 'The two passwords must match.',
+				type: "error",
+				content: "The two passwords must match.",
 			});
 			return;
 		}
@@ -62,13 +62,13 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		});
 		setLoading(false);
 		if (error) {
-			setMessage({ type: 'error', content: error?.message });
+			setMessage({ type: "error", content: error?.message });
 		} else {
 			setMessage({
-				type: 'success',
-				content: 'Password updated successfully.',
+				type: "success",
+				content: "Password updated successfully.",
 			});
-			router.push('/dashboard').catch(sentryException);
+			router.push("/dashboard").catch(sentryException);
 		}
 	};
 
@@ -82,7 +82,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 						an invite link
 						{user?.email && (
 							<span>
-								{' '}
+								{" "}
 								to <strong>{user.email}</strong>
 							</span>
 						)}
@@ -125,7 +125,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 					handleReset().catch(sentryException);
 				}}
 			>
-				{loading ? 'Resetting...' : 'Reset Password'}
+				{loading ? "Resetting..." : "Reset Password"}
 			</SigninButton>
 		</SigninLayout>
 	);
