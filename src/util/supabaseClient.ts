@@ -1,3 +1,4 @@
+import { CheckEmailOutput } from '@reacherhq/api';
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { createClient, User } from '@supabase/supabase-js';
 import { parseISO, subMonths } from 'date-fns';
@@ -74,6 +75,7 @@ export interface SupabaseCall {
 	verification_id: string;
 	is_reachable: 'safe' | 'invalid' | 'risky' | 'unknown';
 	verif_method?: string;
+	result?: CheckEmailOutput; // JSON
 }
 
 export const supabase = createClient(
@@ -123,15 +125,10 @@ export async function getApiUsageClient(
 	user: User,
 	subscription: SupabaseSubscription | null | undefined
 ): Promise<number> {
-	// Supabase-js doesn't allow for GROUP BY yet, so we fetch all
-	// calls to backend1 (our 1st backend). All calls to other backends are
-	// free.
-	// TODO Switch to use verification_id once GROUP BY is implemented.
 	const { error, count } = await supabase
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.eq('backend', process.env.NEXT_PUBLIC_RCH_BACKEND_1)
 		.gt('created_at', getUsageStartDate(subscription).toISOString());
 
 	if (error) {

@@ -62,7 +62,6 @@ export async function getApiUsageServer(
 		.from<SupabaseCall>('calls')
 		.select('*', { count: 'exact' })
 		.eq('user_id', user.id)
-		.eq('backend', process.env.NEXT_PUBLIC_RCH_BACKEND_1) // TODO: Same as in supabaseClient, we should switch to verification_id.
 		.gt('created_at', getUsageStartDate(subscription).toISOString());
 
 	if (error) {
