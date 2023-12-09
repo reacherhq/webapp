@@ -4,18 +4,18 @@ import type {
 	Session,
 	User,
 	UserCredentials,
-} from '@supabase/gotrue-js';
+} from "@supabase/gotrue-js";
 import React, {
 	createContext,
 	FunctionComponent,
 	useContext,
 	useEffect,
 	useState,
-} from 'react';
+} from "react";
 
-import { getWebappURL } from '../util/helpers';
-import { sentryException } from './sentry';
-import { supabase, SupabaseSubscription, SupabaseUser } from './supabaseClient';
+import { getWebappURL } from "../util/helpers";
+import { sentryException } from "./sentry";
+import { supabase, SupabaseSubscription, SupabaseUser } from "./supabaseClient";
 
 interface UserMetadata {
 	/**
@@ -87,13 +87,13 @@ export const UserContextProvider: FunctionComponent = (
 	}, []);
 
 	const getUserDetails = () =>
-		supabase.from<SupabaseUser>('users').select('*').single();
+		supabase.from<SupabaseUser>("users").select("*").single();
 	const getSubscription = () =>
 		supabase
-			.from<SupabaseSubscription>('subscriptions')
-			.select('*, prices(*, products(*))')
-			.in('status', ['trialing', 'active', 'past_due'])
-			.eq('cancel_at_period_end', false);
+			.from<SupabaseSubscription>("subscriptions")
+			.select("*, prices(*, products(*))")
+			.in("status", ["trialing", "active", "past_due"])
+			.eq("cancel_at_period_end", false);
 	useEffect(() => {
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])

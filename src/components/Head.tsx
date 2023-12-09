@@ -1,5 +1,5 @@
-import NextHead from 'next/head';
-import React from 'react';
+import NextHead from "next/head";
+import React from "react";
 
 export function Head(): React.ReactElement {
 	return (

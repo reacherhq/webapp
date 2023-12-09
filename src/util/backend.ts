@@ -29,7 +29,7 @@ export function getReacherBackends(): ReacherBackend[] {
 	}
 	cachedReacherBackends;
 	if (!process.env.RCH_BACKENDS) {
-		throw new Error('Got empty RCH_BACKENDS env var.');
+		throw new Error("Got empty RCH_BACKENDS env var.");
 	}
 
 	// RCH_BACKENDS is an array of all Reacher's internal backends.

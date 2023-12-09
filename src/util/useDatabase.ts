@@ -1,15 +1,15 @@
-import { User } from '@supabase/gotrue-js';
-import type { Stripe } from 'stripe';
+import { User } from "@supabase/gotrue-js";
+import type { Stripe } from "stripe";
 
-import { toDateTime } from './helpers';
-import { stripe } from './stripeServer';
+import { toDateTime } from "./helpers";
+import { stripe } from "./stripeServer";
 import type {
 	SupabaseCustomer,
 	SupabasePrice,
 	SupabaseProduct,
 	SupabaseSubscription,
-} from './supabaseClient';
-import { supabaseAdmin } from './supabaseServer';
+} from "./supabaseClient";
+import { supabaseAdmin } from "./supabaseServer";
 
 // This entire file should be removed and moved to supabase-admin
 // It's not a react hook, so it shouldn't have useDatabase format
@@ -27,7 +27,7 @@ export const upsertProductRecord = async (
 	};
 
 	const { error } = await supabaseAdmin
-		.from('products')
+		.from("products")
 		.insert([productData], { upsert: true });
 	if (error) throw error;
 };
@@ -36,7 +36,7 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 	const priceData: SupabasePrice = {
 		id: price.id,
 		product_id:
-			typeof price.product === 'string'
+			typeof price.product === "string"
 				? price.product
 				: price.product.id,
 		active: price.active,
@@ -51,7 +51,7 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 	};
 
 	const { error } = await supabaseAdmin
-		.from('prices')
+		.from("prices")
 		.insert([priceData], { upsert: true });
 	if (error) throw error;
 };
@@ -59,9 +59,9 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 	const { email, id: uuid } = user;
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseCustomer>('customers')
-		.select('stripe_customer_id')
-		.eq('id', uuid)
+		.from<SupabaseCustomer>("customers")
+		.select("stripe_customer_id")
+		.eq("id", uuid)
 		.single();
 
 	if (error) {
@@ -78,7 +78,7 @@ export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 
 		// Now insert the customer ID into our Supabase mapping table.
 		const { error: supabaseError } = await supabaseAdmin
-			.from('customers')
+			.from("customers")
 			.insert([{ id: uuid, stripe_customer_id: customer.id }]);
 
 		if (supabaseError) throw supabaseError;
@@ -87,7 +87,7 @@ export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 	}
 
 	if (!data)
-		throw new Error('No data retrieved in createOrRetrieveCustomer.');
+		throw new Error("No data retrieved in createOrRetrieveCustomer.");
 
 	return data.stripe_customer_id;
 };
@@ -102,22 +102,22 @@ export const copyBillingDetailsToCustomer = async (
 	const customer = payment_method.customer;
 	const { name, phone, address } = payment_method.billing_details;
 	if (!customer) {
-		throw new Error('No customer in copyBillingDetailsToCustomer.');
+		throw new Error("No customer in copyBillingDetailsToCustomer.");
 	}
 	await stripe.customers.update(
-		typeof customer === 'string' ? customer : customer.id,
+		typeof customer === "string" ? customer : customer.id,
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore Seems like discrepancy in Stripe types.
 		{ name, phone, address }
 	);
 
 	const { error } = await supabaseAdmin
-		.from('users')
+		.from("users")
 		.update({
 			billing_address: address,
 			payment_method: payment_method[payment_method.type],
 		})
-		.eq('id', uuid);
+		.eq("id", uuid);
 
 	if (error) throw error;
 };
@@ -129,18 +129,18 @@ export const manageSubscriptionStatusChange = async (
 ): Promise<void> => {
 	// Get customer's UUID from mapping table.
 	const { data, error: noCustomerError } = await supabaseAdmin
-		.from<SupabaseCustomer>('customers')
-		.select('id')
-		.eq('stripe_customer_id', customerId)
+		.from<SupabaseCustomer>("customers")
+		.select("id")
+		.eq("stripe_customer_id", customerId)
 		.single();
 	if (noCustomerError) throw noCustomerError;
 	if (!data) {
-		throw new Error('No data on manageSubscriptionStatusChange.');
+		throw new Error("No data on manageSubscriptionStatusChange.");
 	}
 	const { id: uuid } = data;
 
 	const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
-		expand: ['default_payment_method'],
+		expand: ["default_payment_method"],
 	});
 	// Upsert the latest status of the subscription object.
 	const subscriptionData: SupabaseSubscription = {
@@ -174,16 +174,16 @@ export const manageSubscriptionStatusChange = async (
 	};
 
 	const { error } = await supabaseAdmin
-		.from('subscriptions')
+		.from("subscriptions")
 		.insert([subscriptionData], { upsert: true });
 	if (error) throw error;
 
 	// For a new subscription copy the billing details to the customer object.
 	// NOTE: This is a costly operation and should happen at the very end.
 	if (createAction && subscription.default_payment_method) {
-		if (typeof subscription.default_payment_method === 'string') {
+		if (typeof subscription.default_payment_method === "string") {
 			throw new Error(
-				'Expected Stripe.PaymentMethod in manageSubscriptionStatusChange, got string.'
+				"Expected Stripe.PaymentMethod in manageSubscriptionStatusChange, got string."
 			);
 		}
 		await copyBillingDetailsToCustomer(

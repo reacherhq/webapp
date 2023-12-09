@@ -1,11 +1,11 @@
-import { Button, Grid, Loading, Text } from '@geist-ui/react';
-import type { ButtonProps } from '@geist-ui/react/dist/button/button';
-import { CheckCircle, XCircle } from '@geist-ui/react-icons';
-import type { User } from '@supabase/supabase-js';
-import React from 'react';
+import { Button, Grid, Loading, Text } from "@geist-ui/react";
+import type { ButtonProps } from "@geist-ui/react/dist/button/button";
+import { CheckCircle, XCircle } from "@geist-ui/react-icons";
+import type { User } from "@supabase/supabase-js";
+import React from "react";
 
-import { Nav } from '../components';
-import styles from './SigninLayout.module.css';
+import { Nav } from "../components";
+import styles from "./SigninLayout.module.css";
 
 interface SiginLayoutProps extends React.HTMLProps<HTMLDivElement> {
 	title: string;
@@ -44,7 +44,7 @@ export function SigninLayout({
 }
 
 export interface SigninMessage {
-	type: 'error' | 'success';
+	type: "error" | "success";
 	content: string;
 }
 
@@ -57,11 +57,11 @@ export function SigninLayoutMessage({
 }: SigninLayoutMessageProps): React.ReactElement {
 	return (
 		<Text small p type={message.type}>
-			{message.type === 'error' ? (
+			{message.type === "error" ? (
 				<XCircle size={16} />
 			) : (
 				<CheckCircle size={16} />
-			)}{' '}
+			)}{" "}
 			{message.content}
 		</Text>
 	);
@@ -70,8 +70,8 @@ export function SigninLayoutMessage({
 export function SigninButton({
 	children,
 	className = styles.button,
-	size = 'large',
-	type = 'secondary',
+	size = "large",
+	type = "secondary",
 	...rest
 }: Partial<ButtonProps>): React.ReactElement {
 	return (

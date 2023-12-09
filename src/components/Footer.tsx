@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Divider, Grid, Link, Spacer, Text } from '@geist-ui/react';
-import Image from 'next/image';
-import React from 'react';
+import { Divider, Grid, Link, Spacer, Text } from "@geist-ui/react";
+import Image from "next/image";
+import React from "react";
 
-import logo from '../assets/logo/reacher.svg';
-import styles from './Footer.module.css';
+import logo from "../assets/logo/reacher.svg";
+import styles from "./Footer.module.css";
 
 export function Footer(): React.ReactElement {
 	return (
@@ -106,7 +106,7 @@ export function Footer(): React.ReactElement {
 
 			<div className={styles.bottom}>
 				<Text small>
-					© Reacher 2020-2022,{' '}
+					© Reacher 2020-2022,{" "}
 					<Link
 						href="https://help.reacher.email/mentions-lgales"
 						target="_blank"
@@ -114,7 +114,7 @@ export function Footer(): React.ReactElement {
 					>
 						Mentions légales
 					</Link>
-					,{' '}
+					,{" "}
 					<Link
 						href="https://help.reacher.email/cgu-cgv"
 						target="_blank"
@@ -122,7 +122,7 @@ export function Footer(): React.ReactElement {
 					>
 						CGU/CGV
 					</Link>
-					,{' '}
+					,{" "}
 					<Link
 						href="https://help.reacher.email/politique-de-confidentialit"
 						target="_blank"

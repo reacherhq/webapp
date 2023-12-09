@@ -1,14 +1,14 @@
-import { Capacity, Loading, Spacer, Text } from '@geist-ui/react';
-import { Loader } from '@geist-ui/react-icons';
-import { format, parseISO } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { Capacity, Loading, Spacer, Text } from "@geist-ui/react";
+import { Loader } from "@geist-ui/react-icons";
+import { format, parseISO } from "date-fns";
+import React, { useEffect, useState } from "react";
 
-import { sentryException } from '../util/sentry';
-import { subApiMaxCalls } from '../util/subs';
-import { getApiUsageClient } from '../util/supabaseClient';
-import { useUser } from '../util/useUser';
-import styles from './ApiUsage.module.css';
-import { Demo } from './Demo';
+import { sentryException } from "../util/sentry";
+import { subApiMaxCalls } from "../util/subs";
+import { getApiUsageClient } from "../util/supabaseClient";
+import { useUser } from "../util/useUser";
+import styles from "./ApiUsage.module.css";
+import { Demo } from "./Demo";
 
 export function ApiUsage(): React.ReactElement {
 	const { subscription, user, userFinishedLoading } = useUser();
@@ -34,7 +34,7 @@ export function ApiUsage(): React.ReactElement {
 					Email verifications this month
 					{subscription && (
 						<>
-							{' '}
+							{" "}
 							({formatDate(
 								subscription.current_period_start
 							)} - {formatDate(subscription.current_period_end)})
@@ -71,5 +71,5 @@ export function ApiUsage(): React.ReactElement {
 }
 
 function formatDate(d: string | Date): string {
-	return format(typeof d === 'string' ? parseISO(d) : d, 'do MMM yyyy');
+	return format(typeof d === "string" ? parseISO(d) : d, "do MMM yyyy");
 }

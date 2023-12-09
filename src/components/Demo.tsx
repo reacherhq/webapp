@@ -1,10 +1,10 @@
-import { Button, Card, Code, Input, Spacer, Text } from '@geist-ui/react';
-import { CheckEmailOutput } from '@reacherhq/api/lib';
-import React, { useState } from 'react';
+import { Button, Card, Code, Input, Spacer, Text } from "@geist-ui/react";
+import { CheckEmailOutput } from "@reacherhq/api/lib";
+import React, { useState } from "react";
 
-import { postData } from '../util/helpers';
-import { sentryException } from '../util/sentry';
-import { useUser } from '../util/useUser';
+import { postData } from "../util/helpers";
+import { sentryException } from "../util/sentry";
+import { useUser } from "../util/useUser";
 
 function alertError(e: string) {
 	alert(
@@ -18,12 +18,12 @@ interface DemoProps {
 
 export function Demo({ onVerified }: DemoProps): React.ReactElement {
 	const { user, userDetails } = useUser();
-	const [email, setEmail] = useState('');
+	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
 
 	function handleVerify() {
-		window.sa_event && window.sa_event('dashboard:verify:click');
+		window.sa_event && window.sa_event("dashboard:verify:click");
 		if (!email) {
 			return;
 		}
@@ -32,7 +32,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 		if (!userDetails) {
 			alertError(
-				`userDetails is undefined for user ${user?.id || 'undefined'}`
+				`userDetails is undefined for user ${user?.id || "undefined"}`
 			);
 			return;
 		}
@@ -95,23 +95,23 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 			{result && (
 				<>
 					<Text>
-						Congratulations 💪! We got a result with{' '}
+						Congratulations 💪! We got a result with{" "}
 						<code>
-							is_reachable ={' '}
+							is_reachable ={" "}
 							<strong>{result.is_reachable}</strong>
 						</code>
 						, {explanation(result)}. The full response is below,
-						check out{' '}
+						check out{" "}
 						<a
 							href="https://help.reacher.email/email-attributes-inside-json"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
 							the documentation
-						</a>{' '}
+						</a>{" "}
 						to understand all the fields.
 					</Text>
-					<Code block>{JSON.stringify(result, undefined, '  ')}</Code>
+					<Code block>{JSON.stringify(result, undefined, "  ")}</Code>
 				</>
 			)}
 		</Card>
@@ -120,13 +120,13 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 function explanation(result: CheckEmailOutput): string {
 	switch (result.is_reachable) {
-		case 'invalid':
-			return 'which means the email does not exist';
-		case 'safe':
-			return 'which means the email exists';
-		case 'risky':
-			return 'which means the email exists, but sending an email there might bounce';
-		case 'unknown':
+		case "invalid":
+			return "which means the email does not exist";
+		case "safe":
+			return "which means the email exists";
+		case "risky":
+			return "which means the email exists, but sending an email there might bounce";
+		case "unknown":
 			return "which means Reacher currently isn't able to tell if the email exists or not";
 	}
 }

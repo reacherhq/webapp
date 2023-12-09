@@ -1,11 +1,11 @@
-import { createClient, User } from '@supabase/supabase-js';
+import { createClient, User } from "@supabase/supabase-js";
 
 import {
 	getUsageStartDate,
 	SupabaseCall,
 	SupabaseSubscription,
 	SupabaseUser,
-} from './supabaseClient';
+} from "./supabaseClient";
 
 export const supabaseAdmin = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -26,9 +26,9 @@ export const getUserByApiToken = async (
 	apiToken: string
 ): Promise<SupabaseUser | null> => {
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseUser>('users')
-		.select('*')
-		.eq('api_token', apiToken);
+		.from<SupabaseUser>("users")
+		.select("*")
+		.eq("api_token", apiToken);
 
 	if (error) {
 		throw error;
@@ -41,11 +41,11 @@ export async function getActiveSubscription(
 	user: User
 ): Promise<SupabaseSubscription | null> {
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseSubscription>('subscriptions')
-		.select('*, prices(*, products(*))')
-		.in('status', ['trialing', 'active', 'past_due'])
-		.eq('cancel_at_period_end', false)
-		.eq('user_id', user.id);
+		.from<SupabaseSubscription>("subscriptions")
+		.select("*, prices(*, products(*))")
+		.in("status", ["trialing", "active", "past_due"])
+		.eq("cancel_at_period_end", false)
+		.eq("user_id", user.id);
 
 	if (error) throw error;
 
@@ -59,10 +59,10 @@ export async function getApiUsageServer(
 	subscription: SupabaseSubscription | null | undefined
 ): Promise<number> {
 	const { count, error } = await supabaseAdmin
-		.from<SupabaseCall>('calls')
-		.select('*', { count: 'exact' })
-		.eq('user_id', user.id)
-		.gt('created_at', getUsageStartDate(subscription).toISOString());
+		.from<SupabaseCall>("calls")
+		.select("*", { count: "exact" })
+		.eq("user_id", user.id)
+		.gt("created_at", getUsageStartDate(subscription).toISOString());
 
 	if (error) {
 		throw error;

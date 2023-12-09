@@ -1,8 +1,8 @@
-import { ContactsApi, ContactsApiApiKeys } from '@sendinblue/client';
-import { format } from 'date-fns';
+import { ContactsApi, ContactsApiApiKeys } from "@sendinblue/client";
+import { format } from "date-fns";
 
-import { sentryException } from './sentry';
-import { SupabaseUser } from './supabaseClient';
+import { sentryException } from "./sentry";
+import { SupabaseUser } from "./supabaseClient";
 
 export const sendinblueApi = new ContactsApi();
 
@@ -15,7 +15,7 @@ sendinblueApi.setApiKey(
  * Format a Date into the format accepted by Sendinblue, which is yyyy-MM-dd.
  */
 function sendinblueDateFormat(d: Date): string {
-	return format(d, 'yyyy-MM-dd');
+	return format(d, "yyyy-MM-dd");
 }
 
 /**

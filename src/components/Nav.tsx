@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Link as GLink, Select, Spacer, Text } from '@geist-ui/react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { Link as GLink, Select, Spacer, Text } from "@geist-ui/react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React from "react";
 
-import logo from '../assets/logo/reacher.svg';
-import { sentryException } from '../util/sentry';
-import { useUser } from '../util/useUser';
-import styles from './Nav.module.css';
+import logo from "../assets/logo/reacher.svg";
+import { sentryException } from "../util/sentry";
+import { useUser } from "../util/useUser";
+import styles from "./Nav.module.css";
 
 export function Nav(): React.ReactElement {
 	const { user, userDetails, signOut } = useUser();
@@ -19,7 +19,7 @@ export function Nav(): React.ReactElement {
 			<div>
 				<a
 					className="flex"
-					href={user ? '/dashboard' : 'https://reacher.email'}
+					href={user ? "/dashboard" : "https://reacher.email"}
 				>
 					<Image height={24} src={logo} width={24} />
 					<Text className={styles.reacher} h3>
@@ -67,11 +67,11 @@ export function Nav(): React.ReactElement {
 					<Select.Option
 						onClick={() => {
 							signOut()
-								.then(() => router.push('/login'))
+								.then(() => router.push("/login"))
 								.catch(sentryException);
 						}}
 					>
-						Log Out{' '}
+						Log Out{" "}
 					</Select.Option>
 				</Select>
 			)}

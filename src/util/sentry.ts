@@ -1,4 +1,4 @@
-import { captureException } from '@sentry/browser';
+import { captureException } from "@sentry/browser";
 
 /**
  * Capture an  error, and send it to Sentry.

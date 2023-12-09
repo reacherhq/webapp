@@ -1,7 +1,7 @@
-import { CheckEmailOutput } from '@reacherhq/api';
-import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
-import { createClient, User } from '@supabase/supabase-js';
-import { parseISO, subMonths } from 'date-fns';
+import { CheckEmailOutput } from "@reacherhq/api";
+import type { PostgrestFilterBuilder } from "@supabase/postgrest-js";
+import { createClient, User } from "@supabase/supabase-js";
+import { parseISO, subMonths } from "date-fns";
 
 export interface SupabasePrice {
 	active: boolean;
@@ -73,7 +73,7 @@ export interface SupabaseCall {
 	backend_ip: string;
 	domain?: string;
 	verification_id: string;
-	is_reachable: 'safe' | 'invalid' | 'risky' | 'unknown';
+	is_reachable: "safe" | "invalid" | "risky" | "unknown";
 	verif_method?: string;
 	result?: CheckEmailOutput; // JSON
 }
@@ -87,18 +87,18 @@ export async function getActiveProductsWithPrices(): Promise<
 	SupabaseProductWithPrice[]
 > {
 	const { data, error } = await supabase
-		.from<SupabaseProductWithPrice>('products')
-		.select('*, prices(*)')
-		.eq('active', true)
+		.from<SupabaseProductWithPrice>("products")
+		.select("*, prices(*)")
+		.eq("active", true)
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore Supabase typings error?
-		.eq('prices.active', true)
+		.eq("prices.active", true)
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore Supabase typings error?
-		.order('metadata->index')
+		.order("metadata->index")
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore Supabase typings error?
-		.order('unit_amount', { foreignTable: 'prices' });
+		.order("unit_amount", { foreignTable: "prices" });
 
 	if (error) {
 		throw error;
@@ -112,11 +112,11 @@ export function updateUserName(
 	name: string
 ): PostgrestFilterBuilder<SupabaseUser> {
 	return supabase
-		.from<SupabaseUser>('users')
+		.from<SupabaseUser>("users")
 		.update({
 			full_name: name,
 		})
-		.eq('id', user.id);
+		.eq("id", user.id);
 }
 
 // Get the api calls of a user in the past month. Same as
@@ -126,10 +126,10 @@ export async function getApiUsageClient(
 	subscription: SupabaseSubscription | null | undefined
 ): Promise<number> {
 	const { error, count } = await supabase
-		.from<SupabaseCall>('calls')
-		.select('*', { count: 'exact' })
-		.eq('user_id', user.id)
-		.gt('created_at', getUsageStartDate(subscription).toISOString());
+		.from<SupabaseCall>("calls")
+		.select("*", { count: "exact" })
+		.eq("user_id", user.id)
+		.gt("created_at", getUsageStartDate(subscription).toISOString());
 
 	if (error) {
 		throw error;
@@ -149,7 +149,7 @@ export function getUsageStartDate(
 		return subMonths(new Date(), 1);
 	}
 
-	return typeof subscription.current_period_start === 'string'
+	return typeof subscription.current_period_start === "string"
 		? parseISO(subscription.current_period_start)
 		: subscription.current_period_start;
 }

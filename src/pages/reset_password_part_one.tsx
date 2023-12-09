@@ -1,17 +1,17 @@
-import { Input, Spacer } from '@geist-ui/react';
-import React, { useState } from 'react';
+import { Input, Spacer } from "@geist-ui/react";
+import React, { useState } from "react";
 
 import {
 	SigninButton,
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from '../components';
-import { sentryException } from '../util/sentry';
-import { useUser } from '../util/useUser';
+} from "../components";
+import { sentryException } from "../util/sentry";
+import { useUser } from "../util/useUser";
 
 export default function ResetPasswordPartOne(): React.ReactElement {
-	const [email, setEmail] = useState('');
+	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
@@ -26,11 +26,11 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 		const { error } = await resetPassword(email);
 		setLoading(false);
 		if (error) {
-			setMessage({ type: 'error', content: error.message });
+			setMessage({ type: "error", content: error.message });
 		} else {
 			setMessage({
-				type: 'success',
-				content: 'Check your email for resetting the password.',
+				type: "success",
+				content: "Check your email for resetting the password.",
 			});
 		}
 	};
@@ -58,7 +58,7 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 					handleResetPassword().catch(sentryException);
 				}}
 			>
-				{loading ? 'Resetting...' : 'Reset Password'}
+				{loading ? "Resetting..." : "Reset Password"}
 			</SigninButton>
 		</SigninLayout>
 	);

@@ -1,17 +1,17 @@
-import { User } from '@supabase/supabase-js';
-import Cors from 'cors';
-import { addMonths, differenceInMilliseconds, parseISO } from 'date-fns';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { RateLimiterRes } from 'rate-limiter-flexible';
+import { User } from "@supabase/supabase-js";
+import Cors from "cors";
+import { addMonths, differenceInMilliseconds, parseISO } from "date-fns";
+import { NextApiRequest, NextApiResponse } from "next";
+import { RateLimiterRes } from "rate-limiter-flexible";
 
-import { setRateLimitHeaders } from './helpers';
-import { subApiMaxCalls } from './subs';
-import { SupabaseUser } from './supabaseClient';
+import { setRateLimitHeaders } from "./helpers";
+import { subApiMaxCalls } from "./subs";
+import { SupabaseUser } from "./supabaseClient";
 import {
 	getActiveSubscription,
 	getApiUsageServer,
 	getUserByApiToken,
-} from './supabaseServer';
+} from "./supabaseServer";
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
@@ -41,7 +41,7 @@ export const cors = initMiddleware(
 	// You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
 	Cors({
 		// Only allow requests with GET, POST, OPTIONS and HEAD
-		methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
+		methods: ["GET", "POST", "OPTIONS", "HEAD"],
 	})
 );
 
@@ -69,13 +69,13 @@ export async function checkUserInDB(
 ): Promise<CheckUserReturnType> {
 	const token = req.headers.authorization || req.headers.Authorization;
 
-	if (typeof token !== 'string') {
-		throw new Error('Expected API token in the Authorization header.');
+	if (typeof token !== "string") {
+		throw new Error("Expected API token in the Authorization header.");
 	}
 
 	const user = await getUserByApiToken(token);
 	if (!user) {
-		res.status(401).json({ error: 'User not found' });
+		res.status(401).json({ error: "User not found" });
 		return { sentResponse: true };
 	}
 
@@ -90,7 +90,7 @@ export async function checkUserInDB(
 	// Set rate limit headers.
 	const now = new Date();
 	const nextReset = sub
-		? typeof sub.current_period_end === 'string'
+		? typeof sub.current_period_end === "string"
 			? parseISO(sub.current_period_end)
 			: sub.current_period_end
 		: addMonths(now, 1);
@@ -104,7 +104,7 @@ export async function checkUserInDB(
 
 	if (used > max) {
 		res.status(429).json({
-			error: 'Too many requests this month. Please upgrade your Reacher plan to make more requests.',
+			error: "Too many requests this month. Please upgrade your Reacher plan to make more requests.",
 		});
 
 		return { sentResponse: true };
