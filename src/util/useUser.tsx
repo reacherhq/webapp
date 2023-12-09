@@ -5,13 +5,7 @@ import type {
 	User,
 	UserCredentials,
 } from "@supabase/gotrue-js";
-import React, {
-	createContext,
-	FunctionComponent,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { getWebappURL } from "../util/helpers";
 import { sentryException } from "./sentry";
@@ -56,8 +50,12 @@ interface UserContext {
 
 export const UserContext = createContext({} as UserContext);
 
-export const UserContextProvider: FunctionComponent = (
-	props
+interface UserContextProviderProps {
+	children: React.ReactNode;
+}
+
+export const UserContextProvider = (
+	props: UserContextProviderProps
 ): React.ReactElement => {
 	const [userLoaded, setUserLoaded] = useState(false);
 	const [userFinishedLoading, setUserFinishedLoading] = useState(false);

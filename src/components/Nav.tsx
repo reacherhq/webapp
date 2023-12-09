@@ -21,7 +21,12 @@ export function Nav(): React.ReactElement {
 					className="flex"
 					href={user ? "/dashboard" : "https://reacher.email"}
 				>
-					<Image height={24} src={logo} width={24} />
+					<Image
+						alt="Reacher logo"
+						height={24}
+						src={logo}
+						width={24}
+					/>
 					<Text className={styles.reacher} h3>
 						Reacher
 						{user && (
