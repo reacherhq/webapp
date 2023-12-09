@@ -1,6 +1,6 @@
 import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
 import { PostgrestError } from '@supabase/supabase-js';
-import axios, { Axios, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 } from 'uuid';
 
