@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 } from 'uuid';
 
 import { checkUserInDB, cors } from '../../../util/api';
-import { convertAxiosError } from '../../../util/helpers';
+import { convertAxiosError, getWebappURL } from '../../../util/helpers';
 import { updateSendinblue } from '../../../util/sendinblue';
 import { sentryException } from '../../../util/sentry';
 import { SupabaseCall } from '../../../util/supabaseClient';
@@ -13,7 +13,7 @@ import { supabaseAdmin } from '../../../util/supabaseServer';
 import { WebhookExtra } from '../calls/webhook';
 
 const ORCHESTRATOR_URL = process.env.RCH_ORCHESTRATOR_URL as string;
-const TIMEOUT = 30000;
+const TIMEOUT = 60000;
 
 const POST = async (
 	req: NextApiRequest,
@@ -41,7 +41,7 @@ const POST = async (
 				{
 					input: req.body as CheckEmailInput,
 					webhook: {
-						url: 'http://localhost:3000/api/calls/webhook',
+						url: `${getWebappURL()}/api/calls/webhook`,
 						extra: {
 							userId: user.id,
 							endpoint: '/v0/check_email',
@@ -63,10 +63,6 @@ const POST = async (
 
 		const startTime = Date.now();
 		while (!checkEmailOutput && Date.now() - startTime < TIMEOUT - 2000) {
-			console.log(
-				'Polling database for verification result...',
-				Date.now() - startTime
-			);
 			await new Promise((resolve) => setTimeout(resolve, 500));
 
 			const response = await supabaseAdmin
@@ -77,8 +73,8 @@ const POST = async (
 
 			// If there's no error, it means the result has been added to the
 			// database.
+			lastError = response.error;
 			if (!response.error) {
-				lastError = null;
 				checkEmailOutput = response.data.result;
 				break;
 			}
