@@ -6,9 +6,9 @@ import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 
-function alertError(e: string) {
+function alertError(email: string, e: string) {
 	alert(
-		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\n${e}`
+		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\nEmail: ${email}\n${e}`
 	);
 }
 
@@ -32,6 +32,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 		if (!userDetails) {
 			alertError(
+				"n/a",
 				`userDetails is undefined for user ${user?.id || "undefined"}`
 			);
 			return;
@@ -52,7 +53,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 			})
 			.catch((err: Error) => {
 				sentryException(err);
-				alertError(err.message);
+				alertError(email, err.message);
 				setLoading(false);
 			});
 	}
