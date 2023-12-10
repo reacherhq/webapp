@@ -11,7 +11,7 @@ export interface WebhookExtra {
 }
 
 export interface WebhookPayload {
-	data: CheckEmailOutput;
+	output: CheckEmailOutput;
 	extra: WebhookExtra;
 }
 
@@ -25,15 +25,12 @@ const POST = async (
 		return;
 	}
 
-	if (
-		req.headers["x-orchestrator-secret"] !==
-		process.env.RCH_ORCHESTRATOR_SECRET
-	) {
-		res.status(403).json({ error: "Invalid orchestrator secret" });
+	if (req.headers["x-reacher-secret"] !== process.env.RCH_HEADER_SECRET) {
+		res.status(403).json({ error: "Invalid header secret" });
 		return;
 	}
 
-	const { extra, data: output } = req.body as WebhookPayload;
+	const { extra, output } = req.body as WebhookPayload;
 
 	// Add to supabase
 	const response = await supabaseAdmin.from<SupabaseCall>("calls").insert({
