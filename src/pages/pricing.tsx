@@ -63,8 +63,8 @@ export default function Pricing({
 							onChange={(c) => setCurrency(c as string)}
 							value={currency}
 						>
-							<Select.Option value="eur">EUR</Select.Option>
-							<Select.Option value="usd">USD</Select.Option>
+							<Select.Option value="eur">EUR (€)</Select.Option>
+							<Select.Option value="usd">USD ($)</Select.Option>
 						</Select>
 					</Grid>
 					<Grid xs={20} sm={6}>
