@@ -3,6 +3,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
 import amqplib from "amqplib";
+import dns from "dns/promises";
 
 import { checkUserInDB, cors } from "@/util/api";
 import { getWebappURL } from "@/util/helpers";
@@ -13,7 +14,6 @@ import { supabaseAdmin } from "@/util/supabaseServer";
 import { WebhookExtra } from "../calls/webhook";
 
 const TIMEOUT = 60000;
-const QUEUE_NAME = "check_email";
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
 
 const POST = async (
@@ -41,12 +41,23 @@ const POST = async (
 			process.env.RCH_AMQP_ADDR || "amqp://localhost"
 		);
 		const ch1 = await conn.createChannel();
-		await ch1.assertQueue(QUEUE_NAME, {
+		const verifMethod = await getVerifMethod(req.body as CheckEmailInput);
+		const queueName = `check_email.${
+			// If the verifMethod is "Api", we use the "Headless" queue instead,
+			// because the same workers that handle the "Headless" queue also
+			// handle the "Api" queue.
+			//
+			// In this case, we leave the "Smtp" workers only with one task:
+			// Smtp. Hopefully this will make it easier to maintain their IP
+			// reputation.
+			verifMethod === "Api" ? "Headless" : verifMethod
+		}`;
+		await ch1.assertQueue(queueName, {
 			maxPriority: MAX_PRIORITY,
 		});
 
 		ch1.sendToQueue(
-			QUEUE_NAME,
+			queueName,
 			Buffer.from(
 				JSON.stringify({
 					input: req.body as CheckEmailInput,
@@ -120,3 +131,32 @@ const POST = async (
 };
 
 export default POST;
+
+// getVerifMethod returns the verifMethod that is best used to verify the
+// input's email address.
+async function getVerifMethod(input: CheckEmailInput): Promise<string> {
+	const domain = input.to_email.split("@")[1];
+	if (!domain) {
+		return "Smtp";
+	}
+
+	const records = await dns.resolveMx(domain);
+	if (
+		input.yahoo_verif_method !== "Smtp" &&
+		records.some((r) => r.exchange.endsWith(".yahoodns.net")) // Note: there's no "." at the end of the domain.
+	) {
+		return "Headless";
+	} else if (
+		input.hotmail_verif_method !== "Smtp" &&
+		records.some((r) => r.exchange.endsWith(".protection.outlook.com")) // Note: there's no "." at the end of the domain.
+	) {
+		return "Headless";
+	} else if (
+		input.gmail_verif_method !== "Smtp" &&
+		records.some((r) => r.exchange.endsWith(".google.com")) // Note: there's no "." at the end of the domain.
+	) {
+		return "Api";
+	} else {
+		return "Smtp";
+	}
+}
