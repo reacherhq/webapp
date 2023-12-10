@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 import { Dashboard, Nav } from "../components";
-import { sentryException } from "../util/sentry";
+import { sentryException } from "@/util/sentry";
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
-} from "../util/supabaseClient";
-import { useUser } from "../util/useUser";
+} from "@/util/supabaseClient";
+import { useUser } from "@/util/useUser";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductsWithPrices();

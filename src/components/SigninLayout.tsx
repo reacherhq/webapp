@@ -4,7 +4,7 @@ import { CheckCircle, XCircle } from "@geist-ui/react-icons";
 import type { User } from "@supabase/supabase-js";
 import React from "react";
 
-import { Nav } from "../components";
+import { Nav } from "../components/Nav";
 import styles from "./SigninLayout.module.css";
 
 interface SiginLayoutProps extends React.HTMLProps<HTMLDivElement> {

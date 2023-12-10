@@ -5,10 +5,10 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 import { Nav } from "../components";
-import { parseHashComponents, postData } from "../util/helpers";
-import { sentryException } from "../util/sentry";
-import { getActiveProductsWithPrices } from "../util/supabaseClient";
-import { useUser } from "../util/useUser";
+import { parseHashComponents, postData } from "@/util/helpers";
+import { sentryException } from "@/util/sentry";
+import { getActiveProductsWithPrices } from "@/util/supabaseClient";
+import { useUser } from "@/util/useUser";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductsWithPrices();

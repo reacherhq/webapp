@@ -2,9 +2,9 @@ import { Button, Card, Code, Input, Spacer, Text } from "@geist-ui/react";
 import { CheckEmailOutput } from "@reacherhq/api/lib";
 import React, { useState } from "react";
 
-import { postData } from "../util/helpers";
-import { sentryException } from "../util/sentry";
-import { useUser } from "../util/useUser";
+import { postData } from "@/util/helpers";
+import { sentryException } from "@/util/sentry";
+import { useUser } from "@/util/useUser";
 
 function alertError(e: string) {
 	alert(

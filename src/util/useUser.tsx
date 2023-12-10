@@ -7,7 +7,7 @@ import type {
 } from "@supabase/gotrue-js";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { getWebappURL } from "../util/helpers";
+import { getWebappURL } from "./helpers";
 import { sentryException } from "./sentry";
 import { supabase, SupabaseSubscription, SupabaseUser } from "./supabaseClient";
 

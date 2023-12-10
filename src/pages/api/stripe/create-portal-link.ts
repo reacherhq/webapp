@@ -1,25 +1,25 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { getWebappURL } from '../../../util/helpers';
-import { sentryException } from '../../../util/sentry';
-import { stripe } from '../../../util/stripeServer';
-import { getUser } from '../../../util/supabaseServer';
-import { createOrRetrieveCustomer } from '../../../util/useDatabase';
+import { getWebappURL } from "@/util/helpers";
+import { sentryException } from "@/util/sentry";
+import { stripe } from "@/util/stripeServer";
+import { getUser } from "@/util/supabaseServer";
+import { createOrRetrieveCustomer } from "@/util/useDatabase";
 
 const createPortalLink = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	if (req.method !== 'POST') {
-		res.setHeader('Allow', 'POST');
-		res.status(405).json({ error: 'Method Not Allowed' });
+	if (req.method !== "POST") {
+		res.setHeader("Allow", "POST");
+		res.status(405).json({ error: "Method Not Allowed" });
 		return;
 	}
 
 	try {
 		const token = req.headers.token;
 
-		if (typeof token !== 'string') {
+		if (typeof token !== "string") {
 			throw new Error(`Expected token as string, got ${typeof token}.`);
 		}
 		const user = await getUser(token);

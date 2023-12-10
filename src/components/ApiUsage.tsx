@@ -3,10 +3,10 @@ import { Loader } from "@geist-ui/react-icons";
 import { format, parseISO } from "date-fns";
 import React, { useEffect, useState } from "react";
 
-import { sentryException } from "../util/sentry";
-import { subApiMaxCalls } from "../util/subs";
-import { getApiUsageClient } from "../util/supabaseClient";
-import { useUser } from "../util/useUser";
+import { sentryException } from "@/util/sentry";
+import { subApiMaxCalls } from "@/util/subs";
+import { getApiUsageClient } from "@/util/supabaseClient";
+import { useUser } from "@/util/useUser";
 import styles from "./ApiUsage.module.css";
 import { Demo } from "./Demo";
 

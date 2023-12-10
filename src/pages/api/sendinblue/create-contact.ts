@@ -1,31 +1,31 @@
-import { CreateUpdateContactModel } from '@sendinblue/client';
-import type { User } from '@supabase/supabase-js';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { CreateUpdateContactModel } from "@sendinblue/client";
+import type { User } from "@supabase/supabase-js";
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { sendinblueApi } from '../../../util/sendinblue';
-import { sentryException } from '../../../util/sentry';
-import type { SupabaseUser } from '../../../util/supabaseClient';
-import { getUser, supabaseAdmin } from '../../../util/supabaseServer';
+import { sendinblueApi } from "@/util/sendinblue";
+import { sentryException } from "@/util/sentry";
+import type { SupabaseUser } from "@/util/supabaseClient";
+import { getUser, supabaseAdmin } from "@/util/supabaseServer";
 
 const createContact = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	try {
-		if (req.method !== 'POST') {
-			res.setHeader('Allow', 'POST');
-			res.status(405).json({ error: 'Method Not Allowed' });
+		if (req.method !== "POST") {
+			res.setHeader("Allow", "POST");
+			res.status(405).json({ error: "Method Not Allowed" });
 			return;
 		}
 
 		const token = req.headers.authorization || req.headers.Authorization;
-		if (typeof token !== 'string') {
-			throw new Error('Expected API token in the Authorization header.');
+		if (typeof token !== "string") {
+			throw new Error("Expected API token in the Authorization header.");
 		}
 
 		const user = await getUser(token);
 		if (!user) {
-			res.status(401).json({ error: 'User not found' });
+			res.status(401).json({ error: "User not found" });
 			return;
 		}
 
@@ -33,9 +33,9 @@ const createContact = async (
 			email: user.email,
 			attributes: {
 				WEBAPP_ENV:
-					process.env.VERCEL_ENV === 'production'
-						? 'production'
-						: 'staging',
+					process.env.VERCEL_ENV === "production"
+						? "production"
+						: "staging",
 				SUPABASE_UUID: user.id,
 			},
 			listIds: [7], // List #7 is the Reacher sign up contact list.
@@ -73,9 +73,9 @@ async function updateUserSendinblueContactId(
 	}
 
 	await supabaseAdmin
-		.from<SupabaseUser>('users')
+		.from<SupabaseUser>("users")
 		.update({
 			sendinblue_contact_id: body.id.toString(),
 		})
-		.eq('id', user.id);
+		.eq("id", user.id);
 }

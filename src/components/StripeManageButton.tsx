@@ -1,9 +1,9 @@
 import { Link as GLink } from "@geist-ui/react";
 import React, { useState } from "react";
 
-import { postData } from "../util/helpers";
-import { sentryException } from "../util/sentry";
-import { useUser } from "../util/useUser";
+import { postData } from "@/util/helpers";
+import { sentryException } from "@/util/sentry";
+import { useUser } from "@/util/useUser";
 
 export interface StripeMananageButton {
 	children: React.ReactNode | string;

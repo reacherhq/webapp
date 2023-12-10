@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import logo from "../assets/logo/reacher.svg";
-import { sentryException } from "../util/sentry";
-import { useUser } from "../util/useUser";
+import { sentryException } from "@/util/sentry";
+import { useUser } from "@/util/useUser";
 import styles from "./Nav.module.css";
 
 export function Nav(): React.ReactElement {
