@@ -13,7 +13,7 @@ import { SupabaseCall } from "@/util/supabaseClient";
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { WebhookExtra } from "../calls/webhook";
 
-const TIMEOUT = 60000;
+const TIMEOUT = 30000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
 
 const POST = async (
