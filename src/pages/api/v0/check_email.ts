@@ -1,19 +1,20 @@
 import type { CheckEmailInput, CheckEmailOutput } from "@reacherhq/api";
 import { PostgrestError } from "@supabase/supabase-js";
-import axios, { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
+import amqplib from "amqplib";
 
 import { checkUserInDB, cors } from "@/util/api";
-import { convertAxiosError, getWebappURL } from "@/util/helpers";
+import { getWebappURL } from "@/util/helpers";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
 import { SupabaseCall } from "@/util/supabaseClient";
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { WebhookExtra } from "../calls/webhook";
 
-const ORCHESTRATOR_URL = process.env.RCH_ORCHESTRATOR_URL as string;
 const TIMEOUT = 60000;
+const QUEUE_NAME = "check_email";
+const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
 
 const POST = async (
 	req: NextApiRequest,
@@ -35,10 +36,19 @@ const POST = async (
 
 	try {
 		const verificationId = v4();
-		try {
-			await axios.post(
-				`${ORCHESTRATOR_URL}/v0/check_email`,
-				{
+
+		const conn = await amqplib.connect(
+			process.env.RCH_AMQP_ADDR || "amqp://localhost"
+		);
+		const ch1 = await conn.createChannel();
+		await ch1.assertQueue(QUEUE_NAME, {
+			maxPriority: MAX_PRIORITY,
+		});
+
+		ch1.sendToQueue(
+			QUEUE_NAME,
+			Buffer.from(
+				JSON.stringify({
 					input: req.body as CheckEmailInput,
 					webhook: {
 						url: `${getWebappURL()}/api/calls/webhook`,
@@ -48,12 +58,14 @@ const POST = async (
 							verificationId: verificationId,
 						} as WebhookExtra,
 					},
-				},
-				{}
-			);
-		} catch (err) {
-			throw convertAxiosError(err as AxiosError);
-		}
+				})
+			),
+			{
+				priority: MAX_PRIORITY,
+			}
+		);
+
+		await ch1.close();
 
 		// Poll the database to make sure the call was added.
 		let checkEmailOutput: CheckEmailOutput | undefined;

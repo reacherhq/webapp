@@ -137,7 +137,7 @@ export function Footer(): React.ReactElement {
 					</Link>
 				</Text>
 				<a
-					href="https://vercel.com?utm_source=devsincrypto&utm_campaign=oss"
+					href="https://vercel.com?utm_source=reacherhq&utm_campaign=oss"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
