@@ -6,12 +6,12 @@ import { FreeTrial, Nav, ProductCard } from "../components";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_10K_PRODUCT_ID,
-} from "../util/subs";
+} from "@/util/subs";
 import {
 	getActiveProductsWithPrices,
 	SupabaseProductWithPrice,
-} from "../util/supabaseClient";
-import { useUser } from "../util/useUser";
+} from "@/util/supabaseClient";
+import { useUser } from "@/util/useUser";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductsWithPrices();
@@ -63,8 +63,8 @@ export default function Pricing({
 							onChange={(c) => setCurrency(c as string)}
 							value={currency}
 						>
-							<Select.Option value="eur">EUR</Select.Option>
-							<Select.Option value="usd">USD</Select.Option>
+							<Select.Option value="eur">EUR (€)</Select.Option>
+							<Select.Option value="usd">USD ($)</Select.Option>
 						</Select>
 					</Grid>
 					<Grid xs={20} sm={6}>

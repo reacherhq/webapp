@@ -8,10 +8,10 @@ import {
 	SigninLayoutMessage,
 	SigninMessage,
 } from "../components";
-import { parseHashComponents } from "../util/helpers";
-import { sentryException } from "../util/sentry";
-import { supabase } from "../util/supabaseClient";
-import { useUser } from "../util/useUser";
+import { parseHashComponents } from "@/util/helpers";
+import { sentryException } from "@/util/sentry";
+import { supabase } from "@/util/supabaseClient";
+import { useUser } from "@/util/useUser";
 
 export default function ResetPasswordPartTwo(): React.ReactElement {
 	const router = useRouter();

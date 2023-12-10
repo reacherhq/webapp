@@ -1,8 +1,8 @@
-import { CheckEmailOutput } from '@reacherhq/api';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { CheckEmailOutput } from "@reacherhq/api";
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { SupabaseCall } from '../../../util/supabaseClient';
-import { supabaseAdmin } from '../../../util/supabaseServer';
+import { SupabaseCall } from "@/util/supabaseClient";
+import { supabaseAdmin } from "@/util/supabaseServer";
 
 export interface WebhookExtra {
 	userId: string;
@@ -19,24 +19,24 @@ const POST = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	if (req.method !== 'POST') {
-		res.setHeader('Allow', 'POST');
-		res.status(405).json({ error: 'Method Not Allowed' });
+	if (req.method !== "POST") {
+		res.setHeader("Allow", "POST");
+		res.status(405).json({ error: "Method Not Allowed" });
 		return;
 	}
 
 	if (
-		req.headers['x-orchestrator-secret'] !==
+		req.headers["x-orchestrator-secret"] !==
 		process.env.RCH_ORCHESTRATOR_SECRET
 	) {
-		res.status(403).json({ error: 'Invalid orchestrator secret' });
+		res.status(403).json({ error: "Invalid orchestrator secret" });
 		return;
 	}
 
 	const { extra, data: output } = req.body as WebhookPayload;
 
 	// Add to supabase
-	const response = await supabaseAdmin.from<SupabaseCall>('calls').insert({
+	const response = await supabaseAdmin.from<SupabaseCall>("calls").insert({
 		endpoint: extra.endpoint,
 		user_id: extra.userId,
 		backend: output.debug?.server_name,
@@ -55,7 +55,7 @@ const POST = async (
 		return;
 	}
 
-	res.status(200).json({ message: 'ok' });
+	res.status(200).json({ message: "ok" });
 };
 
 export default POST;

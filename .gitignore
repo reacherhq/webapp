@@ -42,3 +42,6 @@ reacher_backends.json
 # Supabase
 **/supabase/.branches
 **/supabase/.temp
+
+# Sentry Config File
+.sentryclirc

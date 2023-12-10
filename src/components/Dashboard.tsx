@@ -7,9 +7,9 @@ import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	productName,
 	SAAS_10K_PRODUCT_ID,
-} from "../util/subs";
-import { SupabaseProductWithPrice } from "../util/supabaseClient";
-import { useUser } from "../util/useUser";
+} from "@/util/subs";
+import { SupabaseProductWithPrice } from "@/util/supabaseClient";
+import { useUser } from "@/util/useUser";
 import { ApiUsage } from "./ApiUsage";
 import styles from "./Dashboard.module.css";
 

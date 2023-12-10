@@ -1,19 +1,19 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { getWebappURL } from '../../../util/helpers';
-import { sentryException } from '../../../util/sentry';
-import { stripe } from '../../../util/stripeServer';
-import { SupabasePrice } from '../../../util/supabaseClient';
-import { getActiveSubscription, getUser } from '../../../util/supabaseServer';
-import { createOrRetrieveCustomer } from '../../../util/useDatabase';
+import { getWebappURL } from "@/util/helpers";
+import { sentryException } from "@/util/sentry";
+import { stripe } from "@/util/stripeServer";
+import { SupabasePrice } from "@/util/supabaseClient";
+import { getActiveSubscription, getUser } from "@/util/supabaseServer";
+import { createOrRetrieveCustomer } from "@/util/useDatabase";
 
 const createCheckoutSession = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	if (req.method !== 'POST') {
-		res.setHeader('Allow', 'POST');
-		res.status(405).json({ error: 'Method Not Allowed' });
+	if (req.method !== "POST") {
+		res.setHeader("Allow", "POST");
+		res.status(405).json({ error: "Method Not Allowed" });
 		return;
 	}
 
@@ -29,7 +29,7 @@ const createCheckoutSession = async (
 			metadata: Record<string, string>;
 		};
 
-		if (typeof token !== 'string') {
+		if (typeof token !== "string") {
 			throw new Error(`Expected token as string, got ${typeof token}.`);
 		}
 		const user = await getUser(token);
@@ -43,20 +43,20 @@ const createCheckoutSession = async (
 				`You can only have one active subscription at a time. Please cancel your existing subscription${
 					subscription.prices?.products?.name
 						? ` "${subscription.prices?.products?.name}"`
-						: ''
+						: ""
 				}.`
 			);
 		}
 
 		if (!process.env.NEXT_PUBLIC_FRANCE_TAX_RATE_ID) {
 			throw new Error(
-				'Env variable NEXT_PUBLIC_FRANCE_TAX_RATE_ID needs to be set.'
+				"Env variable NEXT_PUBLIC_FRANCE_TAX_RATE_ID needs to be set."
 			);
 		}
 
 		const session = await stripe.checkout.sessions.create({
-			payment_method_types: ['card'],
-			billing_address_collection: 'required',
+			payment_method_types: ["card"],
+			billing_address_collection: "required",
 			customer,
 			line_items: [
 				{
@@ -67,7 +67,7 @@ const createCheckoutSession = async (
 					quantity,
 				},
 			],
-			mode: 'subscription',
+			mode: "subscription",
 			allow_promotion_codes: true,
 			subscription_data: {
 				trial_from_plan: true,

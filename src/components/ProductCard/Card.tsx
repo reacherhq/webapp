@@ -1,8 +1,8 @@
-import { Card as GCard, Divider, Spacer, Text } from '@geist-ui/react';
-import { Check } from '@geist-ui/react-icons';
-import React from 'react';
+import { Card as GCard, Divider, Spacer, Text } from "@geist-ui/react";
+import { Check } from "@geist-ui/react-icons";
+import React from "react";
 
-import styles from './Card.module.css';
+import styles from "./Card.module.css";
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
 	body?: string | React.ReactChild;

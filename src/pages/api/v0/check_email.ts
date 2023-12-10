@@ -1,16 +1,16 @@
-import type { CheckEmailInput, CheckEmailOutput } from '@reacherhq/api';
-import { PostgrestError } from '@supabase/supabase-js';
-import axios, { AxiosError } from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { v4 } from 'uuid';
+import type { CheckEmailInput, CheckEmailOutput } from "@reacherhq/api";
+import { PostgrestError } from "@supabase/supabase-js";
+import axios, { AxiosError } from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
+import { v4 } from "uuid";
 
-import { checkUserInDB, cors } from '../../../util/api';
-import { convertAxiosError, getWebappURL } from '../../../util/helpers';
-import { updateSendinblue } from '../../../util/sendinblue';
-import { sentryException } from '../../../util/sentry';
-import { SupabaseCall } from '../../../util/supabaseClient';
-import { supabaseAdmin } from '../../../util/supabaseServer';
-import { WebhookExtra } from '../calls/webhook';
+import { checkUserInDB, cors } from "@/util/api";
+import { convertAxiosError, getWebappURL } from "@/util/helpers";
+import { updateSendinblue } from "@/util/sendinblue";
+import { sentryException } from "@/util/sentry";
+import { SupabaseCall } from "@/util/supabaseClient";
+import { supabaseAdmin } from "@/util/supabaseServer";
+import { WebhookExtra } from "../calls/webhook";
 
 const ORCHESTRATOR_URL = process.env.RCH_ORCHESTRATOR_URL as string;
 const TIMEOUT = 60000;
@@ -22,9 +22,9 @@ const POST = async (
 	// Run cors
 	await cors(req, res);
 
-	if (req.method !== 'POST') {
-		res.setHeader('Allow', 'POST');
-		res.status(405).json({ error: 'Method Not Allowed' });
+	if (req.method !== "POST") {
+		res.setHeader("Allow", "POST");
+		res.status(405).json({ error: "Method Not Allowed" });
 		return;
 	}
 
@@ -44,7 +44,7 @@ const POST = async (
 						url: `${getWebappURL()}/api/calls/webhook`,
 						extra: {
 							userId: user.id,
-							endpoint: '/v0/check_email',
+							endpoint: "/v0/check_email",
 							verificationId: verificationId,
 						} as WebhookExtra,
 					},
@@ -58,7 +58,7 @@ const POST = async (
 		// Poll the database to make sure the call was added.
 		let checkEmailOutput: CheckEmailOutput | undefined;
 		let lastError: PostgrestError | Error | null = new Error(
-			'Timeout verifying email.'
+			"Timeout verifying email."
 		);
 
 		const startTime = Date.now();
@@ -66,9 +66,9 @@ const POST = async (
 			await new Promise((resolve) => setTimeout(resolve, 500));
 
 			const response = await supabaseAdmin
-				.from<SupabaseCall>('calls')
-				.select('*')
-				.eq('verification_id', verificationId)
+				.from<SupabaseCall>("calls")
+				.select("*")
+				.eq("verification_id", verificationId)
 				.single();
 
 			// If there's no error, it means the result has been added to the
@@ -90,7 +90,7 @@ const POST = async (
 
 		if (!checkEmailOutput) {
 			res.status(500).json({
-				error: 'Column result was not populated.',
+				error: "Column result was not populated.",
 			});
 			return;
 		}

@@ -14,7 +14,12 @@ export function Footer(): React.ReactElement {
 				<Grid.Container justify="space-between">
 					<Grid className={styles.grid} xs={5}>
 						<div>
-							<Image height={48} src={logo} width={48} />
+							<Image
+								alt="Reacher logo"
+								height={48}
+								src={logo}
+								width={48}
+							/>
 							<Spacer />
 							<Text>
 								Made by Amaury, an indie

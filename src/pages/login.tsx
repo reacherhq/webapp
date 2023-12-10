@@ -8,8 +8,8 @@ import {
 	SigninLayoutMessage,
 	SigninMessage,
 } from "../components";
-import { sentryException } from "../util/sentry";
-import { useUser } from "../util/useUser";
+import { sentryException } from "@/util/sentry";
+import { useUser } from "@/util/useUser";
 
 export default function Login(): React.ReactElement {
 	const [email, setEmail] = useState("");

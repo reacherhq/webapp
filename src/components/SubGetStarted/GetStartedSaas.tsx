@@ -1,7 +1,7 @@
-import { Card, Snippet, Spacer, Text } from '@geist-ui/react';
-import React from 'react';
+import { Card, Snippet, Spacer, Text } from "@geist-ui/react";
+import React from "react";
 
-import { useUser } from '../../util/useUser';
+import { useUser } from "@/util/useUser";
 
 export function GetStartedSaas(): React.ReactElement {
 	const { userDetails } = useUser();
@@ -37,7 +37,7 @@ export function GetStartedSaas(): React.ReactElement {
 						width="100%"
 					/>
 					<Text p>
-						Below is your unique AUTH_TOKEN.{' '}
+						Below is your unique AUTH_TOKEN.{" "}
 						<strong>Don&apos;t share it with anyone else!</strong>
 					</Text>
 					<Snippet
@@ -52,8 +52,8 @@ export function GetStartedSaas(): React.ReactElement {
 					<Snippet
 						symbol=""
 						text={[
-							'curl -X POST \\',
-							'  https://api.reacher.email/v0/check_email \\',
+							"curl -X POST \\",
+							"  https://api.reacher.email/v0/check_email \\",
 							"  -H 'content-type: application/json' \\",
 							`  -H 'authorization: ${userDetails.api_token}' \\`,
 							`  -d '{"to_email": "test@gmail.com"}'`,
@@ -62,16 +62,16 @@ export function GetStartedSaas(): React.ReactElement {
 						width="100%"
 					/>
 					<Text p>
-						The most important field to check is{' '}
-						<code>is_reachable</code>, and you can also understand{' '}
+						The most important field to check is{" "}
+						<code>is_reachable</code>, and you can also understand{" "}
 						<a
 							href="https://help.reacher.email/email-attributes-inside-json"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
 							all the other fields
-						</a>{' '}
-						or read the{' '}
+						</a>{" "}
+						or read the{" "}
 						<a
 							href="https://reacher.stoplight.io/docs/backend"
 							target="_blank"
@@ -92,17 +92,17 @@ export function GetStartedSaas(): React.ReactElement {
 			<Spacer />
 			<Text h4>Help! I still don&apos;t understand what to do. 😱</Text>
 			<Text p>
-				Don&apos;t worry, I have prepared a{' '}
+				Don&apos;t worry, I have prepared a{" "}
 				<a
 					href="https://help.reacher.email/verify-your-1st-email"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
 					beginner&apos;s guide
-				</a>{' '}
+				</a>{" "}
 				for using the API, with a program called Postman. If you still
 				have questions, just use the chat widget on the bottom right
-				corner to send me a message, or shoot me an email at{' '}
+				corner to send me a message, or shoot me an email at{" "}
 				<a href="mailto:amaury@reacher.email">amaury@reacher.email</a>.
 			</Text>
 		</Card>
