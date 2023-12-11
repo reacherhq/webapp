@@ -56,19 +56,6 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 				return onVerified && onVerified(r);
 			})
 			.catch((err: Error) => {
-				// Message can be:
-				// Results contain 0 rows
-				// The result contains 0 rows
-				if (err.message.includes("0 rows")) {
-					throw new Error(
-						`The email ${email} can't be verified within 1 minute. This is because the email provider imposes obstacles to prevent real-time email verification, such as greylisting.
-Please try again later.`
-					);
-				}
-
-				throw err;
-			})
-			.catch((err: Error) => {
 				sentryException(err);
 				alertError(email, err.message);
 				setLoading(false);

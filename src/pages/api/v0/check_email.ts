@@ -1,17 +1,14 @@
 import type { CheckEmailInput, CheckEmailOutput } from "@reacherhq/api";
-import { PostgrestError } from "@supabase/supabase-js";
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
 import amqplib from "amqplib";
 import dns from "dns/promises";
 
 import { checkUserInDB, cors } from "@/util/api";
-import { getWebappURL } from "@/util/helpers";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
 import { SupabaseCall } from "@/util/supabaseClient";
 import { supabaseAdmin } from "@/util/supabaseServer";
-import { WebhookExtra } from "../calls/webhook";
 
 const TIMEOUT = 50000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
@@ -54,6 +51,55 @@ const POST = async (
 		const ch1 = await conn.createChannel().catch((err) => {
 			throw new Error(`Error creating RabbitMQ channel: ${err.message}`);
 		});
+
+		// Listen to the reply on this reply queue.
+		// Follow https://www.rabbitmq.com/tutorials/tutorial-six-javascript.html
+		const replyQ = await ch1.assertQueue("", {
+			exclusive: true,
+		});
+		await ch1.consume(
+			replyQ.queue,
+			async function (msg) {
+				if (msg?.properties.correlationId === verificationId) {
+					const output = JSON.parse(msg.content.toString());
+
+					// Add to supabase
+					const response = await supabaseAdmin
+						.from<SupabaseCall>("calls")
+						.insert({
+							endpoint: "/v0/check_email",
+							user_id: user.id,
+							backend: output.debug?.server_name,
+							domain: output.syntax.domain,
+							verification_id: verificationId,
+							duration: Math.round(
+								(output.debug?.duration.secs || 0) * 1000 +
+									(output.debug?.duration.nanos || 0) /
+										1000000
+							),
+							is_reachable: output.is_reachable,
+							verif_method:
+								output.debug?.smtp?.verif_method?.type,
+							result: removeSensitiveData(output),
+						});
+					if (response.error) {
+						res.status(response.status).json(response.error);
+						return;
+					}
+
+					await ch1.close();
+					await conn.close();
+
+					await updateSendinblue(user);
+
+					res.status(200).json(output);
+				}
+			},
+			{
+				noAck: true,
+			}
+		);
+
 		const verifMethod = await getVerifMethod(req.body as CheckEmailInput);
 		const queueName = `check_email.${
 			// If the verifMethod is "Api", we use the "Headless" queue instead,
@@ -74,67 +120,23 @@ const POST = async (
 			Buffer.from(
 				JSON.stringify({
 					input: req.body as CheckEmailInput,
-					webhook: {
-						url: `${getWebappURL()}/api/calls/webhook`,
-						extra: {
-							userId: user.id,
-							endpoint: "/v0/check_email",
-							verificationId: verificationId,
-						} as WebhookExtra,
-					},
 				})
 			),
 			{
+				contentType: "application/json",
 				priority: MAX_PRIORITY,
+				correlationId: verificationId,
+				replyTo: replyQ.queue,
 			}
 		);
 
-		await ch1.close();
-
-		// Poll the database to make sure the call was added.
-		let checkEmailOutput: CheckEmailOutput | undefined;
-		let lastError: PostgrestError | Error | null = new Error(
-			"Timeout verifying email."
-		);
-
-		const startTime = Date.now();
-		while (!checkEmailOutput && Date.now() - startTime < TIMEOUT - 2000) {
-			await new Promise((resolve) => setTimeout(resolve, 500));
-
-			const response = await supabaseAdmin
-				.from<SupabaseCall>("calls")
-				.select("*")
-				.eq("verification_id", verificationId)
-				.single();
-
-			// If there's no error, it means the result has been added to the
-			// database.
-			lastError = response.error;
-			if (!response.error) {
-				checkEmailOutput = response.data.result;
-				break;
-			}
-		}
-
-		if (lastError) {
-			res.status(500).json({
-				...lastError,
-				error: lastError.message,
+		setTimeout(() => {
+			res.status(504).json({
+				error: `The email ${
+					(req.body as CheckEmailInput).to_email
+				} can't be verified within 1 minute. This is because the email provider imposes obstacles to prevent real-time email verification, such as greylisting. Please try again later.`,
 			});
-			return;
-		}
-
-		if (!checkEmailOutput) {
-			res.status(500).json({
-				error: "Column result was not populated.",
-			});
-			return;
-		}
-
-		res.status(200).json(checkEmailOutput);
-
-		// Update the LAST_API_CALL field in Sendinblue.
-		await updateSendinblue(user);
+		}, TIMEOUT);
 	} catch (err) {
 		sentryException(err as Error);
 		res.status(500).json({
@@ -176,4 +178,15 @@ async function getVerifMethod(input: CheckEmailInput): Promise<string> {
 	} catch (err) {
 		return "Smtp";
 	}
+}
+
+// Remove sensitive data before storing to DB.
+function removeSensitiveData(output: CheckEmailOutput): CheckEmailOutput {
+	const newOutput = { ...output };
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	delete newOutput.debug?.server_name;
+
+	return newOutput;
 }
