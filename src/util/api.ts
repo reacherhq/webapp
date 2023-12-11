@@ -4,7 +4,6 @@ import { addMonths, differenceInMilliseconds, parseISO } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
 
-import { setRateLimitHeaders } from "./helpers";
 import { subApiMaxCalls } from "./subs";
 import { SupabaseUser } from "./supabaseClient";
 import {
@@ -111,4 +110,33 @@ export async function checkUserInDB(
 	}
 
 	return { user, sentResponse: false };
+}
+
+/**
+ * Sets the Rate Limit headers on the response.
+ *
+ * @param res - The NextJS API response.
+ * @param rateLimiterRes - The response object from rate-limiter-flexible.
+ * @param limit - The limit per interval.
+ */
+function setRateLimitHeaders(
+	res: NextApiResponse,
+	rateLimiterRes: RateLimiterRes,
+	limit: number
+): void {
+	const headers = {
+		"Retry-After": rateLimiterRes.msBeforeNext / 1000,
+		"X-RateLimit-Limit": limit,
+		// When I first introduced rate limiting, some users had used for than
+		// 10k emails per month. Their remaining showed e.g. -8270. We decide
+		// to show 0 in these cases, hence the Math.max.
+		"X-RateLimit-Remaining": Math.max(0, rateLimiterRes.remainingPoints),
+		"X-RateLimit-Reset": new Date(
+			Date.now() + rateLimiterRes.msBeforeNext
+		).toISOString(),
+	};
+
+	Object.keys(headers).forEach((k) =>
+		res.setHeader(k, headers[k as keyof typeof headers])
+	);
 }

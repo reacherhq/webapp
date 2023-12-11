@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
+import retry from "async-retry";
 
 // Gets the currently depoloyed URL.
 export const getWebappURL = (): string => {
@@ -28,21 +29,33 @@ export const postData = async <T = unknown>({
 	data?: unknown;
 }): Promise<T> => {
 	try {
-		const { data: res } = await axios.post<T, AxiosResponse<T>>(url, data, {
-			headers: {
-				"Content-Type": "application/json",
-				token,
-				Authorization: token,
-			},
-			withCredentials: true,
-		});
+		return await retry(
+			async () => {
+				const { data: res } = await axios.post<T, AxiosResponse<T>>(
+					url,
+					data,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							token,
+							Authorization: token,
+						},
+						withCredentials: true,
+					}
+				);
 
-		return res;
+				return res;
+			},
+			{
+				retries: 2,
+			}
+		);
 	} catch (err) {
 		throw convertAxiosError(err as AxiosError);
 	}
 };
 
+// Converts an AxiosError to a regular Error with nice formatting.
 export function convertAxiosError(err: AxiosError): Error {
 	if (err instanceof AxiosError) {
 		// Inspired by https://stackoverflow.com/questions/49967779/axios-handling-errors
@@ -86,33 +99,4 @@ export function parseHashComponents(hash: string): Record<string, string> {
 
 			return acc;
 		}, {} as Record<string, string>);
-}
-
-/**
- * Sets the Rate Limit headers on the response.
- *
- * @param res - The NextJS API response.
- * @param rateLimiterRes - The response object from rate-limiter-flexible.
- * @param limit - The limit per interval.
- */
-export function setRateLimitHeaders(
-	res: NextApiResponse,
-	rateLimiterRes: RateLimiterRes,
-	limit: number
-): void {
-	const headers = {
-		"Retry-After": rateLimiterRes.msBeforeNext / 1000,
-		"X-RateLimit-Limit": limit,
-		// When I first introduced rate limiting, some users had used for than
-		// 10k emails per month. Their remaining showed e.g. -8270. We decide
-		// to show 0 in these cases, hence the Math.max.
-		"X-RateLimit-Remaining": Math.max(0, rateLimiterRes.remainingPoints),
-		"X-RateLimit-Reset": new Date(
-			Date.now() + rateLimiterRes.msBeforeNext
-		).toISOString(),
-	};
-
-	Object.keys(headers).forEach((k) =>
-		res.setHeader(k, headers[k as keyof typeof headers])
-	);
 }

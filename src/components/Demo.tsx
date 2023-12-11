@@ -8,7 +8,10 @@ import { useUser } from "@/util/useUser";
 
 function alertError(email: string, e: string) {
 	alert(
-		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\n\nEmail: ${email}\n${e}`
+		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?
+		
+Email: ${email}
+Error: ${e}`
 	);
 }
 
@@ -39,6 +42,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 		}
 
 		setLoading(true);
+		console.log("[/dashboard] Verifying email", email);
 		postData<CheckEmailOutput>({
 			url: `/api/v0/check_email`,
 			token: userDetails?.api_token,
@@ -50,6 +54,16 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 				setResult(r);
 				setLoading(false);
 				return onVerified && onVerified(r);
+			})
+			.catch((err: Error) => {
+				if (err.message.includes("The result contains 0 rows")) {
+					throw new Error(
+						`The email ${email} can't be verified within 1 minute. This is because the email provider imposes obstacles to prevent real-time email verification, such as greylisting.
+Please try again later.`
+					);
+				}
+
+				throw err;
 			})
 			.catch((err: Error) => {
 				sentryException(err);

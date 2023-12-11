@@ -13,7 +13,7 @@ import { SupabaseCall } from "@/util/supabaseClient";
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { WebhookExtra } from "../calls/webhook";
 
-const TIMEOUT = 60000;
+const TIMEOUT = 50000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
 
 const POST = async (
@@ -37,10 +37,23 @@ const POST = async (
 	try {
 		const verificationId = v4();
 
-		const conn = await amqplib.connect(
-			process.env.RCH_AMQP_ADDR || "amqp://localhost"
-		);
-		const ch1 = await conn.createChannel();
+		const conn = await amqplib
+			.connect(process.env.RCH_AMQP_ADDR || "amqp://localhost")
+			.catch((err) => {
+				const message = `Error connecting to RabbitMQ: ${
+					(err as AggregateError).errors
+						? (err as AggregateError).errors
+								.map((e) => e.message)
+								.join(", ")
+						: err.message
+				}`;
+
+				throw new Error(message);
+			});
+
+		const ch1 = await conn.createChannel().catch((err) => {
+			throw new Error(`Error creating RabbitMQ channel: ${err.message}`);
+		});
 		const verifMethod = await getVerifMethod(req.body as CheckEmailInput);
 		const queueName = `check_email.${
 			// If the verifMethod is "Api", we use the "Headless" queue instead,
@@ -135,28 +148,32 @@ export default POST;
 // getVerifMethod returns the verifMethod that is best used to verify the
 // input's email address.
 async function getVerifMethod(input: CheckEmailInput): Promise<string> {
-	const domain = input.to_email.split("@")[1];
-	if (!domain) {
-		return "Smtp";
-	}
+	try {
+		const domain = input.to_email.split("@")[1];
+		if (!domain) {
+			return "Smtp";
+		}
 
-	const records = await dns.resolveMx(domain);
-	if (
-		input.yahoo_verif_method !== "Smtp" &&
-		records.some((r) => r.exchange.endsWith(".yahoodns.net")) // Note: there's no "." at the end of the domain.
-	) {
-		return "Headless";
-	} else if (
-		input.hotmail_verif_method !== "Smtp" &&
-		records.some((r) => r.exchange.endsWith(".protection.outlook.com")) // Note: there's no "." at the end of the domain.
-	) {
-		return "Headless";
-	} else if (
-		input.gmail_verif_method !== "Smtp" &&
-		records.some((r) => r.exchange.endsWith(".google.com")) // Note: there's no "." at the end of the domain.
-	) {
-		return "Api";
-	} else {
+		const records = await dns.resolveMx(domain);
+		if (
+			input.yahoo_verif_method !== "Smtp" &&
+			records.some((r) => r.exchange.endsWith(".yahoodns.net")) // Note: there's no "." at the end of the domain.
+		) {
+			return "Headless";
+		} else if (
+			input.hotmail_verif_method !== "Smtp" &&
+			records.some((r) => r.exchange.endsWith(".protection.outlook.com")) // Note: there's no "." at the end of the domain.
+		) {
+			return "Headless";
+		} else if (
+			input.gmail_verif_method !== "Smtp" &&
+			records.some((r) => r.exchange.endsWith(".google.com")) // Note: there's no "." at the end of the domain.
+		) {
+			return "Api";
+		} else {
+			return "Smtp";
+		}
+	} catch (err) {
 		return "Smtp";
 	}
 }
