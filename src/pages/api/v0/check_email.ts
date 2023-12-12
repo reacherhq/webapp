@@ -17,6 +17,8 @@ const POST = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
+	const startTime = performance.now();
+	console.log("[🐢] POST /v0/check_email");
 	// Run cors
 	await cors(req, res);
 
@@ -30,6 +32,8 @@ const POST = async (
 	if (sentResponse) {
 		return;
 	}
+	let d1 = performance.now() - startTime;
+	console.log(`[🐢] checkUserInDB: ${Math.round(d1)}ms`);
 
 	try {
 		const verificationId = v4();
@@ -62,6 +66,10 @@ const POST = async (
 			async function (msg) {
 				if (msg?.properties.correlationId === verificationId) {
 					const output = JSON.parse(msg.content.toString());
+					let d5 = performance.now() - startTime;
+					console.log(
+						`[🐢] Got consume message: ${Math.round(d5)}ms`
+					);
 
 					// Add to supabase
 					const response = await supabaseAdmin
@@ -86,11 +94,19 @@ const POST = async (
 						res.status(response.status).json(response.error);
 						return;
 					}
+					let d6 = performance.now() - startTime;
+					console.log(`[🐢] Add to supabase: ${Math.round(d6)}ms`);
 
 					await ch1.close();
+					let d7 = performance.now() - startTime;
+					console.log(`[🐢] ch1.close: ${Math.round(d7)}ms`);
 					await conn.close();
+					let d8 = performance.now() - startTime;
+					console.log(`[🐢] conn.close: ${Math.round(d8)}ms`);
 
 					await updateSendinblue(user);
+					let d9 = performance.now() - startTime;
+					console.log(`[🐢] updateSendinblue: ${Math.round(d9)}ms`);
 
 					res.status(200).json(output);
 				}
@@ -99,6 +115,9 @@ const POST = async (
 				noAck: true,
 			}
 		);
+
+		let d2 = performance.now() - startTime;
+		console.log(`[🐢] AMQP setup: ${Math.round(d2)}ms`);
 
 		const verifMethod = await getVerifMethod(req.body as CheckEmailInput);
 		const queueName = `check_email.${
@@ -111,6 +130,9 @@ const POST = async (
 			// reputation.
 			verifMethod === "Api" ? "Headless" : verifMethod
 		}`;
+		let d3 = performance.now() - startTime;
+		console.log(`[🐢] getVerifMethod: ${Math.round(d3)}ms`);
+
 		await ch1.assertQueue(queueName, {
 			maxPriority: MAX_PRIORITY,
 		});
@@ -129,6 +151,8 @@ const POST = async (
 				replyTo: replyQ.queue,
 			}
 		);
+		let d4 = performance.now() - startTime;
+		console.log(`[🐢] sendToQueue: ${Math.round(d4)}ms`);
 
 		setTimeout(() => {
 			res.status(504).json({
