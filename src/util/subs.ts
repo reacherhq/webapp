@@ -1,4 +1,4 @@
-import type { SupabaseProduct } from "./supabaseClient";
+import { Tables } from "@/supabase/database.types";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 // We're hardcoding these as env variables.
@@ -13,11 +13,11 @@ if (!SAAS_10K_PRODUCT_ID || !COMMERCIAL_LICENSE_PRODUCT_ID) {
 }
 
 // Get the user-friendly name of a product.
-export function productName(product?: SupabaseProduct): string {
+export function productName(product?: Tables<"products">): string {
 	return product?.name || "Free Trial";
 }
 
 // Return the max monthly calls
-export function subApiMaxCalls(sub: SubscriptionWithPrice | undefined): number {
+export function subApiMaxCalls(sub: SubscriptionWithPrice | null): number {
 	return sub?.prices?.products?.id === SAAS_10K_PRODUCT_ID ? 10000 : 50;
 }

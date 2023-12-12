@@ -94,8 +94,7 @@ export const UserContextProvider = (
 		supabase
 			.from<SubscriptionWithPrice>("subscriptions")
 			.select("*, prices(*, products(*))")
-			.in("status", ["trialing", "active", "past_due"])
-			.eq("cancel_at_period_end", false);
+			.in("status", ["trialing", "active", "past_due"]);
 	useEffect(() => {
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])

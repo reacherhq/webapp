@@ -3,11 +3,6 @@ import type { Stripe } from "stripe";
 
 import { toDateTime } from "./helpers";
 import { stripe } from "./stripeServer";
-import type {
-	SupabaseCustomer,
-	SupabasePrice,
-	SupabaseProduct,
-} from "./supabaseClient";
 import { supabaseAdmin } from "./supabaseServer";
 import { Tables } from "@/supabase/database.types";
 
@@ -17,7 +12,7 @@ import { Tables } from "@/supabase/database.types";
 export const upsertProductRecord = async (
 	product: Stripe.Product
 ): Promise<void> => {
-	const productData: SupabaseProduct = {
+	const productData: Tables<"products"> = {
 		id: product.id,
 		active: product.active,
 		name: product.name,
@@ -33,7 +28,7 @@ export const upsertProductRecord = async (
 };
 
 export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
-	const priceData: SupabasePrice = {
+	const priceData: Tables<"prices"> = {
 		id: price.id,
 		product_id:
 			typeof price.product === "string"
@@ -59,7 +54,7 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 	const { email, id: uuid } = user;
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseCustomer>("customers")
+		.from<Tables<"customers">>("customers")
 		.select("stripe_customer_id")
 		.eq("id", uuid)
 		.single();
@@ -86,8 +81,9 @@ export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 		return customer.id;
 	}
 
-	if (!data)
+	if (!data?.stripe_customer_id) {
 		throw new Error("No data retrieved in createOrRetrieveCustomer.");
+	}
 
 	return data.stripe_customer_id;
 };
@@ -129,7 +125,7 @@ export const manageSubscriptionStatusChange = async (
 ): Promise<void> => {
 	// Get customer's UUID from mapping table.
 	const { data, error: noCustomerError } = await supabaseAdmin
-		.from<SupabaseCustomer>("customers")
+		.from<Tables<"customers">>("customers")
 		.select("id")
 		.eq("stripe_customer_id", customerId)
 		.single();

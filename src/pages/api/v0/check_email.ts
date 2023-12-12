@@ -7,8 +7,8 @@ import dns from "dns/promises";
 import { checkUserInDB, cors, removeSensitiveData } from "@/util/api";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
-import { SupabaseCall } from "@/util/supabaseClient";
 import { supabaseAdmin } from "@/util/supabaseServer";
+import { Tables } from "@/supabase/database.types";
 
 const TIMEOUT = 50000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
@@ -74,7 +74,7 @@ const POST = async (
 
 					// Add to supabase
 					const response = await supabaseAdmin
-						.from<SupabaseCall>("calls")
+						.from<Tables<"calls">>("calls")
 						.insert({
 							endpoint: "/v0/check_email",
 							user_id: user.id,

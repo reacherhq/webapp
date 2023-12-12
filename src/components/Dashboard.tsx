@@ -8,13 +8,14 @@ import {
 	productName,
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
-import { SupabaseProductWithPrice } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { ApiUsage } from "./ApiUsage";
 import styles from "./Dashboard.module.css";
+import { ProductWithPrice } from "@/supabase/domain.types";
+import { formatDate } from "@/util/helpers";
 
 interface DashboardProps {
-	products: SupabaseProductWithPrice[];
+	products: ProductWithPrice[];
 }
 
 export function Dashboard({ products }: DashboardProps): React.ReactElement {
@@ -40,13 +41,27 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 		<Page>
 			<section className={styles.plan}>
 				<div>
-					<Spacer y={2} />
 					<Text h2>Hello{userDetails?.full_name || ""},</Text>
 					<Text p>
 						Thanks for using the Reacher{" "}
 						{productName(subscription?.prices?.products)}!
 					</Text>
-					<div className="flex">
+					<StripeMananageButton>Billing History</StripeMananageButton>
+				</div>
+				<div>
+					<Text className="text-right" p>
+						Active Subscription
+					</Text>
+					<Text className="text-right" h3>
+						{productName(subscription?.prices?.products)}
+					</Text>
+					{subscription?.cancel_at && (
+						<Text p small em className="text-right mt-0">
+							⚠️ Plan ends on{" "}
+							{formatDate(new Date(subscription.cancel_at))}
+						</Text>
+					)}
+					<div className="text-right">
 						{subscription ? (
 							<StripeMananageButton>
 								Manage Subscription
@@ -60,19 +75,7 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 								<strong>Upgrade Plan</strong>
 							</GLink>
 						)}
-						<Spacer />
-						<StripeMananageButton>
-							Billing History
-						</StripeMananageButton>
 					</div>
-				</div>
-				<div>
-					<Text className="text-right" p>
-						Active Subscription
-					</Text>
-					<Text className="text-right" h3>
-						{productName(subscription?.prices?.products)}
-					</Text>
 				</div>
 			</section>
 

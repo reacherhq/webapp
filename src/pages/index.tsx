@@ -7,11 +7,11 @@ import { useState } from "react";
 import { Nav } from "../components";
 import { parseHashComponents, postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
-import { getActiveProductsWithPrices } from "@/util/supabaseClient";
+import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 
 export const getStaticProps: GetStaticProps = async () => {
-	const products = await getActiveProductsWithPrices();
+	const products = await getActiveProductWithPrices();
 
 	return {
 		props: {

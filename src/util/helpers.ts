@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import retry from "async-retry";
+import { format, parseISO } from "date-fns";
 
 // Gets the currently depoloyed URL.
 export const getWebappURL = (): string => {
@@ -97,4 +98,8 @@ export function parseHashComponents(hash: string): Record<string, string> {
 
 			return acc;
 		}, {} as Record<string, string>);
+}
+
+export function formatDate(d: string | Date): string {
+	return format(typeof d === "string" ? parseISO(d) : d, "do MMM yyyy");
 }

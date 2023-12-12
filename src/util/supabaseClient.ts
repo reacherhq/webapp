@@ -1,68 +1,19 @@
 import { Tables } from "@/supabase/database.types";
-import { CheckEmailOutput } from "@reacherhq/api";
+import { ProductWithPrice } from "@/supabase/domain.types";
 import type { PostgrestFilterBuilder } from "@supabase/postgrest-js";
 import { createClient, User } from "@supabase/supabase-js";
 import { parseISO, subMonths } from "date-fns";
-
-export interface SupabasePrice {
-	active: boolean;
-	currency: string;
-	description: string | null;
-	id: string;
-	interval: string | null;
-	interval_count: number | null;
-	metadata: Record<string, string>;
-	product_id: string;
-	products?: SupabaseProduct; // Populated on join.
-	trial_period_days?: number | null;
-	type: string;
-	unit_amount: number | null;
-}
-
-export interface SupabaseProduct {
-	active: boolean;
-	description: string | null;
-	id: string;
-	image?: string | null;
-	metadata: Record<string, string>;
-	name: string;
-	prices?: SupabasePrice[]; // Populated on join.
-}
-
-export interface SupabaseProductWithPrice extends SupabaseProduct {
-	prices: SupabasePrice[];
-}
-
-export interface SupabaseCustomer {
-	id: string;
-	stripe_customer_id: string;
-}
-
-export interface SupabaseCall {
-	id: number;
-	user_id: string;
-	endpoint: string;
-	created_at: string;
-	duration?: number;
-	backend?: string;
-	backend_ip: string;
-	domain?: string;
-	verification_id: string;
-	is_reachable: "safe" | "invalid" | "risky" | "unknown";
-	verif_method?: string;
-	result?: CheckEmailOutput; // JSON
-}
 
 export const supabase = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
 	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
 );
 
-export async function getActiveProductsWithPrices(): Promise<
-	SupabaseProductWithPrice[]
+export async function getActiveProductWithPrices(): Promise<
+	ProductWithPrice[]
 > {
 	const { data, error } = await supabase
-		.from<SupabaseProductWithPrice>("products")
+		.from<ProductWithPrice>("products")
 		.select("*, prices(*)")
 		.eq("active", true)
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -96,13 +47,11 @@ export function updateUserName(
 
 // Get the api calls of a user in the past month.
 export async function getApiUsageClient(
-	user: User,
-	subscription: Tables<"subscriptions"> | undefined
+	subscription: Tables<"subscriptions"> | null
 ): Promise<number> {
 	const { error, count } = await supabase
-		.from<SupabaseCall>("calls")
+		.from<Tables<"calls">>("calls")
 		.select("*", { count: "exact" })
-		.eq("user_id", user.id)
 		.gt("created_at", getUsageStartDate(subscription).toISOString());
 
 	if (error) {
@@ -117,7 +66,7 @@ export async function getApiUsageClient(
 //   date.
 // - If not, then it's 1 month rolling.
 export function getUsageStartDate(
-	subscription: Tables<"subscriptions"> | undefined
+	subscription: Tables<"subscriptions"> | null
 ): Date {
 	if (!subscription) {
 		return subMonths(new Date(), 1);
