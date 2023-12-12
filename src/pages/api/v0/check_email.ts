@@ -220,8 +220,7 @@ async function getVerifMethod(input: CheckEmailInput): Promise<string> {
 function removeSensitiveData(output: CheckEmailOutput): CheckEmailOutput {
 	const newOutput = { ...output };
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	// @ts-expect-error - We don't want to store the server name.
 	delete newOutput.debug?.server_name;
 
 	return newOutput;

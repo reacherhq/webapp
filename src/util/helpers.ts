@@ -1,6 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { NextApiResponse } from "next";
-import { RateLimiterRes } from "rate-limiter-flexible";
 import retry from "async-retry";
 
 // Gets the currently depoloyed URL.

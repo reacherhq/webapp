@@ -141,7 +141,7 @@ export function Footer(): React.ReactElement {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<img src="/powered-by-vercel.svg" />
+					<img alt="Powered by Vercel" src="/powered-by-vercel.svg" />
 				</a>
 			</div>
 			<Spacer />

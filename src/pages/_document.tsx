@@ -26,7 +26,7 @@ export const getInitialProps = async (
 	};
 };
 
-export default class extends Document {
+export default class MyDocument extends Document {
 	render(): React.ReactElement {
 		return (
 			<Html>
@@ -43,6 +43,7 @@ export default class extends Document {
 						src="https://scripts.simpleanalyticscdn.com/auto-events.js"
 					></script>
 					<script
+						async
 						src="/js/simpleanalytics.js"
 						type="text/javascript"
 					></script>

@@ -47,6 +47,8 @@
 		"stripe": "^9.13.0"
 	},
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^6.14.0",
+		"eslint": "^8.55.0",
 		"eslint-config-next": "^13.2.4",
 		"supabase": "^1.115.5",
 		"typescript": "^5.0.2",
