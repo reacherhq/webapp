@@ -1,3 +1,4 @@
+import { Tables } from "@/supabase/database.types";
 import { CheckEmailOutput } from "@reacherhq/api";
 import type { PostgrestFilterBuilder } from "@supabase/postgrest-js";
 import { createClient, User } from "@supabase/supabase-js";
@@ -32,35 +33,9 @@ export interface SupabaseProductWithPrice extends SupabaseProduct {
 	prices: SupabasePrice[];
 }
 
-export interface SupabaseSubscription {
-	id: string;
-	cancel_at: string | Date | null;
-	cancel_at_period_end: boolean;
-	canceled_at: string | Date | null;
-	created: string | Date;
-	current_period_end: string | Date;
-	current_period_start: string | Date;
-	ended_at: string | Date | null;
-	metadata: Record<string, string>;
-	price_id: string;
-	prices?: SupabasePrice; // Populated on join.
-	quantity: string;
-	status?: string;
-	trial_end: string | Date | null;
-	trial_start: string | Date | null;
-	user_id: string;
-}
-
 export interface SupabaseCustomer {
 	id: string;
 	stripe_customer_id: string;
-}
-
-export interface SupabaseUser {
-	full_name?: string;
-	id: string;
-	api_token: string;
-	sendinblue_contact_id?: string;
 }
 
 export interface SupabaseCall {
@@ -110,9 +85,9 @@ export async function getActiveProductsWithPrices(): Promise<
 export function updateUserName(
 	user: User,
 	name: string
-): PostgrestFilterBuilder<SupabaseUser> {
+): PostgrestFilterBuilder<Tables<"users">> {
 	return supabase
-		.from<SupabaseUser>("users")
+		.from<Tables<"users">>("users")
 		.update({
 			full_name: name,
 		})
@@ -122,7 +97,7 @@ export function updateUserName(
 // Get the api calls of a user in the past month.
 export async function getApiUsageClient(
 	user: User,
-	subscription: SupabaseSubscription | null | undefined
+	subscription: Tables<"subscriptions"> | undefined
 ): Promise<number> {
 	const { error, count } = await supabase
 		.from<SupabaseCall>("calls")
@@ -142,7 +117,7 @@ export async function getApiUsageClient(
 //   date.
 // - If not, then it's 1 month rolling.
 export function getUsageStartDate(
-	subscription: SupabaseSubscription | null | undefined
+	subscription: Tables<"subscriptions"> | undefined
 ): Date {
 	if (!subscription) {
 		return subMonths(new Date(), 1);

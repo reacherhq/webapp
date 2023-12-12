@@ -7,9 +7,9 @@ import type {
 	SupabaseCustomer,
 	SupabasePrice,
 	SupabaseProduct,
-	SupabaseSubscription,
 } from "./supabaseClient";
 import { supabaseAdmin } from "./supabaseServer";
+import { Tables } from "@/supabase/database.types";
 
 // This entire file should be removed and moved to supabase-admin
 // It's not a react hook, so it shouldn't have useDatabase format
@@ -143,7 +143,7 @@ export const manageSubscriptionStatusChange = async (
 		expand: ["default_payment_method"],
 	});
 	// Upsert the latest status of the subscription object.
-	const subscriptionData: SupabaseSubscription = {
+	const subscriptionData: Tables<"subscriptions"> = {
 		id: subscription.id,
 		user_id: uuid,
 		metadata: subscription.metadata,
@@ -154,22 +154,26 @@ export const manageSubscriptionStatusChange = async (
 		quantity: subscription.quantity, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
 		cancel_at_period_end: subscription.cancel_at_period_end,
 		cancel_at: subscription.cancel_at
-			? toDateTime(subscription.cancel_at)
+			? toDateTime(subscription.cancel_at).toISOString()
 			: null,
 		canceled_at: subscription.canceled_at
-			? toDateTime(subscription.canceled_at)
+			? toDateTime(subscription.canceled_at).toISOString()
 			: null,
-		current_period_start: toDateTime(subscription.current_period_start),
-		current_period_end: toDateTime(subscription.current_period_end),
-		created: toDateTime(subscription.created),
+		current_period_start: toDateTime(
+			subscription.current_period_start
+		).toISOString(),
+		current_period_end: toDateTime(
+			subscription.current_period_end
+		).toISOString(),
+		created: toDateTime(subscription.created).toISOString(),
 		ended_at: subscription.ended_at
-			? toDateTime(subscription.ended_at)
+			? toDateTime(subscription.ended_at).toISOString()
 			: null,
 		trial_start: subscription.trial_start
-			? toDateTime(subscription.trial_start)
+			? toDateTime(subscription.trial_start).toISOString()
 			: null,
 		trial_end: subscription.trial_end
-			? toDateTime(subscription.trial_end)
+			? toDateTime(subscription.trial_end).toISOString()
 			: null,
 	};
 

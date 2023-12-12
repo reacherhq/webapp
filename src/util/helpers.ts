@@ -23,7 +23,7 @@ export const postData = async <T = unknown>({
 	data,
 }: {
 	url: string;
-	token: string;
+	token: string | null;
 	data?: unknown;
 }): Promise<T> => {
 	try {

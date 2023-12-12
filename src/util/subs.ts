@@ -1,4 +1,5 @@
-import type { SupabaseProduct, SupabaseSubscription } from "./supabaseClient";
+import type { SupabaseProduct } from "./supabaseClient";
+import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 // We're hardcoding these as env variables.
 export const SAAS_10K_PRODUCT_ID = process.env.NEXT_PUBLIC_SAAS_10K_PRODUCT_ID;
@@ -17,8 +18,6 @@ export function productName(product?: SupabaseProduct): string {
 }
 
 // Return the max monthly calls
-export function subApiMaxCalls(
-	sub: SupabaseSubscription | null | undefined
-): number {
+export function subApiMaxCalls(sub: SubscriptionWithPrice | undefined): number {
 	return sub?.prices?.products?.id === SAAS_10K_PRODUCT_ID ? 10000 : 50;
 }

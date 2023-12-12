@@ -5,7 +5,7 @@ import { captureException } from "@sentry/nextjs";
  *
  * @param err - The error to capture.
  */
-export function sentryException(err: Error): void {
+export function sentryException(err: unknown): void {
 	console.error(err);
 
 	captureException(err);

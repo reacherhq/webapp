@@ -10,16 +10,16 @@ import { COMMERCIAL_LICENSE_PRODUCT_ID } from "@/util/subs";
 import type {
 	SupabasePrice,
 	SupabaseProductWithPrice,
-	SupabaseSubscription,
 } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import styles from "./Card.module.css";
+import { Tables } from "@/supabase/database.types";
 
 export interface ProductCardProps {
 	currency: string;
 	product: SupabaseProductWithPrice;
-	subscription: SupabaseSubscription | null;
+	subscription: Tables<"subscriptions"> | null;
 }
 
 export function ProductCard({
