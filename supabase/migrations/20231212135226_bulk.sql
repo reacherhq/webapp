@@ -2,7 +2,7 @@ CREATE TABLE bulk_jobs (
     id SERIAL NOT NULL PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES auth.users (id),
     payload jsonb NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT timezone('utc'::text, now())
 );
 ALTER TABLE bulk_jobs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Can only view own bulk jobs."
@@ -16,7 +16,7 @@ CREATE TABLE bulk_emails (
     bulk_job_id INTEGER NOT NULL REFERENCES bulk_jobs (id),
     call_id INTEGER REFERENCES calls (id),
     email TEXT NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT timezone('utc'::text, now())
 );
 ALTER TABLE bulk_emails ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Can only view own bulk emails."
