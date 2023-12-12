@@ -1,6 +1,6 @@
 import { createClient, User } from "@supabase/supabase-js";
 
-import { SupabaseSubscription } from "./supabaseClient";
+import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 export const supabaseAdmin = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -19,9 +19,9 @@ export const getUser = async (jwt: string): Promise<User | null> => {
 
 export async function getActiveSubscription(
 	user: User
-): Promise<SupabaseSubscription | null> {
+): Promise<SubscriptionWithPrice | null> {
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseSubscription>("subscriptions")
+		.from<SubscriptionWithPrice>("subscriptions")
 		.select("*, prices(*, products(*))")
 		.in("status", ["trialing", "active", "past_due"])
 		.eq("cancel_at_period_end", false)

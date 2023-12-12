@@ -3,9 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getWebappURL } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { stripe } from "@/util/stripeServer";
-import { SupabasePrice } from "@/util/supabaseClient";
 import { getActiveSubscription, getUser } from "@/util/supabaseServer";
 import { createOrRetrieveCustomer } from "@/util/useDatabase";
+import { Tables } from "@/supabase/database.types";
 
 const createCheckoutSession = async (
 	req: NextApiRequest,
@@ -24,7 +24,7 @@ const createCheckoutSession = async (
 			quantity = 1,
 			metadata = {},
 		} = req.body as {
-			price: SupabasePrice;
+			price: Tables<"prices">;
 			quantity: number;
 			metadata: Record<string, string>;
 		};

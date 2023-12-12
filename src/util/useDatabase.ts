@@ -3,13 +3,8 @@ import type { Stripe } from "stripe";
 
 import { toDateTime } from "./helpers";
 import { stripe } from "./stripeServer";
-import type {
-	SupabaseCustomer,
-	SupabasePrice,
-	SupabaseProduct,
-	SupabaseSubscription,
-} from "./supabaseClient";
 import { supabaseAdmin } from "./supabaseServer";
+import { Tables } from "@/supabase/database.types";
 
 // This entire file should be removed and moved to supabase-admin
 // It's not a react hook, so it shouldn't have useDatabase format
@@ -17,7 +12,7 @@ import { supabaseAdmin } from "./supabaseServer";
 export const upsertProductRecord = async (
 	product: Stripe.Product
 ): Promise<void> => {
-	const productData: SupabaseProduct = {
+	const productData: Tables<"products"> = {
 		id: product.id,
 		active: product.active,
 		name: product.name,
@@ -33,7 +28,7 @@ export const upsertProductRecord = async (
 };
 
 export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
-	const priceData: SupabasePrice = {
+	const priceData: Tables<"prices"> = {
 		id: price.id,
 		product_id:
 			typeof price.product === "string"
@@ -59,7 +54,7 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 	const { email, id: uuid } = user;
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseCustomer>("customers")
+		.from<Tables<"customers">>("customers")
 		.select("stripe_customer_id")
 		.eq("id", uuid)
 		.single();
@@ -86,8 +81,9 @@ export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 		return customer.id;
 	}
 
-	if (!data)
+	if (!data?.stripe_customer_id) {
 		throw new Error("No data retrieved in createOrRetrieveCustomer.");
+	}
 
 	return data.stripe_customer_id;
 };
@@ -129,7 +125,7 @@ export const manageSubscriptionStatusChange = async (
 ): Promise<void> => {
 	// Get customer's UUID from mapping table.
 	const { data, error: noCustomerError } = await supabaseAdmin
-		.from<SupabaseCustomer>("customers")
+		.from<Tables<"customers">>("customers")
 		.select("id")
 		.eq("stripe_customer_id", customerId)
 		.single();
@@ -143,7 +139,7 @@ export const manageSubscriptionStatusChange = async (
 		expand: ["default_payment_method"],
 	});
 	// Upsert the latest status of the subscription object.
-	const subscriptionData: SupabaseSubscription = {
+	const subscriptionData: Tables<"subscriptions"> = {
 		id: subscription.id,
 		user_id: uuid,
 		metadata: subscription.metadata,
@@ -154,22 +150,26 @@ export const manageSubscriptionStatusChange = async (
 		quantity: subscription.quantity, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
 		cancel_at_period_end: subscription.cancel_at_period_end,
 		cancel_at: subscription.cancel_at
-			? toDateTime(subscription.cancel_at)
+			? toDateTime(subscription.cancel_at).toISOString()
 			: null,
 		canceled_at: subscription.canceled_at
-			? toDateTime(subscription.canceled_at)
+			? toDateTime(subscription.canceled_at).toISOString()
 			: null,
-		current_period_start: toDateTime(subscription.current_period_start),
-		current_period_end: toDateTime(subscription.current_period_end),
-		created: toDateTime(subscription.created),
+		current_period_start: toDateTime(
+			subscription.current_period_start
+		).toISOString(),
+		current_period_end: toDateTime(
+			subscription.current_period_end
+		).toISOString(),
+		created: toDateTime(subscription.created).toISOString(),
 		ended_at: subscription.ended_at
-			? toDateTime(subscription.ended_at)
+			? toDateTime(subscription.ended_at).toISOString()
 			: null,
 		trial_start: subscription.trial_start
-			? toDateTime(subscription.trial_start)
+			? toDateTime(subscription.trial_start).toISOString()
 			: null,
 		trial_end: subscription.trial_end
-			? toDateTime(subscription.trial_end)
+			? toDateTime(subscription.trial_end).toISOString()
 			: null,
 	};
 

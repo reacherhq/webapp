@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { sendinblueApi } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
-import type { SupabaseUser } from "@/util/supabaseClient";
 import { getUser, supabaseAdmin } from "@/util/supabaseServer";
+import { Tables } from "@/supabase/database.types";
 
 const createContact = async (
 	req: NextApiRequest,
@@ -73,7 +73,7 @@ async function updateUserSendinblueContactId(
 	}
 
 	await supabaseAdmin
-		.from<SupabaseUser>("users")
+		.from<Tables<"users">>("users")
 		.update({
 			sendinblue_contact_id: body.id.toString(),
 		})

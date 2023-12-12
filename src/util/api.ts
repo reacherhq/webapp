@@ -4,8 +4,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
 
 import { subApiMaxCalls } from "./subs";
-import { SupabaseSubscription, SupabaseUser } from "./supabaseClient";
 import { supabaseAdmin } from "./supabaseServer";
+import { CheckEmailOutput } from "@reacherhq/api";
+import { Tables } from "@/supabase/database.types";
+import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
@@ -46,7 +48,7 @@ type CheckUserReturnType =
 			sentResponse: true;
 	  }
 	| {
-			user: SupabaseUser;
+			user: Tables<"users">;
 			subAndCalls: SubAndCalls;
 			sentResponse: false;
 	  };
@@ -71,7 +73,7 @@ export async function checkUserInDB(
 	}
 
 	const { data, error } = await supabaseAdmin
-		.from<SupabaseUser>("users")
+		.from<Tables<"users">>("users")
 		.select("*")
 		.eq("api_token", token);
 	if (error) {
@@ -108,7 +110,7 @@ export async function checkUserInDB(
 				id: subAndCalls.product_id,
 			},
 		},
-	} as SupabaseSubscription);
+	} as SubscriptionWithPrice);
 	setRateLimitHeaders(
 		res,
 		new RateLimiterRes(
@@ -169,4 +171,16 @@ function setRateLimitHeaders(
 	Object.keys(headers).forEach((k) =>
 		res.setHeader(k, headers[k as keyof typeof headers])
 	);
+}
+
+// Remove sensitive data before storing to DB.
+export function removeSensitiveData(
+	output: CheckEmailOutput
+): CheckEmailOutput {
+	const newOutput = { ...output };
+
+	// @ts-expect-error - We don't want to store the server name.
+	delete newOutput.debug?.server_name;
+
+	return newOutput;
 }

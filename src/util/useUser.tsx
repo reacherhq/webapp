@@ -9,7 +9,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { getWebappURL } from "./helpers";
 import { sentryException } from "./sentry";
-import { supabase, SupabaseSubscription, SupabaseUser } from "./supabaseClient";
+import { supabase } from "./supabaseClient";
+import { Tables } from "@/supabase/database.types";
+import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 interface UserMetadata {
 	/**
@@ -41,9 +43,9 @@ interface UserContext {
 		url?: string | null;
 		error: ApiError | null;
 	}>;
-	subscription: SupabaseSubscription | null;
+	subscription: SubscriptionWithPrice | null;
 	user: User | null;
-	userDetails: SupabaseUser | null;
+	userDetails: Tables<"users"> | null;
 	userLoaded: boolean;
 	userFinishedLoading: boolean;
 }
@@ -61,9 +63,11 @@ export const UserContextProvider = (
 	const [userFinishedLoading, setUserFinishedLoading] = useState(false);
 	const [session, setSession] = useState<Session | null>(null);
 	const [user, setUser] = useState<User | null>(null);
-	const [userDetails, setUserDetails] = useState<SupabaseUser | null>(null);
+	const [userDetails, setUserDetails] = useState<Tables<"users"> | null>(
+		null
+	);
 	const [subscription, setSubscription] =
-		useState<SupabaseSubscription | null>(null);
+		useState<SubscriptionWithPrice | null>(null);
 
 	useEffect(() => {
 		const session = supabase.auth.session();
@@ -85,13 +89,12 @@ export const UserContextProvider = (
 	}, []);
 
 	const getUserDetails = () =>
-		supabase.from<SupabaseUser>("users").select("*").single();
+		supabase.from<Tables<"users">>("users").select("*").single();
 	const getSubscription = () =>
 		supabase
-			.from<SupabaseSubscription>("subscriptions")
+			.from<SubscriptionWithPrice>("subscriptions")
 			.select("*, prices(*, products(*))")
-			.in("status", ["trialing", "active", "past_due"])
-			.eq("cancel_at_period_end", false);
+			.in("status", ["trialing", "active", "past_due"]);
 	useEffect(() => {
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])

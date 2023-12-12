@@ -1,14 +1,14 @@
-import type { CheckEmailInput, CheckEmailOutput } from "@reacherhq/api";
+import type { CheckEmailInput } from "@reacherhq/api";
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
 import amqplib from "amqplib";
 import dns from "dns/promises";
 
-import { checkUserInDB, cors } from "@/util/api";
+import { checkUserInDB, cors, removeSensitiveData } from "@/util/api";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
-import { SupabaseCall } from "@/util/supabaseClient";
 import { supabaseAdmin } from "@/util/supabaseServer";
+import { Tables } from "@/supabase/database.types";
 
 const TIMEOUT = 50000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
@@ -74,7 +74,7 @@ const POST = async (
 
 					// Add to supabase
 					const response = await supabaseAdmin
-						.from<SupabaseCall>("calls")
+						.from<Tables<"calls">>("calls")
 						.insert({
 							endpoint: "/v0/check_email",
 							user_id: user.id,
@@ -188,7 +188,7 @@ export default POST;
 
 // getVerifMethod returns the verifMethod that is best used to verify the
 // input's email address.
-async function getVerifMethod(input: CheckEmailInput): Promise<string> {
+export async function getVerifMethod(input: CheckEmailInput): Promise<string> {
 	try {
 		const domain = input.to_email.split("@")[1];
 		if (!domain) {
@@ -217,14 +217,4 @@ async function getVerifMethod(input: CheckEmailInput): Promise<string> {
 	} catch (err) {
 		return "Smtp";
 	}
-}
-
-// Remove sensitive data before storing to DB.
-function removeSensitiveData(output: CheckEmailOutput): CheckEmailOutput {
-	const newOutput = { ...output };
-
-	// @ts-expect-error - We don't want to store the server name.
-	delete newOutput.debug?.server_name;
-
-	return newOutput;
 }
