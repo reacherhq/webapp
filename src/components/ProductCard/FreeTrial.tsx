@@ -26,40 +26,37 @@ export function FreeTrial({
 					{active ? "Current Plan" : "Not available"}
 				</Button>
 			}
-			features={[
-				"50 email verifications per month.",
-				<span key="freeTrial-2">
-					<a
-						href="https://help.reacher.email/email-attributes-inside-json"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Full-featured
-					</a>{" "}
-					email verifications.
-				</span>,
-				<span key="freeTrial-3">
-					Support via{" "}
-					<a
-						href="https://github.com/reacherhq/check-if-email-exists"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Github Issues
-					</a>
-					.
-				</span>,
-				"No credit card required.",
-			]}
+			features={features}
 			header="Free Forever"
-			subtitle={
-				<span>
-					Use Reacher&apos;s servers with <br />
-					high IP reputation.
-				</span>
-			}
+			subtitle={<span>50 email verifications / mo</span>}
 			title={productName()}
 			price={priceString}
 		/>
 	);
 }
+
+const features = [
+	"Use Reacher's servers with high IP reputation.",
+	<span key="freeTrial-2">
+		<a
+			href="https://help.reacher.email/email-attributes-inside-json"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			Full-featured
+		</a>{" "}
+		email verifications.
+	</span>,
+	<span key="freeTrial-3">
+		Support via{" "}
+		<a
+			href="https://github.com/reacherhq/check-if-email-exists"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			Github Issues
+		</a>
+		.
+	</span>,
+	"No credit card required.",
+];

@@ -5,13 +5,13 @@ import React from "react";
 import styles from "./Card.module.css";
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
-	body?: string | React.ReactChild;
-	cta?: string | React.ReactChild;
-	features?: (string | React.ReactChild)[];
-	header: string | React.ReactChild;
-	price?: string | React.ReactChild;
-	subtitle?: string | React.ReactChild;
-	footer?: string | React.ReactChild;
+	body?: React.ReactElement;
+	cta?: React.ReactElement;
+	features?: (string | React.ReactElement)[];
+	header?: string | React.ReactElement;
+	price?: string | React.ReactElement;
+	subtitle?: React.ReactElement;
+	footer?: React.ReactElement;
 	title: string;
 }
 

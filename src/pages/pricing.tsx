@@ -2,9 +2,11 @@ import { Grid, Select, Spacer, Text } from "@geist-ui/react";
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
 
-import { FreeTrial, Nav, ProductCard } from "../components";
+import { Nav } from "../components/Nav";
+import { FreeTrial, SaaS10k, SaaS100k } from "../components/ProductCard";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
+	SAAS_100K_PRODUCT_ID,
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
 import { getActiveProductWithPrices } from "@/util/supabaseClient";
@@ -34,11 +36,16 @@ export default function Pricing({
 		subscriptionCurrency || "eur"
 	);
 
-	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
+	const saas10kProduct = products.find(
+		({ id }) => id === SAAS_10K_PRODUCT_ID
+	);
+	const saas100kProduct = products.find(
+		({ id }) => id === SAAS_100K_PRODUCT_ID
+	);
 	const licenseProduct = products.find(
 		({ id }) => id === COMMERCIAL_LICENSE_PRODUCT_ID
 	);
-	if (!saasProduct || !licenseProduct) {
+	if (!saas10kProduct || !saas100kProduct || !licenseProduct) {
 		throw new Error("Pricing: saasProduct or licenseProduct not found.");
 	}
 
@@ -69,9 +76,9 @@ export default function Pricing({
 						<FreeTrial active={!subscription} currency={currency} />
 					</Grid>
 					<Grid xs={20} sm={6}>
-						<ProductCard
+						<SaaS10k
 							currency={currency}
-							product={saasProduct}
+							product={saas10kProduct}
 							subscription={
 								subscription?.prices?.product_id ===
 								SAAS_10K_PRODUCT_ID
@@ -81,12 +88,12 @@ export default function Pricing({
 						/>
 					</Grid>
 					<Grid xs={20} sm={6}>
-						<ProductCard
+						<SaaS100k
 							currency={currency}
-							product={licenseProduct}
+							product={saas100kProduct}
 							subscription={
 								subscription?.prices?.product_id ===
-								COMMERCIAL_LICENSE_PRODUCT_ID
+								SAAS_100K_PRODUCT_ID
 									? subscription
 									: null
 							}
