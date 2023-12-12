@@ -5,12 +5,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
 
 import { subApiMaxCalls } from "./subs";
-import { SupabaseUser } from "./supabaseClient";
-import {
-	getActiveSubscription,
-	getApiUsageServer,
-	getUserByApiToken,
-} from "./supabaseServer";
+import { SupabaseSubscription, SupabaseUser } from "./supabaseClient";
+import { getSubAndCalls, getUserByApiToken } from "./supabaseServer";
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
@@ -78,30 +74,35 @@ export async function checkUserInDB(
 		return { sentResponse: true };
 	}
 
-	// Safe to type cast here, as we only need the `id` field below.
-	const authUser = { id: user.id } as User;
-
-	// TODO instead of doing another round of network call, we should do a
-	// join for subscriptions and API calls inside getUserByApiToken.
-	const sub = await getActiveSubscription(authUser);
-	const used = await getApiUsageServer(user, sub);
+	const subAndCalls = await getSubAndCalls(user.id);
 
 	// Set rate limit headers.
 	const now = new Date();
-	const nextReset = sub
-		? typeof sub.current_period_end === "string"
-			? parseISO(sub.current_period_end)
-			: sub.current_period_end
+	const nextReset = subAndCalls.subscription_id
+		? typeof subAndCalls.current_period_end === "string"
+			? parseISO(subAndCalls.current_period_end)
+			: subAndCalls.current_period_end
 		: addMonths(now, 1);
 	const msDiff = differenceInMilliseconds(nextReset, now);
-	const max = subApiMaxCalls(sub);
+	const max = subApiMaxCalls({
+		prices: {
+			products: {
+				id: subAndCalls.product_id,
+			},
+		},
+	} as SupabaseSubscription);
 	setRateLimitHeaders(
 		res,
-		new RateLimiterRes(max - used - 1, msDiff, used, undefined), // 1st arg has -1, because we just consumed 1 email.
+		new RateLimiterRes(
+			max - subAndCalls.number_of_calls - 1,
+			msDiff,
+			subAndCalls.number_of_calls,
+			undefined
+		), // 1st arg has -1, because we just consumed 1 email.
 		max
 	);
 
-	if (used > max) {
+	if (subAndCalls.number_of_calls > max) {
 		res.status(429).json({
 			error: "Too many requests this month. Please upgrade your Reacher plan to make more requests.",
 		});

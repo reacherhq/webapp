@@ -52,27 +52,26 @@ export async function getActiveSubscription(
 	return data?.[0];
 }
 
-// Get the api calls of a user in the past month. Same as
-// `getApiUsageClient`, but for server usage.
-export async function getApiUsageServer(
-	user: SupabaseUser,
-	subscription: SupabaseSubscription | null | undefined
-): Promise<number> {
-	const { count, error } = await supabaseAdmin
-		.from<SupabaseCall>("calls")
-		.select("*", { count: "exact" })
-		.eq("user_id", user.id)
-		.gt("created_at", getUsageStartDate(subscription).toISOString());
+interface SubAndCalls {
+	user_id: string;
+	subscription_id: string | null;
+	product_id: string | null;
+	email: string;
+	current_period_start: string | Date;
+	current_period_end: string | Date;
+	number_of_calls: number;
+}
 
+export async function getSubAndCalls(userId: string): Promise<SubAndCalls> {
+	const { data, error } = await supabaseAdmin
+		.from<SubAndCalls>("sub_and_calls")
+		.select("*")
+		.eq("user_id", userId)
+		.single();
 	if (error) {
+		console.log("getSubAndCalls error", error);
 		throw error;
 	}
 
-	if (count === null) {
-		throw new Error(
-			`Got null count in getApiUsageServer for user ${user.id}.`
-		);
-	}
-
-	return count;
+	return data;
 }

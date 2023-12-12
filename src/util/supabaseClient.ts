@@ -119,8 +119,7 @@ export function updateUserName(
 		.eq("id", user.id);
 }
 
-// Get the api calls of a user in the past month. Same as
-// `getApiUsageServer`, but for client usage.
+// Get the api calls of a user in the past month.
 export async function getApiUsageClient(
 	user: User,
 	subscription: SupabaseSubscription | null | undefined

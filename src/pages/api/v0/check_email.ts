@@ -32,7 +32,7 @@ const POST = async (
 	if (sentResponse) {
 		return;
 	}
-	let d1 = performance.now() - startTime;
+	const d1 = performance.now() - startTime;
 	console.log(`[🐢] checkUserInDB: ${Math.round(d1)}ms`);
 
 	try {
@@ -66,7 +66,7 @@ const POST = async (
 			async function (msg) {
 				if (msg?.properties.correlationId === verificationId) {
 					const output = JSON.parse(msg.content.toString());
-					let d5 = performance.now() - startTime;
+					const d5 = performance.now() - startTime;
 					console.log(
 						`[🐢] Got consume message: ${Math.round(d5)}ms`
 					);
@@ -94,21 +94,31 @@ const POST = async (
 						res.status(response.status).json(response.error);
 						return;
 					}
-					let d6 = performance.now() - startTime;
+					const d6 = performance.now() - startTime;
 					console.log(`[🐢] Add to supabase: ${Math.round(d6)}ms`);
 
-					await ch1.close();
-					let d7 = performance.now() - startTime;
-					console.log(`[🐢] ch1.close: ${Math.round(d7)}ms`);
-					await conn.close();
-					let d8 = performance.now() - startTime;
-					console.log(`[🐢] conn.close: ${Math.round(d8)}ms`);
-
-					await updateSendinblue(user);
-					let d9 = performance.now() - startTime;
-					console.log(`[🐢] updateSendinblue: ${Math.round(d9)}ms`);
+					// Cleanup
+					await Promise.all([
+						updateSendinblue(user).then(() => {
+							const d8 = performance.now() - startTime;
+							console.log(
+								`[🐢] updateSendinblue: ${Math.round(d8)}ms`
+							);
+						}),
+						ch1
+							.close()
+							.then(() => conn.close())
+							.then(() => {
+								const d7 = performance.now() - startTime;
+								console.log(
+									`[🐢] ch1.close: ${Math.round(d7)}ms`
+								);
+							}),
+					]);
 
 					res.status(200).json(output);
+					const d9 = performance.now() - startTime;
+					console.log(`[🐢] Final response: ${Math.round(d9)}ms`);
 				}
 			},
 			{
@@ -116,7 +126,7 @@ const POST = async (
 			}
 		);
 
-		let d2 = performance.now() - startTime;
+		const d2 = performance.now() - startTime;
 		console.log(`[🐢] AMQP setup: ${Math.round(d2)}ms`);
 
 		const verifMethod = await getVerifMethod(req.body as CheckEmailInput);
@@ -130,7 +140,7 @@ const POST = async (
 			// reputation.
 			verifMethod === "Api" ? "Headless" : verifMethod
 		}`;
-		let d3 = performance.now() - startTime;
+		const d3 = performance.now() - startTime;
 		console.log(`[🐢] getVerifMethod: ${Math.round(d3)}ms`);
 
 		await ch1.assertQueue(queueName, {
@@ -151,7 +161,7 @@ const POST = async (
 				replyTo: replyQ.queue,
 			}
 		);
-		let d4 = performance.now() - startTime;
+		const d4 = performance.now() - startTime;
 		console.log(`[🐢] sendToQueue: ${Math.round(d4)}ms`);
 
 		setTimeout(() => {
