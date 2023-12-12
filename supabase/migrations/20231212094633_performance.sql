@@ -23,8 +23,7 @@ AS
         s.current_period_start,
         s.current_period_end,
         COUNT(c.id) AS number_of_calls,
-        pro.id as product_id,
-        u.api_token
+        pro.id as product_id
     FROM
         users u
     LEFT JOIN
