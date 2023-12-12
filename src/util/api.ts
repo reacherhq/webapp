@@ -1,12 +1,11 @@
-import { User } from "@supabase/supabase-js";
 import Cors from "cors";
 import { addMonths, differenceInMilliseconds, parseISO } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
 
 import { subApiMaxCalls } from "./subs";
-import { SupabaseSubscription, SupabaseUser } from "./supabaseClient";
-import { getSubAndCalls, getUserByApiToken } from "./supabaseServer";
+import { SupabaseSubscription } from "./supabaseClient";
+import { supabaseAdmin } from "./supabaseServer";
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
@@ -42,16 +41,19 @@ export const cors = initMiddleware(
 
 type CheckUserReturnType =
 	| {
-			user?: undefined;
+			userId?: undefined;
+			subAndCalls?: undefined;
 			sentResponse: true;
 	  }
 	| {
-			user: SupabaseUser;
+			userId: string;
+			subAndCalls: SubAndCalls;
 			sentResponse: false;
 	  };
 
 /**
  * Checks the user's authorization token and retrieves user information.
+ * Also checks the user's subscription status and sets the rate limit headers.
  *
  * @param req - The NextApiRequest object.
  * @param res - The NextApiResponse object.
@@ -68,13 +70,19 @@ export async function checkUserInDB(
 		throw new Error("Expected API token in the Authorization header.");
 	}
 
-	const user = await getUserByApiToken(token);
-	if (!user) {
-		res.status(401).json({ error: "User not found" });
+	const { data, error } = await supabaseAdmin
+		.from<SubAndCalls>("sub_and_calls")
+		.select("*")
+		.eq("api_token", token);
+	if (error) {
+		throw error;
+	}
+	if (!data?.length) {
+		res.status(401).json({ error: "Invalid API token." });
 		return { sentResponse: true };
 	}
 
-	const subAndCalls = await getSubAndCalls(user.id);
+	const subAndCalls = data[0];
 
 	// Set rate limit headers.
 	const now = new Date();
@@ -110,7 +118,18 @@ export async function checkUserInDB(
 		return { sentResponse: true };
 	}
 
-	return { user, sentResponse: false };
+	return { userId: subAndCalls.user_id, subAndCalls, sentResponse: false };
+}
+
+interface SubAndCalls {
+	user_id: string;
+	subscription_id: string | null;
+	product_id: string | null;
+	email: string;
+	current_period_start: string | Date;
+	current_period_end: string | Date;
+	number_of_calls: number;
+	api_token: string;
 }
 
 /**
