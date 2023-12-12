@@ -15,9 +15,7 @@
 
     This view can be used to retrieve information about users, their subscriptions, and the number of calls they have made.
 */
-DROP VIEW sub_and_calls;
 CREATE VIEW sub_and_calls
-WITH (security_invoker = TRUE)
 AS
     SELECT
         u.id as user_id,
