@@ -10,7 +10,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"gen:license": "ts-node -P scripts/tsconfig.json scripts/license.ts",
-		"lint": "tsc --noEmit && prettier -w */**/*.{ts,tsx}",
+		"lint": "tsc --noEmit && prettier -w */**/*.{ts,tsx} && next lint",
 		"start": "next start"
 	},
 	"dependencies": {

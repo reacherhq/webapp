@@ -28,7 +28,7 @@ const POST = async (
 		return;
 	}
 
-	const { userId, sentResponse } = await checkUserInDB(req, res);
+	const { user, sentResponse } = await checkUserInDB(req, res);
 	if (sentResponse) {
 		return;
 	}
@@ -77,7 +77,7 @@ const POST = async (
 						.from<SupabaseCall>("calls")
 						.insert({
 							endpoint: "/v0/check_email",
-							user_id: userId,
+							user_id: user.id,
 							backend: output.debug?.server_name,
 							domain: output.syntax.domain,
 							verification_id: verificationId,
@@ -100,7 +100,10 @@ const POST = async (
 
 					// Cleanup
 					await Promise.all([
-						updateSendinblue(userId).then(() => {
+						updateSendinblue(
+							user.id,
+							user.sendinblue_contact_id
+						).then(() => {
 							const d8 = performance.now() - startTime;
 							console.log(
 								`[🐢] updateSendinblue: ${Math.round(d8)}ms`
@@ -115,7 +118,7 @@ const POST = async (
 									`[🐢] ch1.close: ${Math.round(d7)}ms`
 								);
 							}),
-					]);
+					]).catch(sentryException);
 
 					const d9 = performance.now() - startTime;
 					console.log(`[🐢] Final response: ${Math.round(d9)}ms`);

@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
 
 import { subApiMaxCalls } from "./subs";
-import { SupabaseSubscription } from "./supabaseClient";
+import { SupabaseSubscription, SupabaseUser } from "./supabaseClient";
 import { supabaseAdmin } from "./supabaseServer";
 
 // Helper method to wait for a middleware to execute before continuing
@@ -41,12 +41,12 @@ export const cors = initMiddleware(
 
 type CheckUserReturnType =
 	| {
-			userId?: undefined;
+			user?: undefined;
 			subAndCalls?: undefined;
 			sentResponse: true;
 	  }
 	| {
-			userId: string;
+			user: SupabaseUser;
 			subAndCalls: SubAndCalls;
 			sentResponse: false;
 	  };
@@ -71,7 +71,7 @@ export async function checkUserInDB(
 	}
 
 	const { data, error } = await supabaseAdmin
-		.from<SubAndCalls>("sub_and_calls")
+		.from<SupabaseUser>("users")
 		.select("*")
 		.eq("api_token", token);
 	if (error) {
@@ -81,8 +81,18 @@ export async function checkUserInDB(
 		res.status(401).json({ error: "Invalid API token." });
 		return { sentResponse: true };
 	}
+	const user = data[0];
 
-	const subAndCalls = data[0];
+	const res2 = await supabaseAdmin
+		.from<SubAndCalls>("sub_and_calls")
+		.select("*")
+		.eq("user_id", user.id)
+		.single();
+	if (res2.error) {
+		throw res2.error;
+	}
+
+	const subAndCalls = res2.data;
 
 	// Set rate limit headers.
 	const now = new Date();
@@ -118,7 +128,7 @@ export async function checkUserInDB(
 		return { sentResponse: true };
 	}
 
-	return { userId: subAndCalls.user_id, subAndCalls, sentResponse: false };
+	return { user, subAndCalls, sentResponse: false };
 }
 
 interface SubAndCalls {
