@@ -1,13 +1,5 @@
 DROP VIEW sub_and_calls;
 
-ALTER TABLE bulk_jobs ALTER COLUMN created_at
-    TYPE timestamp with time zone;
-ALTER TABLE bulk_jobs ALTER COLUMN created_at
-    SET DEFAULT timezone('utc'::text, now());
-ALTER TABLE bulk_emails ALTER COLUMN created_at
-    TYPE timestamp with time zone;
-ALTER TABLE bulk_emails ALTER COLUMN created_at
-    SET DEFAULT timezone('utc'::text, now());
 ALTER TABLE calls ALTER COLUMN created_at
     TYPE timestamp with time zone;
 ALTER TABLE calls ALTER COLUMN created_at
