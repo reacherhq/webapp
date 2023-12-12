@@ -55,12 +55,13 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 					<Text className="text-right" h3>
 						{productName(subscription?.prices?.products)}
 					</Text>
-					{subscription?.cancel_at && (
-						<Text p small em className="text-right mt-0">
-							⚠️ Plan ends on{" "}
-							{formatDate(new Date(subscription.cancel_at))}
-						</Text>
-					)}
+					{subscription?.status === "active" &&
+						subscription?.cancel_at && (
+							<Text p small em className="text-right mt-0">
+								⚠️ Plan ends on{" "}
+								{formatDate(new Date(subscription.cancel_at))}
+							</Text>
+						)}
 					<div className="text-right">
 						{subscription ? (
 							<StripeMananageButton>
