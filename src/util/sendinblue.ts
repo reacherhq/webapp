@@ -22,7 +22,7 @@ function sendinblueDateFormat(d: Date): string {
  */
 export async function updateSendinblue(
 	userId: string,
-	sendinblueContactId?: string
+	sendinblueContactId: string | null
 ): Promise<void> {
 	if (!sendinblueContactId) {
 		throw new Error(

@@ -5,14 +5,12 @@ import React, { useEffect } from "react";
 
 import { Dashboard, Nav } from "../components";
 import { sentryException } from "@/util/sentry";
-import {
-	getActiveProductsWithPrices,
-	SupabaseProductWithPrice,
-} from "@/util/supabaseClient";
+import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
+import { ProductWithPrice } from "@/supabase/domain.types";
 
 export const getStaticProps: GetStaticProps = async () => {
-	const products = await getActiveProductsWithPrices();
+	const products = await getActiveProductWithPrices();
 
 	return {
 		props: {
@@ -22,7 +20,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 interface IndexProps {
-	products: SupabaseProductWithPrice[];
+	products: ProductWithPrice[];
 }
 
 export default function Index({ products }: IndexProps): React.ReactElement {

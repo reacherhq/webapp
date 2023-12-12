@@ -1,6 +1,5 @@
 import { Capacity, Loading, Spacer, Text } from "@geist-ui/react";
 import { Loader } from "@geist-ui/react-icons";
-import { format, parseISO } from "date-fns";
 import React, { useEffect, useState } from "react";
 
 import { sentryException } from "@/util/sentry";
@@ -9,6 +8,7 @@ import { getApiUsageClient } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import styles from "./ApiUsage.module.css";
 import { Demo } from "./Demo";
+import { formatDate } from "@/util/helpers";
 
 export function ApiUsage(): React.ReactElement {
 	const { subscription, user, userFinishedLoading } = useUser();
@@ -18,7 +18,7 @@ export function ApiUsage(): React.ReactElement {
 		if (!user || !userFinishedLoading) {
 			return;
 		}
-		getApiUsageClient(user, subscription)
+		getApiUsageClient(subscription)
 			.then(setApiCalls)
 			.catch(sentryException);
 	}, [user, userFinishedLoading, subscription]);
@@ -62,14 +62,10 @@ export function ApiUsage(): React.ReactElement {
 			<Spacer />
 			<Demo
 				onVerified={() =>
-					getApiUsageClient(user, subscription).then(setApiCalls)
+					getApiUsageClient(subscription).then(setApiCalls)
 				}
 			/>
 			<Spacer />
 		</section>
 	);
-}
-
-function formatDate(d: string | Date): string {
-	return format(typeof d === "string" ? parseISO(d) : d, "do MMM yyyy");
 }

@@ -7,18 +7,16 @@ import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { getStripe } from "@/util/stripeClient";
 import { COMMERCIAL_LICENSE_PRODUCT_ID } from "@/util/subs";
-import type {
-	SupabasePrice,
-	SupabaseProductWithPrice,
-} from "@/util/supabaseClient";
+import type {} from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import styles from "./Card.module.css";
 import { Tables } from "@/supabase/database.types";
+import { ProductWithPrice } from "@/supabase/domain.types";
 
 export interface ProductCardProps {
 	currency: string;
-	product: SupabaseProductWithPrice;
+	product: ProductWithPrice;
 	subscription: Tables<"subscriptions"> | null;
 }
 
@@ -37,7 +35,7 @@ export function ProductCard({
 		return <p>Error: No price found for product {product.id}.</p>;
 	}
 
-	const handleCheckout = async (price: SupabasePrice) => {
+	const handleCheckout = async (price: Tables<"prices">) => {
 		setPriceIdLoading(price.id);
 
 		if (!session) {
@@ -69,7 +67,7 @@ export function ProductCard({
 
 	const priceString = new Intl.NumberFormat("en-US", {
 		style: "currency",
-		currency: price.currency,
+		currency: price.currency || undefined,
 		minimumFractionDigits: 0,
 	}).format(price.unit_amount / 100);
 
@@ -155,7 +153,7 @@ export function ProductCard({
 					</span>
 				)
 			}
-			title={product.name}
+			title={product.name || "No Product Name"} // Latter should never happen
 		/>
 	);
 }

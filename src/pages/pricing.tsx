@@ -7,14 +7,12 @@ import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
-import {
-	getActiveProductsWithPrices,
-	SupabaseProductWithPrice,
-} from "@/util/supabaseClient";
+import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
+import { ProductWithPrice } from "@/supabase/domain.types";
 
 export const getStaticProps: GetStaticProps = async () => {
-	const products = await getActiveProductsWithPrices();
+	const products = await getActiveProductWithPrices();
 
 	return {
 		props: {
@@ -24,7 +22,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 interface PricingProps {
-	products: SupabaseProductWithPrice[];
+	products: ProductWithPrice[];
 }
 
 export default function Pricing({

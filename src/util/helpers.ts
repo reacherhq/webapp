@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import retry from "async-retry";
+import { format, parseISO } from "date-fns";
 
 // Gets the currently depoloyed URL.
 export const getWebappURL = (): string => {
@@ -78,7 +79,7 @@ export function convertAxiosError(err: AxiosError): Error {
 }
 
 export const toDateTime = (secs: number): Date => {
-	const t = new Date("1970-01-01T00:30:00Z"); // Unix epoch start.
+	const t = new Date("1970-01-01T00:00:00Z"); // Unix epoch start.
 	t.setSeconds(secs);
 
 	return t;
@@ -97,4 +98,8 @@ export function parseHashComponents(hash: string): Record<string, string> {
 
 			return acc;
 		}, {} as Record<string, string>);
+}
+
+export function formatDate(d: string | Date): string {
+	return format(typeof d === "string" ? parseISO(d) : d, "do MMM yyyy");
 }

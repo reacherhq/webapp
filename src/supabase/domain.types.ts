@@ -7,3 +7,7 @@ export interface PriceWithProduct extends Tables<"prices"> {
 export interface SubscriptionWithPrice extends Tables<"subscriptions"> {
 	prices: PriceWithProduct;
 }
+
+export interface ProductWithPrice extends Tables<"products"> {
+	prices: PriceWithProduct[];
+}
