@@ -46,6 +46,13 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 						Thanks for using the Reacher{" "}
 						{productName(subscription?.prices?.products)}!
 					</Text>
+					{subscription && (
+						<>
+							<StripeMananageButton>
+								Manage Subscription
+							</StripeMananageButton>
+						</>
+					)}
 					<StripeMananageButton>Billing History</StripeMananageButton>
 				</div>
 				<div>
@@ -62,12 +69,9 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 								{formatDate(new Date(subscription.cancel_at))}
 							</Text>
 						)}
-					<div className="text-right">
-						{subscription ? (
-							<StripeMananageButton>
-								Manage Subscription
-							</StripeMananageButton>
-						) : (
+					{subscription?.prices?.products?.id !==
+						COMMERCIAL_LICENSE_PRODUCT_ID && (
+						<div className="text-right">
 							<GLink
 								color
 								href="/pricing"
@@ -75,8 +79,8 @@ export function Dashboard({ products }: DashboardProps): React.ReactElement {
 							>
 								<strong>Upgrade Plan</strong>
 							</GLink>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 			</section>
 

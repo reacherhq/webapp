@@ -4,7 +4,7 @@ import React from "react";
 export function GetStartedLicense(): React.ReactElement {
 	return (
 		<Card>
-			<Text h4>How to get started with email verifications?</Text>
+			<Text h4>How to get started with the Commercial License?</Text>
 
 			<Text p>
 				To get started with self-hosting, please refer to our{" "}

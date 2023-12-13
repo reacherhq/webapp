@@ -1,4 +1,4 @@
-import { Grid, Select, Spacer, Text } from "@geist-ui/react";
+import { Collapse, Grid, Page, Select, Spacer, Text } from "@geist-ui/react";
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
 
@@ -12,6 +12,7 @@ import {
 import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { ProductWithPrice } from "@/supabase/domain.types";
+import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductWithPrices();
@@ -109,6 +110,49 @@ export default function Pricing({
 						/>
 					</Grid>
 				</Grid.Container>
+
+				<Spacer y={2} />
+				<Page>
+					<Text className="text-center" h2>
+						Frequently Asked Questions
+					</Text>
+					<Spacer y={2} />
+					<Collapse.Group>
+						<Collapse
+							title="Can I verify 1 million (or more) emails?"
+							initialVisible
+						>
+							Reacher currently <strong>does not</strong> offer a
+							SaaS plan for verifying 1 million or more emails. If
+							you need to verify 1 million or more emails, please
+							check the Commercial License plan. You will need to
+							purchase your own servers and self-host Reacher.
+						</Collapse>
+						<Collapse title="I need to verify one single email, can I use Reacher?">
+							Yes. Simple{" "}
+							<Link href="/signup">create an account</Link> and
+							you can use the textbox to verify your email.
+						</Collapse>
+						<Collapse title="Can I get a free trial of the Commercial Plan?">
+							Yes. Follow these steps in the{" "}
+							<a
+								href="https://help.reacher.email/self-host-guide#2a0e764e7cb94933b81c967be334dffd"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								self-host guide
+							</a>
+							.
+						</Collapse>
+						<Collapse title="I have another question.">
+							Send me an email to{" "}
+							<a href="mailto:amaury@reacher.email">
+								📧 amaury@reacher.email
+							</a>
+							, I reply pretty fast.
+						</Collapse>
+					</Collapse.Group>
+				</Page>
 			</section>
 		</>
 	);

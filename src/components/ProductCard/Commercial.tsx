@@ -69,12 +69,13 @@ export function Commercial(props: ProductCardProps): React.ReactElement {
 
 const features = [
 	<span key="licenseFeatures-3">
+		<strong>Unlimited</strong>{" "}
 		<a
 			href="https://help.reacher.email/email-attributes-inside-json"
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			Full-featured
+			full-featured
 		</a>{" "}
 		email verifications.
 	</span>,

@@ -60,6 +60,8 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 		.from<SubAndCalls>("sub_and_calls")
 		.select("*")
 		.eq("user_id", user.id)
+		.order("current_period_start", { ascending: false })
+		.limit(1)
 		.single();
 	if (res2.error) {
 		throw res2.error;
