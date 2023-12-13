@@ -3,31 +3,14 @@ import React from "react";
 
 import { StripeMananageButton } from "../components/StripeManageButton";
 import { SubGetStarted } from "../components/SubGetStarted/";
-import {
-	COMMERCIAL_LICENSE_PRODUCT_ID,
-	productName,
-	SAAS_10K_PRODUCT_ID,
-} from "@/util/subs";
+import { COMMERCIAL_LICENSE_PRODUCT_ID, productName } from "@/util/subs";
 import { useUser } from "@/util/useUser";
 import { ApiUsage } from "./ApiUsage";
 import styles from "./Dashboard.module.css";
-import { ProductWithPrice } from "@/supabase/domain.types";
 import { formatDate } from "@/util/helpers";
 
-interface DashboardProps {
-	products: ProductWithPrice[];
-}
-
-export function Dashboard({ products }: DashboardProps): React.ReactElement {
+export function Dashboard(): React.ReactElement {
 	const { userDetails, subscription, userFinishedLoading } = useUser();
-
-	const saasProduct = products.find(({ id }) => id === SAAS_10K_PRODUCT_ID);
-	const licenseProduct = products.find(
-		({ id }) => id === COMMERCIAL_LICENSE_PRODUCT_ID
-	);
-	if (!saasProduct || !licenseProduct) {
-		throw new Error("Dashboard: saasProduct or licenseProduct not found.");
-	}
 
 	if (!userFinishedLoading) {
 		return (
