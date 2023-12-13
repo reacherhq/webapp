@@ -1,6 +1,4 @@
-import Cors from "cors";
 import { addMonths, differenceInMilliseconds, parseISO } from "date-fns";
-import { NextApiRequest, NextApiResponse } from "next";
 import { RateLimiterRes } from "rate-limiter-flexible";
 
 import { subApiMaxCalls } from "./subs";
@@ -8,68 +6,35 @@ import { supabaseAdmin } from "./supabaseServer";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { Tables } from "@/supabase/database.types";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
+import { NextRequest } from "next/server";
 
-// Helper method to wait for a middleware to execute before continuing
-// And to throw an error when an error happens in a middleware
-//
-// Copied from https://github.com/vercel/next.js/blob/a342fba00ac0fa57f2685665be52bf42649881b6/examples/api-routes-cors/lib/init-middleware.js
-// MIT License Copyright (c) 2021 Vercel, Inc.
-function initMiddleware<R>(
-	middleware: (
-		req: NextApiRequest,
-		res: NextApiResponse,
-		cb: (r: R) => void
-	) => void
-): (req: NextApiRequest, res: NextApiResponse) => Promise<R> {
-	return (req, res) =>
-		new Promise((resolve, reject) => {
-			middleware(req, res, (result) => {
-				if (result instanceof Error) {
-					return reject(result);
-				}
-				return resolve(result);
-			});
-		});
-}
-
-// Initialize the cors middleware
-export const cors = initMiddleware(
-	// You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-	Cors({
-		// Only allow requests with GET, POST, OPTIONS and HEAD
-		methods: ["GET", "POST", "OPTIONS", "HEAD"],
-	})
-);
-
-type CheckUserReturnType =
-	| {
-			user?: undefined;
-			subAndCalls?: undefined;
-			sentResponse: true;
-	  }
-	| {
-			user: Tables<"users">;
-			subAndCalls: SubAndCalls;
-			sentResponse: false;
-	  };
+type UserWithSub = {
+	user: Tables<"users">;
+	subAndCalls: SubAndCalls;
+	rateLimitHeaders: HeadersInit;
+};
 
 /**
  * Checks the user's authorization token and retrieves user information.
  * Also checks the user's subscription status and sets the rate limit headers.
  *
- * @param req - The NextApiRequest object.
- * @param res - The NextApiResponse object.
- * @returns A Promise that resolves to a CheckUserReturnType object.
+ * @param req - The NextRequest object.
+ * @returns A Promise that resolves to a UserWithSub object.
  * @throws An error if the API token is missing or invalid.
  */
-export async function checkUserInDB(
-	req: NextApiRequest,
-	res: NextApiResponse
-): Promise<CheckUserReturnType> {
-	const token = req.headers.authorization || req.headers.Authorization;
+export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
+	const token =
+		req.headers.get("Authorization") || req.headers.get("authorization");
 
-	if (typeof token !== "string") {
-		throw new Error("Expected API token in the Authorization header.");
+	if (!token) {
+		throw newEarlyResponse(
+			Response.json(
+				{
+					error: "Expected API token in the Authorization header.",
+				},
+				{ status: 401 }
+			)
+		);
 	}
 
 	const { data, error } = await supabaseAdmin
@@ -80,8 +45,14 @@ export async function checkUserInDB(
 		throw error;
 	}
 	if (!data?.length) {
-		res.status(401).json({ error: "Invalid API token." });
-		return { sentResponse: true };
+		throw newEarlyResponse(
+			Response.json(
+				{
+					error: "Invalid API token.",
+				},
+				{ status: 401 }
+			)
+		);
 	}
 	const user = data[0];
 
@@ -111,8 +82,7 @@ export async function checkUserInDB(
 			},
 		},
 	} as SubscriptionWithPrice);
-	setRateLimitHeaders(
-		res,
+	const rateLimitHeaders = getRateLimitHeaders(
 		new RateLimiterRes(
 			max - subAndCalls.number_of_calls - 1,
 			msDiff,
@@ -123,14 +93,17 @@ export async function checkUserInDB(
 	);
 
 	if (subAndCalls.number_of_calls > max) {
-		res.status(429).json({
-			error: "Too many requests this month. Please upgrade your Reacher plan to make more requests.",
-		});
-
-		return { sentResponse: true };
+		throw newEarlyResponse(
+			Response.json(
+				{
+					error: "Too many requests this month. Please upgrade your Reacher plan to make more requests.",
+				},
+				{ status: 429, headers: rateLimitHeaders }
+			)
+		);
 	}
 
-	return { user, subAndCalls, sentResponse: false };
+	return { user, subAndCalls, rateLimitHeaders };
 }
 
 interface SubAndCalls {
@@ -151,26 +124,24 @@ interface SubAndCalls {
  * @param rateLimiterRes - The response object from rate-limiter-flexible.
  * @param limit - The limit per interval.
  */
-function setRateLimitHeaders(
-	res: NextApiResponse,
+function getRateLimitHeaders(
 	rateLimiterRes: RateLimiterRes,
 	limit: number
-): void {
-	const headers = {
-		"Retry-After": rateLimiterRes.msBeforeNext / 1000,
-		"X-RateLimit-Limit": limit,
+): HeadersInit {
+	return {
+		"Retry-After": (rateLimiterRes.msBeforeNext / 1000).toString(),
+		"X-RateLimit-Limit": limit.toString(),
 		// When I first introduced rate limiting, some users had used for than
 		// 10k emails per month. Their remaining showed e.g. -8270. We decide
 		// to show 0 in these cases, hence the Math.max.
-		"X-RateLimit-Remaining": Math.max(0, rateLimiterRes.remainingPoints),
+		"X-RateLimit-Remaining": Math.max(
+			0,
+			rateLimiterRes.remainingPoints
+		).toString(),
 		"X-RateLimit-Reset": new Date(
 			Date.now() + rateLimiterRes.msBeforeNext
 		).toISOString(),
 	};
-
-	Object.keys(headers).forEach((k) =>
-		res.setHeader(k, headers[k as keyof typeof headers])
-	);
 }
 
 // Remove sensitive data before storing to DB.
@@ -183,4 +154,16 @@ export function removeSensitiveData(
 	delete newOutput.debug?.server_name;
 
 	return newOutput;
+}
+
+type EarlyResponse = {
+	response: Response;
+};
+
+export function newEarlyResponse(response: Response): EarlyResponse {
+	return { response };
+}
+
+export function isEarlyResponse(err: unknown): err is EarlyResponse {
+	return (err as EarlyResponse).response !== undefined;
 }
