@@ -186,10 +186,11 @@ export async function POST(req: NextRequest): Promise<Response> {
 		console.log(`[🐢] sendToQueue: ${Math.round(d4)}ms`);
 
 		// Wait for the response from the reply-to queue.
+		let t: NodeJS.Timeout | undefined;
 		const finalRes = await Promise.race([
 			replyToPromise.then((output) => Response.json(output)),
 			new Promise<Response>((resolve) => {
-				setTimeout(() => {
+				t = setTimeout(() => {
 					const d10 = performance.now() - startTime;
 					console.log(`[🐢] Timeout error: ${Math.round(d10)}ms`);
 					return resolve(
@@ -204,6 +205,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 			}),
 		]);
 
+		if (t) clearTimeout(t);
 		const d11 = performance.now() - startTime;
 		console.log(`[🐢] Final response: ${Math.round(d11)}ms`);
 		return finalRes;
