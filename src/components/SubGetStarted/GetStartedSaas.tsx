@@ -103,7 +103,10 @@ export function GetStartedSaas(): React.ReactElement {
 				for using the API, with a program called Postman. If you still
 				have questions, just use the chat widget on the bottom right
 				corner to send me a message, or shoot me an email at{" "}
-				<a href="mailto:amaury@reacher.email">amaury@reacher.email</a>.
+				<a href="mailto:amaury@reacher.email">
+					📧 amaury@reacher.email
+				</a>
+				.
 			</Text>
 		</Card>
 	);
