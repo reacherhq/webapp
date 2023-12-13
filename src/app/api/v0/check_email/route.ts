@@ -214,7 +214,6 @@ export async function POST(req: NextRequest): Promise<Response> {
 		console.log(`[🐢] Final response: ${Math.round(d11)}ms`);
 		return finalRes;
 	} catch (err) {
-		console.log("AAA", err);
 		if (isEarlyResponse(err)) {
 			return err.response;
 		}
@@ -239,6 +238,7 @@ async function getVerifMethod(input: CheckEmailInput): Promise<string> {
 		if (!domain) {
 			return "Smtp";
 		}
+		console.log(`[🔧] Checking email ***@${domain}`);
 
 		const records = await dns.resolveMx(domain);
 		if (
