@@ -12,6 +12,7 @@ import { Tables } from "@/supabase/database.types";
 
 // https://vercel.com/changelog/serverless-functions-can-now-run-up-to-5-minutes
 export const maxDuration = 30000;
+export const runtime = "nodejs"; // https://github.com/orgs/vercel/discussions/4248#discussioncomment-7310341
 
 const TIMEOUT = 90000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
@@ -172,10 +173,12 @@ const POST = async (
 		console.log(`[🐢] sendToQueue: ${Math.round(d4)}ms`);
 
 		setTimeout(() => {
+			const d10 = performance.now() - startTime;
+			console.log(`[🐢] Timeout error: ${Math.round(d10)}ms`);
 			res.status(504).json({
 				error: `The email ${
 					(req.body as CheckEmailInput).to_email
-				} can't be verified within 1 minute. This is because the email provider imposes obstacles to prevent real-time email verification, such as greylisting. Please try again later.`,
+				} can't be verified within 90s. This is because the email provider imposes obstacles to prevent real-time email verification, such as greylisting. Please try again later.`,
 			});
 		}, TIMEOUT);
 	} catch (err) {
