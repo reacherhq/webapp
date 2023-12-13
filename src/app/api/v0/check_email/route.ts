@@ -37,11 +37,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 			.connect(process.env.RCH_AMQP_ADDR || "amqp://localhost")
 			.catch((err) => {
 				const message = `Error connecting to RabbitMQ: ${
-					(err as AggregateError).errors
-						? (err as AggregateError).errors
-								.map((e) => e.message)
-								.join(", ")
-						: err.message
+					err.errors || err.message
 				}`;
 
 				throw new Error(message);

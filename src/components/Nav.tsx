@@ -65,6 +65,7 @@ export function Nav(): React.ReactElement {
 					Help Center
 				</GLink>
 			</div>
+			<Spacer x={2} />
 			{user ? (
 				<Select
 					className={styles.dropdown}
