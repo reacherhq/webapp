@@ -117,7 +117,7 @@ export async function checkUserInDB(
 			},
 		},
 	} as SubscriptionWithPrice);
-	const headers = setRateLimitHeaders(
+	const headers = rateLimitHeaders(
 		new RateLimiterRes(
 			max - subAndCalls.number_of_calls - 1,
 			msDiff,
@@ -159,7 +159,7 @@ interface SubAndCalls {
  * @param rateLimiterRes - The response object from rate-limiter-flexible.
  * @param limit - The limit per interval.
  */
-function setRateLimitHeaders(
+function rateLimitHeaders(
 	rateLimiterRes: RateLimiterRes,
 	limit: number
 ): HeadersInit {

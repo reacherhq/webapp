@@ -26,11 +26,11 @@ export async function POST(req: NextRequest): Promise<Response> {
 	const startTime = performance.now();
 	console.log("[🐢] POST /v0/check_email");
 
-	const { user } = await checkUserInDB(req);
-	const d1 = performance.now() - startTime;
-	console.log(`[🐢] checkUserInDB: ${Math.round(d1)}ms`);
-
 	try {
+		const { user } = await checkUserInDB(req);
+		const d1 = performance.now() - startTime;
+		console.log(`[🐢] checkUserInDB: ${Math.round(d1)}ms`);
+
 		const body: CheckEmailInput = await req.json();
 		const verificationId = v4();
 
@@ -208,6 +208,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 		console.log(`[🐢] Final response: ${Math.round(d11)}ms`);
 		return finalRes;
 	} catch (err) {
+		console.log("AAA", err);
 		if (isEarlyResponse(err)) {
 			return err.response;
 		}
