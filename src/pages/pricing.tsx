@@ -126,7 +126,8 @@ export default function Pricing({
 							SaaS plan for verifying 1 million or more emails. If
 							you need to verify 1 million or more emails, please
 							check the Commercial License plan. You will need to
-							purchase your own servers and self-host Reacher.
+							purchase your own servers separately and self-host
+							Reacher.
 						</Collapse>
 						<Collapse title="I need to verify one single email, can I use Reacher?">
 							Yes. Simple{" "}
