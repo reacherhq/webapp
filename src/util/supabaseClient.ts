@@ -24,8 +24,7 @@ export async function getActiveProductWithPrices(): Promise<
 		.order("metadata->index")
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore Supabase typings error?
-		.order("unit_amount", { foreignTable: "prices" });
-
+		.order("unit_amount", { foreignTable: "prices", ascending: false });
 	if (error) {
 		throw error;
 	}

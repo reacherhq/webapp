@@ -1,3 +1,4 @@
+import React from "react";
 import { Text } from "@geist-ui/react";
 import { ProductCard } from "./ProductCard";
 import type { ProductCardProps } from "./ProductCard";
@@ -9,7 +10,7 @@ export function SaaS100k(props: ProductCardProps): React.ReactElement {
 			features={features}
 			header={
 				<Text b small type="warning">
-					Most popular
+					✨ New ✨
 				</Text>
 			}
 			subtitle={<span>100,000 email verifications / mo</span>}

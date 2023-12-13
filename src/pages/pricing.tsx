@@ -3,7 +3,7 @@ import { GetStaticProps } from "next";
 import React, { useState } from "react";
 
 import { Nav } from "../components/Nav";
-import { FreeTrial, SaaS10k, SaaS100k } from "../components/ProductCard";
+import { SaaS10k, SaaS100k, Commercial } from "../components/ProductCard";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_100K_PRODUCT_ID,
@@ -42,11 +42,11 @@ export default function Pricing({
 	const saas100kProduct = products.find(
 		({ id }) => id === SAAS_100K_PRODUCT_ID
 	);
-	const licenseProduct = products.find(
+	const commercialProduct = products.find(
 		({ id }) => id === COMMERCIAL_LICENSE_PRODUCT_ID
 	);
-	if (!saas10kProduct || !saas100kProduct || !licenseProduct) {
-		throw new Error("Pricing: saasProduct or licenseProduct not found.");
+	if (!saas10kProduct || !saas100kProduct || !commercialProduct) {
+		throw new Error("Pricing: saasProduct or commercialProduct not found.");
 	}
 
 	return (
@@ -73,9 +73,6 @@ export default function Pricing({
 						</Select>
 					</Grid>
 					<Grid xs={20} sm={6}>
-						<FreeTrial active={!subscription} currency={currency} />
-					</Grid>
-					<Grid xs={20} sm={6}>
 						<SaaS10k
 							currency={currency}
 							product={saas10kProduct}
@@ -94,6 +91,18 @@ export default function Pricing({
 							subscription={
 								subscription?.prices?.product_id ===
 								SAAS_100K_PRODUCT_ID
+									? subscription
+									: null
+							}
+						/>
+					</Grid>
+					<Grid xs={20} sm={6}>
+						<Commercial
+							currency={currency}
+							product={commercialProduct}
+							subscription={
+								subscription?.prices?.product_id ===
+								COMMERCIAL_LICENSE_PRODUCT_ID
 									? subscription
 									: null
 							}

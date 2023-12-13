@@ -16,6 +16,7 @@ export interface ProductCardProps {
 	currency: string;
 	product: ProductWithPrice;
 	subscription: Tables<"subscriptions"> | null;
+	extra?: React.ReactElement;
 	header?: React.ReactElement;
 	footer?: React.ReactElement;
 	features?: (string | React.ReactElement)[];

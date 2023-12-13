@@ -1,3 +1,4 @@
+import React from "react";
 import { Text } from "@geist-ui/react";
 import { ProductCard } from "./ProductCard";
 import type { ProductCardProps } from "./ProductCard";
@@ -7,7 +8,7 @@ export function SaaS10k(props: ProductCardProps): React.ReactElement {
 		<ProductCard
 			{...props}
 			header={
-				<Text b small type="success">
+				<Text b small>
 					For individuals
 				</Text>
 			}

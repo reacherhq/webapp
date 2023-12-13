@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Link as GLink, Select, Spacer, Text } from "@geist-ui/react";
+import { Button, Link as GLink, Select, Spacer, Text } from "@geist-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -9,6 +9,7 @@ import logo from "../assets/logo/reacher.svg";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import styles from "./Nav.module.css";
+import Link from "next/link";
 
 export function Nav(): React.ReactElement {
 	const { user, userDetails, signOut } = useUser();
@@ -64,7 +65,7 @@ export function Nav(): React.ReactElement {
 					Help Center
 				</GLink>
 			</div>
-			{user && (
+			{user ? (
 				<Select
 					className={styles.dropdown}
 					placeholder={userDetails?.full_name || user.email}
@@ -79,6 +80,18 @@ export function Nav(): React.ReactElement {
 						Log Out{" "}
 					</Select.Option>
 				</Select>
+			) : (
+				<>
+					<Link href="/login">
+						<Button auto>Login</Button>
+					</Link>
+					<Spacer x={0.5} />
+					<Link href="/signup">
+						<Button auto type="success">
+							Get Started
+						</Button>
+					</Link>
+				</>
 			)}
 		</header>
 	);

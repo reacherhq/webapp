@@ -7,6 +7,7 @@ import styles from "./Card.module.css";
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
 	body?: React.ReactElement;
 	cta?: React.ReactElement;
+	extra?: React.ReactElement;
 	features?: (string | React.ReactElement)[];
 	header?: string | React.ReactElement;
 	price?: string | React.ReactElement;
@@ -19,6 +20,7 @@ export function Card({
 	cta,
 	header,
 	features,
+	extra,
 	price,
 	title,
 	subtitle,
@@ -51,6 +53,8 @@ export function Card({
 			<Spacer />
 			<Divider />
 			<Spacer />
+
+			{extra}
 
 			<div>
 				<Text b small>

@@ -1,12 +1,38 @@
-import { Info } from "@geist-ui/react-icons";
+import React from "react";
+import { Check, Info } from "@geist-ui/react-icons";
 import { ProductCard, ProductCardProps } from "./ProductCard";
-import { Text } from "@geist-ui/react";
+import { Spacer, Text } from "@geist-ui/react";
 import styles from "./Card.module.css";
 
 export function Commercial(props: ProductCardProps): React.ReactElement {
 	return (
 		<ProductCard
 			{...props}
+			extra={
+				<div>
+					<Text b small>
+						What you need to do:
+					</Text>
+					<Spacer />
+					<div className="flex align-center">
+						<div>
+							<Check className={styles.icon} width={24} />
+						</div>
+						<Text small>
+							Purchase servers yourself to self-host Reacher.{" "}
+							<a
+								href="https://help.reacher.email/self-host-guide"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Read how
+							</a>
+							.
+						</Text>
+					</div>
+					<Spacer />
+				</div>
+			}
 			features={features}
 			footer={
 				<div className="flex">
@@ -29,13 +55,12 @@ export function Commercial(props: ProductCardProps): React.ReactElement {
 			}
 			header={
 				<Text b small type="success">
-					For self-hosting
+					🏠 Self-Hosted
 				</Text>
 			}
 			subtitle={
 				<span>
-					Self-host Reacher <br />
-					with your own infrastructure.
+					<strong>Unlimited</strong> email verifications / mo
 				</span>
 			}
 		/>
@@ -43,23 +68,6 @@ export function Commercial(props: ProductCardProps): React.ReactElement {
 }
 
 const features = [
-	<span key="licenseFeatures-0">
-		<strong>Unlimited</strong> email verifications per month.
-	</span>,
-	<span key="licenseFeatures-1">
-		<strong>💪 Bulk</strong> email verification.{" "}
-		<a
-			href="https://help.reacher.email/bulk-email-verification"
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			Read more.
-		</a>
-	</span>,
-	<span key="licenseFeatures-2">
-		Self-host in <strong>your commercial apps</strong>. No data sent back to
-		Reacher.
-	</span>,
 	<span key="licenseFeatures-3">
 		<a
 			href="https://help.reacher.email/email-attributes-inside-json"
@@ -70,19 +78,22 @@ const features = [
 		</a>{" "}
 		email verifications.
 	</span>,
-	"Customer support via email/chat.",
-	<span key="licenseFeatures-4">
-		Comes with{" "}
+	<span key="licenseFeatures-1">
+		<strong>💪 Bulk</strong> email verifications.{" "}
 		<a
-			href="https://help.reacher.email/self-host-guide"
+			href="https://help.reacher.email/bulk-email-verification"
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			self-host guides
-		</a>{" "}
-		(Docker, OVH).
+			Read more.
+		</a>
 	</span>,
-	<span key="licenseFeatures-5">
+	<span key="licenseFeatures-2">No data sent back to Reacher.</span>,
+
+	<span key="licenseFeatures-4">
+		<strong>Customer support</strong> via email/chat.
+	</span>,
+	<span key="licenseFeatures-6">
 		See{" "}
 		<a
 			href="https://help.reacher.email/reacher-licenses"
