@@ -4,7 +4,6 @@ import amqplib from "amqplib";
 import dns from "dns/promises";
 import {
 	checkUserInDB,
-	cors,
 	isEarlyResponse,
 	newEarlyResponse,
 	removeSensitiveData,
@@ -27,7 +26,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 	console.log("[🐢] POST /v0/check_email");
 
 	try {
-		const { user } = await checkUserInDB(req);
+		const { user, rateLimitHeaders } = await checkUserInDB(req);
 		const d1 = performance.now() - startTime;
 		console.log(`[🐢] checkUserInDB: ${Math.round(d1)}ms`);
 
@@ -188,7 +187,12 @@ export async function POST(req: NextRequest): Promise<Response> {
 		// Wait for the response from the reply-to queue.
 		let t: NodeJS.Timeout | undefined;
 		const finalRes = await Promise.race([
-			replyToPromise.then((output) => Response.json(output)),
+			replyToPromise.then((output) =>
+				Response.json(output, {
+					status: 200,
+					headers: rateLimitHeaders,
+				})
+			),
 			new Promise<Response>((resolve) => {
 				t = setTimeout(() => {
 					const d10 = performance.now() - startTime;
@@ -220,7 +224,9 @@ export async function POST(req: NextRequest): Promise<Response> {
 			{
 				error: (err as Error).message,
 			},
-			{ status: 500 }
+			{
+				status: 500,
+			}
 		);
 	}
 }
