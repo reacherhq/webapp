@@ -8,6 +8,7 @@ import { supabaseAdmin } from "./supabaseServer";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { Tables } from "@/supabase/database.types";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
+import { NextRequest } from "next/server";
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
@@ -41,35 +42,34 @@ export const cors = initMiddleware(
 	})
 );
 
-type CheckUserReturnType =
-	| {
-			user?: undefined;
-			subAndCalls?: undefined;
-			sentResponse: true;
-	  }
-	| {
-			user: Tables<"users">;
-			subAndCalls: SubAndCalls;
-			sentResponse: false;
-	  };
+type CheckUserReturnType = {
+	user: Tables<"users">;
+	subAndCalls: SubAndCalls;
+};
 
 /**
  * Checks the user's authorization token and retrieves user information.
  * Also checks the user's subscription status and sets the rate limit headers.
  *
- * @param req - The NextApiRequest object.
- * @param res - The NextApiResponse object.
+ * @param req - The NextRequest object.
  * @returns A Promise that resolves to a CheckUserReturnType object.
  * @throws An error if the API token is missing or invalid.
  */
 export async function checkUserInDB(
-	req: NextApiRequest,
-	res: NextApiResponse
+	req: NextRequest
 ): Promise<CheckUserReturnType> {
-	const token = req.headers.authorization || req.headers.Authorization;
+	const token =
+		req.headers.get("Authorization") || req.headers.get("authorization");
 
-	if (typeof token !== "string") {
-		throw new Error("Expected API token in the Authorization header.");
+	if (!token) {
+		throw newEarlyResponse(
+			Response.json(
+				{
+					error: "Expected API token in the Authorization header.",
+				},
+				{ status: 401 }
+			)
+		);
 	}
 
 	const { data, error } = await supabaseAdmin
@@ -80,8 +80,14 @@ export async function checkUserInDB(
 		throw error;
 	}
 	if (!data?.length) {
-		res.status(401).json({ error: "Invalid API token." });
-		return { sentResponse: true };
+		throw newEarlyResponse(
+			Response.json(
+				{
+					error: "Invalid API token.",
+				},
+				{ status: 401 }
+			)
+		);
 	}
 	const user = data[0];
 
@@ -111,8 +117,7 @@ export async function checkUserInDB(
 			},
 		},
 	} as SubscriptionWithPrice);
-	setRateLimitHeaders(
-		res,
+	const headers = setRateLimitHeaders(
 		new RateLimiterRes(
 			max - subAndCalls.number_of_calls - 1,
 			msDiff,
@@ -123,14 +128,17 @@ export async function checkUserInDB(
 	);
 
 	if (subAndCalls.number_of_calls > max) {
-		res.status(429).json({
-			error: "Too many requests this month. Please upgrade your Reacher plan to make more requests.",
-		});
-
-		return { sentResponse: true };
+		throw newEarlyResponse(
+			Response.json(
+				{
+					error: "Too many requests this month. Please upgrade your Reacher plan to make more requests.",
+				},
+				{ status: 429, headers }
+			)
+		);
 	}
 
-	return { user, subAndCalls, sentResponse: false };
+	return { user, subAndCalls };
 }
 
 interface SubAndCalls {
@@ -152,11 +160,10 @@ interface SubAndCalls {
  * @param limit - The limit per interval.
  */
 function setRateLimitHeaders(
-	res: NextApiResponse,
 	rateLimiterRes: RateLimiterRes,
 	limit: number
-): void {
-	const headers = {
+): HeadersInit {
+	return {
 		"Retry-After": rateLimiterRes.msBeforeNext / 1000,
 		"X-RateLimit-Limit": limit,
 		// When I first introduced rate limiting, some users had used for than
@@ -167,10 +174,6 @@ function setRateLimitHeaders(
 			Date.now() + rateLimiterRes.msBeforeNext
 		).toISOString(),
 	};
-
-	Object.keys(headers).forEach((k) =>
-		res.setHeader(k, headers[k as keyof typeof headers])
-	);
 }
 
 // Remove sensitive data before storing to DB.
@@ -183,4 +186,16 @@ export function removeSensitiveData(
 	delete newOutput.debug?.server_name;
 
 	return newOutput;
+}
+
+type EarlyResponse = {
+	response: Response;
+};
+
+export function newEarlyResponse(response: Response): EarlyResponse {
+	return { response };
+}
+
+export function isEarlyResponse(err: unknown): err is EarlyResponse {
+	return (err as EarlyResponse).response !== undefined;
 }
