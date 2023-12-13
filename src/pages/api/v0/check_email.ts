@@ -10,7 +10,10 @@ import { sentryException } from "@/util/sentry";
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { Tables } from "@/supabase/database.types";
 
-const TIMEOUT = 50000;
+// https://vercel.com/changelog/serverless-functions-can-now-run-up-to-5-minutes
+export const maxDuration = 30000;
+
+const TIMEOUT = 90000;
 const MAX_PRIORITY = 5; // Higher is faster, 5 is max.
 
 const POST = async (
@@ -123,7 +126,6 @@ const POST = async (
 					const d9 = performance.now() - startTime;
 					console.log(`[🐢] Final response: ${Math.round(d9)}ms`);
 					res.status(200).json(output);
-					res.end();
 				}
 			},
 			{
