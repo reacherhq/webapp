@@ -89,7 +89,7 @@ export function Nav(): React.ReactElement {
 					<Spacer x={0.5} />
 					<Link href="/signup">
 						<Button auto type="success">
-							Get Started - 50 free emails
+							Sign up
 						</Button>
 					</Link>
 				</>
