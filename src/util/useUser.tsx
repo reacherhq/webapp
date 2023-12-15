@@ -46,7 +46,7 @@ interface UserContext {
 	subscription: SubscriptionWithPrice | null;
 	user: User | null;
 	userDetails: Tables<"users"> | null;
-	userLoaded: boolean;
+	subscriptionLoaded: boolean;
 	userFinishedLoading: boolean;
 }
 
@@ -59,7 +59,7 @@ interface UserContextProviderProps {
 export const UserContextProvider = (
 	props: UserContextProviderProps
 ): React.ReactElement => {
-	const [userLoaded, setUserLoaded] = useState(false);
+	const [subscriptionLoaded, setSubscriptionLoaded] = useState(false);
 	const [userFinishedLoading, setUserFinishedLoading] = useState(false);
 	const [session, setSession] = useState<Session | null>(null);
 	const [user, setUser] = useState<User | null>(null);
@@ -97,6 +97,10 @@ export const UserContextProvider = (
 			.in("status", ["trialing", "active", "past_due"])
 			.order("current_period_start", { ascending: false });
 	useEffect(() => {
+		setUserDetails(null);
+		setSubscription(null);
+		setSubscriptionLoaded(false);
+		setUserFinishedLoading(false);
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])
 				.then(([userDetails, sub]) => {
@@ -108,7 +112,7 @@ export const UserContextProvider = (
 					}
 					setUserDetails(userDetails.data);
 					setSubscription(sub.data?.[0]);
-					setUserLoaded(true);
+					setSubscriptionLoaded(true);
 					setUserFinishedLoading(true);
 				})
 				.catch(sentryException);
@@ -120,7 +124,7 @@ export const UserContextProvider = (
 		user,
 		userDetails,
 		userFinishedLoading,
-		userLoaded,
+		subscriptionLoaded,
 		subscription,
 		resetPassword: (email: string) =>
 			supabase.auth.api.resetPasswordForEmail(email, {

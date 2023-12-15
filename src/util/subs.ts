@@ -16,7 +16,7 @@ if (!SAAS_10K_PRODUCT_ID || !COMMERCIAL_LICENSE_PRODUCT_ID) {
 
 // Get the user-friendly name of a product.
 export function productName(product?: Tables<"products">): string {
-	return product?.name || "Free Trial";
+	return product?.name || "None";
 }
 
 // Return the max monthly calls

@@ -2,17 +2,27 @@ import { Link as GLink, Loading, Page, Spacer, Text } from "@geist-ui/react";
 import React from "react";
 
 import { StripeMananageButton } from "../components/StripeManageButton";
-import { SubGetStarted } from "../components/SubGetStarted/";
-import { COMMERCIAL_LICENSE_PRODUCT_ID, productName } from "@/util/subs";
+import {
+	GetStartedFreeTrial,
+	GetStartedLicense,
+	GetStartedSaas,
+} from "../components/GetStarted";
+import {
+	COMMERCIAL_LICENSE_PRODUCT_ID,
+	SAAS_100K_PRODUCT_ID,
+	SAAS_10K_PRODUCT_ID,
+	productName,
+} from "@/util/subs";
 import { useUser } from "@/util/useUser";
 import { ApiUsage } from "./ApiUsage";
 import styles from "./Dashboard.module.css";
 import { formatDate } from "@/util/helpers";
+import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 export function Dashboard(): React.ReactElement {
-	const { userDetails, subscription, userFinishedLoading } = useUser();
+	const { userDetails, subscription, subscriptionLoaded } = useUser();
 
-	if (!userFinishedLoading) {
+	if (!subscriptionLoaded) {
 		return (
 			<Page>
 				<Loading />
@@ -26,8 +36,13 @@ export function Dashboard(): React.ReactElement {
 				<div>
 					<Text h2>Hello{userDetails?.full_name || ""},</Text>
 					<Text p>
-						Thanks for using the Reacher{" "}
-						{productName(subscription?.prices?.products)}!
+						<span>
+							{subscription
+								? `Thanks for using the Reacher ${productName(
+										subscription?.prices?.products
+								  )}.`
+								: "Thank for signing up for Reacher."}
+						</span>
 					</Text>
 					{subscription && (
 						<>
@@ -69,10 +84,26 @@ export function Dashboard(): React.ReactElement {
 
 			<Spacer y={3} />
 
-			{subscription?.prices?.product_id !==
-				COMMERCIAL_LICENSE_PRODUCT_ID && <ApiUsage />}
-
-			<SubGetStarted subscription={subscription} />
+			{showContent(subscription)}
 		</Page>
 	);
+}
+
+function showContent(
+	subscription: SubscriptionWithPrice | null
+): React.ReactElement {
+	switch (subscription?.prices?.product_id) {
+		case COMMERCIAL_LICENSE_PRODUCT_ID:
+			return <GetStartedLicense />;
+		case SAAS_10K_PRODUCT_ID:
+		case SAAS_100K_PRODUCT_ID:
+			return (
+				<>
+					<ApiUsage />
+					<GetStartedSaas />
+				</>
+			);
+		default:
+			return <GetStartedFreeTrial />;
+	}
 }
