@@ -1,4 +1,4 @@
-import { Button, Spacer, Table, Text, Textarea } from "@geist-ui/react";
+import { Button, Page, Spacer, Table, Text, Textarea } from "@geist-ui/react";
 import { CheckEmailOutput } from "@reacherhq/api/lib";
 import React, { useEffect, useState } from "react";
 
@@ -7,6 +7,7 @@ import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import { Tables } from "@/supabase/database.types";
 import { supabase } from "@/util/supabaseClient";
+import { Nav } from "@/components";
 
 function alertError(email: string, e: string) {
 	alert(
@@ -21,32 +22,24 @@ interface BulkProps {
 	onVerified?(result: CheckEmailOutput): Promise<void>;
 }
 
-const emailsToTest = [
-	"amaury@reacher.email",
-	"amaury@gmail.com",
-	"zayyad@hotmail.com",
-	"test32o14832043210@hotmail.com",
-	"aimee@ownny.com",
-	"dwhittemore@herzogwinecellars.com",
-	"almartiny888@yahoo.fr",
-	"amaury@yahoo.com",
-	"test321483218432@yahoo.com",
-	"Adam.ONeill@cgluk.com",
-	"sreekantan@gactme.com",
-	"saivignanm@oorwin.com",
-	"nishant.chahar@microsoft.com",
-];
-
 interface BulkJobWithEmails extends Tables<"bulk_jobs"> {
 	bulk_emails: Tables<"bulk_emails">[];
 }
 
-export function Bulk({ onVerified }: BulkProps): React.ReactElement {
+export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 	const { user, userDetails } = useUser();
-	const [emails, setEmails] = useState(emailsToTest.join("\n"));
+	const [emails, setEmails] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	const [bulkJobs, setBulkJobs] = useState<BulkJobWithEmails[]>([]);
+
+	useEffect(() => {
+		// This is a temporary redirect to the dashboard while I still work
+		// on the bulk page.
+		if (window.location.hostname == "app.reacher.email") {
+			window.location.href = "https://app.reacher.email/dashboard";
+		}
+	}, []);
 
 	useEffect(() => {
 		setInterval(async () => {
@@ -99,50 +92,54 @@ export function Bulk({ onVerified }: BulkProps): React.ReactElement {
 
 	return (
 		<>
-			<Text h3>BULK</Text>
+			<Nav />
+			<Page>
+				<Text h3>BULK Work in Progress Page</Text>
 
-			<div className="text-center">
-				<Textarea
-					autoFocus
-					disabled={loading}
-					onChange={(e) => {
-						setEmails(e.target.value);
-					}}
-					placeholder="test@gmail.com"
-					value={emails}
-				></Textarea>
+				<div className="text-center">
+					<Textarea
+						autoFocus
+						disabled={loading}
+						onChange={(e) => {
+							setEmails(e.target.value);
+						}}
+						placeholder="test@gmail.com"
+						value={emails}
+					></Textarea>
+
+					<Spacer />
+
+					<Button
+						disabled={loading}
+						loading={loading}
+						onClick={handleVerify}
+						type="success"
+					>
+						Bulk Verify
+					</Button>
+				</div>
 
 				<Spacer />
 
-				<Button
-					disabled={loading}
-					loading={loading}
-					onClick={handleVerify}
-					type="success"
-				>
-					Bulk Verify
-				</Button>
-			</div>
+				<Table data={bulkJobs}>
+					<Table.Column prop="id" label="ID" />
+				</Table>
 
-			<Spacer />
-
-			<Table data={bulkJobs}>
-				<Table.Column prop="id" label="ID" />
-			</Table>
-
-			<div>
-				ALLJOBS:
-				{bulkJobs.map((job) => (
-					<div key={job.id}>
-						{job.id} -{" "}
-						{
-							job.bulk_emails.filter(({ call_id }) => !!call_id)
-								.length
-						}
-						/{job.bulk_emails.length}
-					</div>
-				))}
-			</div>
+				<div>
+					ALLJOBS:
+					{bulkJobs.map((job) => (
+						<div key={job.id}>
+							{job.id} -{" "}
+							{
+								job.bulk_emails.filter(
+									({ call_id }) => !!call_id
+								).length
+							}
+							/{job.bulk_emails.length}
+						</div>
+					))}
+				</div>
+			</Page>
 		</>
 	);
 }

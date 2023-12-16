@@ -11,6 +11,14 @@ interface BulkPayload {
 }
 
 export const POST = async (req: NextRequest): Promise<Response> => {
+	// TODO Remove this once we allow Bulk.
+	if (process.env.VERCEL_ENV === "production") {
+		return Response.json(
+			{ error: "Not available in production" },
+			{ status: 403 }
+		);
+	}
+
 	try {
 		const user = await getUser(req);
 

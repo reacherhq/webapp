@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
-import { Bulk } from "./Bulk";
 
 function alertError(email: string, e: string) {
 	alert(
@@ -66,8 +65,6 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 	return (
 		<Card>
 			<Text h3>Verify an email (quick & easy 💪)</Text>
-
-			<Bulk />
 
 			<Text>
 				Simply enter an email and click &quot;Verify&quot; to get the
