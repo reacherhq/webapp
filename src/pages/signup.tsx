@@ -117,11 +117,6 @@ export default function SignUp(): React.ReactElement {
 
 	return (
 		<SigninLayout title="Sign Up">
-			<p className="text-center">
-				<small>
-					<em>50 free email verifications when you sign up.</em>
-				</small>
-			</p>
 			<Input
 				type="email"
 				placeholder="Email"
