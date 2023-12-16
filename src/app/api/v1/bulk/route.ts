@@ -58,7 +58,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		const ch1 = await conn.createChannel().catch((err) => {
 			throw new Error(`Error creating RabbitMQ channel: ${err.message}`);
 		});
-		const queueName = `check_email.Headless`; // TODO
+		const queueName = `check_email.Smtp`; // TODO
 		await ch1.assertQueue(queueName, {
 			maxPriority: 5,
 		});
