@@ -37,6 +37,7 @@
 		"axios": "^1.6.2",
 		"cors": "^2.8.5",
 		"date-fns": "^2.30.0",
+		"encoding": "^0.1.13",
 		"mailgun-js": "^0.22.0",
 		"markdown-pdf": "^11.0.0",
 		"mustache": "^4.2.0",
