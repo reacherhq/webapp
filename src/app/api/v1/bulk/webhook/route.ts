@@ -5,7 +5,7 @@ import { removeSensitiveData } from "@/util/api";
 import { Tables } from "@/supabase/database.types";
 
 export interface WebhookExtra {
-	bulkEmailId: string;
+	bulkEmailId: number;
 	userId: string;
 	endpoint: string;
 }
@@ -38,19 +38,11 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 			is_reachable: output.is_reachable,
 			verif_method: output.debug?.smtp?.verif_method?.type,
 			result: removeSensitiveData(output),
+			bulk_email_id: extra.bulkEmailId,
 		})
 		.select("*");
 	if (res1.error) {
 		return Response.json(res1.error, res1);
-	}
-
-	// Update bulk_emails table
-	const res2 = await supabaseAdmin
-		.from("bulk_emails")
-		.update({ call_id: res1.data[0].id })
-		.eq("id", extra.bulkEmailId);
-	if (res2.error) {
-		return Response.json(res2.error, res2);
 	}
 
 	return Response.json({ message: "ok" }, { status: 200 });

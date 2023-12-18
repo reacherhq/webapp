@@ -14,7 +14,6 @@ CREATE POLICY "Can only view own bulk jobs."
 CREATE TABLE bulk_emails (
     id SERIAL NOT NULL PRIMARY KEY,
     bulk_job_id INTEGER NOT NULL REFERENCES bulk_jobs (id),
-    call_id INTEGER REFERENCES calls (id),
     email TEXT NOT NULL,
     created_at timestamp with time zone DEFAULT timezone('utc'::text, now())
 );
@@ -32,3 +31,5 @@ CREATE POLICY "Can only view own bulk emails."
                 AND auth.uid() = bulk_jobs.user_id
         )
     );
+
+ALTER TABLE calls ADD COLUMN bulk_email_id INTEGER REFERENCES bulk_emails (id);

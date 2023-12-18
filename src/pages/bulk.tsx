@@ -1,4 +1,4 @@
-import { Button, Page, Spacer, Table, Text, Textarea } from "@geist-ui/react";
+import { Button, Page, Spacer, Text, Textarea } from "@geist-ui/react";
 import { CheckEmailOutput } from "@reacherhq/api/lib";
 import React, { useEffect, useState } from "react";
 
@@ -46,7 +46,8 @@ export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 			console.log("FETCHING BULK JOBS...");
 			const res = await supabase
 				.from<BulkJobWithEmails>("bulk_jobs")
-				.select(`*,bulk_emails(*)`);
+				.select(`*,bulk_emails(*)`)
+				.order("created_at", { ascending: false });
 			if (res.error) {
 				sentryException(res.error);
 				return;
@@ -120,10 +121,6 @@ export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 				</div>
 
 				<Spacer />
-
-				<Table data={bulkJobs}>
-					<Table.Column prop="id" label="ID" />
-				</Table>
 
 				<div>
 					ALLJOBS:
