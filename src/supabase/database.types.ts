@@ -12,21 +12,18 @@ export interface Database {
 			bulk_emails: {
 				Row: {
 					bulk_job_id: number;
-					call_id: number | null;
 					created_at: string | null;
 					email: string;
 					id: number;
 				};
 				Insert: {
 					bulk_job_id: number;
-					call_id?: number | null;
 					created_at?: string | null;
 					email: string;
 					id?: number;
 				};
 				Update: {
 					bulk_job_id?: number;
-					call_id?: number | null;
 					created_at?: string | null;
 					email?: string;
 					id?: number;
@@ -40,11 +37,11 @@ export interface Database {
 						referencedColumns: ["id"];
 					},
 					{
-						foreignKeyName: "bulk_emails_call_id_fkey";
-						columns: ["call_id"];
+						foreignKeyName: "bulk_emails_bulk_job_id_fkey";
+						columns: ["bulk_job_id"];
 						isOneToOne: false;
-						referencedRelation: "calls";
-						referencedColumns: ["id"];
+						referencedRelation: "bulk_jobs_info";
+						referencedColumns: ["job_id"];
 					}
 				];
 			};
@@ -81,6 +78,7 @@ export interface Database {
 				Row: {
 					backend: string | null;
 					backend_ip: string | null;
+					bulk_email_id: number | null;
 					created_at: string | null;
 					domain: string | null;
 					duration: number | null;
@@ -97,6 +95,7 @@ export interface Database {
 				Insert: {
 					backend?: string | null;
 					backend_ip?: string | null;
+					bulk_email_id?: number | null;
 					created_at?: string | null;
 					domain?: string | null;
 					duration?: number | null;
@@ -113,6 +112,7 @@ export interface Database {
 				Update: {
 					backend?: string | null;
 					backend_ip?: string | null;
+					bulk_email_id?: number | null;
 					created_at?: string | null;
 					domain?: string | null;
 					duration?: number | null;
@@ -127,6 +127,13 @@ export interface Database {
 					verification_id?: string;
 				};
 				Relationships: [
+					{
+						foreignKeyName: "calls_bulk_email_id_fkey";
+						columns: ["bulk_email_id"];
+						isOneToOne: false;
+						referencedRelation: "bulk_emails";
+						referencedColumns: ["id"];
+					},
 					{
 						foreignKeyName: "calls_user_id_fkey";
 						columns: ["user_id"];
@@ -364,9 +371,26 @@ export interface Database {
 			};
 		};
 		Views: {
+			bulk_jobs_info: {
+				Row: {
+					created_at: string | null;
+					job_id: number | null;
+					number_of_emails: number | null;
+					user_id: string | null;
+					verified: number | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "bulk_jobs_user_id_fkey";
+						columns: ["user_id"];
+						isOneToOne: false;
+						referencedRelation: "users";
+						referencedColumns: ["id"];
+					}
+				];
+			};
 			sub_and_calls: {
 				Row: {
-					api_token: string | null;
 					current_period_end: string | null;
 					current_period_start: string | null;
 					number_of_calls: number | null;
@@ -386,7 +410,16 @@ export interface Database {
 			};
 		};
 		Functions: {
-			[_ in never]: never;
+			bulk_job_info: {
+				Args: {
+					job_id: number;
+				};
+				Returns: {
+					number_of_email: number;
+					verified: number;
+					created_at: string;
+				}[];
+			};
 		};
 		Enums: {
 			is_reachable_type: "safe" | "invalid" | "risky" | "unknown";
