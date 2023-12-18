@@ -1,4 +1,4 @@
-import { Button, Page, Spacer, Text, Textarea } from "@geist-ui/react";
+import { Button, Page, Spacer, Table, Text, Textarea } from "@geist-ui/react";
 import { CheckEmailOutput } from "@reacherhq/api/lib";
 import React, { useEffect, useState } from "react";
 
@@ -22,16 +22,12 @@ interface BulkProps {
 	onVerified?(result: CheckEmailOutput): Promise<void>;
 }
 
-interface BulkJobWithEmails extends Tables<"bulk_jobs"> {
-	bulk_emails: Tables<"bulk_emails">[];
-}
-
 export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 	const { user, userDetails } = useUser();
 	const [emails, setEmails] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const [bulkJobs, setBulkJobs] = useState<BulkJobWithEmails[]>([]);
+	const [bulkJobs, setBulkJobs] = useState<Tables<"bulk_jobs_info">[]>([]);
 
 	useEffect(() => {
 		// This is a temporary redirect to the dashboard while I still work
@@ -45,9 +41,8 @@ export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 		setInterval(async () => {
 			console.log("FETCHING BULK JOBS...");
 			const res = await supabase
-				.from<BulkJobWithEmails>("bulk_jobs")
-				.select(`*,bulk_emails(*)`)
-				.order("created_at", { ascending: false });
+				.from<Tables<"bulk_jobs_info">>("bulk_jobs_info")
+				.select("*");
 			if (res.error) {
 				sentryException(res.error);
 				return;
@@ -122,20 +117,15 @@ export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 
 				<Spacer />
 
-				<div>
-					ALLJOBS:
-					{bulkJobs.map((job) => (
-						<div key={job.id}>
-							{job.id} -{" "}
-							{
-								job.bulk_emails.filter(
-									({ call_id }) => !!call_id
-								).length
-							}
-							/{job.bulk_emails.length}
-						</div>
-					))}
-				</div>
+				<Table data={bulkJobs}>
+					<Table.Column prop="job_id" label="job_id" />
+					<Table.Column prop="verified" label="Verified" />
+					<Table.Column
+						prop="number_of_emails"
+						label="Total emails"
+					/>
+					<Table.Column prop="created_at" label="Created At" />
+				</Table>
 			</Page>
 		</>
 	);
