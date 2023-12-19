@@ -41,7 +41,7 @@ export interface Database {
 						columns: ["bulk_job_id"];
 						isOneToOne: false;
 						referencedRelation: "bulk_jobs_info";
-						referencedColumns: ["job_id"];
+						referencedColumns: ["bulk_job_id"];
 					}
 				];
 			};
@@ -373,9 +373,14 @@ export interface Database {
 		Views: {
 			bulk_jobs_info: {
 				Row: {
+					bulk_job_id: number | null;
 					created_at: string | null;
-					job_id: number | null;
+					invalid: number | null;
+					last_call_time: string | null;
 					number_of_emails: number | null;
+					risky: number | null;
+					safe: number | null;
+					unknown: number | null;
 					user_id: string | null;
 					verified: number | null;
 				};

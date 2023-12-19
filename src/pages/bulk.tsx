@@ -118,13 +118,18 @@ export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 				<Spacer />
 
 				<Table data={bulkJobs}>
-					<Table.Column prop="job_id" label="job_id" />
+					<Table.Column prop="bulk_job_id" label="job_id" />
 					<Table.Column prop="verified" label="Verified" />
 					<Table.Column
 						prop="number_of_emails"
 						label="Total emails"
 					/>
 					<Table.Column prop="created_at" label="Created At" />
+					<Table.Column prop="last_call_time" label="Finished At" />
+					<Table.Column prop="safe" label="Safe" />
+					<Table.Column prop="invalid" label="Invalid" />
+					<Table.Column prop="risky" label="Risky" />
+					<Table.Column prop="unknown" label="Unknown" />
 				</Table>
 			</Page>
 		</>
