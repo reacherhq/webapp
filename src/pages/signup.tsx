@@ -8,7 +8,7 @@ import {
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from "../components";
+} from "../components/SigninLayout";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-import { Nav } from "../components";
+import { Nav } from "../components/Nav";
 import { parseHashComponents, postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { getActiveProductWithPrices } from "@/util/supabaseClient";

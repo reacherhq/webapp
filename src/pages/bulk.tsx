@@ -7,7 +7,7 @@ import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import { Tables } from "@/supabase/database.types";
 import { supabase } from "@/util/supabaseClient";
-import { Nav } from "@/components";
+import { Nav } from "@/components/Nav";
 
 function alertError(email: string, e: string) {
 	alert(

@@ -7,7 +7,7 @@ import {
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from "../components";
+} from "../components/SigninLayout";
 import { parseHashComponents } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { supabase } from "@/util/supabaseClient";
