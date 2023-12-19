@@ -1,8 +1,30 @@
 {
-	"index": {
+	"footer": {
+		"sitemap": {
+			"title": "Sitemap",
+			"homepage": "Home",
+			"pricing": "Pricing",
+			"tos": "Terms of Service 🇫🇷",
+			"privacy": "Privacy Policy 🇫🇷",
+			"legal_mentions": "Legal Mentions 🇫🇷"
+		},
+		"help": {
+			"title": "Help Center",
+			"self_host": "Self-host",
+			"api": "API Documentation"
+		}
+	},
+	"homepage": {
 		"hero": {
 			"line1": "Email Verification that's",
 			"line2": "fast, simple and accurate"
 		}
+	},
+	"nav": {
+		"pricing": "Pricing",
+		"help": "Help Center",
+		"login": "Login",
+		"signup": "Sign up",
+		"logout": "Logout"
 	}
 }

@@ -1,8 +1,30 @@
 {
-	"index": {
+	"footer": {
+		"sitemap": {
+			"title": "Plan de Site",
+			"homepage": "Accueil",
+			"pricing": "Tarifs",
+			"tos": "CGU / CGV",
+			"privacy": "Politique de Condidentialité",
+			"legal_mentions": "Mentions Légales"
+		},
+		"help": {
+			"title": "Documentation",
+			"self_host": "Self-host",
+			"api": "Documentation API"
+		}
+	},
+	"homepage": {
 		"hero": {
 			"line1": "Outil de vérification d'emails",
 			"line2": "simple, rapide et précis"
 		}
+	},
+	"nav": {
+		"pricing": "Tarifs",
+		"help": "Documentation",
+		"login": "Se connecter",
+		"signup": "Créer un compte",
+		"logout": "Se déconnecter"
 	}
 }

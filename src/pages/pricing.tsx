@@ -2,7 +2,6 @@ import { Collapse, Grid, Page, Select, Spacer, Text } from "@geist-ui/react";
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
 
-import { Nav } from "../components/Nav";
 import { SaaS10k, SaaS100k, Commercial } from "../components/ProductCard";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
@@ -52,7 +51,6 @@ export default function Pricing({
 
 	return (
 		<>
-			<Nav />
 			<Spacer y={5} />
 			<Text className="text-center" h2>
 				Pricing

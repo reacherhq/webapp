@@ -10,10 +10,12 @@ import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import styles from "./Nav.module.css";
 import Link from "next/link";
+import { dictionary } from "@/dictionaries";
 
 export function Nav(): React.ReactElement {
 	const { user, userDetails, signOut } = useUser();
 	const router = useRouter();
+	const d = dictionary(router.locale);
 
 	return (
 		<header className={styles.container}>
@@ -52,7 +54,7 @@ export function Nav(): React.ReactElement {
 					href="/pricing"
 					data-sa-link-event="nav:pricing:click"
 				>
-					Pricing
+					{d.nav.pricing}
 				</GLink>
 
 				<GLink
@@ -62,7 +64,7 @@ export function Nav(): React.ReactElement {
 					rel="noopener noreferrer"
 					data-sa-link-event="nav:help:click"
 				>
-					Help Center
+					{d.nav.help}
 				</GLink>
 			</div>
 			<Spacer x={2} />
@@ -78,18 +80,18 @@ export function Nav(): React.ReactElement {
 								.catch(sentryException);
 						}}
 					>
-						Log Out{" "}
+						{d.nav.logout}
 					</Select.Option>
 				</Select>
 			) : (
 				<>
 					<Link href="/login">
-						<Button auto>Login</Button>
+						<Button auto>{d.nav.login}</Button>
 					</Link>
 					<Spacer x={0.5} />
 					<Link href="/signup">
 						<Button auto type="success">
-							Sign up
+							{d.nav.signup}
 						</Button>
 					</Link>
 				</>

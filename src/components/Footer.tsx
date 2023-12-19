@@ -6,8 +6,13 @@ import React from "react";
 
 import logo from "../assets/logo/reacher.svg";
 import styles from "./Footer.module.css";
+import { useRouter } from "next/router";
+import { dictionary } from "@/dictionaries";
 
 export function Footer(): React.ReactElement {
+	const router = useRouter();
+	const d = dictionary(router.locale);
+
 	return (
 		<footer className={styles.container}>
 			<div className={styles.top}>
@@ -30,18 +35,46 @@ export function Footer(): React.ReactElement {
 					</Grid>
 					<Grid xs={4}></Grid>
 					<Grid className={styles.grid} xs={5}>
-						<Text h5>Sitemap</Text>
+						<h5>{d.footer.sitemap.title}</h5>
 						<Spacer y={2} />
 						<div>
-							<Link href="https://reacher.email">Home</Link>
+							<Link href="https://reacher.email">
+								{d.footer.sitemap.homepage}
+							</Link>
 						</div>
 						<Spacer />
 						<div>
-							<Link href="/pricing">Pricing</Link>
+							<Link href="/pricing">
+								{d.footer.sitemap.pricing}
+							</Link>
 						</div>
+						<Spacer />
+						<Link
+							href="https://help.reacher.email/cgu-cgv"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{d.footer.sitemap.tos}
+						</Link>
+						<Spacer />
+						<Link
+							href="https://help.reacher.email/politique-de-confidentialit"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{d.footer.sitemap.privacy}
+						</Link>
+						<Spacer />
+						<Link
+							href="https://help.reacher.email/mentions-lgales"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{d.footer.sitemap.legal_mentions}
+						</Link>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
-						<Text h5>Help Center</Text>
+						<Text h5>{d.footer.help.title}</Text>
 						<Spacer y={2} />
 						<div>
 							<Link
@@ -49,27 +82,17 @@ export function Footer(): React.ReactElement {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								Self-Host
+								{d.footer.help.self_host}
 							</Link>
 						</div>
 						<Spacer />
 						<div>
 							<Link
-								href="https://help.reacher.email/terms-of-service"
+								href="https://reacher.stoplight.io/docs/backend/76c074a57efb1-check-email"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								Terms of Service
-							</Link>
-						</div>
-						<Spacer />
-						<div>
-							<Link
-								href="https://help.reacher.email/privacy-policy"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								Privacy Policy
+								{d.footer.help.api}
 							</Link>
 						</div>
 					</Grid>
@@ -110,32 +133,7 @@ export function Footer(): React.ReactElement {
 			<Spacer />
 
 			<div className={styles.bottom}>
-				<Text small>
-					© Reacher 2020-2022,{" "}
-					<Link
-						href="https://help.reacher.email/mentions-lgales"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Mentions légales
-					</Link>
-					,{" "}
-					<Link
-						href="https://help.reacher.email/cgu-cgv"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						CGU/CGV
-					</Link>
-					,{" "}
-					<Link
-						href="https://help.reacher.email/politique-de-confidentialit"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Politique de Confidentialité
-					</Link>
-				</Text>
+				<Text small>© Reacher 2020-2023</Text>
 				<a
 					href="https://vercel.com?utm_source=reacherhq&utm_campaign=oss"
 					target="_blank"

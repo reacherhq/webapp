@@ -1,19 +1,17 @@
-import { Nav } from "@/components/Nav";
 import { dictionary } from "@/dictionaries";
 import { useRouter } from "next/router";
 
 export default function Landing() {
-	const { locale } = useRouter();
-	const d = dictionary(locale);
+	const router = useRouter();
+	const d = dictionary(router.locale);
 
 	return (
 		<>
-			<Nav />
 			<section>
 				<h1>
-					{d.index.hero.line1}
+					{d.homepage.hero.line1}
 					<br />
-					{d.index.hero.line2}
+					{d.homepage.hero.line2}
 				</h1>
 			</section>
 		</>
