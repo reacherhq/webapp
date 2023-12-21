@@ -2,7 +2,7 @@
 	"dashboard": {
 		"header": {
 			"hello": "Bonjour,",
-			"thanks_for_subscription": "Merci d'avoir soucrit à %s.",
+			"thanks_for_subscription": "Merci d'avoir soucrit à notre %s.",
 			"thanks_for_signup": "Merci de vous être inscrit à Reacher.",
 			"billing_history": "Historique de facturation",
 			"active_subscription": "Souscription active",

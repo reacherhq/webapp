@@ -20,7 +20,12 @@ export function productName(
 	product: Tables<"products"> | undefined,
 	d: ReturnType<typeof dictionary>
 ): string {
-	return product?.name || d.dashboard.header.no_active_subscription;
+	return (
+		(product?.name &&
+			d.pricing.plans[product?.name as keyof typeof d.pricing.plans]) ||
+		product?.name ||
+		d.dashboard.header.no_active_subscription
+	);
 }
 
 // Return the max monthly calls
