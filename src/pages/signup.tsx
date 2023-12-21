@@ -1,4 +1,4 @@
-import { Input, Link as GLink, Select, Spacer, Text } from "@geist-ui/react";
+import { Input, Select, Spacer, Text } from "@geist-ui/react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -11,68 +11,8 @@ import {
 } from "../components/SigninLayout";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
-
-function Feedback({
-	onChange,
-}: {
-	onChange: (f: string) => void;
-}): React.ReactElement {
-	const [option, setOption] = useState<string | undefined>();
-
-	return (
-		<>
-			<Text>How did you hear about Reacher?</Text>
-			<Select
-				placeholder="Please select an option"
-				onChange={(o) => {
-					setOption(o as string);
-					onChange(o as string);
-				}}
-				size="medium"
-				width="100%"
-			>
-				<Select.Option value="google">Google Search</Select.Option>
-				<Select.Option value="github">Github</Select.Option>
-				<Select.Option value="blog-geekflare">Geekflare</Select.Option>
-				<Select.Option value="blog-du-modérateur">
-					Blog du Modérateur
-				</Select.Option>
-				<Select.Option value="other">Other</Select.Option>
-			</Select>
-
-			{option === "google" && (
-				<>
-					<Spacer />
-					<Input
-						placeholder='e.g. "email verification api"'
-						onChange={(e) => {
-							const s = e.currentTarget.value;
-							onChange(`${option}:${s}`);
-						}}
-						width="100%"
-					>
-						Which search terms did you use?
-					</Input>
-				</>
-			)}
-			{option === "other" && (
-				<>
-					<Spacer />
-					<Input
-						placeholder='e.g. "word of mouth", "blog <name>", "website <name.com>"...'
-						onChange={(e) => {
-							const s = e.currentTarget.value;
-							onChange(`${option}:${s}`);
-						}}
-						width="100%"
-					>
-						Could you share some details?
-					</Input>
-				</>
-			)}
-		</>
-	);
-}
+import { dictionary } from "@/dictionaries";
+import Link from "next/link";
 
 export default function SignUp(): React.ReactElement {
 	const [email, setEmail] = useState("");
@@ -86,6 +26,7 @@ export default function SignUp(): React.ReactElement {
 
 	const router = useRouter();
 	const { user, signUp } = useUser();
+	const d = dictionary(router.locale).signup;
 
 	const handleSignup = async () => {
 		setLoading(true);
@@ -102,8 +43,7 @@ export default function SignUp(): React.ReactElement {
 		} else {
 			setMessage({
 				type: "success",
-				content:
-					"Signed up successfully. Check your email for the confirmation link.",
+				content: d.success_check_email,
 			});
 		}
 		setLoading(false);
@@ -116,7 +56,7 @@ export default function SignUp(): React.ReactElement {
 	}, [router, user]);
 
 	return (
-		<SigninLayout title="Sign Up">
+		<SigninLayout title={d.title}>
 			<Input
 				type="email"
 				placeholder="Email"
@@ -126,7 +66,7 @@ export default function SignUp(): React.ReactElement {
 				status={message?.type}
 				width="100%"
 			>
-				Email
+				{d.email}
 			</Input>
 			<Spacer />
 			<Input.Password
@@ -138,9 +78,9 @@ export default function SignUp(): React.ReactElement {
 				status={message?.type}
 				width="100%"
 			>
-				Password
+				{d.password}
 			</Input.Password>
-			<Feedback onChange={setFeedback} />
+			<Feedback onChange={setFeedback} d={d.feedback} />
 			{message && <SigninLayoutMessage message={message} />}
 
 			<Spacer />
@@ -161,15 +101,76 @@ export default function SignUp(): React.ReactElement {
 					handleSignup().catch(sentryException);
 				}}
 			>
-				{loading ? "Signing up..." : "Sign up"}
+				{loading ? d.button_signing_up : d.button_sign_up}
 			</SigninButton>
 
 			<Text p className="text-center">
-				Already have an account?{" "}
-				<GLink color href="/login" underline>
-					Log in.
-				</GLink>
+				{d.already_have_account} <Link href="/login">{d.login}</Link>
 			</Text>
 		</SigninLayout>
+	);
+}
+
+function Feedback({
+	onChange,
+	d,
+}: {
+	onChange: (f: string) => void;
+	d: ReturnType<typeof dictionary>["signup"]["feedback"];
+}): React.ReactElement {
+	const [option, setOption] = useState<string | undefined>();
+
+	return (
+		<>
+			<Text>{d.title}</Text>
+			<Select
+				placeholder={d.placeholder}
+				onChange={(o) => {
+					setOption(o as string);
+					onChange(o as string);
+				}}
+				size="medium"
+				width="100%"
+			>
+				<Select.Option value="google">Google Search</Select.Option>
+				<Select.Option value="github">Github</Select.Option>
+				<Select.Option value="blog-geekflare">Geekflare</Select.Option>
+				<Select.Option value="blog-du-modérateur">
+					Blog du Modérateur
+				</Select.Option>
+				<Select.Option value="other">{d.other}</Select.Option>
+			</Select>
+
+			{option === "google" && (
+				<>
+					<Spacer />
+					<Input
+						placeholder={d.google_search_placeholder}
+						onChange={(e) => {
+							const s = e.currentTarget.value;
+							onChange(`${option}:${s}`);
+						}}
+						width="100%"
+					>
+						{d.google_search_terms}
+					</Input>
+				</>
+			)}
+			{option === "other" && (
+				<>
+					<Spacer />
+					<Input
+						placeholder={d.other_placeholder}
+						onChange={(e) => {
+							const s = e.currentTarget.value;
+							onChange(`${option}:${s}`);
+						}}
+						width="100%"
+					>
+						{d.other_share_details}
+					</Input>
+				</>
+			)}
+		</>
 	);
 }

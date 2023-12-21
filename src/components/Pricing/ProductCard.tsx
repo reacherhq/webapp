@@ -30,7 +30,6 @@ export function ProductCard({
 	subscription,
 	...props
 }: ProductCardProps): React.ReactElement {
-	console.log("AAA", product.name);
 	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
 	const { session, user } = useUser();

@@ -75,6 +75,18 @@
 			"line2": "fast, simple and accurate"
 		}
 	},
+	"login": {
+		"title": "Sign in to Reacher",
+		"email": "Email",
+		"password": "Password",
+		"forgot_password": "Forgot password?",
+		"button_sign_in": "Sign in",
+		"button_signing_in": "Signing in...",
+		"dont_have_account": "Don't have an account?",
+		"signup": "Sign up",
+		"success_redirecting": "Success, redirecting to dashboard...",
+		"success_magic_link": "Success, check your email for the magic link."
+	},
 	"nav": {
 		"pricing": "Pricing",
 		"help": "Help Center",
@@ -139,5 +151,24 @@
 			"another_q": "Have another question?",
 			"another_a": "Feel free to email me [✉️ amaury@reacher.email](mailto:amaury@reacher.email), I reply pretty fast."
 		}
+	},
+	"signup": {
+		"title": "Sign up to Reacher",
+		"email": "Email",
+		"password": "Password",
+		"already_have_account": "Already have an account?",
+		"button_sign_up": "Sign up",
+		"button_signing_up": "Signing up...",
+		"login": "Login",
+		"feedback": {
+			"title": "How did you hear about Reacher?",
+			"placeholder": "Please select an option",
+			"other": "Other",
+			"google_search_placeholder": "e.g. \"email verification api\"",
+			"google_search_terms": "Which search terms did you use?",
+			"other_placeholder": "e.g. \"word of mouth\", \"blog <name>\", \"website <name.com>\"...",
+			"other_share_details": "Could you share some details?"
+		},
+		"success_check_email": "Signed up successfully. Check your email for the confirmation link."
 	}
 }

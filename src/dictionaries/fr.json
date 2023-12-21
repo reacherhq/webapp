@@ -75,6 +75,18 @@
 			"line2": "simple, rapide et précis"
 		}
 	},
+	"login": {
+		"title": "Connectez-vous à Reacher",
+		"email": "Email",
+		"password": "Mot de passe",
+		"forgot_password": "Mot de passe oublié ?",
+		"button_sign_in": "Se connecter",
+		"button_signing_in": "Connexion en cours...",
+		"dont_have_account": "Vous n'avez pas de compte ?",
+		"signup": "S'inscrire",
+		"success_redirecting": "Succès, redirection vers le tableau de bord...",
+		"success_magic_link": "Succès, consultez votre email pour le lien magique."
+	},
 	"nav": {
 		"pricing": "Tarifs",
 		"help": "Ressources",
@@ -139,5 +151,24 @@
 			"another_q": "Vous avez une autre question ?",
 			"another_a": "N'hésitez pas à m'envoyer un email [✉️ amaury@reacher.email](mailto:amaury@reacher.email), je réponds assez rapidement."
 		}
+	},
+	"signup": {
+		"title": "Inscrivez-vous à Reacher",
+		"email": "Email",
+		"password": "Mot de passe",
+		"already_have_account": "Vous avez déjà un compte ?",
+		"button_sign_up": "S'inscrire",
+		"button_signing_up": "Inscription en cours...",
+		"login": "Connexion",
+		"feedback": {
+			"title": "Comment avez-vous entendu parler de Reacher ?",
+			"placeholder": "Veuillez sélectionner une option",
+			"other": "Autre",
+			"google_search_placeholder": "par ex. \"api de vérification d'email\"",
+			"google_search_terms": "Quels termes de recherche avez-vous utilisés ?",
+			"other_placeholder": "par ex. \"bouche à oreille\", \"blog <nom>\", \"site web <nom.com>\"...",
+			"other_share_details": "Pouvez-vous partager quelques détails ?"
+		},
+		"success_check_email": "Inscription réussie. Vérifiez votre email pour le lien de confirmation."
 	}
 }
