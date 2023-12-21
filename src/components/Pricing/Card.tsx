@@ -3,6 +3,8 @@ import { Check } from "@geist-ui/react-icons";
 import React from "react";
 
 import styles from "./Card.module.css";
+import { useRouter } from "next/router";
+import { dictionary } from "@/dictionaries";
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
 	body?: React.ReactElement;
@@ -27,6 +29,9 @@ export function Card({
 	body,
 	footer,
 }: CardProps): React.ReactElement {
+	const router = useRouter();
+	const d = dictionary(router.locale).pricing;
+
 	return (
 		<GCard className={styles.container}>
 			<Text className="text-center flex justify-center" small b>
@@ -44,7 +49,7 @@ export function Card({
 			<Text className="text-center" h3>
 				{price}
 				<Text className={styles.mo} span type="secondary">
-					/mo
+					{d.saas10k.price}
 				</Text>
 			</Text>
 			<Spacer y={2} />
@@ -58,7 +63,7 @@ export function Card({
 
 			<div>
 				<Text b small>
-					What you get:
+					{d.saas10k.what_you_get}
 				</Text>
 				<Spacer />
 				{features?.map((f, i) => (

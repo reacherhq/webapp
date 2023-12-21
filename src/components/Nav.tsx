@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-import { Button, Link as GLink, Select, Spacer, Text } from "@geist-ui/react";
+import { Button, Select, Spacer, Text } from "@geist-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -45,15 +43,15 @@ export function Nav(): React.ReactElement {
 			<div className={styles.filler} />
 
 			<div>
-				<GLink
+				<Link
 					className={styles.link}
 					href="/pricing"
 					data-sa-link-event="nav:pricing:click"
 				>
 					{d.nav.pricing}
-				</GLink>
+				</Link>
 
-				<GLink
+				<Link
 					className={styles.link}
 					href="https://help.reacher.email"
 					target="_blank"
@@ -61,7 +59,7 @@ export function Nav(): React.ReactElement {
 					data-sa-link-event="nav:help:click"
 				>
 					{d.nav.help}
-				</GLink>
+				</Link>
 				<Select
 					className={styles.language}
 					disableMatchWidth

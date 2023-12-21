@@ -1,8 +1,7 @@
 import { Collapse, Grid, Page, Select, Spacer, Text } from "@geist-ui/react";
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
-
-import { SaaS10k, SaaS100k, Commercial } from "../components/ProductCard";
+import { SaaS10k, SaaS100k, Commercial } from "../components/Pricing";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_100K_PRODUCT_ID,
@@ -11,6 +10,9 @@ import {
 import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { ProductWithPrice } from "@/supabase/domain.types";
+import { useRouter } from "next/router";
+import { dictionary } from "@/dictionaries";
+import Markdown from "marked-react";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductWithPrices();
@@ -34,6 +36,8 @@ export default function Pricing({
 	const [currency, setCurrency] = useState<string>(
 		subscriptionCurrency || "eur"
 	);
+	const router = useRouter();
+	const d = dictionary(router.locale).pricing;
 
 	const saas10kProduct = products.find(
 		({ id }) => id === SAAS_10K_PRODUCT_ID
@@ -52,10 +56,10 @@ export default function Pricing({
 		<>
 			<Spacer y={5} />
 			<Text className="text-center" h2>
-				Pricing
+				{d.title}
 			</Text>
 			<Text p em className="text-center">
-				All plans include a 30-day money back guarantee.
+				{d["30d_money_back"]}
 			</Text>
 
 			<Spacer y={2} />
@@ -114,56 +118,24 @@ export default function Pricing({
 				<Spacer y={2} />
 				<Page>
 					<Text className="text-center" h2>
-						Frequently Asked Questions
+						{d.faq.title}
 					</Text>
 					<Spacer y={2} />
 					<Collapse.Group>
 						<Collapse
-							title="Can I verify 1 million (or more) emails?"
+							title={d.faq.verify_1m_emails_q}
 							initialVisible
 						>
-							If you need to verify 200K, 500K, or 1+ million
-							emails, please check the{" "}
-							<strong>Commercial License Plan</strong>. You will
-							need to purchase your own servers separately and
-							self-host Reacher.
+							<Markdown>{d.faq.verify_1m_emails_a}</Markdown>
 						</Collapse>
-						<Collapse title="Can I get a refund?">
-							Sure. If you use Reacher and find that the
-							verifications are slow or incorrect, I&apos;ll
-							refund you the full amount if you email me ✉️{" "}
-							<a href="mailto:amaury@reacher.email">
-								amaury@reacher.email
-							</a>{" "}
-							within 30 days of your subscription.
+						<Collapse title={d.faq.refund_q}>
+							<Markdown>{d.faq.refund_a}</Markdown>
 						</Collapse>
-						<Collapse title="Can I get a free trial?">
-							<p>
-								If you are interested in the SaaS 10K or 100K
-								plans, then no, Reacher does not offer any free
-								trial. There is however a 30-day money back
-								guarantee.
-							</p>
-
-							<p>
-								If you are interested in the Commercial License,
-								you can follow these steps in the{" "}
-								<a
-									href="https://help.reacher.email/self-host-guide#2a0e764e7cb94933b81c967be334dffd"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									self-host guide
-								</a>{" "}
-								for a free trial .
-							</p>
+						<Collapse title={d.faq.free_trial_q}>
+							<Markdown>{d.faq.free_trial_a}</Markdown>
 						</Collapse>
-						<Collapse title="Another question?">
-							Send me an email to{" "}
-							<a href="mailto:amaury@reacher.email">
-								📧 amaury@reacher.email
-							</a>
-							, I reply pretty fast.
+						<Collapse title={d.faq.another_q}>
+							<Markdown>{d.faq.another_a}</Markdown>
 						</Collapse>
 					</Collapse.Group>
 				</Page>

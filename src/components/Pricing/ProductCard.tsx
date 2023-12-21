@@ -21,6 +21,7 @@ export interface ProductCardProps {
 	footer?: React.ReactElement;
 	features?: (string | React.ReactElement)[];
 	subtitle?: React.ReactElement;
+	title: string;
 }
 
 export function ProductCard({
@@ -107,7 +108,6 @@ export function ProductCard({
 			}
 			key={price.product_id}
 			price={priceString}
-			title={product.name || "No Product Name"} // Latter should never happen
 			{...props}
 		/>
 	);

@@ -36,5 +36,61 @@
 		"login": "Se connecter",
 		"signup": "Créer un compte",
 		"logout": "Se déconnecter"
+	},
+	"pricing": {
+		"title": "Tarifs",
+		"30d_money_back": "Tous les plans incluent une garantie de remboursement sous 30 jours.",
+		"commercial": {
+			"title": "Licence Commerciale",
+			"overtitle": "🏠 Auto-hébergé",
+			"subtitle": "Vérifications **illimitées** d'emails",
+			"price": "/mo HT",
+			"select_plan_cta": "Choisir le plan",
+			"what_need_to_do": "Ce que vous devez faire :",
+			"purchase_server": "Achetez vous-même des serveurs pour auto-héberger Reacher. [Lisez comment](https://help.reacher.email/self-host-guide).",
+			"what_you_get": "Ce que vous obtenez :",
+			"unlimited_emails": "Vérifications d'emails **illimitées** [complètes]((https://help.reacher.email/email-attributes-inside-json)).",
+			"bulk": "💪 Vérifications d'emails **en masse**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
+			"no_data_reacher": "Aucune donnée renvoyée à Reacher.",
+			"support": "**Support client** par email/chat.",
+			"cancel": "Annulez à tout moment.",
+			"terms": "Voir [les conditions et détails complets](https://help.reacher.email/reacher-licenses).",
+			"free_trial": "Vous voulez un essai gratuit avant de vous engager ? N'hésitez pas à essayer l'auto-hébergement avec le [guide open-source](https://help.reacher.email/self-host-guide), et abonnez-vous une fois que vous êtes prêt."
+		},
+		"saas10k": {
+			"title": "Plan SaaS 10K Emails",
+			"overtitle": "Pour les particuliers",
+			"subtitle": "10 000 vérifications d'emails / mois",
+			"price": "/mo HT",
+			"select_plan_cta": "Choisir le plan",
+			"what_you_get": "Ce que vous obtenez :",
+			"reacher_ip": "Utilisez les serveurs de Reacher avec une haute réputation IP.",
+			"full_feature": "Vérifications d'emails [complètes](https://help.reacher.email/email-attributes-inside-json).",
+			"support": "**Support client** par email/chat.",
+			"cancel": "Annulez à tout moment."
+		},
+		"saas100k": {
+			"title": "Plan SaaS 100K Emails",
+			"overtitle": "✨ Nouveau ✨",
+			"subtitle": "100 000 vérifications d'emails / mois",
+			"price": "/mo HT",
+			"select_plan_cta": "Choisir le plan",
+			"what_you_get": "Ce que vous obtenez :",
+			"reacher_ip": "Utilisez les serveurs de Reacher avec une haute réputation IP.",
+			"full_feature": "Vérifications d'emails [complètes](https://help.reacher.email/email-attributes-inside-json).",
+			"support": "**Support client** par email/chat.",
+			"cancel": "Annulez à tout moment."
+		},
+		"faq": {
+			"title": "Questions Fréquemment Posées",
+			"verify_1m_emails_q": "Puis-je vérifier 1 million (ou plus) d'emails ?",
+			"verify_1m_emails_a": "Si vous avez besoin de vérifier 200K, 500K ou plus d'1 million d'emails, veuillez consulter le **Plan de Licence Commerciale**. Vous devrez acheter vos propres serveurs séparément et auto-héberger Reacher.",
+			"refund_q": "Quelle est votre politique de remboursement ?",
+			"refund_a": "Bien sûr. Si vous utilisez Reacher et constatez que les vérifications sont lentes ou incorrectes, je vous rembourserai le montant total si vous m'envoyez un email [✉️ amaury@reacher.email](mailto:amaury@reacher.email) dans les 30 jours suivant votre abonnement.",
+			"free_trial_q": "Offrez-vous un essai gratuit ?",
+			"free_trial_a": "Si vous êtes intéressé par les plans SaaS 10K ou 100K, alors non, Reacher n'offre aucun essai gratuit. Il existe cependant une garantie de remboursement sous 30 jours.\n\nSi vous êtes intéressé par la Licence Commerciale, vous pouvez suivre le [guide d'auto-hébergement](https://help.reacher.email/self-host-guide) pour un essai gratuit.",
+			"another_q": "Vous avez une autre question ?",
+			"another_a": "N'hésitez pas à m'envoyer un email [✉️ amaury@reacher.email](mailto:amaury@reacher.email), je réponds assez rapidement."
+		}
 	}
 }
