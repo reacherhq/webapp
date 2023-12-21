@@ -1,5 +1,15 @@
 {
 	"footer": {
+		"contact": {
+			"title": "Contact",
+			"email": "Email",
+			"github": "Github",
+			"help": "Help Center"
+		},
+		"madeby": {
+			"line1": "Made by Amaury, an indie",
+			"line2": "developer based in Paris 🇫🇷."
+		},
 		"sitemap": {
 			"title": "Sitemap",
 			"homepage": "Home",

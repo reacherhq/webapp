@@ -1,5 +1,20 @@
 {
 	"footer": {
+		"contact": {
+			"title": "Contact",
+			"email": "Email",
+			"github": "Github",
+			"help": "Ressources"
+		},
+		"help": {
+			"title": "Ressources",
+			"self_host": "Auto-hébergement",
+			"api": "Documentation API"
+		},
+		"madeby": {
+			"line1": "Made in France 🇫🇷",
+			"line2": ""
+		},
 		"sitemap": {
 			"title": "Plan de Site",
 			"homepage": "Accueil",
@@ -7,11 +22,6 @@
 			"tos": "CGU / CGV",
 			"privacy": "Politique de Condidentialité",
 			"legal_mentions": "Mentions Légales"
-		},
-		"help": {
-			"title": "Documentation",
-			"self_host": "Self-host",
-			"api": "Documentation API"
 		}
 	},
 	"homepage": {
@@ -22,7 +32,7 @@
 	},
 	"nav": {
 		"pricing": "Tarifs",
-		"help": "Documentation",
+		"help": "Ressources",
 		"login": "Se connecter",
 		"signup": "Créer un compte",
 		"logout": "Se déconnecter"

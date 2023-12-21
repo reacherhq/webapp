@@ -27,9 +27,9 @@ export function Footer(): React.ReactElement {
 							/>
 							<Spacer />
 							<Text>
-								Made by Amaury, an indie
+								{d.footer.madeby.line1}
 								<br />
-								developer based in Paris 🇫🇷.
+								{d.footer.madeby.line2}
 							</Text>
 						</div>
 					</Grid>
@@ -97,11 +97,11 @@ export function Footer(): React.ReactElement {
 						</div>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
-						<Text h5>Contact</Text>
+						<Text h5>{d.footer.contact.title}</Text>
 						<Spacer y={2} />
 						<div>
 							<Link href="mailto:amaury@reacher.email">
-								Email
+								{d.footer.contact.email}
 							</Link>
 						</div>
 						<Spacer />
@@ -111,7 +111,7 @@ export function Footer(): React.ReactElement {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								Github
+								{d.footer.contact.github}
 							</Link>
 						</div>
 						<Spacer />
@@ -121,7 +121,7 @@ export function Footer(): React.ReactElement {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								Help Center
+								{d.footer.contact.help}
 							</Link>
 						</div>
 					</Grid>
