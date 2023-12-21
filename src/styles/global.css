@@ -10,6 +10,13 @@ body {
 }
 
 /**
+ * Override Geist's default values.
+ */
+button {
+	text-transform: none !important;
+}
+
+/**
  * Helpers
  */
 

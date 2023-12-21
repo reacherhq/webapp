@@ -34,7 +34,7 @@ export function ProductCard({
 	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
 	const { session, user } = useUser();
-	const d = dictionary(router.locale).pricing.plans;
+	const d = dictionary(router.locale).pricing;
 
 	const active = !!subscription;
 	const price = product.prices.find(({ currency: c }) => currency === c);
@@ -99,19 +99,19 @@ export function ProductCard({
 				>
 					{priceIdLoading
 						? session
-							? "Redirecting to Stripe..."
-							: "Redirecting to sign up page..."
+							? d.cards.redirecting_to_stripe
+							: d.cards.redirecting_to_signup
 						: active
-						? "Current Plan"
+						? d.cards.current_plan
 						: user
-						? "Select Plan"
-						: "Get Started"}
+						? d.cards.select_plan_cta
+						: d.cards.get_started}
 				</Button>
 			}
 			key={price.product_id}
 			price={priceString}
 			title={
-				d[product.name as keyof typeof d] ||
+				d.plans[product.name as keyof typeof d.plans] ||
 				product.name ||
 				"No Product"
 			} // The latter should never happen

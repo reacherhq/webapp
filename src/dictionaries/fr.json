@@ -61,13 +61,17 @@
 		"cards": {
 			"price": "/mo HT",
 			"what_you_get": "Ce que vous obtenez :",
-			"select_plan_cta": "Choisir ce plan"
+			"select_plan_cta": "Choisir plan",
+			"redirecting_to_stripe": "Redirection vers Stripe...",
+			"redirecting_to_signup": "Redirection...",
+			"current_plan": "Déjà souscrit",
+			"get_started": "Créer un compte"
 		},
 		"commercial": {
 			"overtitle": "🏠 Auto-hébergé",
 			"subtitle": "Vérifications **illimitées** d'emails",
 			"what_need_to_do": "Ce que vous devez faire :",
-			"purchase_server": "Achetez vous-même des serveurs pour auto-héberger Reacher. [Lisez comment](https://help.reacher.email/self-host-guide).",
+			"purchase_server": "Acheter vous-même des serveurs pour auto-héberger Reacher. [Lisez comment](https://help.reacher.email/self-host-guide).",
 			"unlimited_emails": "Vérifications d'emails **illimitées** [complètes]((https://help.reacher.email/email-attributes-inside-json)).",
 			"bulk": "💪 Vérifications d'emails **en masse**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
 			"no_data_reacher": "Aucune donnée renvoyée à Reacher.",
@@ -93,7 +97,7 @@
 			"cancel": "Annulez à tout moment."
 		},
 		"faq": {
-			"title": "Questions Fréquemment Posées",
+			"title": "Questions fréquemment posées",
 			"verify_1m_emails_q": "Puis-je vérifier 1 million (ou plus) d'emails ?",
 			"verify_1m_emails_a": "Si vous avez besoin de vérifier 200K, 500K ou plus d'1 million d'emails, veuillez consulter le **Plan de Licence Commerciale**. Vous devrez acheter vos propres serveurs séparément et auto-héberger Reacher.",
 			"refund_q": "Quelle est votre politique de remboursement ?",
