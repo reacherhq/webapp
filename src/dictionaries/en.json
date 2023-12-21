@@ -23,6 +23,21 @@
 			"result_risky": "which means the email exists but sending to it might bounce.",
 			"result_unknown": "which means Reacher currently isn't able to tell if the email exists or not.",
 			"unexpected_error": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nEmail: %s1\nError: %s2"
+		},
+		"get_started_no_plan": {
+			"title": "Select a Plan",
+			"head_to_pricing": "Please head to the [Pricing Page](/pricing) to select a plan in order to use Reacher."
+		},
+		"get_started_api": {
+			"title": "How to use the API?",
+			"reacher_powerful_api": "Reacher is the most powerful when it integrates with your own tools. This is done using the API.",
+			"http_post": "To get started, use your private auth token below, and send a HTTP POST request to:",
+			"with_header": "with the following header:",
+			"unique_auth_token": "Below is your unique AUTH_TOKEN. **Don't share it with anyone else!**",
+			"curl_example": "For example, a `curl` request looks like:",
+			"explain_fields": "The most important field to check is `is_reachable`, and you can also understand [all the other fields](https://help.reacher.email/email-attributes-inside-json) or read the [API reference guide](https://reacher.stoplight.io/docs/backend).",
+			"help_no_understand": "Help! I still don't understand what to do. 😱",
+			"dont_worry": "Don't worry, I have prepared a [beginner's guide](https://help.reacher.email/verify-your-1st-email) for using the API, with a program called Postman. If you still have questions, just use the chat widget on the bottom right corner to send me a message, or shoot me an email at [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
 		}
 	},
 	"footer": {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { StripeMananageButton } from "./StripeManageButton";
 import { GetStartedLicense } from "./GetStartedLicense";
 import { GetStartedNoPlan } from "./GetStartedNoPlan";
-import { GetStartedSaas } from "./GetStartedSaas";
+import { GetStartedSaas } from "./GetStartedApi";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_100K_PRODUCT_ID,
