@@ -1,12 +1,10 @@
 import { Link as GLink, Loading, Page, Spacer, Text } from "@geist-ui/react";
 import React from "react";
 
-import { StripeMananageButton } from "../components/StripeManageButton";
-import {
-	GetStartedNoPlan,
-	GetStartedLicense,
-	GetStartedSaas,
-} from "../components/GetStarted";
+import { StripeMananageButton } from "./StripeManageButton";
+import { GetStartedLicense } from "./GetStartedLicense";
+import { GetStartedNoPlan } from "./GetStartedNoPlan";
+import { GetStartedSaas } from "./GetStartedSaas";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_100K_PRODUCT_ID,

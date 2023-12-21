@@ -2,7 +2,7 @@ import { Loading, Page } from "@geist-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
-import { Dashboard } from "../components/Dashboard";
+import { Dashboard } from "../components/Dashboard/Dashboard";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 
