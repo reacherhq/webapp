@@ -3,7 +3,7 @@ import React from "react";
 
 import { StripeMananageButton } from "../components/StripeManageButton";
 import {
-	GetStartedFreeTrial,
+	GetStartedNoPlan,
 	GetStartedLicense,
 	GetStartedSaas,
 } from "../components/GetStarted";
@@ -104,6 +104,6 @@ function showContent(
 				</>
 			);
 		default:
-			return <GetStartedFreeTrial />;
+			return <GetStartedNoPlan />;
 	}
 }

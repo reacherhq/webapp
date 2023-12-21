@@ -1,3 +1,3 @@
 export * from "./GetStartedLicense";
 export * from "./GetStartedSaas";
-export * from "./GetStartedFreeTrial";
+export * from "./GetStartedNoPlan";

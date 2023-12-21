@@ -26,6 +26,7 @@ export default function Index(): React.ReactElement {
 	const [emailSent, setEmailSent] = useState(false); // Set if we sent an email upon confirmation. Only do it once.
 
 	useEffect(() => {
+		console.log("userFinishedLoading", userFinishedLoading);
 		if (isRedirecting) {
 			return;
 		}
@@ -70,11 +71,7 @@ export default function Index(): React.ReactElement {
 			router.replace("/login").catch(sentryException);
 		} else if (userFinishedLoading && user) {
 			setIsRedirecting(true);
-			if (subscription) {
-				router.replace("/dashboard").catch(sentryException);
-			} else {
-				router.replace("/pricing").catch(sentryException);
-			}
+			router.replace("/dashboard").catch(sentryException);
 		}
 	}, [
 		isRedirecting,
