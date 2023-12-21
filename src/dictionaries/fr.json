@@ -152,6 +152,24 @@
 			"another_a": "N'hésitez pas à m'envoyer un email [✉️ amaury@reacher.email](mailto:amaury@reacher.email), je réponds assez rapidement."
 		}
 	},
+	"reset_password": {
+		"part1": {
+			"title": "Réinitialisez votre mot de passe",
+			"email": "Email",
+			"button_reset": "Réinitialiser le mot de passe",
+			"button_resetting": "Réinitialisation...",
+			"success": "Vérifiez votre email pour réinitialiser le mot de passe."
+		},
+		"part2": {
+			"title": "Définissez votre nouveau mot de passe",
+			"password": "Mot de passe",
+			"password_confirm": "Confirmer le mot de passe",
+			"button_set": "Définir le mot de passe",
+			"button_setting": "Définition...",
+			"error_passwords_dont_match": "Les deux mots de passe doivent correspondre.",
+			"success": "Mot de passe défini avec succès. Vous pouvez maintenant vous connecter."
+		}
+	},
 	"signup": {
 		"title": "Inscrivez-vous à Reacher",
 		"email": "Email",

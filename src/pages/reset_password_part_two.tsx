@@ -12,6 +12,7 @@ import { parseHashComponents } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { supabase } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
+import { dictionary } from "@/dictionaries";
 
 export default function ResetPasswordPartTwo(): React.ReactElement {
 	const router = useRouter();
@@ -23,7 +24,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		undefined
 	);
 	const [isInvite, setIsInvite] = useState(false); // Landed on this page on first visit, via Invite Link.
-
+	const d = dictionary(router.locale).reset_password.part2;
 	const { user } = useUser();
 
 	useEffect(() => {
@@ -49,7 +50,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		if (password !== repeat) {
 			setMessage({
 				type: "error",
-				content: "The two passwords must match.",
+				content: d.error_passwords_dont_match,
 			});
 			return;
 		}
@@ -66,14 +67,14 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		} else {
 			setMessage({
 				type: "success",
-				content: "Password updated successfully.",
+				content: d.success,
 			});
 			router.push("/dashboard").catch(sentryException);
 		}
 	};
 
 	return (
-		<SigninLayout title="Reset Password">
+		<SigninLayout title={d.title}>
 			{isInvite && (
 				<>
 					<Spacer />
@@ -100,19 +101,19 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 				status={message?.type}
 				width="100%"
 			>
-				Password
+				{d.password}
 			</Input.Password>
 			<Spacer />
 			<Input.Password
 				type="password"
-				placeholder="Repeat Password"
+				placeholder={d.password_confirm}
 				onChange={(e) => setRepeat(e.currentTarget.value)}
 				required
 				size="large"
 				status={message?.type}
 				width="100%"
 			>
-				Repeat Password
+				{d.password_confirm}
 			</Input.Password>
 			{message && <SigninLayoutMessage message={message} />}
 
@@ -125,7 +126,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 					handleReset().catch(sentryException);
 				}}
 			>
-				{loading ? "Resetting..." : "Reset Password"}
+				{loading ? d.button_setting : d.button_set}
 			</SigninButton>
 		</SigninLayout>
 	);

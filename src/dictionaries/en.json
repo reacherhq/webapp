@@ -152,6 +152,24 @@
 			"another_a": "Feel free to email me [✉️ amaury@reacher.email](mailto:amaury@reacher.email), I reply pretty fast."
 		}
 	},
+	"reset_password": {
+		"part1": {
+			"title": "Reset your password",
+			"email": "Email",
+			"button_reset": "Reset password",
+			"button_resetting": "Resetting...",
+			"success": "Check your email for resetting the password."
+		},
+		"part2": {
+			"title": "Set your new password",
+			"password": "Password",
+			"password_confirm": "Confirm password",
+			"button_set": "Set password",
+			"button_setting": "Setting...",
+			"error_passwords_dont_match": "The two passwords must match.",
+			"success": "Password set successfully. You can now login."
+		}
+	},
 	"signup": {
 		"title": "Sign up to Reacher",
 		"email": "Email",

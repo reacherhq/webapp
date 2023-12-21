@@ -70,7 +70,7 @@ export default function Login(): React.ReactElement {
 			<Input.Password
 				className="full-width"
 				type="password"
-				placeholder="Password"
+				placeholder={d.password}
 				value={password}
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required

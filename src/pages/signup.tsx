@@ -71,7 +71,7 @@ export default function SignUp(): React.ReactElement {
 			<Spacer />
 			<Input.Password
 				type="password"
-				placeholder="Password"
+				placeholder={d.password}
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required
 				size="large"
