@@ -101,7 +101,7 @@ export function ProductCard({
 						: active
 						? "Current Plan"
 						: user
-						? "Upgrade Plan"
+						? "Select Plan"
 						: "Get Started"}
 				</Button>
 			}

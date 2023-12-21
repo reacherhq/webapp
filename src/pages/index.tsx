@@ -21,7 +21,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Index(): React.ReactElement {
 	const router = useRouter();
-	const { user, userFinishedLoading } = useUser();
+	const { user, userFinishedLoading, subscription } = useUser();
 	const [isRedirecting, setIsRedirecting] = useState(false);
 	const [emailSent, setEmailSent] = useState(false); // Set if we sent an email upon confirmation. Only do it once.
 
@@ -70,9 +70,20 @@ export default function Index(): React.ReactElement {
 			router.replace("/login").catch(sentryException);
 		} else if (userFinishedLoading && user) {
 			setIsRedirecting(true);
-			router.replace("/dashboard").catch(sentryException);
+			if (subscription) {
+				router.replace("/dashboard").catch(sentryException);
+			} else {
+				router.replace("/pricing").catch(sentryException);
+			}
 		}
-	}, [isRedirecting, router, userFinishedLoading, user, emailSent]);
+	}, [
+		isRedirecting,
+		router,
+		userFinishedLoading,
+		user,
+		emailSent,
+		subscription,
+	]);
 
 	return (
 		<Page>

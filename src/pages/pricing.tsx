@@ -11,7 +11,6 @@ import {
 import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { ProductWithPrice } from "@/supabase/domain.types";
-import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async () => {
 	const products = await getActiveProductWithPrices();
@@ -54,6 +53,9 @@ export default function Pricing({
 			<Spacer y={5} />
 			<Text className="text-center" h2>
 				Pricing
+			</Text>
+			<Text p em className="text-center">
+				All plans include a 30-day money back guarantee.
 			</Text>
 
 			<Spacer y={2} />
@@ -120,30 +122,43 @@ export default function Pricing({
 							title="Can I verify 1 million (or more) emails?"
 							initialVisible
 						>
-							Reacher currently <strong>does not</strong> offer a
-							SaaS plan for verifying 1 million or more emails. If
-							you need to verify 1 million or more emails, please
-							check the Commercial License plan. You will need to
-							purchase your own servers separately and self-host
-							Reacher.
+							If you need to verify 200K, 500K, or 1+ million
+							emails, please check the{" "}
+							<strong>Commercial License Plan</strong>. You will
+							need to purchase your own servers separately and
+							self-host Reacher.
 						</Collapse>
-						<Collapse title="I need to verify one single email, can I use Reacher?">
-							Yes. Simple{" "}
-							<Link href="/signup">create an account</Link> and
-							you can use the textbox to verify your email.
+						<Collapse title="Can I get a refund?">
+							Sure. If you use Reacher and find that the
+							verifications are slow or incorrect, I&apos;ll
+							refund you the full amount if you email me ✉️{" "}
+							<a href="mailto:amaury@reacher.email">
+								amaury@reacher.email
+							</a>{" "}
+							within 30 days of your subscription.
 						</Collapse>
-						<Collapse title="Can I get a free trial of the Commercial Plan?">
-							Yes. Follow these steps in the{" "}
-							<a
-								href="https://help.reacher.email/self-host-guide#2a0e764e7cb94933b81c967be334dffd"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								self-host guide
-							</a>
-							.
+						<Collapse title="Can I get a free trial?">
+							<p>
+								If you are interested in the SaaS 10K or 100K
+								plans, then no, Reacher does not offer any free
+								trial. There is however a 30-day money back
+								guarantee.
+							</p>
+
+							<p>
+								If you are interested in the Commercial License,
+								you can follow these steps in the{" "}
+								<a
+									href="https://help.reacher.email/self-host-guide#2a0e764e7cb94933b81c967be334dffd"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									self-host guide
+								</a>{" "}
+								for a free trial .
+							</p>
 						</Collapse>
-						<Collapse title="I have another question.">
+						<Collapse title="Another question?">
 							Send me an email to{" "}
 							<a href="mailto:amaury@reacher.email">
 								📧 amaury@reacher.email
