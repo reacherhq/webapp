@@ -2,7 +2,7 @@ import { Card, Text } from "@geist-ui/react";
 import Link from "next/link";
 import React from "react";
 
-export function GetStartedFreeTrial(): React.ReactElement {
+export function GetStartedNoPlan(): React.ReactElement {
 	return (
 		<Card>
 			<Text h4>Select a Plan</Text>
