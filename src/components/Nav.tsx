@@ -42,7 +42,6 @@ export function Nav(): React.ReactElement {
 							</Text>
 						)}
 					</Text>
-					<Spacer x={0.5} />
 				</a>
 			</div>
 
@@ -66,7 +65,23 @@ export function Nav(): React.ReactElement {
 				>
 					{d.nav.help}
 				</GLink>
+				<Select
+					className={styles.language}
+					disableMatchWidth
+					onChange={(v) => {
+						router
+							.push(router, router.asPath, {
+								locale: v as string,
+							})
+							.catch(sentryException);
+					}}
+					value={router.locale === "fr" ? "fr" : "en"}
+				>
+					<Select.Option value="en">🇺🇸 English</Select.Option>
+					<Select.Option value="fr">🇫🇷 Français</Select.Option>
+				</Select>
 			</div>
+
 			<Spacer x={2} />
 			{user ? (
 				<Select
