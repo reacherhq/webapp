@@ -5,14 +5,17 @@ import React, { useState } from "react";
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
+import { useRouter } from "next/router";
+import { dictionary } from "@/dictionaries";
+import Markdown from "marked-react";
+import { SpanRenderer } from "../Markdown";
 
-function alertError(email: string, e: string) {
-	alert(
-		`An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?
-		
-Email: ${email}
-Error: ${e}`
-	);
+function alertError(
+	email: string,
+	e: string,
+	d: ReturnType<typeof dictionary>["dashboard"]["demo"]
+) {
+	alert(d.unexpected_error.replace("%s1", email).replace("%s2", e));
 }
 
 interface DemoProps {
@@ -24,6 +27,8 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
+	const router = useRouter();
+	const d = dictionary(router.locale).dashboard.demo;
 
 	function handleVerify() {
 		window.sa_event && window.sa_event("dashboard:verify:click");
@@ -36,7 +41,8 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 		if (!userDetails) {
 			alertError(
 				"n/a",
-				`userDetails is undefined for user ${user?.id || "undefined"}`
+				`userDetails is undefined for user ${user?.id || "undefined"}`,
+				d
 			);
 			return;
 		}
@@ -57,19 +63,16 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 			})
 			.catch((err: Error) => {
 				sentryException(err);
-				alertError(email, err.message);
+				alertError(email, err.message, d);
 				setLoading(false);
 			});
 	}
 
 	return (
 		<Card>
-			<Text h3>Verify an email (quick & easy 💪)</Text>
+			<Text h3>{d.verify_email}</Text>
 
-			<Text>
-				Simply enter an email and click &quot;Verify&quot; to get the
-				results.
-			</Text>
+			<Text>{d.enter_text_results}</Text>
 
 			<div className="text-center">
 				<Input
@@ -91,7 +94,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 					onClick={handleVerify}
 					type="success"
 				>
-					Verify
+					{d.verify_button}
 				</Button>
 			</div>
 
@@ -100,21 +103,15 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 			{result && (
 				<>
 					<Text>
-						Congratulations 💪! We got a result with{" "}
+						{d.congratulations}{" "}
 						<code>
 							is_reachable ={" "}
 							<strong>{result.is_reachable}</strong>
 						</code>
-						, {explanation(result)}. The full response is below,
-						check out{" "}
-						<a
-							href="https://help.reacher.email/email-attributes-inside-json"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							the documentation
-						</a>{" "}
-						to understand all the fields.
+						, {explanation(result, d)}{" "}
+						<Markdown renderer={SpanRenderer}>
+							{d.full_documentation}
+						</Markdown>
 					</Text>
 					<Code block>{JSON.stringify(result, undefined, "  ")}</Code>
 				</>
@@ -123,15 +120,9 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 	);
 }
 
-function explanation(result: CheckEmailOutput): string {
-	switch (result.is_reachable) {
-		case "invalid":
-			return "which means the email does not exist";
-		case "safe":
-			return "which means the email exists";
-		case "risky":
-			return "which means the email exists, but sending an email there might bounce";
-		case "unknown":
-			return "which means Reacher currently isn't able to tell if the email exists or not";
-	}
+function explanation(
+	result: CheckEmailOutput,
+	d: ReturnType<typeof dictionary>["dashboard"]["demo"]
+): string {
+	return d[`result_${result.is_reachable}`];
 }

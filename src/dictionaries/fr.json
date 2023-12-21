@@ -10,6 +10,20 @@
 			"upgrade": "Passer à un plan supérieur",
 			"manage_subscription": "Gérer la souscription",
 			"plan_ends_on": "⚠️ Fin de la souscription le %s"
+		},
+
+		"emails_this_month": "Vérifications d'emails ce mois-ci",
+		"demo": {
+			"verify_email": "Vérifier un email (rapide & facile 💪)",
+			"enter_text_results": "Entrez simplement un email et cliquez sur 'Vérifier' pour obtenir les résultats.",
+			"verify_button": "Vérifier",
+			"congratulations": "Félicitations 💪! Nous avons obtenu un résultat avec",
+			"full_documentation": "La réponse complète est ci-dessous, consultez [la documentation](https://help.reacher.email/email-attributes-inside-json) pour comprendre tous les champs.",
+			"result_invalid": "ce qui signifie que l'email n'existe pas.",
+			"result_safe": "ce qui signifie que l'email existe et qu'il est sûr de l'envoyer.",
+			"result_risky": "ce qui signifie que l'email existe mais l'envoi pourrait être rejeté.",
+			"result_unknown": "ce qui signifie que Reacher n'est actuellement pas en mesure de dire si l'email existe ou non.",
+			"unexpected_error": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nEmail : %s1\nErreur : %s2"
 		}
 	},
 	"footer": {

@@ -9,10 +9,14 @@ import { useUser } from "@/util/useUser";
 import styles from "./ApiUsage.module.css";
 import { Demo } from "./Demo";
 import { formatDate } from "@/util/helpers";
+import { useRouter } from "next/router";
+import { dictionary } from "@/dictionaries";
 
 export function ApiUsage(): React.ReactElement {
 	const { subscription, user, userFinishedLoading } = useUser();
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
+	const router = useRouter();
+	const d = dictionary(router.locale).dashboard;
 
 	useEffect(() => {
 		if (!user || !userFinishedLoading) {
@@ -31,13 +35,21 @@ export function ApiUsage(): React.ReactElement {
 		<section>
 			<div className={styles.textContainer}>
 				<Text h5>
-					Email verifications this month
+					{d.emails_this_month}
 					{subscription && (
 						<>
 							{" "}
-							({formatDate(
-								subscription.current_period_start
-							)} - {formatDate(subscription.current_period_end)})
+							(
+							{formatDate(
+								subscription.current_period_start,
+								router.locale
+							)}{" "}
+							-{" "}
+							{formatDate(
+								subscription.current_period_end,
+								router.locale
+							)}
+							)
 						</>
 					)}
 				</Text>
