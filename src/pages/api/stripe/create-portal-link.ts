@@ -18,6 +18,7 @@ const createPortalLink = async (
 
 	try {
 		const token = req.headers.token;
+		const { locale } = req.body as { locale?: "fr" | "en" };
 
 		if (typeof token !== "string") {
 			throw new Error(`Expected token as string, got ${typeof token}.`);
@@ -30,7 +31,8 @@ const createPortalLink = async (
 
 		const { url } = await stripe.billingPortal.sessions.create({
 			customer,
-			return_url: `${getWebappURL()}/`,
+			locale,
+			return_url: `${getWebappURL()}/${locale}`,
 		});
 
 		return res.status(200).json({ url });

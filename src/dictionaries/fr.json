@@ -93,7 +93,7 @@
 		"cards": {
 			"price": "/mo HT",
 			"what_you_get": "Ce que vous obtenez :",
-			"select_plan_cta": "Choisir plan",
+			"select_plan_cta": "Choisir ce plan",
 			"redirecting_to_stripe": "Redirection vers Stripe...",
 			"redirecting_to_signup": "Redirection...",
 			"current_plan": "Déjà souscrit",

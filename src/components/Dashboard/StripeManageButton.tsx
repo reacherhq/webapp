@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
+import { useRouter } from "next/router";
 
 export interface StripeMananageButton {
 	children: React.ReactNode | string;
@@ -14,6 +15,7 @@ export function StripeMananageButton({
 }: StripeMananageButton): React.ReactElement {
 	const [loading, setLoading] = useState(false);
 	const { session } = useUser();
+	const router = useRouter();
 
 	const redirectToCustomerPortal = async () => {
 		setLoading(true);
@@ -25,6 +27,9 @@ export function StripeMananageButton({
 			const { url } = await postData<{ url: string }>({
 				url: "/api/stripe/create-portal-link",
 				token: session.access_token,
+				data: {
+					locale: router.locale,
+				},
 			});
 
 			window.location.assign(url);

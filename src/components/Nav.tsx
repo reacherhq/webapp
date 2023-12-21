@@ -18,7 +18,10 @@ export function Nav(): React.ReactElement {
 	return (
 		<header className={styles.container}>
 			<div>
-				<a className="flex" href={user ? "/" : "https://reacher.email"}>
+				<Link
+					className="flex"
+					href={user ? "/" : "https://reacher.email"}
+				>
 					<Image
 						alt="Reacher logo"
 						height={24}
@@ -37,7 +40,7 @@ export function Nav(): React.ReactElement {
 							</Text>
 						)}
 					</Text>
-				</a>
+				</Link>
 			</div>
 
 			<div className={styles.filler} />

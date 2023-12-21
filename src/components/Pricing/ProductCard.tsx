@@ -54,7 +54,7 @@ export function ProductCard({
 		try {
 			const { sessionId } = await postData<{ sessionId: string }>({
 				url: "/api/stripe/create-checkout-session",
-				data: { price },
+				data: { price, locale: router.locale },
 				token: session.access_token,
 			});
 
@@ -63,7 +63,9 @@ export function ProductCard({
 				throw new Error("Empty stripe object at checkout");
 			}
 
-			await stripe.redirectToCheckout({ sessionId });
+			await stripe.redirectToCheckout({
+				sessionId,
+			});
 		} catch (err) {
 			sentryException(err as Error);
 			alert((err as Error).message);
