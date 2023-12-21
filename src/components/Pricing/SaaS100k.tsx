@@ -32,7 +32,6 @@ export function SaaS100k(
 				d.cancel,
 			]}
 			subtitle={<span>{d.subtitle}</span>}
-			title={d.title}
 		/>
 	);
 }

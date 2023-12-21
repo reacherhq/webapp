@@ -49,7 +49,7 @@ export function Card({
 			<Text className="text-center" h3>
 				{price}
 				<Text className={styles.mo} span type="secondary">
-					{d.saas10k.price}
+					{d.cards.price}
 				</Text>
 			</Text>
 			<Spacer y={2} />
@@ -63,7 +63,7 @@ export function Card({
 
 			<div>
 				<Text b small>
-					{d.saas10k.what_you_get}
+					{d.cards.what_you_get}
 				</Text>
 				<Spacer />
 				{features?.map((f, i) => (

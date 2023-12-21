@@ -69,7 +69,6 @@ export function Commercial(
 				</Text>
 			}
 			subtitle={<Markdown renderer={SpanRenderer}>{d.subtitle}</Markdown>}
-			title={d.title}
 		/>
 	);
 }

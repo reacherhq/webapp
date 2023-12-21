@@ -1,4 +1,17 @@
 {
+	"dashboard": {
+		"header": {
+			"hello": "Hello,",
+			"thanks_for_subscription": "Thanks for using the Reacher %s.",
+			"thanks_for_signup": "Thanks for signing up to Reacher.",
+			"billing_history": "Billing history",
+			"active_subscription": "Active subscription",
+			"no_active_subscription": "None",
+			"upgrade": "Upgrade Plan",
+			"manage_subscription": "Manage subscription",
+			"plan_ends_on": "⚠️ Plan ends on %s"
+		}
+	},
 	"footer": {
 		"contact": {
 			"title": "Contact",
@@ -38,17 +51,23 @@
 		"logout": "Logout"
 	},
 	"pricing": {
+		"plans": {
+			"SaaS 10K Emails Plan": "SaaS 10K Emails Plan",
+			"SaaS 100K Emails Plan": "SaaS 100K Emails Plan",
+			"Commercial License Plan": "Commercial License Plan"
+		},
 		"title": "Pricing",
 		"30d_money_back": "All plans include a 30-day money back guarantee.",
+		"cards": {
+			"price": "/mo",
+			"what_you_get": "What you get:",
+			"select_plan_cta": "Choisir ce plan"
+		},
 		"commercial": {
-			"title": "Commercial License Plan",
 			"overtitle": "🏠 Self-Hosted",
 			"subtitle": "**Unlimited email** verifications / mo",
-			"price": "/mo",
-			"select_plan_cta": "Select plan",
 			"what_need_to_do": "What you need to do:",
 			"purchase_server": "Purchase servers yourself to self-host Reacher. [Read how](https://help.reacher.email/self-host-guide).",
-			"what_you_get": "What you get:",
 			"unlimited_emails": "**Unlimited** [full-featured]((https://help.reacher.email/email-attributes-inside-json)) email verifications.",
 			"bulk": "💪 **Bulk** email verifications. [Read more](https://help.reacher.email/bulk-email-verification).",
 			"no_data_reacher": "No data sent back to Reacher.",
@@ -58,24 +77,16 @@
 			"free_trial": "Want a free trial before committing? Feel free to try self-hosting with the [open-source guide](https://help.reacher.email/self-host-guide), and subscribe once you're ready."
 		},
 		"saas10k": {
-			"title": "SaaS 10K Emails Plan",
 			"overtitle": "For individuals",
 			"subtitle": "10,000 email verifications / mo",
-			"price": "/mo",
-			"select_plan_cta": "Select plan",
-			"what_you_get": "What you get:",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
 			"full_feature": "[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime."
 		},
 		"saas100k": {
-			"title": "SaaS 100K Emails Plan",
 			"overtitle": "✨ New ✨",
 			"subtitle": "100,000 email verifications / mo",
-			"price": "/mo",
-			"select_plan_cta": "Select plan",
-			"what_you_get": "What you get:",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
 			"full_feature": "[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
 			"support": "**Customer support** by email/chat.",

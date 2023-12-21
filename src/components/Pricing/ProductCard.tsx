@@ -11,6 +11,7 @@ import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import { Tables } from "@/supabase/database.types";
 import { ProductWithPrice } from "@/supabase/domain.types";
+import { dictionary } from "@/dictionaries";
 
 export interface ProductCardProps {
 	currency: string;
@@ -21,7 +22,6 @@ export interface ProductCardProps {
 	footer?: React.ReactElement;
 	features?: (string | React.ReactElement)[];
 	subtitle?: React.ReactElement;
-	title: string;
 }
 
 export function ProductCard({
@@ -30,9 +30,11 @@ export function ProductCard({
 	subscription,
 	...props
 }: ProductCardProps): React.ReactElement {
+	console.log("AAA", product.name);
 	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
 	const { session, user } = useUser();
+	const d = dictionary(router.locale).pricing.plans;
 
 	const active = !!subscription;
 	const price = product.prices.find(({ currency: c }) => currency === c);
@@ -108,6 +110,11 @@ export function ProductCard({
 			}
 			key={price.product_id}
 			price={priceString}
+			title={
+				d[product.name as keyof typeof d] ||
+				product.name ||
+				"No Product"
+			} // The latter should never happen
 			{...props}
 		/>
 	);
