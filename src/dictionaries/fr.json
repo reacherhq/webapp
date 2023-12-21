@@ -38,6 +38,10 @@
 			"explain_fields": "Le champ le plus important à vérifier est `is_reachable`, et vous pouvez également comprendre [tous les autres champs](https://help.reacher.email/email-attributes-inside-json) ou lire le [guide de référence de l'API](https://reacher.stoplight.io/docs/backend).",
 			"help_no_understand": "Au secours ! Je ne comprends toujours pas quoi faire. 😱",
 			"dont_worry": "Ne vous inquiétez pas, j'ai préparé un [guide pour débutants](https://help.reacher.email/verify-your-1st-email) pour utiliser l'API, avec un programme appelé Postman. Si vous avez encore des questions, utilisez simplement le widget de chat en bas à droite pour m'envoyer un message, ou envoyez-moi un e-mail à [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
+		},
+		"get_started_license": {
+			"title": "Comment commencer avec la Licence Commerciale ?",
+			"explanation": "Pour commencer l'auto-hébergement, veuillez vous référer à notre [Guide d'Auto-Hébergement](https://help.reacher.email/self-host-guide).\n\nSi vous avez des questions sur l'auto-hébergement, veuillez contacter [✉️ amaury@reacher.email](mailto:amaury@reacher.email)."
 		}
 	},
 	"footer": {
