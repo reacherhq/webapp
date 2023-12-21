@@ -1,12 +1,10 @@
-import { Link as GLink, Loading, Page, Spacer, Text } from "@geist-ui/react";
+import { Loading, Page, Spacer, Text } from "@geist-ui/react";
 import React from "react";
-
-import { StripeMananageButton } from "../components/StripeManageButton";
-import {
-	GetStartedNoPlan,
-	GetStartedLicense,
-	GetStartedSaas,
-} from "../components/GetStarted";
+import Link from "next/link";
+import { StripeMananageButton } from "./StripeManageButton";
+import { GetStartedLicense } from "./GetStartedLicense";
+import { GetStartedNoPlan } from "./GetStartedNoPlan";
+import { GetStartedSaas } from "./GetStartedApi";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_100K_PRODUCT_ID,
@@ -18,9 +16,13 @@ import { ApiUsage } from "./ApiUsage";
 import styles from "./Dashboard.module.css";
 import { formatDate } from "@/util/helpers";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
+import { useRouter } from "next/router";
+import { dictionary } from "@/dictionaries";
 
 export function Dashboard(): React.ReactElement {
-	const { userDetails, subscription, subscriptionLoaded } = useUser();
+	const { subscription, subscriptionLoaded } = useUser();
+	const router = useRouter();
+	const d = dictionary(router.locale);
 
 	if (!subscriptionLoaded) {
 		return (
@@ -34,49 +36,59 @@ export function Dashboard(): React.ReactElement {
 		<Page>
 			<section className={styles.plan}>
 				<div>
-					<Text h2>Hello{userDetails?.full_name || ""},</Text>
+					<Text h2>{d.dashboard.header.hello}</Text>
 					<Text p>
 						<span>
 							{subscription
-								? `Thanks for using the Reacher ${productName(
-										subscription?.prices?.products
-								  )}.`
-								: "Thank for signing up for Reacher."}
+								? d.dashboard.header.thanks_for_subscription.replace(
+										"%s",
+										productName(
+											subscription?.prices?.products,
+											d
+										)
+								  )
+								: d.dashboard.header.thanks_for_signup}
 						</span>
 					</Text>
 					{subscription && (
 						<>
 							<StripeMananageButton>
-								Manage Subscription
+								{d.dashboard.header.manage_subscription}
 							</StripeMananageButton>
 						</>
 					)}
-					<StripeMananageButton>Billing History</StripeMananageButton>
+					<StripeMananageButton>
+						{d.dashboard.header.billing_history}
+					</StripeMananageButton>
 				</div>
 				<div>
 					<Text className="text-right" p>
-						Active Subscription
+						{d.dashboard.header.active_subscription}
 					</Text>
 					<Text className="text-right" h3>
-						{productName(subscription?.prices?.products)}
+						{productName(subscription?.prices?.products, d)}
 					</Text>
 					{subscription?.status === "active" &&
 						subscription?.cancel_at && (
 							<Text p small em className="text-right mt-0">
-								⚠️ Plan ends on{" "}
-								{formatDate(new Date(subscription.cancel_at))}
+								{d.dashboard.header.plan_ends_on.replace(
+									"%s",
+									formatDate(
+										new Date(subscription.cancel_at),
+										router.locale
+									)
+								)}
 							</Text>
 						)}
 					{subscription?.prices?.products?.id !==
 						COMMERCIAL_LICENSE_PRODUCT_ID && (
 						<div className="text-right">
-							<GLink
-								color
+							<Link
 								href="/pricing"
 								data-sa-link-event="dashboard:upgrade:click"
 							>
-								<strong>Upgrade Plan</strong>
-							</GLink>
+								<strong>{d.dashboard.header.upgrade}</strong>
+							</Link>
 						</div>
 					)}
 				</div>

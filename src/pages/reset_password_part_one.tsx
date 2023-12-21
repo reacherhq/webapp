@@ -6,9 +6,11 @@ import {
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from "../components";
+} from "../components/SigninLayout";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
+import { dictionary } from "@/dictionaries";
+import { useRouter } from "next/router";
 
 export default function ResetPasswordPartOne(): React.ReactElement {
 	const [email, setEmail] = useState("");
@@ -16,7 +18,8 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 	const [message, setMessage] = useState<SigninMessage | undefined>(
 		undefined
 	);
-
+	const router = useRouter();
+	const d = dictionary(router.locale).reset_password.part1;
 	const { resetPassword } = useUser();
 
 	const handleResetPassword = async () => {
@@ -30,13 +33,13 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 		} else {
 			setMessage({
 				type: "success",
-				content: "Check your email for resetting the password.",
+				content: d.success,
 			});
 		}
 	};
 
 	return (
-		<SigninLayout title="Reset Password">
+		<SigninLayout title={d.title}>
 			<Input
 				type="email"
 				placeholder="ex. john.doe@gmail.com"
@@ -46,7 +49,7 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 				status={message?.type}
 				width="100%"
 			>
-				Email
+				{d.email}
 			</Input>
 			{message && <SigninLayoutMessage message={message} />}
 
@@ -58,7 +61,7 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 					handleResetPassword().catch(sentryException);
 				}}
 			>
-				{loading ? "Resetting..." : "Reset Password"}
+				{loading ? d.button_resetting : d.button_reset}
 			</SigninButton>
 		</SigninLayout>
 	);

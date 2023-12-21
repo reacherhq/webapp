@@ -20,7 +20,14 @@
 	flex-grow: 1;
 }
 
+.language {
+	background-color: transparent !important;
+	border: none !important;
+	min-width: 0 !important;
+}
+
 .link {
+	color: inherit !important;
 	margin-left: 16px;
 	margin-right: 16px;
 }

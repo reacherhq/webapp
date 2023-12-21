@@ -23,10 +23,12 @@ const createCheckoutSession = async (
 			price,
 			quantity = 1,
 			metadata = {},
+			locale,
 		} = req.body as {
 			price: Tables<"prices">;
 			quantity: number;
 			metadata: Record<string, string>;
+			locale?: "fr" | "en";
 		};
 
 		if (typeof token !== "string") {
@@ -67,14 +69,15 @@ const createCheckoutSession = async (
 					quantity,
 				},
 			],
+			locale,
 			mode: "subscription",
 			allow_promotion_codes: true,
 			subscription_data: {
 				trial_from_plan: true,
 				metadata,
 			},
-			success_url: `${getWebappURL()}/`,
-			cancel_url: `${getWebappURL()}/`,
+			success_url: `${getWebappURL()}/${locale}`,
+			cancel_url: `${getWebappURL()}/${locale}/pricing`,
 		});
 
 		return res.status(200).json({ sessionId: session.id });

@@ -1,3 +1,4 @@
+import { dictionary } from "@/dictionaries";
 import { Tables } from "@/supabase/database.types";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
@@ -15,8 +16,16 @@ if (!SAAS_10K_PRODUCT_ID || !COMMERCIAL_LICENSE_PRODUCT_ID) {
 }
 
 // Get the user-friendly name of a product.
-export function productName(product?: Tables<"products">): string {
-	return product?.name || "None";
+export function productName(
+	product: Tables<"products"> | undefined,
+	d: ReturnType<typeof dictionary>
+): string {
+	return (
+		(product?.name &&
+			d.pricing.plans[product?.name as keyof typeof d.pricing.plans]) ||
+		product?.name ||
+		d.dashboard.header.no_active_subscription
+	);
 }
 
 // Return the max monthly calls

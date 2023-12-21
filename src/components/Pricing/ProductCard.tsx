@@ -11,6 +11,7 @@ import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import { Tables } from "@/supabase/database.types";
 import { ProductWithPrice } from "@/supabase/domain.types";
+import { dictionary } from "@/dictionaries";
 
 export interface ProductCardProps {
 	currency: string;
@@ -32,6 +33,7 @@ export function ProductCard({
 	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
 	const { session, user } = useUser();
+	const d = dictionary(router.locale).pricing;
 
 	const active = !!subscription;
 	const price = product.prices.find(({ currency: c }) => currency === c);
@@ -51,7 +53,7 @@ export function ProductCard({
 		try {
 			const { sessionId } = await postData<{ sessionId: string }>({
 				url: "/api/stripe/create-checkout-session",
-				data: { price },
+				data: { price, locale: router.locale },
 				token: session.access_token,
 			});
 
@@ -60,7 +62,9 @@ export function ProductCard({
 				throw new Error("Empty stripe object at checkout");
 			}
 
-			await stripe.redirectToCheckout({ sessionId });
+			await stripe.redirectToCheckout({
+				sessionId,
+			});
 		} catch (err) {
 			sentryException(err as Error);
 			alert((err as Error).message);
@@ -96,18 +100,22 @@ export function ProductCard({
 				>
 					{priceIdLoading
 						? session
-							? "Redirecting to Stripe..."
-							: "Redirecting to sign up page..."
+							? d.cards.redirecting_to_stripe
+							: d.cards.redirecting_to_signup
 						: active
-						? "Current Plan"
+						? d.cards.current_plan
 						: user
-						? "Select Plan"
-						: "Get Started"}
+						? d.cards.select_plan_cta
+						: d.cards.get_started}
 				</Button>
 			}
 			key={price.product_id}
 			price={priceString}
-			title={product.name || "No Product Name"} // Latter should never happen
+			title={
+				d.plans[product.name as keyof typeof d.plans] ||
+				product.name ||
+				"No Product"
+			} // The latter should never happen
 			{...props}
 		/>
 	);

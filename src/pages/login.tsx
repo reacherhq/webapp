@@ -1,4 +1,4 @@
-import { Input, Link as GLink, Spacer, Text } from "@geist-ui/react";
+import { Input, Spacer, Text } from "@geist-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -7,9 +7,11 @@ import {
 	SigninLayout,
 	SigninLayoutMessage,
 	SigninMessage,
-} from "../components";
+} from "../components/SigninLayout";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
+import { dictionary } from "@/dictionaries";
+import Link from "next/link";
 
 export default function Login(): React.ReactElement {
 	const [email, setEmail] = useState("");
@@ -20,6 +22,7 @@ export default function Login(): React.ReactElement {
 	);
 	const router = useRouter();
 	const { user, signIn } = useUser();
+	const d = dictionary(router.locale).login;
 
 	const handleSignin = async () => {
 		setLoading(true);
@@ -32,12 +35,12 @@ export default function Login(): React.ReactElement {
 		} else if (!password) {
 			setMessage({
 				type: "success",
-				content: "Check your email for the magic link.",
+				content: d.success_magic_link,
 			});
 		} else {
 			setMessage({
 				type: "success",
-				content: "Success, redirecting to your dashboard.",
+				content: d.success_redirecting,
 			});
 		}
 	};
@@ -49,7 +52,7 @@ export default function Login(): React.ReactElement {
 	}, [router, user]);
 
 	return (
-		<SigninLayout title="Log In">
+		<SigninLayout title={d.title}>
 			<Input
 				type="email"
 				placeholder="ex. john.doe@gmail.com"
@@ -60,14 +63,14 @@ export default function Login(): React.ReactElement {
 				status={message?.type}
 				width="100%"
 			>
-				Email
+				{d.email}
 			</Input>
 			<Spacer />
 
 			<Input.Password
 				className="full-width"
 				type="password"
-				placeholder="Password"
+				placeholder={d.password}
 				value={password}
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required
@@ -75,15 +78,13 @@ export default function Login(): React.ReactElement {
 				status={message?.type}
 				width="100%"
 			>
-				Password
+				{d.password}
 			</Input.Password>
 
 			{message && <SigninLayoutMessage message={message} />}
 
 			<Text className="text-right mt-0" small p type="secondary">
-				<GLink underline href="/reset_password_part_one">
-					Forgot password?
-				</GLink>
+				<Link href="/reset_password_part_one">{d.forgot_password}</Link>
 			</Text>
 
 			<Spacer />
@@ -95,23 +96,11 @@ export default function Login(): React.ReactElement {
 					handleSignin().catch(sentryException);
 				}}
 			>
-				{loading ? "Signing in..." : "Sign in"}
+				{loading ? d.button_signing_in : d.button_sign_in}
 			</SigninButton>
 
 			<Text p className="text-center">
-				Don&apos;t have an account?{" "}
-				<GLink color href="/signup" underline>
-					Sign up
-				</GLink>
-				.
-			</Text>
-
-			<Text p className="text-center">
-				Have an account on the old Reacher login page? Head{" "}
-				<GLink color href="https://old.reacher.email/login" underline>
-					there
-				</GLink>
-				.
+				{d.dont_have_account} <Link href="/signup">{d.signup}</Link>.
 			</Text>
 		</SigninLayout>
 	);

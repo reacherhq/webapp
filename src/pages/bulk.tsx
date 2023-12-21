@@ -7,7 +7,6 @@ import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import { Tables } from "@/supabase/database.types";
 import { supabase } from "@/util/supabaseClient";
-import { Nav } from "@/components";
 
 function alertError(email: string, e: string) {
 	alert(
@@ -87,51 +86,45 @@ export default function Bulk({ onVerified }: BulkProps): React.ReactElement {
 	}
 
 	return (
-		<>
-			<Nav />
-			<Page>
-				<Text h3>BULK Work in Progress Page</Text>
+		<Page>
+			<Text h3>BULK Work in Progress Page</Text>
 
-				<div className="text-center">
-					<Textarea
-						autoFocus
-						disabled={loading}
-						onChange={(e) => {
-							setEmails(e.target.value);
-						}}
-						placeholder="test@gmail.com"
-						value={emails}
-					></Textarea>
-
-					<Spacer />
-
-					<Button
-						disabled={loading}
-						loading={loading}
-						onClick={handleVerify}
-						type="success"
-					>
-						Bulk Verify
-					</Button>
-				</div>
+			<div className="text-center">
+				<Textarea
+					autoFocus
+					disabled={loading}
+					onChange={(e) => {
+						setEmails(e.target.value);
+					}}
+					placeholder="test@gmail.com"
+					value={emails}
+				></Textarea>
 
 				<Spacer />
 
-				<Table data={bulkJobs}>
-					<Table.Column prop="bulk_job_id" label="job_id" />
-					<Table.Column prop="verified" label="Verified" />
-					<Table.Column
-						prop="number_of_emails"
-						label="Total emails"
-					/>
-					<Table.Column prop="created_at" label="Created At" />
-					<Table.Column prop="last_call_time" label="Finished At" />
-					<Table.Column prop="safe" label="Safe" />
-					<Table.Column prop="invalid" label="Invalid" />
-					<Table.Column prop="risky" label="Risky" />
-					<Table.Column prop="unknown" label="Unknown" />
-				</Table>
-			</Page>
-		</>
+				<Button
+					disabled={loading}
+					loading={loading}
+					onClick={handleVerify}
+					type="success"
+				>
+					Bulk Verify
+				</Button>
+			</div>
+
+			<Spacer />
+
+			<Table data={bulkJobs}>
+				<Table.Column prop="bulk_job_id" label="job_id" />
+				<Table.Column prop="verified" label="Verified" />
+				<Table.Column prop="number_of_emails" label="Total emails" />
+				<Table.Column prop="created_at" label="Created At" />
+				<Table.Column prop="last_call_time" label="Finished At" />
+				<Table.Column prop="safe" label="Safe" />
+				<Table.Column prop="invalid" label="Invalid" />
+				<Table.Column prop="risky" label="Risky" />
+				<Table.Column prop="unknown" label="Unknown" />
+			</Table>
+		</Page>
 	);
 }

@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import React from "react";
 
-import { Layout } from "../components";
+import { Layout } from "../components/Layout";
 import { UserContextProvider } from "@/util/useUser";
 
 const myTheme = Themes.createFromLight({

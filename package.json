@@ -40,6 +40,7 @@
 		"encoding": "^0.1.13",
 		"mailgun-js": "^0.22.0",
 		"markdown-pdf": "^11.0.0",
+		"marked-react": "^2.0.0",
 		"mustache": "^4.2.0",
 		"next": "13",
 		"rate-limiter-flexible": "^2.4.1",
