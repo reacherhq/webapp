@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 
 import { Footer } from "./Footer";
-import { Head } from "./Head";
 import { Nav } from "./Nav";
+import Head from "next/head";
 
 export interface LayoutProps {
 	children: React.ReactChild;
@@ -11,7 +11,9 @@ export interface LayoutProps {
 export function Layout({ children }: LayoutProps): ReactElement {
 	return (
 		<>
-			<Head />
+			<Head>
+				<title>Reacher Dashboard</title>
+			</Head>
 			<Nav />
 			{children}
 			<Footer />
