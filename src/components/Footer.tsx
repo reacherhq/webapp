@@ -36,7 +36,7 @@ export function Footer(): React.ReactElement {
 					<Grid xs={4}></Grid>
 					<Grid className={styles.grid} xs={5}>
 						<h5>{d.footer.sitemap.title}</h5>
-						<Spacer y={2} />
+						<Spacer h={2} />
 						<div>
 							<Link href="https://reacher.email">
 								{d.footer.sitemap.homepage}
@@ -75,7 +75,7 @@ export function Footer(): React.ReactElement {
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>{d.footer.help.title}</Text>
-						<Spacer y={2} />
+						<Spacer h={2} />
 						<div>
 							<Link
 								href="https://help.reacher.email/self-host-guide"
@@ -98,7 +98,7 @@ export function Footer(): React.ReactElement {
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>{d.footer.contact.title}</Text>
-						<Spacer y={2} />
+						<Spacer h={2} />
 						<div>
 							<Link href="mailto:amaury@reacher.email">
 								{d.footer.contact.email}

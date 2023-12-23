@@ -19,11 +19,11 @@ export function Dashboard({
 	return (
 		<Page>
 			<SubscriptionHeader subscription={subscription} />
-			<Spacer y={2} />
+			<Spacer h={2} />
 			{subscription && (
 				<>
 					<ApiUsage subscription={subscription} />
-					<Spacer y={2} />
+					<Spacer h={2} />
 				</>
 			)}
 

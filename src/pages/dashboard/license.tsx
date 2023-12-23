@@ -26,7 +26,7 @@ export default function License(): React.ReactElement {
 	return (
 		<Page>
 			<SubscriptionHeader subscription={subscription} />
-			<Spacer y={2} />
+			<Spacer h={2} />
 			<GetStartedLicense />
 		</Page>
 	);

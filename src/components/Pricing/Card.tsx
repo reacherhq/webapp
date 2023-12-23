@@ -37,22 +37,22 @@ export function Card({
 			<Text className="text-center flex justify-center" small b>
 				{header}
 			</Text>
-			<Spacer y={1} />
+			<Spacer h={1} />
 			<Text className="text-center" h3>
 				{title}
 			</Text>
-			<Spacer y={1} />
+			<Spacer h={1} />
 			<Text className="text-center flex justify-center" small>
 				{subtitle}
 			</Text>
-			<Spacer y={2} />
+			<Spacer h={2} />
 			<Text className="text-center" h3>
 				{price}
 				<Text className={styles.mo} span type="secondary">
 					{d.cards.price}
 				</Text>
 			</Text>
-			<Spacer y={2} />
+			<Spacer h={2} />
 			<div className="flex justify-center">{cta}</div>
 
 			<Spacer />
@@ -74,7 +74,7 @@ export function Card({
 							</div>
 							<Text small>{f}</Text>
 						</div>
-						<Spacer y={0.5} />
+						<Spacer h={0.5} />
 					</div>
 				))}
 			</div>
