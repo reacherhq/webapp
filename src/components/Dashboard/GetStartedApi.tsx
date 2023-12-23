@@ -13,7 +13,7 @@ export function GetStartedApi(): React.ReactElement {
 
 	return (
 		<Card>
-			<Text h4>{d.title}</Text>
+			<Text h3>{d.title}</Text>
 
 			<Text>{d.reacher_powerful_api}</Text>
 

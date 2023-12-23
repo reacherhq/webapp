@@ -8,7 +8,7 @@ import { useUser } from "@/util/useUser";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
-import { SpanRenderer } from "../Markdown";
+import { LinkRenderer, SpanRenderer } from "../Markdown";
 
 function alertError(
 	email: string,
@@ -114,6 +114,8 @@ export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 						</Markdown>
 					</Text>
 					<Code block>{JSON.stringify(result, undefined, "  ")}</Code>
+					<Spacer />
+					<Markdown renderer={LinkRenderer}>{d.see_api}</Markdown>
 				</>
 			)}
 		</Card>

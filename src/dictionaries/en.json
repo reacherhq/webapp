@@ -27,7 +27,8 @@
 			"result_safe": "which means the email exists and is safe to send to.",
 			"result_risky": "which means the email exists but sending to it might bounce.",
 			"result_unknown": "which means Reacher currently isn't able to tell if the email exists or not.",
-			"unexpected_error": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nEmail: %s1\nError: %s2"
+			"unexpected_error": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nEmail: %s1\nError: %s2",
+			"see_api": "You can also use the [API](/dashboard/api) to verify emails programmatically."
 		},
 		"get_started_no_plan": {
 			"title": "Select a Plan",
