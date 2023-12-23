@@ -4,5 +4,6 @@ export * from "./SubscriptionHeader";
 export * from "./GetStartedApi";
 export * from "./GetStartedBulk";
 export * from "./GetStartedLicense";
+export * from "./GetStartedNoPlan";
 export * from "./GetStartedSaaS";
 export * from "./Tabs";

@@ -26,7 +26,7 @@ export default function Crisp(): null {
 			s.async = 1;
 			d.getElementsByTagName("body")[0].appendChild(s);
 		})();
-	}, []);
+	}, [router]);
 
 	useEffect(() => {
 		if (!user?.email) {
@@ -35,7 +35,7 @@ export default function Crisp(): null {
 
 		// @ts-expect-error
 		window.$crisp.push(["set", "user:email", user.email]);
-	}, []);
+	}, [user]);
 
 	return null;
 }
