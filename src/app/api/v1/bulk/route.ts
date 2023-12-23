@@ -3,7 +3,8 @@ import amqplib from "amqplib";
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { sentryException } from "@/util/sentry";
 import { getWebappURL } from "@/util/helpers";
-import { Tables } from "@/supabase/database.types";
+import { checkUserInDB, isEarlyResponse } from "@/util/api";
+import { SAAS_100K_PRODUCT_ID } from "@/util/subs";
 
 interface BulkPayload {
 	input_type: "array";
@@ -20,7 +21,18 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 	}
 
 	try {
-		const user = await getUser(req);
+		const { user, subAndCalls } = await checkUserInDB(req);
+
+		if (subAndCalls.product_id !== SAAS_100K_PRODUCT_ID) {
+			return Response.json(
+				{
+					error: "Bulk verification is not available on your plan",
+				},
+				{
+					status: 403,
+				}
+			);
+		}
 
 		const payload: BulkPayload = await req.json();
 
@@ -116,45 +128,3 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		);
 	}
 };
-
-async function getUser(req: NextRequest): Promise<Tables<"users">> {
-	const token = req.headers.get("Authorization");
-
-	if (typeof token !== "string") {
-		throw new Error("Expected API token in the Authorization header.");
-	}
-
-	const { data, error } = await supabaseAdmin
-		.from<Tables<"users">>("users")
-		.select("*")
-		.eq("api_token", token);
-	if (error) {
-		throw error;
-	}
-	if (!data?.length) {
-		throw {
-			response: newEarlyResponse(
-				Response.json(
-					{ error: "Invalid API token." },
-					{
-						status: 401,
-					}
-				)
-			),
-		};
-	}
-
-	return data[0];
-}
-
-type EarlyResponse = {
-	response: Response;
-};
-
-function newEarlyResponse(response: Response): EarlyResponse {
-	return { response };
-}
-
-function isEarlyResponse(err: unknown): err is EarlyResponse {
-	return (err as EarlyResponse).response !== undefined;
-}

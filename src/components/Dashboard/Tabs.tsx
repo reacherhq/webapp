@@ -18,7 +18,6 @@ export function Tabs({ bulkDisabled, tab }: TabsProps): React.ReactElement {
 	const d = dictionary(router.locale).dashboard.tabs;
 
 	const handler = (value: string) => {
-		console.log("Av", value);
 		router
 			.push(`/dashboard/${value}`, undefined, { locale: router.locale })
 			.catch(sentryException);

@@ -15,6 +15,7 @@
 		"tabs": {
 			"verify": "Vérifier un email",
 			"bulk": "Vérification en bulk",
+			"bulk_locked": "Vérification en bulk (Plan SaaS 100K uniquement)",
 			"api": "API"
 		},
 		"get_started_saas": {

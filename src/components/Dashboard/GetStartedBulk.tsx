@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";
-import { supabase } from "@/util/supabaseClient";
-import { Tables } from "@/supabase/database.types";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import { CheckEmailOutput } from "@reacherhq/api";
@@ -12,6 +10,7 @@ import { useDropzone } from "react-dropzone";
 import CheckInCircleFill from "@geist-ui/react-icons/checkInCircleFill";
 import Upload from "@geist-ui/react-icons/upload";
 import FileText from "@geist-ui/react-icons/fileText";
+import { BulkHistory } from "./BulkHistory";
 
 export function alertError(
 	e: string,
@@ -24,7 +23,6 @@ export function GetStartedBulk(): React.ReactElement {
 	const { user, userDetails } = useUser();
 	const [emails, setEmails] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
-	const [bulkJobs, setBulkJobs] = useState<Tables<"bulk_jobs_info">[]>([]);
 	const [upload, setUpload] = useState(<UploadButton />);
 	const router = useRouter();
 	const d = dictionary(router.locale).dashboard;
@@ -35,20 +33,6 @@ export function GetStartedBulk(): React.ReactElement {
 		if (window.location.hostname == "app.reacher.email") {
 			window.location.href = "https://app.reacher.email/dashboard/verify";
 		}
-	}, []);
-
-	useEffect(() => {
-		setInterval(async () => {
-			const res = await supabase
-				.from<Tables<"bulk_jobs_info">>("bulk_jobs_info")
-				.select("*");
-			if (res.error) {
-				sentryException(res.error);
-				return;
-			}
-
-			setBulkJobs(res.data);
-		}, 3000);
 	}, []);
 
 	const onDrop = useCallback(
@@ -158,53 +142,45 @@ export function GetStartedBulk(): React.ReactElement {
 	}
 
 	return (
-		<Card>
-			<Text h3>Upload a CSV file</Text>
+		<>
+			<Card>
+				<Text h3>Upload a CSV file</Text>
 
-			<Card
-				className="m-auto text-center"
-				hoverable={isDragActive}
-				shadow={isDragActive}
-				width="400px"
-			>
-				<div {...getRootProps()}>
-					<input {...getInputProps()} />
-					{upload}
-				</div>
-				{!!emails.length && (
-					<div className="text-center">
-						<Spacer />
-						<Button
-							auto
-							className="m-auto"
-							disabled={loading}
-							loading={loading}
-							onClick={handleVerify}
-							type="success"
-							icon={!loading && <Upload />}
-						>
-							{loading
-								? "Uploading..."
-								: `Bulk Verify ${emails.length} emails`}
-						</Button>
+				<Card
+					className="m-auto text-center"
+					hoverable={isDragActive}
+					shadow={isDragActive}
+					width="400px"
+				>
+					<div {...getRootProps()}>
+						<input {...getInputProps()} />
+						{upload}
 					</div>
-				)}
+					{!!emails.length && (
+						<div className="text-center">
+							<Spacer />
+							<Button
+								auto
+								className="m-auto"
+								disabled={loading}
+								loading={loading}
+								onClick={handleVerify}
+								type="success"
+								icon={!loading && <Upload />}
+							>
+								{loading
+									? "Uploading..."
+									: `Bulk Verify ${emails.length} emails`}
+							</Button>
+						</div>
+					)}
+				</Card>
 			</Card>
 
-			<Spacer y={3} />
-			<Text h3>My Bulk Jobs</Text>
-			<Table data={bulkJobs}>
-				<Table.Column prop="bulk_job_id" label="job_id" />
-				<Table.Column prop="verified" label="Verified" />
-				<Table.Column prop="number_of_emails" label="Total emails" />
-				<Table.Column prop="created_at" label="Created At" />
-				<Table.Column prop="last_call_time" label="Finished At" />
-				<Table.Column prop="safe" label="Safe" />
-				<Table.Column prop="invalid" label="Invalid" />
-				<Table.Column prop="risky" label="Risky" />
-				<Table.Column prop="unknown" label="Unknown" />
-			</Table>
-		</Card>
+			<Spacer />
+
+			<BulkHistory />
+		</>
 	);
 }
 
