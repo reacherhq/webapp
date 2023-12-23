@@ -3,14 +3,15 @@ import React from "react";
 import Link from "next/link";
 import { StripeMananageButton } from "./StripeManageButton";
 import { COMMERCIAL_LICENSE_PRODUCT_ID, productName } from "@/util/subs";
-import styles from "./Dashboard.module.css";
 import { formatDate } from "@/util/helpers";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
+import styles from "./SubscriptionHeader.module.css";
+
 interface SubscriptionHeaderProps {
-	subscription: SubscriptionWithPrice;
+	subscription: SubscriptionWithPrice | null;
 }
 
 export function SubscriptionHeader({

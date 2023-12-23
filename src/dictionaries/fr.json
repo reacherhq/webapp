@@ -12,7 +12,12 @@
 			"plan_ends_on": "⚠️ Fin de la souscription le %s"
 		},
 		"emails_this_month": "Vérifications d'emails ce mois-ci",
-		"demo": {
+		"tabs": {
+			"verify": "Vérifier un email",
+			"bulk": "Vérification en bulk",
+			"api": "API"
+		},
+		"get_started_saas": {
 			"verify_email": "Vérifier un email (rapide & facile 💪)",
 			"enter_text_results": "Entrez simplement un email et cliquez sur 'Vérifier' pour obtenir les résultats.",
 			"verify_button": "Vérifier",
@@ -117,7 +122,7 @@
 			"what_need_to_do": "Ce que vous devez faire :",
 			"purchase_server": "Acheter vous-même des serveurs pour auto-héberger Reacher. [Lisez comment](https://help.reacher.email/self-host-guide).",
 			"unlimited_emails": "Vérifications d'emails **illimitées** [complètes]((https://help.reacher.email/email-attributes-inside-json)).",
-			"bulk": "💪 Vérifications d'emails **en masse**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
+			"bulk": "💪 Vérifications d'emails **en bulk**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
 			"no_data_reacher": "Aucune donnée renvoyée à Reacher.",
 			"support": "**Support client** par email/chat.",
 			"cancel": "Annulez à tout moment.",

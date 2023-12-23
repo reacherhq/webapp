@@ -13,7 +13,7 @@ import { SpanRenderer } from "../Markdown";
 function alertError(
 	email: string,
 	e: string,
-	d: ReturnType<typeof dictionary>["dashboard"]["demo"]
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
 ) {
 	alert(d.unexpected_error.replace("%s1", email).replace("%s2", e));
 }
@@ -28,7 +28,7 @@ export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
 	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.demo;
+	const d = dictionary(router.locale).dashboard.get_started_saas;
 
 	function handleVerify() {
 		window.sa_event && window.sa_event("dashboard:verify:click");
@@ -122,7 +122,7 @@ export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 
 function explanation(
 	result: CheckEmailOutput,
-	d: ReturnType<typeof dictionary>["dashboard"]["demo"]
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
 ): string {
 	return d[`result_${result.is_reachable}`];
 }

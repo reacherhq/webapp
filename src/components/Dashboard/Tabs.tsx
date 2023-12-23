@@ -5,27 +5,33 @@ import { dictionary } from "@/dictionaries";
 import Mail from "@geist-ui/react-icons/mail";
 import Database from "@geist-ui/react-icons/database";
 import GitPullRequest from "@geist-ui/react-icons/gitPullRequest";
-import Link from "next/link";
+import Lock from "@geist-ui/react-icons/lock";
+import { sentryException } from "@/util/sentry";
 
-import styles from "./Tabs.module.css";
-
-interface TabsProps {
+export interface TabsProps {
 	bulkDisabled: boolean;
-	value: "verify" | "bulk" | "api";
+	tab: "verify" | "bulk" | "api";
 }
 
-export function Tabs({ bulkDisabled, value }: TabsProps): React.ReactElement {
+export function Tabs({ bulkDisabled, tab }: TabsProps): React.ReactElement {
 	const router = useRouter();
-	const d = dictionary(router.locale);
+	const d = dictionary(router.locale).dashboard.tabs;
+
+	const handler = (value: string) => {
+		console.log("Av", value);
+		router
+			.push(`/dashboard/${value}`, undefined, { locale: router.locale })
+			.catch(sentryException);
+	};
 
 	return (
-		<GTabs className={styles.tabs} value={value}>
+		<GTabs onChange={handler} value={tab}>
 			<GTabs.Item
 				label={
-					<Link href="/dashboard/verify">
+					<>
 						<Mail />
-						Verify a single email
-					</Link>
+						{d.verify}
+					</>
 				}
 				value="verify"
 			/>
@@ -34,24 +40,24 @@ export function Tabs({ bulkDisabled, value }: TabsProps): React.ReactElement {
 				label={
 					bulkDisabled ? (
 						<>
-							<Database />
-							Bulk verification
+							<Lock />
+							{d.bulk}
 						</>
 					) : (
-						<Link href="/dashboard/bulk">
+						<>
 							<Database />
-							Bulk verification
-						</Link>
+							{d.bulk}
+						</>
 					)
 				}
 				value="bulk"
 			/>
 			<GTabs.Item
 				label={
-					<Link href="/dashboard/api">
+					<>
 						<GitPullRequest />
-						API
-					</Link>
+						{d.api}
+					</>
 				}
 				value="api"
 			/>

@@ -12,7 +12,12 @@
 			"plan_ends_on": "⚠️ Plan ends on %s"
 		},
 		"emails_this_month": "Email verifications this month",
-		"demo": {
+		"tabs": {
+			"verify": "Verify a single email",
+			"bulk": "Bulk verification",
+			"api": "API"
+		},
+		"get_started_saas": {
 			"verify_email": "Verify an email (quick & easy 💪)",
 			"enter_text_results": "Simply enter an email and click 'Verify' to get the results.",
 			"verify_button": "Verify",
