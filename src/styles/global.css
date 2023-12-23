@@ -48,6 +48,11 @@ button {
 	width: 100% !important;
 }
 
+.m-auto {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
 .mt-0 {
 	margin-top: 0;
 }
