@@ -60,12 +60,7 @@ export function BulkHistory(): React.ReactElement {
 					prop="safe"
 					render={renderSafe}
 				>
-					<Text
-						className="text-right"
-						span
-						type="success"
-						width="100%"
-					>
+					<Text className="full-width text-right" span type="success">
 						Safe
 					</Text>
 				</Table.Column>
@@ -74,41 +69,47 @@ export function BulkHistory(): React.ReactElement {
 					prop="invalid"
 					label="Invalid"
 					render={renderInvalid}
-				/>
+				>
+					<Text className="full-width text-right" span type="error">
+						Invalid
+					</Text>
+				</Table.Column>
 				<Table.Column
 					className="text-right"
 					prop="risky"
 					label="Risky"
 					render={renderRisky}
-				/>
+				>
+					<Text className="full-width text-right" span type="warning">
+						Risky
+					</Text>
+				</Table.Column>
 				<Table.Column
 					className="text-right"
 					prop="unknown"
 					label="Unknown"
 					render={renderUnknown}
-				/>
+				>
+					<Text
+						className="full-width text-right"
+						span
+						type="secondary"
+					>
+						Unknown
+					</Text>
+				</Table.Column>
 				<Table.Column
 					className="text-right"
 					prop="user_id"
 					label="Full Results"
 					render={renderDownloadCsv}
-				/>
+				>
+					<Text className="full-width text-center" span>
+						Full Results
+					</Text>
+				</Table.Column>
 			</Table>
 		</Card>
-	);
-}
-
-function IsReachable({
-	children,
-	type,
-}: {
-	children: React.ReactNode;
-	type: "success" | "error" | "warning" | "secondary";
-}) {
-	return (
-		<Text className="text-right" span type={type} width="100%">
-			{children}
-		</Text>
 	);
 }
 
@@ -128,22 +129,22 @@ const renderStatus: TableColumnRender<Tables<"bulk_jobs_info">> = (
 };
 
 const renderSafe = (value: string) => (
-	<Text className="text-right" span type="success" width="100%">
+	<Text className="full-width text-right" span type="success">
 		{value}
 	</Text>
 );
 const renderInvalid = (value: string) => (
-	<Text className="text-right" span type="error" width="100%">
+	<Text className="full-width text-right" span type="error">
 		{value}
 	</Text>
 );
 const renderRisky = (value: string) => (
-	<Text className="text-right" span type="warning" width="100%">
+	<Text className="full-width text-right" span type="warning">
 		{value}
 	</Text>
 );
 const renderUnknown = (value: string) => (
-	<Text className="text-right" span type="secondary" width="100%">
+	<Text className="full-width text-right" span type="secondary">
 		{value}
 	</Text>
 );
@@ -153,7 +154,7 @@ const renderDownloadCsv: TableColumnRender<Tables<"bulk_jobs_info">> = (
 	rowData
 ) => {
 	return (
-		<Button auto icon={<Download />}>
+		<Button className="m-auto" auto icon={<Download />}>
 			Download CSV
 		</Button>
 	);
