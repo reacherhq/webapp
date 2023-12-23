@@ -1,5 +1,5 @@
 import { Card as GCard, Divider, Spacer, Text } from "@geist-ui/react";
-import { Check } from "@geist-ui/react-icons";
+import Check from "@geist-ui/react-icons/check";
 import React from "react";
 
 import styles from "./Card.module.css";

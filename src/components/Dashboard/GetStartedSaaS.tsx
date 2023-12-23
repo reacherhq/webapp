@@ -22,7 +22,7 @@ interface DemoProps {
 	onVerified?(result: CheckEmailOutput): Promise<void>;
 }
 
-export function Demo({ onVerified }: DemoProps): React.ReactElement {
+export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 	const { user, userDetails } = useUser();
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);

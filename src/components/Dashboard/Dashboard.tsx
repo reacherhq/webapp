@@ -1,4 +1,4 @@
-import { Loading, Page, Spacer, Text } from "@geist-ui/react";
+import { Loading, Page, Spacer, Tabs, Text } from "@geist-ui/react";
 import React from "react";
 import Link from "next/link";
 import { StripeMananageButton } from "./StripeManageButton";
@@ -18,6 +18,10 @@ import { formatDate } from "@/util/helpers";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
+import { getApiUsageClient } from "@/util/supabaseClient";
+import Mail from "@geist-ui/react-icons/mail";
+import Database from "@geist-ui/react-icons/database";
+import GitPullRequest from "@geist-ui/react-icons/gitPullRequest";
 
 export function Dashboard(): React.ReactElement {
 	const { subscription, subscriptionLoaded } = useUser();
@@ -34,66 +38,6 @@ export function Dashboard(): React.ReactElement {
 
 	return (
 		<Page>
-			<section className={styles.plan}>
-				<div>
-					<Text h2>{d.dashboard.header.hello}</Text>
-					<Text p>
-						<span>
-							{subscription
-								? d.dashboard.header.thanks_for_subscription.replace(
-										"%s",
-										productName(
-											subscription?.prices?.products,
-											d
-										)
-								  )
-								: d.dashboard.header.thanks_for_signup}
-						</span>
-					</Text>
-					{subscription && (
-						<>
-							<StripeMananageButton>
-								{d.dashboard.header.manage_subscription}
-							</StripeMananageButton>
-						</>
-					)}
-					<StripeMananageButton>
-						{d.dashboard.header.billing_history}
-					</StripeMananageButton>
-				</div>
-				<div>
-					<Text className="text-right" p>
-						{d.dashboard.header.active_subscription}
-					</Text>
-					<Text className="text-right" h3>
-						{productName(subscription?.prices?.products, d)}
-					</Text>
-					{subscription?.status === "active" &&
-						subscription?.cancel_at && (
-							<Text p small em className="text-right mt-0">
-								{d.dashboard.header.plan_ends_on.replace(
-									"%s",
-									formatDate(
-										new Date(subscription.cancel_at),
-										router.locale
-									)
-								)}
-							</Text>
-						)}
-					{subscription?.prices?.products?.id !==
-						COMMERCIAL_LICENSE_PRODUCT_ID && (
-						<div className="text-right">
-							<Link
-								href="/pricing"
-								data-sa-link-event="dashboard:upgrade:click"
-							>
-								<strong>{d.dashboard.header.upgrade}</strong>
-							</Link>
-						</div>
-					)}
-				</div>
-			</section>
-
 			<Spacer y={3} />
 
 			{showContent(subscription)}
@@ -112,6 +56,38 @@ function showContent(
 			return (
 				<>
 					<ApiUsage />
+					<Spacer y={2} />
+					<Tabs initialValue="verify">
+						<Tabs.Item
+							label={
+								<>
+									<Mail />
+									Verify a single email
+								</>
+							}
+							value="verify"
+						/>
+						<Tabs.Item
+							disabled
+							label={
+								<>
+									<Database />
+									Bulk verification
+								</>
+							}
+							value="bulk"
+						/>
+						<Tabs.Item
+							label={
+								<>
+									<GitPullRequest />
+									API
+								</>
+							}
+							value="api"
+						/>
+					</Tabs>
+					<Demo />
 					<GetStartedSaas />
 				</>
 			);

@@ -16,6 +16,10 @@ button {
 	text-transform: none !important;
 }
 
+.tab {
+	text-transform: none !important;
+}
+
 /**
  * Helpers
  */
