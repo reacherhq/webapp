@@ -1,8 +1,6 @@
 import { Loading, Page } from "@geist-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-
-import { Dashboard } from "../components/Dashboard/Dashboard";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 
@@ -16,9 +14,7 @@ export default function Index(): React.ReactElement {
 		}
 	}, [router, userFinishedLoading, user]);
 
-	return user ? (
-		<Dashboard />
-	) : (
+	return (
 		<Page>
 			<Loading />
 		</Page>
