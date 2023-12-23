@@ -41,12 +41,10 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 	return (
 		<SigninLayout title={d.title}>
 			<Input
-				type="email"
 				placeholder="ex. john.doe@gmail.com"
 				onChange={(e) => setEmail(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.email}

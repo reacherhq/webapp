@@ -93,24 +93,20 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 				</>
 			)}
 			<Input.Password
-				type="password"
 				placeholder="Password"
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.password}
 			</Input.Password>
 			<Spacer />
 			<Input.Password
-				type="password"
 				placeholder={d.password_confirm}
 				onChange={(e) => setRepeat(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.password_confirm}

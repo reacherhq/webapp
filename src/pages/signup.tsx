@@ -58,24 +58,20 @@ export default function SignUp(): React.ReactElement {
 	return (
 		<SigninLayout title={d.title}>
 			<Input
-				type="email"
 				placeholder="Email"
 				onChange={(e) => setEmail(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.email}
 			</Input>
 			<Spacer />
 			<Input.Password
-				type="password"
 				placeholder={d.password}
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.password}
@@ -129,7 +125,6 @@ function Feedback({
 					setOption(o as string);
 					onChange(o as string);
 				}}
-				size="medium"
 				width="100%"
 			>
 				<Select.Option value="google">Google Search</Select.Option>
