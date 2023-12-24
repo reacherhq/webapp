@@ -1,15 +1,7 @@
 import { NextRequest } from "next/server";
-import amqplib from "amqplib";
-import { getUser, supabaseAdmin } from "@/util/supabaseServer";
+import { getUser } from "@/util/supabaseServer";
 import { sentryException } from "@/util/sentry";
-import { getWebappURL } from "@/util/helpers";
-import { checkUserInDB, isEarlyResponse } from "@/util/api";
-import { SAAS_100K_PRODUCT_ID } from "@/util/subs";
-
-interface BulkPayload {
-	input_type: "array";
-	input: string[];
-}
+import { isEarlyResponse } from "@/util/api";
 
 export const GET = async (req: NextRequest): Promise<Response> => {
 	// TODO Remove this once we allow Bulk.
@@ -40,15 +32,13 @@ export const GET = async (req: NextRequest): Promise<Response> => {
 			);
 		}
 
-		const {
-			params: { jobId },
-		}: { params: { jobId: string } } = req;
+		// const {
+		// 	params: { jobId },
+		// }: { params: { jobId: string } } = req;
 
-		const payload: BulkPayload = await req.json();
+		// const payload: BulkPayload = await req.json();
 
-		const res = await supabaseAdmin.
-
-		return Response.json({ message: "Hello world!", res: res1 });
+		return Response.json({ message: "Hello world!" });
 	} catch (err) {
 		if (isEarlyResponse(err)) {
 			return err.response;

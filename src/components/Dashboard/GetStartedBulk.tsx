@@ -14,18 +14,19 @@ import { BulkHistory } from "./BulkHistory";
 
 export function alertError(
 	e: string,
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"]
 ) {
-	alert(d.unexpected_error.replace("%s2", e));
+	alert(d.error.unexpected.replace("%s", e));
 }
 
 export function GetStartedBulk(): React.ReactElement {
 	const { user, userDetails } = useUser();
+	const router = useRouter();
+	const d = dictionary(router.locale).dashboard.get_started_bulk;
+
 	const [emails, setEmails] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
-	const [upload, setUpload] = useState(<UploadButton />);
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard;
+	const [upload, setUpload] = useState(<UploadButton d={d} />);
 
 	useEffect(() => {
 		// This is a temporary redirect to the dashboard while I still work
@@ -43,34 +44,28 @@ export function GetStartedBulk(): React.ReactElement {
 			}
 			if (acceptedFiles.length > 1) {
 				alertError(
-					`You can only upload one file at a time. You uploaded ${acceptedFiles.length}`,
-					d.get_started_saas
+					d.error.one_file.replace(
+						"%s",
+						acceptedFiles.length.toString()
+					),
+					d
 				);
 				return;
 			}
 			const file = acceptedFiles[0];
-			setUpload(<Analyzing file={file} />);
+			setUpload(<Analyzing d={d} file={file} />);
 			const reader = new FileReader();
 			reader.onabort = () => {
-				alertError(
-					`File reading was aborted for ${file.name}`,
-					d.get_started_saas
-				);
+				alertError(d.error.aborted, d);
 			};
 			reader.onerror = () => {
-				alertError(
-					`File reading has failed for ${file.name}`,
-					d.get_started_saas
-				);
+				alertError(d.error.invalid_file, d);
 			};
 			reader.onload = () => {
 				// Do whatever you want with the file contents
-				const binaryStr = reader.result;
+				const binaryStr = reader.result?.toString();
 				if (typeof binaryStr !== "string") {
-					alertError(
-						`binaryStr is not a string for ${file.name}`,
-						d.get_started_saas
-					);
+					alertError(d.error.empty, d);
 					return;
 				}
 				const lines = binaryStr.split("\n").map((l) => l.split(",")[0]);
@@ -83,15 +78,12 @@ export function GetStartedBulk(): React.ReactElement {
 				}
 
 				if (!lines.length) {
-					alertError(
-						`No emails found in ${file.name}`,
-						d.get_started_saas
-					);
+					alertError(d.error.no_emails, d);
 					return;
 				}
 
 				setEmails(lines);
-				setUpload(<Analyzed file={file} emails={lines} />);
+				setUpload(<Analyzed file={file} emails={lines} d={d} />);
 			};
 
 			reader.readAsText(file);
@@ -115,7 +107,7 @@ export function GetStartedBulk(): React.ReactElement {
 		if (!userDetails) {
 			alertError(
 				`userDetails is undefined for user ${user?.id || "undefined"}`,
-				d.get_started_saas
+				d
 			);
 			return;
 		}
@@ -129,11 +121,11 @@ export function GetStartedBulk(): React.ReactElement {
 			},
 		})
 			.then(() => {
-				setUpload(<Uploaded emailsNum={emails.length} />);
+				setUpload(<Uploaded d={d} emailsNum={emails.length} />);
 			})
 			.catch((err: Error) => {
 				sentryException(err);
-				alertError(err.message, d.get_started_saas);
+				alertError(err.message, d);
 			})
 			.finally(() => {
 				setEmails([]);
@@ -144,7 +136,7 @@ export function GetStartedBulk(): React.ReactElement {
 	return (
 		<>
 			<Card>
-				<Text h3>Upload a CSV file</Text>
+				<Text h3>{d.upload_csv}</Text>
 
 				<Card
 					className="m-auto text-center"
@@ -169,8 +161,11 @@ export function GetStartedBulk(): React.ReactElement {
 								icon={!loading && <Upload />}
 							>
 								{loading
-									? "Uploading..."
-									: `Bulk Verify ${emails.length} emails`}
+									? d.button_uploading
+									: d.button_upload.replace(
+											"%s",
+											emails.length.toString()
+									  )}
 							</Button>
 						</div>
 					)}
@@ -184,35 +179,61 @@ export function GetStartedBulk(): React.ReactElement {
 	);
 }
 
-function UploadButton() {
+function UploadButton({
+	d,
+}: {
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+}) {
 	return (
 		<>
-			<p>Drag'n'drop some files here</p>
+			<p>{d.dropzone_text}</p>
 			<p>
 				<Upload />
 			</p>
-			<Button>Or click to select Files</Button>
+			<Button>{d.dropzone_button}</Button>
 		</>
 	);
 }
 
-function Analyzing({ file }: { file: File }) {
-	return <h4>Analyzing {file.name}</h4>;
+function Analyzing({
+	d,
+	file,
+}: {
+	file: File;
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+}) {
+	return <h4>{d.step_analzying.replace("%s", file.name)}</h4>;
 }
 
-function Analyzed({ file, emails }: { file: File; emails: string[] }) {
+function Analyzed({
+	d,
+	file,
+	emails,
+}: {
+	file: File;
+	emails: string[];
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+}) {
 	const rows = emails.map((email) => ({ email })).slice(0, 3);
 	if (emails.length > 3) {
-		rows.push({ email: `+${emails.length - 3} more...` });
+		rows.push({
+			email: d.step_complete.more_emails.replace(
+				"%s",
+				(emails.length - 3).toString()
+			),
+		});
 	}
 
 	return (
 		<>
 			<FileText />
-			<h4>Analyzed {file.name}</h4>
+			<h4>{d.step_analyzed.title.replace("%s", file.name)}</h4>
 			<Table data={rows}>
 				<Table.Column
-					label={`Found ${emails.length} emails`}
+					label={d.step_analyzed.label.replace(
+						"%s",
+						emails.length.toString()
+					)}
 					prop="email"
 				/>
 			</Table>
@@ -220,15 +241,22 @@ function Analyzed({ file, emails }: { file: File; emails: string[] }) {
 	);
 }
 
-function Uploaded({ emailsNum }: { emailsNum: number }) {
+function Uploaded({
+	emailsNum,
+	d,
+}: {
+	emailsNum: number;
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+}) {
 	return (
 		<>
 			<CheckInCircleFill color="green" />
-			<h4>Congratulations!</h4>
+			<h4>{d.step_complete.title}</h4>
 			<p>
-				Your {emailsNum} emails are currently being verified. You'll get
-				notified by email once the job is done. You can also check the
-				progress in the table below.
+				{d.step_complete.description.replace(
+					"%s",
+					emailsNum.toString()
+				)}
 			</p>
 		</>
 	);

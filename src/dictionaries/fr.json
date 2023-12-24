@@ -31,6 +31,31 @@
 			"unexpected_error": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nEmail : %s1\nErreur : %s2",
 			"see_api": "Vous pouvez également utiliser l'[API](/dashboard/api) pour vérifier les emails de manière automatisée."
 		},
+		"get_started_bulk": {
+			"upload_csv": "Téléchargez un fichier CSV",
+			"button_upload": "Vérifier en bulk %s emails",
+			"button_uploading": "Téléchargement...",
+			"dropzone_text": "Déposez votre fichier CSV ici",
+			"dropzone_button": "Ou cliquez pour sélectionner un fichier",
+			"step_analzying": "Analyse de %s...",
+			"step_analyzed": {
+				"title": "Analyse de %s terminée",
+				"label": "%s emails trouvés"
+			},
+			"step_complete": {
+				"title": "Félicitations !",
+				"description": "Vos %s emails sont actuellement en cours de vérification. Vous serez notifié par email une fois le travail terminé. Vous pouvez également vérifier la progression dans le tableau ci-dessous.",
+				"more_emails": "+%s autres emails"
+			},
+			"error": {
+				"one_file": "Vous ne pouvez télécharger qu'un seul fichier à la fois. Vous avez téléchargé %s.",
+				"aborted": "Le téléchargement a été interrompu.",
+				"invalid_file": "Le fichier est invalide.",
+				"empty": "Le fichier est vide.",
+				"no_emails": "Aucun email trouvé dans le fichier.",
+				"unexpected": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nErreur : %s"
+			}
+		},
 		"get_started_no_plan": {
 			"title": "Sélectionner un Plan",
 			"head_to_pricing": "Veuillez vous rendre sur la [page des Tarifs](/pricing) pour sélectionner un plan afin d'utiliser Reacher."

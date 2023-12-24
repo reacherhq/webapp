@@ -31,6 +31,31 @@
 			"unexpected_error": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nEmail: %s1\nError: %s2",
 			"see_api": "You can also use the [API](/dashboard/api) to verify emails programmatically."
 		},
+		"get_started_bulk": {
+			"upload_csv": "Upload a CSV file",
+			"button_upload": "Bulk verify %s emails",
+			"button_uploading": "Uploading...",
+			"dropzone_text": "Drop your CSV file here",
+			"dropzone_button": "Or click to select file",
+			"step_analzying": "Analyzing %s...",
+			"step_analyzed": {
+				"title": "Analyzed %s",
+				"label": "Found %s emails"
+			},
+			"step_complete": {
+				"title": "Congratulations!",
+				"description": "Your %s emails are currently being verified. You'll get notified by email once the job is done. You can also check the progress in the table below.",
+				"more_emails": "+%s more"
+			},
+			"error": {
+				"one_file": "You can only upload one file at a time. You uploaded %s.",
+				"aborted": "The upload was aborted.",
+				"invalid_file": "The file is invalid.",
+				"empty": "The file is empty.",
+				"no_emails": "No emails found in the file.",
+				"unexpected": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nError: %s"
+			}
+		},
 		"get_started_no_plan": {
 			"title": "Select a Plan",
 			"head_to_pricing": "Please head to the [Pricing Page](/pricing) to select a plan in order to use Reacher."
