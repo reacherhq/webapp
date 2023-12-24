@@ -54,6 +54,25 @@
 				"empty": "Le fichier est vide.",
 				"no_emails": "Aucun email trouvé dans le fichier.",
 				"unexpected": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nErreur : %s"
+			},
+			"history": {
+				"title": "Mes Vérifications en Bulk",
+				"table": {
+					"job_id": "Job ID",
+					"status": "Statut",
+					"total_emails": "Nombre d'emails",
+					"uploaded_at": "Créé le",
+					"safe": "Safe",
+					"invalid": "Invalid",
+					"risky": "Risky",
+					"unknown": "Uknown",
+					"full_results": "Résultats complets"
+				},
+				"status": {
+					"finished": "Terminé",
+					"processing": "Traitement d'emails %s..."
+				},
+				"button_download": "Télécharger CSV"
 			}
 		},
 		"get_started_no_plan": {

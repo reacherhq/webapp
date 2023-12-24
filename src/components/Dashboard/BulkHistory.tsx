@@ -20,7 +20,7 @@ export function alertError(
 export function BulkHistory(): React.ReactElement {
 	const [bulkJobs, setBulkJobs] = useState<Tables<"bulk_jobs_info">[]>([]);
 	const router = useRouter();
-	const d = dictionary(router.locale).dashboard;
+	const d = dictionary(router.locale).dashboard.get_started_bulk.history;
 
 	useEffect(() => {
 		setInterval(async () => {
@@ -36,21 +36,52 @@ export function BulkHistory(): React.ReactElement {
 		}, 3000);
 	}, []);
 
+	const renderStatus: TableColumnRender<Tables<"bulk_jobs_info">> = (
+		_value,
+		rowData
+	) => {
+		return rowData.verified === rowData.number_of_emails ? (
+			<>
+				{d.status.finished} <Check />
+			</>
+		) : (
+			<>
+				{d.status.processing.replace(
+					"%s",
+					`${rowData.verified} / ${rowData.number_of_emails}`
+				)}
+			</>
+		);
+	};
+
+	const renderDownloadCsv: TableColumnRender<
+		Tables<"bulk_jobs_info">
+	> = () => {
+		return (
+			<Button className="m-auto" auto icon={<Download />}>
+				{d.button_download}
+			</Button>
+		);
+	};
+
 	return (
 		<Card>
-			<Text h3>My Bulk Jobs</Text>
+			<Text h3>{d.title}</Text>
 			<Spacer />
 			<Table data={bulkJobs}>
-				<Table.Column prop="bulk_job_id" label="Job ID" />
+				<Table.Column prop="bulk_job_id" label={d.table.job_id} />
 				<Table.Column
 					prop="verified"
-					label="Status"
+					label={d.table.status}
 					render={renderStatus}
 				/>
-				<Table.Column prop="number_of_emails" label="Total emails" />
+				<Table.Column
+					prop="number_of_emails"
+					label={d.table.total_emails}
+				/>
 				<Table.Column
 					prop="created_at"
-					label="Uploaded"
+					label={d.table.uploaded_at}
 					render={(value) => (
 						<>{formatDate(value as string, router.locale)}</>
 					)}
@@ -61,7 +92,7 @@ export function BulkHistory(): React.ReactElement {
 					render={renderSafe}
 				>
 					<Text className="full-width text-right" span type="success">
-						Safe
+						{d.table.safe}
 					</Text>
 				</Table.Column>
 				<Table.Column
@@ -71,7 +102,7 @@ export function BulkHistory(): React.ReactElement {
 					render={renderInvalid}
 				>
 					<Text className="full-width text-right" span type="error">
-						Invalid
+						{d.table.invalid}
 					</Text>
 				</Table.Column>
 				<Table.Column
@@ -81,7 +112,7 @@ export function BulkHistory(): React.ReactElement {
 					render={renderRisky}
 				>
 					<Text className="full-width text-right" span type="warning">
-						Risky
+						{d.table.risky}
 					</Text>
 				</Table.Column>
 				<Table.Column
@@ -95,7 +126,7 @@ export function BulkHistory(): React.ReactElement {
 						span
 						type="secondary"
 					>
-						Unknown
+						{d.table.unknown}
 					</Text>
 				</Table.Column>
 				<Table.Column
@@ -105,28 +136,13 @@ export function BulkHistory(): React.ReactElement {
 					render={renderDownloadCsv}
 				>
 					<Text className="full-width text-center" span>
-						Full Results
+						{d.table.full_results}
 					</Text>
 				</Table.Column>
 			</Table>
 		</Card>
 	);
 }
-
-const renderStatus: TableColumnRender<Tables<"bulk_jobs_info">> = (
-	_value,
-	rowData
-) => {
-	return rowData.verified === rowData.number_of_emails ? (
-		<>
-			Finished <Check />
-		</>
-	) : (
-		<>
-			Processing {rowData.verified} / {rowData.number_of_emails}...
-		</>
-	);
-};
 
 const renderSafe = (value: string) => (
 	<Text className="full-width text-right" span type="success">
@@ -148,14 +164,3 @@ const renderUnknown = (value: string) => (
 		{value}
 	</Text>
 );
-
-const renderDownloadCsv: TableColumnRender<Tables<"bulk_jobs_info">> = (
-	_value,
-	rowData
-) => {
-	return (
-		<Button className="m-auto" auto icon={<Download />}>
-			Download CSV
-		</Button>
-	);
-};

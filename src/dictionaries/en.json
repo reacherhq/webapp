@@ -54,6 +54,25 @@
 				"empty": "The file is empty.",
 				"no_emails": "No emails found in the file.",
 				"unexpected": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nError: %s"
+			},
+			"history": {
+				"title": "My Bulk Jobs",
+				"table": {
+					"job_id": "Job ID",
+					"status": "Status",
+					"total_emails": "Total emails",
+					"uploaded_at": "Uploaded at",
+					"safe": "Safe",
+					"invalid": "Invalid",
+					"risky": "Risky",
+					"unknown": "Unknown",
+					"full_results": "Full results"
+				},
+				"status": {
+					"finished": "Finished",
+					"processing": "Processing %s..."
+				},
+				"button_download": "Download CSV"
 			}
 		},
 		"get_started_no_plan": {

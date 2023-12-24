@@ -122,13 +122,13 @@ export function GetStartedBulk(): React.ReactElement {
 		})
 			.then(() => {
 				setUpload(<Uploaded d={d} emailsNum={emails.length} />);
+				setEmails([]);
 			})
 			.catch((err: Error) => {
 				sentryException(err);
 				alertError(err.message, d);
 			})
 			.finally(() => {
-				setEmails([]);
 				setLoading(false);
 			});
 	}
@@ -138,9 +138,10 @@ export function GetStartedBulk(): React.ReactElement {
 			<Card>
 				<Text h3>{d.upload_csv}</Text>
 
+				<Spacer h={3} />
 				<Card
 					className="m-auto text-center"
-					hoverable={isDragActive}
+					hoverable
 					shadow={isDragActive}
 					width="400px"
 				>
@@ -170,6 +171,7 @@ export function GetStartedBulk(): React.ReactElement {
 						</div>
 					)}
 				</Card>
+				<Spacer h={3} />
 			</Card>
 
 			<Spacer />
