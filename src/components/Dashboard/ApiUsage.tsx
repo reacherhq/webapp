@@ -1,35 +1,30 @@
-import { Capacity, Loading, Spacer, Text } from "@geist-ui/react";
+import { Capacity, Text } from "@geist-ui/react";
 import { Loader } from "@geist-ui/react-icons";
 import React, { useEffect, useState } from "react";
 
 import { sentryException } from "@/util/sentry";
 import { subApiMaxCalls } from "@/util/subs";
 import { getApiUsageClient } from "@/util/supabaseClient";
-import { useUser } from "@/util/useUser";
 import styles from "./ApiUsage.module.css";
-import { Demo } from "./Demo";
 import { formatDate } from "@/util/helpers";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
+import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
-export function ApiUsage(): React.ReactElement {
-	const { subscription, user, userFinishedLoading } = useUser();
+interface ApiUsageProps {
+	subscription: SubscriptionWithPrice;
+}
+
+export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
 	const router = useRouter();
 	const d = dictionary(router.locale).dashboard;
 
 	useEffect(() => {
-		if (!user || !userFinishedLoading) {
-			return;
-		}
 		getApiUsageClient(subscription)
 			.then(setApiCalls)
 			.catch(sentryException);
-	}, [user, userFinishedLoading, subscription]);
-
-	if (!user) {
-		return <Loading />;
-	}
+	}, [subscription]);
 
 	return (
 		<section>
@@ -70,14 +65,6 @@ export function ApiUsage(): React.ReactElement {
 				className={styles.capacity}
 				value={((apiCalls || 0) / subApiMaxCalls(subscription)) * 100}
 			/>
-
-			<Spacer />
-			<Demo
-				onVerified={() =>
-					getApiUsageClient(subscription).then(setApiCalls)
-				}
-			/>
-			<Spacer />
 		</section>
 	);
 }

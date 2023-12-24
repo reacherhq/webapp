@@ -54,7 +54,7 @@ export default function Pricing({
 
 	return (
 		<>
-			<Spacer y={5} />
+			<Spacer h={5} />
 			<Text className="text-center" h2>
 				{d.title}
 			</Text>
@@ -62,7 +62,7 @@ export default function Pricing({
 				{d["30d_money_back"]}
 			</Text>
 
-			<Spacer y={2} />
+			<Spacer h={2} />
 			<section>
 				<Grid.Container gap={2} justify="center">
 					<Grid xs={18}></Grid>
@@ -115,12 +115,12 @@ export default function Pricing({
 					</Grid>
 				</Grid.Container>
 
-				<Spacer y={2} />
+				<Spacer h={2} />
 				<Page>
 					<Text className="text-center" h2>
 						{d.faq.title}
 					</Text>
-					<Spacer y={2} />
+					<Spacer h={2} />
 					<Collapse.Group>
 						<Collapse
 							title={d.faq.verify_1m_emails_q}

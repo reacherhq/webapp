@@ -80,7 +80,7 @@ export function Nav(): React.ReactElement {
 				</Select>
 			</div>
 
-			<Spacer x={2} />
+			<Spacer w={2} />
 			{user ? (
 				<Select
 					className={styles.dropdown}
@@ -101,7 +101,7 @@ export function Nav(): React.ReactElement {
 					<Link href="/login">
 						<Button auto>{d.nav.login}</Button>
 					</Link>
-					<Spacer x={0.5} />
+					<Spacer w={0.5} />
 					<Link href="/signup">
 						<Button auto type="success">
 							{d.nav.signup}

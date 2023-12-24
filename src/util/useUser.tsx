@@ -97,10 +97,6 @@ export const UserContextProvider = (
 			.in("status", ["trialing", "active", "past_due"])
 			.order("current_period_start", { ascending: false });
 	useEffect(() => {
-		setUserDetails(null);
-		setSubscription(null);
-		setSubscriptionLoaded(false);
-		setUserFinishedLoading(false);
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])
 				.then(([userDetails, sub]) => {

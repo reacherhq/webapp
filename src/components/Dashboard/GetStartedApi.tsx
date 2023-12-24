@@ -6,15 +6,14 @@ import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
 
-export function GetStartedSaas(): React.ReactElement {
+export function GetStartedApi(): React.ReactElement {
 	const { userDetails } = useUser();
 	const router = useRouter();
 	const d = dictionary(router.locale).dashboard.get_started_api;
 
 	return (
 		<Card>
-			<Text h4>{d.title}</Text>
-			<Spacer />
+			<Text h3>{d.title}</Text>
 
 			<Text>{d.reacher_powerful_api}</Text>
 

@@ -8,12 +8,12 @@ import { useUser } from "@/util/useUser";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
-import { SpanRenderer } from "../Markdown";
+import { LinkRenderer, SpanRenderer } from "../Markdown";
 
 function alertError(
 	email: string,
 	e: string,
-	d: ReturnType<typeof dictionary>["dashboard"]["demo"]
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
 ) {
 	alert(d.unexpected_error.replace("%s1", email).replace("%s2", e));
 }
@@ -22,13 +22,13 @@ interface DemoProps {
 	onVerified?(result: CheckEmailOutput): Promise<void>;
 }
 
-export function Demo({ onVerified }: DemoProps): React.ReactElement {
+export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 	const { user, userDetails } = useUser();
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
 	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.demo;
+	const d = dictionary(router.locale).dashboard.get_started_saas;
 
 	function handleVerify() {
 		window.sa_event && window.sa_event("dashboard:verify:click");
@@ -114,6 +114,8 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 						</Markdown>
 					</Text>
 					<Code block>{JSON.stringify(result, undefined, "  ")}</Code>
+					<Spacer />
+					<Markdown renderer={LinkRenderer}>{d.see_api}</Markdown>
 				</>
 			)}
 		</Card>
@@ -122,7 +124,7 @@ export function Demo({ onVerified }: DemoProps): React.ReactElement {
 
 function explanation(
 	result: CheckEmailOutput,
-	d: ReturnType<typeof dictionary>["dashboard"]["demo"]
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
 ): string {
 	return d[`result_${result.is_reachable}`];
 }

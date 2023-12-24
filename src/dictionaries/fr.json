@@ -12,7 +12,13 @@
 			"plan_ends_on": "⚠️ Fin de la souscription le %s"
 		},
 		"emails_this_month": "Vérifications d'emails ce mois-ci",
-		"demo": {
+		"tabs": {
+			"verify": "Vérifier un email",
+			"bulk": "Vérification en bulk",
+			"bulk_locked": "Vérification en bulk (Plan SaaS 100K uniquement)",
+			"api": "API"
+		},
+		"get_started_saas": {
 			"verify_email": "Vérifier un email (rapide & facile 💪)",
 			"enter_text_results": "Entrez simplement un email et cliquez sur 'Vérifier' pour obtenir les résultats.",
 			"verify_button": "Vérifier",
@@ -22,7 +28,52 @@
 			"result_safe": "ce qui signifie que l'email existe et qu'il est sûr de l'envoyer.",
 			"result_risky": "ce qui signifie que l'email existe mais l'envoi pourrait être rejeté.",
 			"result_unknown": "ce qui signifie que Reacher n'est actuellement pas en mesure de dire si l'email existe ou non.",
-			"unexpected_error": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nEmail : %s1\nErreur : %s2"
+			"unexpected_error": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nEmail : %s1\nErreur : %s2",
+			"see_api": "Vous pouvez également utiliser l'[API](/dashboard/api) pour vérifier les emails de manière automatisée."
+		},
+		"get_started_bulk": {
+			"upload_csv": "Téléchargez un fichier CSV",
+			"button_upload": "Vérifier en bulk %s emails",
+			"button_uploading": "Téléchargement...",
+			"dropzone_text": "Déposez votre fichier CSV ici",
+			"dropzone_button": "Ou cliquez pour sélectionner un fichier",
+			"step_analzying": "Analyse de %s...",
+			"step_analyzed": {
+				"title": "Analyse de %s terminée",
+				"label": "%s emails trouvés"
+			},
+			"step_complete": {
+				"title": "Félicitations !",
+				"description": "Vos %s emails sont actuellement en cours de vérification. Vous serez notifié par email une fois le travail terminé. Vous pouvez également vérifier la progression dans le tableau ci-dessous.",
+				"more_emails": "+%s autres emails"
+			},
+			"error": {
+				"one_file": "Vous ne pouvez télécharger qu'un seul fichier à la fois. Vous avez téléchargé %s.",
+				"aborted": "Le téléchargement a été interrompu.",
+				"invalid_file": "Le fichier est invalide.",
+				"empty": "Le fichier est vide.",
+				"no_emails": "Aucun email trouvé dans le fichier.",
+				"unexpected": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nErreur : %s"
+			},
+			"history": {
+				"title": "Mes Vérifications en Bulk",
+				"table": {
+					"job_id": "Job ID",
+					"status": "Statut",
+					"total_emails": "Nombre d'emails",
+					"uploaded_at": "Créé le",
+					"safe": "Safe",
+					"invalid": "Invalid",
+					"risky": "Risky",
+					"unknown": "Uknown",
+					"full_results": "Résultats complets"
+				},
+				"status": {
+					"finished": "Terminé",
+					"processing": "Traitement d'emails %s..."
+				},
+				"button_download": "Télécharger CSV"
+			}
 		},
 		"get_started_no_plan": {
 			"title": "Sélectionner un Plan",
@@ -117,7 +168,7 @@
 			"what_need_to_do": "Ce que vous devez faire :",
 			"purchase_server": "Acheter vous-même des serveurs pour auto-héberger Reacher. [Lisez comment](https://help.reacher.email/self-host-guide).",
 			"unlimited_emails": "Vérifications d'emails **illimitées** [complètes]((https://help.reacher.email/email-attributes-inside-json)).",
-			"bulk": "💪 Vérifications d'emails **en masse**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
+			"bulk": "💪 Vérifications d'emails **en bulk**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
 			"no_data_reacher": "Aucune donnée renvoyée à Reacher.",
 			"support": "**Support client** par email/chat.",
 			"cancel": "Annulez à tout moment.",

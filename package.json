@@ -14,7 +14,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@geist-ui/react": "^2.1.5",
+		"@geist-ui/react": "^2.2.5",
 		"@geist-ui/react-icons": "^1.0.1",
 		"@hcaptcha/react-hcaptcha": "^1.9.2",
 		"@reacherhq/api": "^0.3.10",
@@ -46,6 +46,7 @@
 		"rate-limiter-flexible": "^2.4.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-dropzone": "^14.2.3",
 		"stripe": "^9.13.0"
 	},
 	"devDependencies": {

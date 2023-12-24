@@ -54,13 +54,11 @@ export default function Login(): React.ReactElement {
 	return (
 		<SigninLayout title={d.title}>
 			<Input
-				type="email"
-				placeholder="ex. john.doe@gmail.com"
+				placeholder="ex. johnd.doe@gmail.com"
 				value={email}
 				onChange={(e) => setEmail(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.email}
@@ -69,13 +67,11 @@ export default function Login(): React.ReactElement {
 
 			<Input.Password
 				className="full-width"
-				type="password"
 				placeholder={d.password}
 				value={password}
 				onChange={(e) => setPassword(e.currentTarget.value)}
 				required
-				size="large"
-				status={message?.type}
+				type={message?.type}
 				width="100%"
 			>
 				{d.password}

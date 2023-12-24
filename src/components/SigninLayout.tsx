@@ -61,12 +61,11 @@ export function SigninLayoutMessage({
 export function SigninButton({
 	children,
 	className = styles.button,
-	size = "large",
 	type = "secondary",
 	...rest
 }: Partial<ButtonProps>): React.ReactElement {
 	return (
-		<Button className={className} size={size} type={type} {...rest}>
+		<Button className={className} type={type} {...rest}>
 			{children}
 		</Button>
 	);

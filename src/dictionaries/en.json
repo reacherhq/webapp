@@ -12,7 +12,13 @@
 			"plan_ends_on": "⚠️ Plan ends on %s"
 		},
 		"emails_this_month": "Email verifications this month",
-		"demo": {
+		"tabs": {
+			"verify": "Verify a single email",
+			"bulk": "Bulk verification",
+			"bulk_locked": "Bulk verification (SaaS 100K plan only)",
+			"api": "API"
+		},
+		"get_started_saas": {
 			"verify_email": "Verify an email (quick & easy 💪)",
 			"enter_text_results": "Simply enter an email and click 'Verify' to get the results.",
 			"verify_button": "Verify",
@@ -22,7 +28,52 @@
 			"result_safe": "which means the email exists and is safe to send to.",
 			"result_risky": "which means the email exists but sending to it might bounce.",
 			"result_unknown": "which means Reacher currently isn't able to tell if the email exists or not.",
-			"unexpected_error": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nEmail: %s1\nError: %s2"
+			"unexpected_error": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nEmail: %s1\nError: %s2",
+			"see_api": "You can also use the [API](/dashboard/api) to verify emails programmatically."
+		},
+		"get_started_bulk": {
+			"upload_csv": "Upload a CSV file",
+			"button_upload": "Bulk verify %s emails",
+			"button_uploading": "Uploading...",
+			"dropzone_text": "Drop your CSV file here",
+			"dropzone_button": "Or click to select file",
+			"step_analzying": "Analyzing %s...",
+			"step_analyzed": {
+				"title": "Analyzed %s",
+				"label": "Found %s emails"
+			},
+			"step_complete": {
+				"title": "Congratulations!",
+				"description": "Your %s emails are currently being verified. You'll get notified by email once the job is done. You can also check the progress in the table below.",
+				"more_emails": "+%s more"
+			},
+			"error": {
+				"one_file": "You can only upload one file at a time. You uploaded %s.",
+				"aborted": "The upload was aborted.",
+				"invalid_file": "The file is invalid.",
+				"empty": "The file is empty.",
+				"no_emails": "No emails found in the file.",
+				"unexpected": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nError: %s"
+			},
+			"history": {
+				"title": "My Bulk Jobs",
+				"table": {
+					"job_id": "Job ID",
+					"status": "Status",
+					"total_emails": "Total emails",
+					"uploaded_at": "Uploaded at",
+					"safe": "Safe",
+					"invalid": "Invalid",
+					"risky": "Risky",
+					"unknown": "Unknown",
+					"full_results": "Full results"
+				},
+				"status": {
+					"finished": "Finished",
+					"processing": "Processing %s..."
+				},
+				"button_download": "Download CSV"
+			}
 		},
 		"get_started_no_plan": {
 			"title": "Select a Plan",

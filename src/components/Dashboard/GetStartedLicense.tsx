@@ -10,7 +10,7 @@ export function GetStartedLicense(): React.ReactElement {
 
 	return (
 		<Card>
-			<Text h4>{d.title}</Text>
+			<Text h3>{d.title}</Text>
 
 			<Markdown>{d.explanation}</Markdown>
 		</Card>
