@@ -111,7 +111,10 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		await ch1.close();
 		await conn.close();
 
-		return Response.json({ message: "Hello world!", res: res1 });
+		return Response.json({
+			bulk_job_id: bulkJob.id,
+			emails: res2.data.length,
+		});
 	} catch (err) {
 		if (isEarlyResponse(err)) {
 			return err.response;
