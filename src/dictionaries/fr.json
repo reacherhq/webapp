@@ -48,15 +48,18 @@
 				"more_emails": "+%s autres emails"
 			},
 			"error": {
+				"title": "Erreur",
 				"one_file": "Vous ne pouvez télécharger qu'un seul fichier à la fois. Vous avez téléchargé %s.",
 				"aborted": "Le téléchargement a été interrompu.",
 				"invalid_file": "Le fichier est invalide.",
 				"empty": "Le fichier est vide.",
 				"no_emails": "Aucun email trouvé dans le fichier.",
-				"unexpected": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nErreur : %s"
+				"unexpected": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nErreur : %s",
+				"try_again": "Réessayer"
 			},
 			"history": {
 				"title": "Mes Vérifications en Bulk",
+				"title_loading": "Chargement de mes Vérifications en Bulk...",
 				"table": {
 					"job_id": "Job ID",
 					"status": "Statut",
@@ -66,7 +69,8 @@
 					"invalid": "Invalid",
 					"risky": "Risky",
 					"unknown": "Uknown",
-					"full_results": "Résultats complets"
+					"full_results": "Résultats complets",
+					"not_available": "Non disponible"
 				},
 				"status": {
 					"finished": "Terminé",
