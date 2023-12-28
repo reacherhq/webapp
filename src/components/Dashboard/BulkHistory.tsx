@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";
-import { supabase } from "@/util/supabaseClient";
 import { Tables } from "@/supabase/database.types";
 import { sentryException } from "@/util/sentry";
 import { formatDate } from "@/util/helpers";
 import { Download } from "@geist-ui/react-icons";
 import { TableColumnRender } from "@geist-ui/react/esm/table";
 import Check from "@geist-ui/react-icons/check";
+import { useUser } from "@/util/useUser";
 
 export function alertError(
 	e: string,
@@ -21,6 +21,7 @@ export function BulkHistory(): React.ReactElement {
 	const [bulkJobs, setBulkJobs] = useState<
 		Tables<"bulk_jobs_info">[] | undefined
 	>();
+	const { supabase } = useUser();
 	const router = useRouter();
 	const d = dictionary(router.locale).dashboard.get_started_bulk.history;
 
@@ -34,7 +35,7 @@ export function BulkHistory(): React.ReactElement {
 
 			setBulkJobs(res.data);
 		}, 3000);
-	}, []);
+	}, [supabase]);
 
 	const renderStatus: TableColumnRender<Tables<"bulk_jobs_info">> = (
 		_value,

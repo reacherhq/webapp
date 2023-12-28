@@ -6,7 +6,7 @@ import type { Stripe } from "stripe";
 
 import { toDateTime } from "../util/helpers";
 import { stripe } from "../util/stripeServer";
-import { createClient } from "@supabase/supabase-js";
+import { User, createClient } from "@supabase/supabase-js";
 import { Database, Tables } from "./database.types";
 
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
@@ -186,4 +186,14 @@ export {
 	upsertPriceRecord,
 	createOrRetrieveCustomer,
 	manageSubscriptionStatusChange,
+};
+
+export const getUser = async (jwt: string): Promise<User | null> => {
+	const { data, error } = await supabaseAdmin.auth.getUser(jwt);
+
+	if (error) {
+		throw error;
+	}
+
+	return data.user;
 };

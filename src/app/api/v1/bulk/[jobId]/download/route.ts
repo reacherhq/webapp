@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/util/supabaseServer";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
 import {
 	checkUserInDB,

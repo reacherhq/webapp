@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import amqplib from "amqplib";
-import { supabaseAdmin } from "@/util/supabaseServer";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
 import { getWebappURL } from "@/util/helpers";
 import {

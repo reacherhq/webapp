@@ -25,7 +25,6 @@ export default function Index(): React.ReactElement {
 	const [emailSent, setEmailSent] = useState(false); // Set if we sent an email upon confirmation. Only do it once.
 
 	useEffect(() => {
-		console.log("userLoaded", userLoaded);
 		if (isRedirecting) {
 			return;
 		}

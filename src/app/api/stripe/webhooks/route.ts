@@ -10,6 +10,7 @@ import {
 	manageSubscriptionStatusChange,
 } from "@/supabase/supabaseAdmin";
 import { sendLicenseEmail } from "./license";
+import { sentryException } from "@/util/sentry";
 
 const relevantEvents = new Set([
 	"product.created",
@@ -82,7 +83,7 @@ export async function POST(req: Request) {
 					throw new Error("Unhandled relevant event!");
 			}
 		} catch (error) {
-			console.log(error);
+			sentryException(error as Error);
 			return new Response(
 				"Webhook handler failed. View your nextjs function logs.",
 				{

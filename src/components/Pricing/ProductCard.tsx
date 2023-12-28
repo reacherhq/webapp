@@ -6,7 +6,6 @@ import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { getStripe } from "@/util/stripeClient";
 import { COMMERCIAL_LICENSE_PRODUCT_ID } from "@/util/subs";
-import type {} from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import { Tables } from "@/supabase/database.types";

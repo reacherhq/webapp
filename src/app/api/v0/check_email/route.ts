@@ -10,8 +10,7 @@ import {
 } from "@/app/api/v0/check_email/checkUserInDb";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
-import { supabaseAdmin } from "@/util/supabaseServer";
-import { Tables } from "@/supabase/database.types";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { NextRequest } from "next/server";
 
 // https://vercel.com/changelog/serverless-functions-can-now-run-up-to-5-minutes

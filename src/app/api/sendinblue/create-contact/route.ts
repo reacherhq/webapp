@@ -4,8 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { sendinblueApi } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
-import { getUser, supabaseAdmin } from "@/util/supabaseServer";
-import { Tables } from "@/supabase/database.types";
+import { getUser, supabaseAdmin } from "@/supabase/supabaseAdmin";
 
 const createContact = async (
 	req: NextApiRequest,
