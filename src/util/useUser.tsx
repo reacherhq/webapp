@@ -7,13 +7,6 @@ import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-interface UserMetadata {
-	/**
-	 * From where did the user heard Reacher from?
-	 */
-	heardFrom?: string;
-}
-
 interface UserContext {
 	supabase: SupabaseClient;
 	subscription: SubscriptionWithPrice | null;
@@ -81,7 +74,6 @@ export const UserContextProvider = (
 					setUserDetails(userDetails.data);
 					setSubscription(sub.data?.[0] as SubscriptionWithPrice);
 					setSubscriptionLoaded(true);
-					setUserLoaded(true);
 				})
 				.catch(sentryException);
 		}

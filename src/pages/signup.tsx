@@ -25,19 +25,20 @@ export default function SignUp(): React.ReactElement {
 	const [passedCatpcha, setPassedCatpcha] = useState(false);
 
 	const router = useRouter();
-	const { user, signUp } = useUser();
+	const { user, supabase } = useUser();
 	const d = dictionary(router.locale).signup;
 
 	const handleSignup = async () => {
 		setLoading(true);
 		setMessage(undefined);
-		const { error } = await signUp(
-			{
-				email,
-				password,
+		const { error } = await supabase.auth.signUp({
+			email,
+			password,
+			options: {
+				emailRedirectTo: `${window.location.origin}/auth/callback`,
+				data: feedback ? { heardFrom: feedback } : undefined,
 			},
-			feedback ? { heardFrom: feedback } : undefined
-		);
+		});
 		if (error) {
 			setMessage({ type: "error", content: error?.message });
 		} else {

@@ -12,10 +12,9 @@ import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import { dictionary } from "@/dictionaries";
 import Link from "next/link";
-import { Database } from "@/supabase/database.types";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function Login(): React.ReactElement {
+	const { supabase, user } = useUser();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -24,14 +23,15 @@ export default function Login(): React.ReactElement {
 	);
 	const router = useRouter();
 	const d = dictionary(router.locale).login;
-	const supabase = createClientComponentClient<Database>();
-	const user = supabase.auth.getSession();
 
 	const handleSignin = async () => {
 		setLoading(true);
 		setMessage(undefined);
 
-		const { error } = await signIn({ email, password });
+		const { error } = await supabase.auth.signInWithPassword({
+			email,
+			password,
+		});
 		setLoading(false);
 		if (error) {
 			setMessage({ type: "error", content: error.message });
@@ -45,6 +45,7 @@ export default function Login(): React.ReactElement {
 				type: "success",
 				content: d.success_redirecting,
 			});
+			router.push("/dashboard").catch(sentryException);
 		}
 	};
 
