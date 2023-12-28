@@ -7,13 +7,13 @@ import { useUser } from "@/util/useUser";
 
 export default function VerifySingle(): React.ReactElement {
 	const router = useRouter();
-	const { user, userFinishedLoading, subscription } = useUser();
+	const { user, userLoaded, subscription } = useUser();
 
 	useEffect(() => {
-		if (userFinishedLoading && !user) {
+		if (userLoaded && !user) {
 			router.replace("/login").catch(sentryException);
 		}
-	}, [router, userFinishedLoading, user]);
+	}, [router, userLoaded, user]);
 
 	if (!user || !subscription) {
 		return (

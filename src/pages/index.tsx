@@ -21,12 +21,12 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Index(): React.ReactElement {
 	const router = useRouter();
-	const { user, userFinishedLoading, subscription } = useUser();
+	const { user, userLoaded, subscription } = useUser();
 	const [isRedirecting, setIsRedirecting] = useState(false);
 	const [emailSent, setEmailSent] = useState(false); // Set if we sent an email upon confirmation. Only do it once.
 
 	useEffect(() => {
-		console.log("userFinishedLoading", userFinishedLoading);
+		console.log("userLoaded", userLoaded);
 		if (isRedirecting) {
 			return;
 		}
@@ -66,21 +66,14 @@ export default function Index(): React.ReactElement {
 			router
 				.replace(`/reset_password_part_two${window.location.hash}`)
 				.catch(sentryException);
-		} else if (userFinishedLoading && !user) {
+		} else if (userLoaded && !user) {
 			setIsRedirecting(true);
 			router.replace("/login").catch(sentryException);
-		} else if (userFinishedLoading && user) {
+		} else if (userLoaded && user) {
 			setIsRedirecting(true);
 			router.replace("/dashboard").catch(sentryException);
 		}
-	}, [
-		isRedirecting,
-		router,
-		userFinishedLoading,
-		user,
-		emailSent,
-		subscription,
-	]);
+	}, [isRedirecting, router, userLoaded, user, emailSent, subscription]);
 
 	return (
 		<Page>

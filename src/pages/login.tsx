@@ -12,6 +12,8 @@ import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 import { dictionary } from "@/dictionaries";
 import Link from "next/link";
+import { Database } from "@/supabase/database.types";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function Login(): React.ReactElement {
 	const [email, setEmail] = useState("");
@@ -21,8 +23,9 @@ export default function Login(): React.ReactElement {
 		undefined
 	);
 	const router = useRouter();
-	const { user, signIn } = useUser();
 	const d = dictionary(router.locale).login;
+	const supabase = createClientComponentClient<Database>();
+	const user = supabase.auth.getSession();
 
 	const handleSignin = async () => {
 		setLoading(true);

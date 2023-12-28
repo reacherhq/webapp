@@ -11,17 +11,15 @@ import {
 
 export default function Index(): React.ReactElement {
 	const router = useRouter();
-	const { user, userFinishedLoading, subscription, subscriptionLoaded } =
-		useUser();
+	const { user, userLoaded, subscription, subscriptionLoaded } = useUser();
 
 	useEffect(() => {
-		if (userFinishedLoading && !user) {
+		if (userLoaded && !user) {
 			router.replace("/login").catch(sentryException);
 		}
-	}, [router, userFinishedLoading, user]);
+	}, [router, userLoaded, user]);
 
 	useEffect(() => {
-		console.log("subscriptionLoaded", subscriptionLoaded);
 		if (!subscriptionLoaded) {
 			return;
 		}

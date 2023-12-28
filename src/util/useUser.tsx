@@ -1,17 +1,11 @@
-import type {
-	ApiError,
-	Provider,
-	Session,
-	User,
-	UserCredentials,
-} from "@supabase/gotrue-js";
+import type { User } from "@supabase/gotrue-js";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { getWebappURL } from "./helpers";
 import { sentryException } from "./sentry";
-import { supabase } from "./supabaseClient";
-import { Tables } from "@/supabase/database.types";
+import { Database, Tables } from "@/supabase/database.types";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 interface UserMetadata {
 	/**
@@ -21,33 +15,12 @@ interface UserMetadata {
 }
 
 interface UserContext {
-	session: Session | null;
-	signIn: (options: UserCredentials) => Promise<{
-		session: Session | null;
-		user: User | null;
-		provider?: Provider;
-		url?: string | null;
-		error: ApiError | null;
-	}>;
-	resetPassword: (
-		email: string
-	) => Promise<{ data: unknown | null; error: ApiError | null }>;
-	signOut: () => Promise<void>;
-	signUp: (
-		options: UserCredentials,
-		userMetadata?: UserMetadata
-	) => Promise<{
-		session: Session | null;
-		user: User | null;
-		provider?: Provider;
-		url?: string | null;
-		error: ApiError | null;
-	}>;
+	supabase: SupabaseClient;
 	subscription: SubscriptionWithPrice | null;
 	user: User | null;
 	userDetails: Tables<"users"> | null;
 	subscriptionLoaded: boolean;
-	userFinishedLoading: boolean;
+	userLoaded: boolean;
 }
 
 export const UserContext = createContext({} as UserContext);
@@ -60,9 +33,9 @@ export const UserContextProvider = (
 	props: UserContextProviderProps
 ): React.ReactElement => {
 	const [subscriptionLoaded, setSubscriptionLoaded] = useState(false);
-	const [userFinishedLoading, setUserFinishedLoading] = useState(false);
-	const [session, setSession] = useState<Session | null>(null);
 	const [user, setUser] = useState<User | null>(null);
+	const [userLoaded, setUserLoaded] = useState(false);
+	const supabase = createClientComponentClient<Database>();
 	const [userDetails, setUserDetails] = useState<Tables<"users"> | null>(
 		null
 	);
@@ -70,33 +43,32 @@ export const UserContextProvider = (
 		useState<SubscriptionWithPrice | null>(null);
 
 	useEffect(() => {
-		const session = supabase.auth.session();
-		setSession(session);
-		setUser(session?.user ?? null);
-		if (!session?.user) {
-			setUserFinishedLoading(true);
-		}
-		const { data: authListener } = supabase.auth.onAuthStateChange(
-			(_event, session) => {
-				setSession(session);
-				setUser(session?.user ?? null);
-			}
-		);
+		supabase.auth
+			.getUser()
+			.then((res) => {
+				if (res.error) {
+					throw res.error;
+				}
+				setUser(res.data.user);
+			})
+			.catch((error) => {
+				sentryException(error);
+			})
+			.finally(() => {
+				setUserLoaded(true);
+			});
+	}, [supabase]);
 
-		return () => {
-			authListener?.unsubscribe();
-		};
-	}, []);
-
-	const getUserDetails = () =>
-		supabase.from<Tables<"users">>("users").select("*").single();
-	const getSubscription = () =>
-		supabase
-			.from<SubscriptionWithPrice>("subscriptions")
-			.select("*, prices(*, products(*))")
-			.in("status", ["trialing", "active", "past_due"])
-			.order("current_period_start", { ascending: false });
 	useEffect(() => {
+		const getUserDetails = () =>
+			supabase.from("users").select("*").single();
+		const getSubscription = () =>
+			supabase
+				.from("subscriptions")
+				.select("*, prices(*, products(*))")
+				.in("status", ["trialing", "active", "past_due"])
+				.order("current_period_start", { ascending: false });
+
 		if (user) {
 			Promise.all([getUserDetails(), getSubscription()])
 				.then(([userDetails, sub]) => {
@@ -107,38 +79,21 @@ export const UserContextProvider = (
 						throw sub.error;
 					}
 					setUserDetails(userDetails.data);
-					setSubscription(sub.data?.[0]);
+					setSubscription(sub.data?.[0] as SubscriptionWithPrice);
 					setSubscriptionLoaded(true);
-					setUserFinishedLoading(true);
+					setUserLoaded(true);
 				})
 				.catch(sentryException);
 		}
-	}, [user]);
+	}, [supabase, user]);
 
 	const value = {
-		session,
 		user,
 		userDetails,
-		userFinishedLoading,
+		userLoaded,
+		supabase,
 		subscriptionLoaded,
 		subscription,
-		resetPassword: (email: string) =>
-			supabase.auth.api.resetPasswordForEmail(email, {
-				redirectTo: getWebappURL(),
-			}),
-		signIn: (creds: UserCredentials) =>
-			supabase.auth.signIn(creds, { redirectTo: getWebappURL() }),
-		signUp: (creds: UserCredentials, userMetadata?: UserMetadata) =>
-			supabase.auth.signUp(creds, {
-				redirectTo: getWebappURL(),
-				data: userMetadata,
-			}),
-		signOut: async () => {
-			setUserDetails(null);
-			setSubscription(null);
-			const { error } = await supabase.auth.signOut();
-			if (error) throw error;
-		},
 	};
 	return <UserContext.Provider value={value} {...props} />;
 };

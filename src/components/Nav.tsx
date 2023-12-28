@@ -11,7 +11,7 @@ import Link from "next/link";
 import { dictionary } from "@/dictionaries";
 
 export function Nav(): React.ReactElement {
-	const { user, userDetails, signOut } = useUser();
+	const { user, userDetails, supabase } = useUser();
 	const router = useRouter();
 	const d = dictionary(router.locale);
 
@@ -88,7 +88,8 @@ export function Nav(): React.ReactElement {
 				>
 					<Select.Option
 						onClick={() => {
-							signOut()
+							supabase.auth
+								.signOut()
 								.then(() => router.push("/login"))
 								.catch(sentryException);
 						}}
