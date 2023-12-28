@@ -48,15 +48,18 @@
 				"more_emails": "+%s more"
 			},
 			"error": {
+				"title": "Error",
 				"one_file": "You can only upload one file at a time. You uploaded %s.",
 				"aborted": "The upload was aborted.",
 				"invalid_file": "The file is invalid.",
 				"empty": "The file is empty.",
 				"no_emails": "No emails found in the file.",
-				"unexpected": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nError: %s"
+				"unexpected": "An unexpected error happened. Can you email amaury@reacher.email with this message (or a screenshot)?\nError: %s",
+				"try_again": "Try again"
 			},
 			"history": {
 				"title": "My Bulk Jobs",
+				"title_loading": "Loading my bulk jobs...",
 				"table": {
 					"job_id": "Job ID",
 					"status": "Status",
@@ -66,7 +69,8 @@
 					"invalid": "Invalid",
 					"risky": "Risky",
 					"unknown": "Unknown",
-					"full_results": "Full results"
+					"full_results": "Full results",
+					"not_available": "Not available"
 				},
 				"status": {
 					"finished": "Finished",

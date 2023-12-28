@@ -18,7 +18,9 @@ export function alertError(
 }
 
 export function BulkHistory(): React.ReactElement {
-	const [bulkJobs, setBulkJobs] = useState<Tables<"bulk_jobs_info">[]>([]);
+	const [bulkJobs, setBulkJobs] = useState<
+		Tables<"bulk_jobs_info">[] | undefined
+	>();
 	const router = useRouter();
 	const d = dictionary(router.locale).dashboard.get_started_bulk.history;
 
@@ -54,21 +56,33 @@ export function BulkHistory(): React.ReactElement {
 		);
 	};
 
-	const renderDownloadCsv: TableColumnRender<
-		Tables<"bulk_jobs_info">
-	> = () => {
+	const renderDownloadCsv: TableColumnRender<Tables<"bulk_jobs_info">> = (
+		_value,
+		rowData
+	) => {
 		return (
-			<Button className="m-auto" auto icon={<Download />}>
-				{d.button_download}
-			</Button>
+			<div className="m-auto">
+				{rowData.verified === rowData.number_of_emails ? (
+					<a
+						href={`/api/v1/bulk/${rowData.bulk_job_id}/download`}
+						download={`bulkjob_${rowData.bulk_job_id}_results.csv`}
+					>
+						<Button className="m-auto" auto icon={<Download />}>
+							{d.button_download}
+						</Button>
+					</a>
+				) : (
+					<em>{d.table.not_available}</em>
+				)}
+			</div>
 		);
 	};
 
 	return (
 		<Card>
-			<Text h3>{d.title}</Text>
+			<Text h3>{bulkJobs === undefined ? d.title_loading : d.title}</Text>
 			<Spacer />
-			<Table data={bulkJobs}>
+			<Table data={bulkJobs || []}>
 				<Table.Column prop="bulk_job_id" label={d.table.job_id} />
 				<Table.Column
 					prop="verified"

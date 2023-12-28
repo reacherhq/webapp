@@ -11,13 +11,7 @@ import CheckInCircleFill from "@geist-ui/react-icons/checkInCircleFill";
 import Upload from "@geist-ui/react-icons/upload";
 import FileText from "@geist-ui/react-icons/fileText";
 import { BulkHistory } from "./BulkHistory";
-
-export function alertError(
-	e: string,
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"]
-) {
-	alert(d.error.unexpected.replace("%s", e));
-}
+import XCircleFill from "@geist-ui/react-icons/xCircleFill";
 
 export function GetStartedBulk(): React.ReactElement {
 	const { user, userDetails } = useUser();
@@ -43,12 +37,14 @@ export function GetStartedBulk(): React.ReactElement {
 				return;
 			}
 			if (acceptedFiles.length > 1) {
-				alertError(
-					d.error.one_file.replace(
-						"%s",
-						acceptedFiles.length.toString()
-					),
-					d
+				setUpload(
+					<Error
+						error={d.error.one_file.replace(
+							"%s",
+							acceptedFiles.length.toString()
+						)}
+						d={d}
+					/>
 				);
 				return;
 			}
@@ -56,19 +52,29 @@ export function GetStartedBulk(): React.ReactElement {
 			setUpload(<Analyzing d={d} file={file} />);
 			const reader = new FileReader();
 			reader.onabort = () => {
-				alertError(d.error.aborted, d);
+				setUpload(<Error error={d.error.aborted} d={d} />);
 			};
 			reader.onerror = () => {
-				alertError(d.error.invalid_file, d);
+				setUpload(<Error error={d.error.invalid_file} d={d} />);
 			};
 			reader.onload = () => {
 				// Do whatever you want with the file contents
 				const binaryStr = reader.result?.toString();
 				if (typeof binaryStr !== "string") {
-					alertError(d.error.empty, d);
+					setUpload(<Error error={d.error.empty} d={d} />);
 					return;
 				}
-				const lines = binaryStr.split("\n").map((l) => l.split(",")[0]);
+				const lines = binaryStr
+					.split("\n")
+					.map((s) => s.trim())
+					.filter((x) => !!x)
+					.map((l) => l.split(",")[0]);
+
+				if (!lines.length) {
+					setUpload(<Error error={d.error.no_emails} d={d} />);
+					return;
+				}
+
 				// Optionally remove 1st line with headers.
 				if (
 					!lines[0].includes("@") ||
@@ -78,7 +84,7 @@ export function GetStartedBulk(): React.ReactElement {
 				}
 
 				if (!lines.length) {
-					alertError(d.error.no_emails, d);
+					setUpload(<Error error={d.error.no_emails} d={d} />);
 					return;
 				}
 
@@ -105,9 +111,13 @@ export function GetStartedBulk(): React.ReactElement {
 			return;
 		}
 		if (!userDetails) {
-			alertError(
-				`userDetails is undefined for user ${user?.id || "undefined"}`,
-				d
+			setUpload(
+				<Error
+					error={`userDetails is undefined for user ${
+						user?.id || "undefined"
+					}`}
+					d={d}
+				/>
 			);
 			return;
 		}
@@ -126,7 +136,7 @@ export function GetStartedBulk(): React.ReactElement {
 			})
 			.catch((err: Error) => {
 				sentryException(err);
-				alertError(err.message, d);
+				setUpload(<Error error={err.message} d={d} />);
 			})
 			.finally(() => {
 				setLoading(false);
@@ -145,10 +155,12 @@ export function GetStartedBulk(): React.ReactElement {
 					shadow={isDragActive}
 					width="400px"
 				>
-					<div {...getRootProps()}>
+					<Spacer h={2} />
+					<Card.Body {...getRootProps()}>
 						<input {...getInputProps()} />
 						{upload}
-					</div>
+					</Card.Body>
+
 					{!!emails.length && (
 						<div className="text-center">
 							<Spacer />
@@ -170,6 +182,7 @@ export function GetStartedBulk(): React.ReactElement {
 							</Button>
 						</div>
 					)}
+					<Spacer h={2} />
 				</Card>
 				<Spacer h={3} />
 			</Card>
@@ -260,6 +273,23 @@ function Uploaded({
 					emailsNum.toString()
 				)}
 			</p>
+		</>
+	);
+}
+
+function Error({
+	error,
+	d,
+}: {
+	error: string;
+	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+}) {
+	return (
+		<>
+			<XCircleFill color="red" />
+			<h4>{d.error.title}</h4>
+			<p>{error}</p>
+			<Button>{d.error.try_again}</Button>
 		</>
 	);
 }
