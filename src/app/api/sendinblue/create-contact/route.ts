@@ -1,31 +1,20 @@
 import { CreateUpdateContactModel } from "@sendinblue/client";
 import type { User } from "@supabase/supabase-js";
-import { NextApiRequest, NextApiResponse } from "next";
-
 import { sendinblueApi } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
 import { getUser, supabaseAdmin } from "@/supabase/supabaseAdmin";
+import { NextRequest } from "next/server";
 
-const createContact = async (
-	req: NextApiRequest,
-	res: NextApiResponse
-): Promise<void> => {
+export const POST = async (req: NextRequest): Promise<Response> => {
 	try {
-		if (req.method !== "POST") {
-			res.setHeader("Allow", "POST");
-			res.status(405).json({ error: "Method Not Allowed" });
-			return;
-		}
-
-		const token = req.headers.authorization || req.headers.Authorization;
+		const token = req.headers.get("Authorization");
 		if (typeof token !== "string") {
 			throw new Error("Expected API token in the Authorization header.");
 		}
 
 		const user = await getUser(token);
 		if (!user) {
-			res.status(401).json({ error: "User not found" });
-			return;
+			return Response.json({ error: "User not found" }, { status: 401 });
 		}
 
 		const { body } = await sendinblueApi.createContact({
@@ -42,16 +31,17 @@ const createContact = async (
 
 		await updateUserSendinblueContactId(user, body);
 
-		res.status(200).json({ ok: true });
+		return Response.json({ ok: true });
 	} catch (err) {
 		sentryException(err as Error);
-		res.status(500).json({
-			error: (err as Error).message,
-		});
+		return Response.json(
+			{
+				error: (err as Error).message,
+			},
+			{ status: 500 }
+		);
 	}
 };
-
-export default createContact;
 
 /**
  * Update the Sendinblue contact id for the given user.
