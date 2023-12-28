@@ -4,7 +4,7 @@ import { getWebappURL } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { stripe } from "@/util/stripeServer";
 import { getUser } from "@/util/supabaseServer";
-import { createOrRetrieveCustomer } from "@/util/useDatabase";
+import { createOrRetrieveCustomer } from "@/supabase/supabaseAdmin";
 
 const createPortalLink = async (
 	req: NextApiRequest,

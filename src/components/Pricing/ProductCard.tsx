@@ -32,7 +32,7 @@ export function ProductCard({
 }: ProductCardProps): React.ReactElement {
 	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
-	const { session, user } = useUser();
+	const { user, userLoaded } = useUser();
 	const d = dictionary(router.locale).pricing;
 
 	const active = !!subscription;
@@ -44,7 +44,7 @@ export function ProductCard({
 	const handleCheckout = async (price: Tables<"prices">) => {
 		setPriceIdLoading(price.id);
 
-		if (!session) {
+		if (userLoaded && !user) {
 			router.push("/signup").catch(sentryException);
 
 			return;
@@ -54,7 +54,6 @@ export function ProductCard({
 			const { sessionId } = await postData<{ sessionId: string }>({
 				url: "/api/stripe/create-checkout-session",
 				data: { price, locale: router.locale },
-				token: session.access_token,
 			});
 
 			const stripe = await getStripe();
@@ -99,7 +98,7 @@ export function ProductCard({
 					type="success"
 				>
 					{priceIdLoading
-						? session
+						? user
 							? d.cards.redirecting_to_stripe
 							: d.cards.redirecting_to_signup
 						: active

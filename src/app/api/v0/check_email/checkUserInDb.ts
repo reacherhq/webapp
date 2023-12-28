@@ -1,12 +1,11 @@
 import { addMonths, differenceInMilliseconds, parseISO } from "date-fns";
 import { RateLimiterRes } from "rate-limiter-flexible";
-
-import { subApiMaxCalls } from "./subs";
-import { supabaseAdmin } from "./supabaseServer";
+import { subApiMaxCalls } from "@/util/subs";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { Tables } from "@/supabase/database.types";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { NextRequest } from "next/server";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 
 type UserWithSub = {
 	user: Tables<"users">;
@@ -68,13 +67,12 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 	}
 
 	const subAndCalls = res2.data;
+	const numberOfCalls = subAndCalls.number_of_calls || 0;
 
 	// Set rate limit headers.
 	const now = new Date();
 	const nextReset = subAndCalls.subscription_id
-		? typeof subAndCalls.current_period_end === "string"
-			? parseISO(subAndCalls.current_period_end)
-			: subAndCalls.current_period_end
+		? parseISO(subAndCalls.current_period_end as string) // Safe to type cast here, if there's a subscription, there's a current_period_end.
 		: addMonths(now, 1);
 	const msDiff = differenceInMilliseconds(nextReset, now);
 	const max = subApiMaxCalls({
@@ -86,15 +84,15 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 	} as SubscriptionWithPrice);
 	const rateLimitHeaders = getRateLimitHeaders(
 		new RateLimiterRes(
-			max - subAndCalls.number_of_calls - 1,
+			max - numberOfCalls - 1,
 			msDiff,
-			subAndCalls.number_of_calls,
+			numberOfCalls,
 			undefined
 		), // 1st arg has -1, because we just consumed 1 email.
 		max
 	);
 
-	if (subAndCalls.number_of_calls > max) {
+	if (numberOfCalls > max) {
 		throw newEarlyResponse(
 			Response.json(
 				{
@@ -109,14 +107,12 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 }
 
 interface SubAndCalls {
-	user_id: string;
-	subscription_id: string | null;
+	current_period_end: string | null;
+	current_period_start: string | null;
+	number_of_calls: number | null;
 	product_id: string | null;
-	email: string;
-	current_period_start: string | Date;
-	current_period_end: string | Date;
-	number_of_calls: number;
-	api_token: string;
+	subscription_id: string | null;
+	user_id: string | null;
 }
 
 /**

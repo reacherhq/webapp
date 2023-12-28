@@ -20,13 +20,13 @@ export default function ResetPasswordPartOne(): React.ReactElement {
 	);
 	const router = useRouter();
 	const d = dictionary(router.locale).reset_password.part1;
-	const { resetPassword } = useUser();
+	const { supabase } = useUser();
 
 	const handleResetPassword = async () => {
 		setLoading(true);
 		setMessage(undefined);
 
-		const { error } = await resetPassword(email);
+		const { error } = await supabase.auth.resetPasswordForEmail(email);
 		setLoading(false);
 		if (error) {
 			setMessage({ type: "error", content: error.message });

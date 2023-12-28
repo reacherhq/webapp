@@ -1,13 +1,13 @@
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { sentryException } from "@/util/sentry";
-import { checkUserInDB, isEarlyResponse } from "@/util/api";
-import { Database } from "@/supabase/database.types";
+import {
+	checkUserInDB,
+	isEarlyResponse,
+} from "@/app/api/v0/check_email/checkUserInDb";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { components } from "@reacherhq/api/lib/types";
 import { NextRequest } from "next/server";
 
-type ArrayElement<ArrayType extends readonly unknown[]> =
-	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 type SmtpD = components["schemas"]["SmtpDetails"];
 type MiscD = components["schemas"]["MiscDetails"];
 type MxD = components["schemas"]["MxDetails"];
@@ -43,13 +43,10 @@ export const GET = async (
 		}
 
 		const { jobId } = params;
+		const id_param = parseInt(jobId, 10);
 
 		const res = await supabaseAdmin
-			.rpc<
-				ArrayElement<
-					Database["public"]["Functions"]["get_bulk_results"]["Returns"]
-				>
-			>("get_bulk_results", { id_param: jobId })
+			.rpc("get_bulk_results", { id_param })
 			.select("*");
 		if (res.error) {
 			return Response.json(

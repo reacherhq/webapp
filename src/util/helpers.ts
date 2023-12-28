@@ -25,7 +25,7 @@ export const postData = async <T = unknown>({
 	data,
 }: {
 	url: string;
-	token: string | null;
+	token?: string | null;
 	data?: unknown;
 }): Promise<T> => {
 	try {
@@ -36,9 +36,8 @@ export const postData = async <T = unknown>({
 					data,
 					{
 						headers: {
-							"Content-Type": "application/json",
-							token,
 							Authorization: token,
+							"Content-Type": "application/json",
 						},
 						withCredentials: true,
 					}

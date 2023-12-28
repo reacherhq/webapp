@@ -7,7 +7,7 @@ import {
 	isEarlyResponse,
 	newEarlyResponse,
 	removeSensitiveData,
-} from "@/util/api";
+} from "@/app/api/v0/check_email/checkUserInDb";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
 import { supabaseAdmin } from "@/util/supabaseServer";

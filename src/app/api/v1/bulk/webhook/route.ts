@@ -1,7 +1,7 @@
 import { CheckEmailOutput } from "@reacherhq/api";
 import { supabaseAdmin } from "@/util/supabaseServer";
 import { NextRequest } from "next/server";
-import { removeSensitiveData } from "@/util/api";
+import { removeSensitiveData } from "@/app/api/v0/check_email/checkUserInDb";
 import { Tables } from "@/supabase/database.types";
 
 export interface WebhookExtra {

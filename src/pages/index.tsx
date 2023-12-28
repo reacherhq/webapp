@@ -3,14 +3,13 @@ import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useState } from "react";
-
 import { parseHashComponents, postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
-import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
+import { getActiveProductsWithPrices } from "@/supabase/supabaseServer";
 
 export const getStaticProps: GetStaticProps = async () => {
-	const products = await getActiveProductWithPrices();
+	const products = await getActiveProductsWithPrices();
 
 	return {
 		props: {
@@ -46,7 +45,6 @@ export default function Index(): React.ReactElement {
 			setEmailSent(true);
 			postData({
 				url: "/api/sendinblue/create-contact",
-				token: hashComponents.access_token,
 			}).catch(sentryException);
 		}
 

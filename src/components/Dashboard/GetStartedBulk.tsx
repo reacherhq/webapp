@@ -124,7 +124,6 @@ export function GetStartedBulk(): React.ReactElement {
 		setLoading(true);
 		postData<CheckEmailOutput>({
 			url: `/api/v1/bulk`,
-			token: userDetails?.api_token,
 			data: {
 				input_type: "array",
 				input: emails,

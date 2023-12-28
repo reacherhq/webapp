@@ -10,21 +10,23 @@ import { formatDate } from "@/util/helpers";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
+import { useUser } from "@/util/useUser";
 
 interface ApiUsageProps {
 	subscription: SubscriptionWithPrice;
 }
 
 export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
+	const { supabase } = useUser();
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
 	const router = useRouter();
 	const d = dictionary(router.locale).dashboard;
 
 	useEffect(() => {
-		getApiUsageClient(subscription)
+		getApiUsageClient(supabase, subscription)
 			.then(setApiCalls)
 			.catch(sentryException);
-	}, [subscription]);
+	}, [supabase, subscription]);
 
 	return (
 		<section>

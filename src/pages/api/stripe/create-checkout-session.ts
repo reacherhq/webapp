@@ -4,7 +4,7 @@ import { getWebappURL } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { stripe } from "@/util/stripeServer";
 import { getActiveSubscription, getUser } from "@/util/supabaseServer";
-import { createOrRetrieveCustomer } from "@/util/useDatabase";
+import { createOrRetrieveCustomer } from "@/supabase/supabaseAdmin";
 import { Tables } from "@/supabase/database.types";
 
 const createCheckoutSession = async (

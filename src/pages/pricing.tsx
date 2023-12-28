@@ -7,15 +7,15 @@ import {
 	SAAS_100K_PRODUCT_ID,
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
-import { getActiveProductWithPrices } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { ProductWithPrice } from "@/supabase/domain.types";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
+import { getActiveProductsWithPrices } from "@/supabase/supabaseServer";
 
 export const getStaticProps: GetStaticProps = async () => {
-	const products = await getActiveProductWithPrices();
+	const products = await getActiveProductsWithPrices();
 
 	return {
 		props: {

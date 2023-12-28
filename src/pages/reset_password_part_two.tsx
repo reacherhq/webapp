@@ -10,13 +10,11 @@ import {
 } from "../components/SigninLayout";
 import { parseHashComponents } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
-import { supabase } from "@/util/supabaseClient";
 import { useUser } from "@/util/useUser";
 import { dictionary } from "@/dictionaries";
 
 export default function ResetPasswordPartTwo(): React.ReactElement {
 	const router = useRouter();
-	const [accessToken, setAccessToken] = useState("");
 	const [password, setPassword] = useState("");
 	const [repeat, setRepeat] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -25,7 +23,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 	);
 	const [isInvite, setIsInvite] = useState(false); // Landed on this page on first visit, via Invite Link.
 	const d = dictionary(router.locale).reset_password.part2;
-	const { user } = useUser();
+	const { user, supabase } = useUser();
 
 	useEffect(() => {
 		// Password recovery.
@@ -42,7 +40,6 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 			}
 
 			setIsInvite(hashComponents.type === "invite");
-			setAccessToken(hashComponents.access_token);
 		}
 	}, [router]);
 
@@ -58,7 +55,7 @@ export default function ResetPasswordPartTwo(): React.ReactElement {
 		setLoading(true);
 		setMessage(undefined);
 
-		const { error } = await supabase.auth.api.updateUser(accessToken, {
+		const { error } = await supabase.auth.updateUser({
 			password,
 		});
 		setLoading(false);
