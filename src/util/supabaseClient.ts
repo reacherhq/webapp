@@ -13,17 +13,11 @@ export async function getActiveProductWithPrices(): Promise<
 	ProductWithPrice[]
 > {
 	const { data, error } = await supabase
-		.from<ProductWithPrice>("products")
+		.from("products")
 		.select("*, prices(*)")
 		.eq("active", true)
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore Supabase typings error?
 		.eq("prices.active", true)
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore Supabase typings error?
 		.order("metadata->index")
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore Supabase typings error?
 		.order("unit_amount", { foreignTable: "prices", ascending: false });
 	if (error) {
 		throw error;
@@ -37,7 +31,7 @@ export function updateUserName(
 	name: string
 ): PostgrestFilterBuilder<Tables<"users">> {
 	return supabase
-		.from<Tables<"users">>("users")
+		.from("users")
 		.update({
 			full_name: name,
 		})
@@ -49,7 +43,7 @@ export async function getApiUsageClient(
 	subscription: Tables<"subscriptions"> | null
 ): Promise<number> {
 	const { error, count } = await supabase
-		.from<Tables<"calls">>("calls")
+		.from("calls")
 		.select("*", { count: "exact" })
 		.gt("created_at", getUsageStartDate(subscription).toISOString());
 

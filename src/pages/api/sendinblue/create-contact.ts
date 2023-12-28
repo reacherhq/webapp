@@ -73,7 +73,7 @@ async function updateUserSendinblueContactId(
 	}
 
 	await supabaseAdmin
-		.from<Tables<"users">>("users")
+		.from("users")
 		.update({
 			sendinblue_contact_id: body.id.toString(),
 		})

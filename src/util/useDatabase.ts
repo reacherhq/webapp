@@ -54,7 +54,7 @@ export const upsertPriceRecord = async (price: Stripe.Price): Promise<void> => {
 export const createOrRetrieveCustomer = async (user: User): Promise<string> => {
 	const { email, id: uuid } = user;
 	const { data, error } = await supabaseAdmin
-		.from<Tables<"customers">>("customers")
+		.from("customers")
 		.select("stripe_customer_id")
 		.eq("id", uuid)
 		.single();
@@ -125,7 +125,7 @@ export const manageSubscriptionStatusChange = async (
 ): Promise<void> => {
 	// Get customer's UUID from mapping table.
 	const { data, error: noCustomerError } = await supabaseAdmin
-		.from<Tables<"customers">>("customers")
+		.from("customers")
 		.select("id")
 		.eq("stripe_customer_id", customerId)
 		.single();

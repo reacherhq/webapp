@@ -38,7 +38,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 	}
 
 	const { data, error } = await supabaseAdmin
-		.from<Tables<"users">>("users")
+		.from("users")
 		.select("*")
 		.eq("api_token", token);
 	if (error) {
@@ -57,7 +57,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 	const user = data[0];
 
 	const res2 = await supabaseAdmin
-		.from<SubAndCalls>("sub_and_calls")
+		.from("sub_and_calls")
 		.select("*")
 		.eq("user_id", user.id)
 		.order("current_period_start", { ascending: false })

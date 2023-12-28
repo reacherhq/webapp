@@ -25,7 +25,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 
 	// Add to supabase calls
 	const res1 = await supabaseAdmin
-		.from<Tables<"calls">>("calls")
+		.from("calls")
 		.insert({
 			endpoint: extra.endpoint,
 			user_id: extra.userId,

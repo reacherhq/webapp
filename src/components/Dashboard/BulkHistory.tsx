@@ -26,9 +26,7 @@ export function BulkHistory(): React.ReactElement {
 
 	useEffect(() => {
 		setInterval(async () => {
-			const res = await supabase
-				.from<Tables<"bulk_jobs_info">>("bulk_jobs_info")
-				.select("*");
+			const res = await supabase.from("bulk_jobs_info").select("*");
 			if (res.error) {
 				sentryException(res.error);
 				return;
