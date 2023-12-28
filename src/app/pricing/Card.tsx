@@ -3,10 +3,10 @@ import Check from "@geist-ui/react-icons/check";
 import React from "react";
 
 import styles from "./Card.module.css";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
+	d: Dictionary;
 	body?: React.ReactElement;
 	cta?: React.ReactElement;
 	extra?: React.ReactElement;
@@ -18,19 +18,19 @@ export interface CardProps extends React.HTMLProps<HTMLDivElement> {
 	title: string;
 }
 
-export function Card({
-	cta,
-	header,
-	features,
-	extra,
-	price,
-	title,
-	subtitle,
-	body,
-	footer,
-}: CardProps): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale).pricing;
+export function Card(props: CardProps): React.ReactElement {
+	const {
+		cta,
+		header,
+		features,
+		extra,
+		price,
+		title,
+		subtitle,
+		body,
+		footer,
+	} = props;
+	const d = props.d.pricing;
 
 	return (
 		<GCard className={styles.container}>

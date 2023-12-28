@@ -1,5 +1,5 @@
 import { Button } from "@geist-ui/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { postData } from "@/util/helpers";
@@ -10,9 +10,10 @@ import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import { Tables } from "@/supabase/database.types";
 import { ProductWithPrice } from "@/supabase/domain.types";
-import { dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 
 export interface ProductCardProps {
+	d: Dictionary;
 	currency: string;
 	product: ProductWithPrice;
 	subscription: Tables<"subscriptions"> | null;
@@ -29,10 +30,10 @@ export function ProductCard({
 	subscription,
 	...props
 }: ProductCardProps): React.ReactElement {
-	const router = useRouter();
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
 	const { user, userLoaded } = useUser();
-	const d = dictionary(router.locale).pricing;
+	const router = useRouter();
+	const d = props.d.pricing;
 
 	const active = !!subscription;
 	const price = product.prices.find(({ currency: c }) => currency === c);
@@ -44,7 +45,7 @@ export function ProductCard({
 		setPriceIdLoading(price.id);
 
 		if (userLoaded && !user) {
-			router.push("/signup").catch(sentryException);
+			router.push("/signup");
 
 			return;
 		}

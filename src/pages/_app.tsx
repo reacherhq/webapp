@@ -1,5 +1,3 @@
-import "../styles/global.css";
-
 import { CssBaseline, GeistProvider, Themes } from "@geist-ui/react";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
@@ -30,14 +28,12 @@ export default function MyApp({
 	pageProps,
 }: AppProps): React.ReactElement {
 	return (
-		<GeistProvider themes={[myTheme]} themeType="default">
+		<>
 			<CssBaseline />
-			<UserContextProvider>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
-				<CrispWithNoSSR />
-			</UserContextProvider>
-		</GeistProvider>
+			<Layout>
+				<Component {...pageProps} />
+			</Layout>
+			<CrispWithNoSSR />
+		</>
 	);
 }

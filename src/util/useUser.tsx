@@ -28,12 +28,13 @@ export const UserContextProvider = (
 	const [subscriptionLoaded, setSubscriptionLoaded] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
 	const [userLoaded, setUserLoaded] = useState(false);
-	const supabase = createClientComponentClient<Database>();
 	const [userDetails, setUserDetails] = useState<Tables<"users"> | null>(
 		null
 	);
 	const [subscription, setSubscription] =
 		useState<SubscriptionWithPrice | null>(null);
+
+	const supabase = createClientComponentClient<Database>();
 
 	useEffect(() => {
 		supabase.auth

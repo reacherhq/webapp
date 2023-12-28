@@ -2,16 +2,13 @@ import React from "react";
 import { Text } from "@geist-ui/react";
 import { ProductCard } from "./ProductCard";
 import type { ProductCardProps } from "./ProductCard";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
-import { SpanRenderer } from "../Markdown";
+import { SpanRenderer } from "@/components/Markdown";
 
 export function SaaS10k(
 	props: Omit<ProductCardProps, "title">
 ): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale).pricing.saas10k;
+	const d = props.d.pricing.saas10k;
 
 	return (
 		<ProductCard

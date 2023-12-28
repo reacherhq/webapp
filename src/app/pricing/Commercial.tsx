@@ -3,16 +3,13 @@ import { Check, Info } from "@geist-ui/react-icons";
 import { ProductCard, ProductCardProps } from "./ProductCard";
 import { Spacer, Text } from "@geist-ui/react";
 import styles from "./Card.module.css";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
-import { SpanRenderer } from "../Markdown";
+import { SpanRenderer } from "@/components/Markdown";
 
 export function Commercial(
 	props: Omit<ProductCardProps, "title">
 ): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale).pricing.commercial;
+	const d = props.d.pricing.commercial;
 
 	return (
 		<ProductCard
