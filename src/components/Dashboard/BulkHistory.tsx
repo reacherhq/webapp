@@ -63,9 +63,14 @@ export function BulkHistory(): React.ReactElement {
 		return (
 			<div className="m-auto">
 				{rowData.verified === rowData.number_of_emails ? (
-					<Button className="m-auto" auto icon={<Download />}>
-						{d.button_download}
-					</Button>
+					<a
+						href={`/api/v1/bulk/${rowData.bulk_job_id}/download`}
+						download={`bulkjob_${rowData.bulk_job_id}_results.csv`}
+					>
+						<Button className="m-auto" auto icon={<Download />}>
+							{d.button_download}
+						</Button>
+					</a>
 				) : (
 					<em>{d.table.not_available}</em>
 				)}

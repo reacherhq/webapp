@@ -425,6 +425,18 @@ export interface Database {
 					created_at: string;
 				}[];
 			};
+			get_bulk_results: {
+				Args: {
+					id_param: number;
+				};
+				Returns: {
+					id: number;
+					email: string;
+					is_reachable: Database["public"]["Enums"]["is_reachable_type"];
+					result: Json;
+					verified_at: string;
+				}[];
+			};
 		};
 		Enums: {
 			is_reachable_type: "safe" | "invalid" | "risky" | "unknown";
