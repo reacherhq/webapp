@@ -4,8 +4,13 @@ import React, { useEffect } from "react";
 import { Dashboard, GetStartedBulk } from "@/components/Dashboard";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
+import { ENABLE_BULK } from "@/util/helpers";
 
 export default function Bulk(): React.ReactElement {
+	if (ENABLE_BULK === 0) {
+		throw new Error("Bulk is disabled");
+	}
+
 	const router = useRouter();
 	const { user, userFinishedLoading, subscription } = useUser();
 

@@ -73,9 +73,7 @@ export const UserContextProvider = (
 		const session = supabase.auth.session();
 		setSession(session);
 		setUser(session?.user ?? null);
-		if (!session?.user) {
-			setUserFinishedLoading(true);
-		}
+		setUserFinishedLoading(true);
 		const { data: authListener } = supabase.auth.onAuthStateChange(
 			(_event, session) => {
 				setSession(session);

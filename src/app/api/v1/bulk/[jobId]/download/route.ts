@@ -5,6 +5,7 @@ import { Database } from "@/supabase/database.types";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { components } from "@reacherhq/api/lib/types";
 import { NextRequest } from "next/server";
+import { ENABLE_BULK } from "@/util/helpers";
 
 type ArrayElement<ArrayType extends readonly unknown[]> =
 	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
@@ -22,7 +23,7 @@ export const GET = async (
 	}
 ): Promise<Response> => {
 	// TODO Remove this once we allow Bulk.
-	if (process.env.VERCEL_ENV === "production") {
+	if (ENABLE_BULK === 0) {
 		return Response.json(
 			{ error: "Not available in production" },
 			{ status: 403 }

@@ -15,7 +15,7 @@ export default function VerifySingle(): React.ReactElement {
 		}
 	}, [router, userFinishedLoading, user]);
 
-	if (!user || !subscription) {
+	if (!user) {
 		return (
 			<Page>
 				<Loading />
