@@ -42,7 +42,7 @@ export default function Index(): React.ReactElement {
 				break;
 			default:
 				router
-					.replace("/dashboard/noplan", undefined, {
+					.replace("/dashboard/verify", undefined, {
 						locale: router.locale,
 					})
 					.catch(sentryException);

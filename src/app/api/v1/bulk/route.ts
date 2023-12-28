@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import amqplib from "amqplib";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
-import { getWebappURL } from "@/util/helpers";
+import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
 import {
 	checkUserInDB,
 	isEarlyResponse,
@@ -17,7 +17,7 @@ interface BulkPayload {
 
 export const POST = async (req: NextRequest): Promise<Response> => {
 	// TODO Remove this once we allow Bulk.
-	if (process.env.VERCEL_ENV === "production") {
+	if (ENABLE_BULK === 0) {
 		return Response.json(
 			{ error: "Not available in production" },
 			{ status: 403 }

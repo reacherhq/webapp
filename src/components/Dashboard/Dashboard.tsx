@@ -29,8 +29,10 @@ export function Dashboard({
 
 			<Tabs
 				bulkDisabled={
+					!subscription ||
 					subscription?.prices.product_id === SAAS_10K_PRODUCT_ID
 				}
+				apiDisabled={!subscription}
 				tab={tab}
 			/>
 			{subscription ? children : <GetStartedNoPlan />}
