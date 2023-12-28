@@ -2,17 +2,10 @@
 // https://github.com/vercel/nextjs-subscription-payments/blob/c7867b2d9e08d033056293d12aeb9825b8331806/app/supabase-server.ts
 // License: MIT
 
-import { Database } from "@/supabase/database.types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { cache } from "react";
-
-export const createServerSupabaseClient = cache(() =>
-	createServerComponentClient<Database>({ cookies })
-);
+import { supabaseAdmin } from "./supabaseAdmin";
 
 export async function getSession() {
-	const supabase = createServerSupabaseClient();
+	const supabase = supabaseAdmin;
 	try {
 		const {
 			data: { session },
@@ -25,7 +18,7 @@ export async function getSession() {
 }
 
 export async function getUserDetails() {
-	const supabase = createServerSupabaseClient();
+	const supabase = supabaseAdmin;
 	try {
 		const { data: userDetails } = await supabase
 			.from("users")
@@ -39,7 +32,7 @@ export async function getUserDetails() {
 }
 
 export async function getSubscription() {
-	const supabase = createServerSupabaseClient();
+	const supabase = supabaseAdmin;
 	try {
 		const { data: subscription } = await supabase
 			.from("subscriptions")
@@ -55,7 +48,7 @@ export async function getSubscription() {
 }
 
 export const getActiveProductsWithPrices = async () => {
-	const supabase = createServerSupabaseClient();
+	const supabase = supabaseAdmin;
 	const { data, error } = await supabase
 		.from("products")
 		.select("*, prices(*)")
