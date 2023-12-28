@@ -7,10 +7,6 @@ import { useUser } from "@/util/useUser";
 import { ENABLE_BULK } from "@/util/helpers";
 
 export default function Bulk(): React.ReactElement {
-	if (ENABLE_BULK === 0) {
-		throw new Error("Bulk is disabled");
-	}
-
 	const router = useRouter();
 	const { user, userLoaded, subscription } = useUser();
 
@@ -19,6 +15,10 @@ export default function Bulk(): React.ReactElement {
 			router.replace("/login").catch(sentryException);
 		}
 	}, [router, userLoaded, user]);
+
+	if (ENABLE_BULK === 0) {
+		return <p>Bulk is disabled</p>;
+	}
 
 	if (!user || !subscription) {
 		return (
