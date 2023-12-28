@@ -50,6 +50,10 @@ export const UserContextProvider = (
 			.finally(() => {
 				setUserLoaded(true);
 			});
+
+		supabase.auth.onAuthStateChange((_event, session) => {
+			setUser(session?.user ?? null);
+		});
 	}, [supabase]);
 
 	useEffect(() => {
