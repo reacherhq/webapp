@@ -7,13 +7,9 @@ import React from "react";
 
 import logo from "../assets/logo/reacher.svg";
 import styles from "./Footer.module.css";
-import { dictionary, getLocale } from "@/dictionaries";
-import { usePathname } from "next/navigation";
+import { Dictionary } from "@/dictionaries";
 
-export function Footer(): React.ReactElement {
-	const pathname = usePathname();
-	const d = dictionary(getLocale(pathname));
-
+export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 	return (
 		<footer className={styles.container}>
 			<div className={styles.top}>

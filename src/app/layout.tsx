@@ -2,7 +2,6 @@ import { GeistProvider, myTheme } from "@/components/Geist";
 
 import "./global.css";
 import "./geist.gen.css";
-import { Footer } from "@/components/Footer";
 
 export const metadata = {
 	title: "Reacher Email Verification",
@@ -19,7 +18,6 @@ export default function RootLayout({
 			<body>
 				<GeistProvider themes={[myTheme]} themeType="default">
 					{children}
-					<Footer />
 				</GeistProvider>
 			</body>
 		</html>

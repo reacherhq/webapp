@@ -4,13 +4,10 @@ import { Card, Text } from "@geist-ui/react";
 import Markdown from "marked-react";
 import React from "react";
 import { LinkRenderer } from "@/components/Markdown";
-import { dictionary, getLocale } from "@/dictionaries";
-import { usePathname } from "next/navigation";
+import { Dictionary } from "@/dictionaries";
 
-export function GetStartedNoPlan() {
-	const pathname = usePathname();
-	const lang = getLocale(pathname);
-	const d = dictionary(lang).dashboard.get_started_no_plan;
+export function GetStartedNoPlan(props: { d: Dictionary }) {
+	const d = props.d.dashboard.get_started_no_plan;
 
 	return (
 		<Card>

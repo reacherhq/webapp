@@ -1,20 +1,22 @@
+import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav/Nav";
 import { dictionary } from "@/dictionaries";
 import React from "react";
 
-export default function Layout({
+export default async function Layout({
 	children,
 	params: { lang },
 }: {
 	children: React.ReactNode;
 	params: { lang: string };
 }) {
-	const d = dictionary(lang);
+	const d = await dictionary(lang);
 
 	return (
 		<>
 			<Nav d={d} />
 			{children}
+			<Footer d={d} />
 		</>
 	);
 }

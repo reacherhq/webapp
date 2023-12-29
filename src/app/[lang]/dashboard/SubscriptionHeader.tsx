@@ -8,23 +8,20 @@ import {
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
 import { formatDate } from "@/util/helpers";
-import { dictionary, getLocale } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 
 import styles from "./SubscriptionHeader.module.css";
-import { usePathname } from "next/navigation";
 import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 
 interface SubscriptionHeaderProps {
+	d: Dictionary;
 	subscription: SubscriptionWithPrice | null;
 }
 
 export function SubscriptionHeader({
+	d,
 	subscription,
 }: SubscriptionHeaderProps): React.ReactElement {
-	const pathname = usePathname();
-	const lang = getLocale(pathname);
-	const d = dictionary(lang);
-
 	return (
 		<section className={styles.plan}>
 			<div>
@@ -44,12 +41,12 @@ export function SubscriptionHeader({
 				</Text>
 				{subscription && (
 					<>
-						<StripeMananageButton>
+						<StripeMananageButton d={d}>
 							{d.dashboard.header.manage_subscription}
 						</StripeMananageButton>
 					</>
 				)}
-				<StripeMananageButton>
+				<StripeMananageButton d={d}>
 					{d.dashboard.header.billing_history}
 				</StripeMananageButton>
 			</div>
@@ -64,7 +61,7 @@ export function SubscriptionHeader({
 					<Text p small em className="text-right mt-0">
 						{d.dashboard.header.plan_ends_on.replace(
 							"%s",
-							formatDate(new Date(subscription.cancel_at), lang)
+							formatDate(new Date(subscription.cancel_at), d.lang)
 						)}
 					</Text>
 				)}
@@ -87,7 +84,7 @@ export function SubscriptionHeader({
 // Get the user-friendly name of a product.
 function productName(
 	product_id: string | null | undefined,
-	d: ReturnType<typeof dictionary>
+	d: Dictionary
 ): string {
 	switch (product_id) {
 		case COMMERCIAL_LICENSE_PRODUCT_ID:

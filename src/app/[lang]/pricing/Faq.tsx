@@ -2,11 +2,11 @@
 
 import { Collapse, Page, Spacer, Text } from "@/components/Geist";
 import React from "react";
-import { dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
 
-export function Faq({ lang }: { lang: string }) {
-	const d = dictionary(lang || "en").pricing;
+export function Faq(props: { d: Dictionary }) {
+	const d = props.d.pricing;
 
 	return (
 		<Page>

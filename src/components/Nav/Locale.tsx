@@ -4,7 +4,6 @@ import { Select } from "@/components/Geist";
 import React from "react";
 import styles from "./Nav.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { getLocale } from "@/dictionaries";
 
 export function Locale() {
 	const pathname = usePathname();
@@ -31,3 +30,11 @@ const redirectedPathname = (pathname: string | null, locale: string) => {
 	segments[1] = locale;
 	return segments.join("/");
 };
+
+// Get locale from pathname.
+function getLocale(pathname: string | null) {
+	if (!pathname) return "en";
+	const segments = pathname.split("/");
+	if (segments[1] === "fr") return "fr";
+	return "en";
+}

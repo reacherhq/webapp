@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
-import { Dictionary, dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
 import { LinkRenderer, SpanRenderer } from "../../../../components/Markdown";
 import { UserDetails } from "@/supabase/supabaseServer";
@@ -14,7 +14,7 @@ import { UserDetails } from "@/supabase/supabaseServer";
 function alertError(
 	email: string,
 	e: string,
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
+	d: Dictionary["dashboard"]["get_started_saas"]
 ) {
 	alert(d.unexpected_error.replace("%s1", email).replace("%s2", e));
 }
@@ -120,7 +120,7 @@ export function GetStartedSaaS({
 
 function explanation(
 	result: CheckEmailOutput,
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
+	d: Dictionary["dashboard"]["get_started_saas"]
 ): string {
 	return d[`result_${result.is_reachable}`];
 }

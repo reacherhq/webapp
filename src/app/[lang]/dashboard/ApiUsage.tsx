@@ -5,24 +5,24 @@ import { sentryException } from "@/util/sentry";
 import { subApiMaxCalls } from "@/util/subs";
 import styles from "./ApiUsage.module.css";
 import { formatDate } from "@/util/helpers";
-import { dictionary, getLocale } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import { Tables } from "@/supabase/database.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { parseISO, subMonths } from "date-fns";
-import { usePathname } from "next/navigation";
 import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 import { createClient } from "@/supabase/client";
 
 interface ApiUsageProps {
+	d: Dictionary;
 	subscription: SubscriptionWithPrice;
 }
 
-export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
+export function ApiUsage({
+	subscription,
+	d,
+}: ApiUsageProps): React.ReactElement {
 	const supabase = createClient();
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
-	const pathname = usePathname();
-	const lang = getLocale(pathname);
-	const d = dictionary(lang).dashboard;
 
 	useEffect(() => {
 		getApiUsageClient(supabase, subscription)
@@ -34,17 +34,21 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 		<section>
 			<div className={styles.textContainer}>
 				<Text h5>
-					{d.emails_this_month}
+					{d.dashboard.emails_this_month}
 					{subscription && (
 						<>
 							{" "}
 							(
 							{formatDate(
 								subscription.current_period_start,
-								lang
+								d.lang
 							)}{" "}
 							-{" "}
-							{formatDate(subscription.current_period_end, lang)})
+							{formatDate(
+								subscription.current_period_end,
+								d.lang
+							)}
+							)
 						</>
 					)}
 				</Text>

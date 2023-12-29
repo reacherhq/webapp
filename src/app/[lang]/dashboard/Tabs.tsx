@@ -1,24 +1,23 @@
 import { Tabs as GTabs } from "@geist-ui/react";
 import React from "react";
-import { dictionary, getLocale } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import Mail from "@geist-ui/react-icons/mail";
 import Database from "@geist-ui/react-icons/database";
 import GitPullRequest from "@geist-ui/react-icons/gitPullRequest";
 import Lock from "@geist-ui/react-icons/lock";
 import { ENABLE_BULK } from "@/util/helpers";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export interface TabsProps {
+	d: Dictionary;
 	apiDisabled: boolean;
 	bulkDisabled: boolean;
 	tab: "verify" | "bulk" | "api";
 }
 
-export function Tabs({ apiDisabled, bulkDisabled, tab }: TabsProps) {
-	const pathname = usePathname();
-	const lang = getLocale(pathname);
-	const d = dictionary(lang).dashboard.tabs;
+export function Tabs({ apiDisabled, bulkDisabled, tab, ...props }: TabsProps) {
 	const router = useRouter();
+	const d = props.d.dashboard.tabs;
 
 	const handler = (value: string) => {
 		router.push(`/dashboard/${value}`);

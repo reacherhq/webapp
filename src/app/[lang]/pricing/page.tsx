@@ -11,7 +11,7 @@ export default async function Pricing({
 	params: { lang: string };
 }) {
 	const products = await getActiveProductsWithPrices();
-	const d = dictionary(lang);
+	const d = await dictionary(lang);
 
 	return (
 		<>
@@ -28,7 +28,7 @@ export default async function Pricing({
 				<Plans d={d} products={products} />
 
 				<Spacer h={2} />
-				<Faq lang={lang} />
+				<Faq d={d} />
 			</section>
 		</>
 	);

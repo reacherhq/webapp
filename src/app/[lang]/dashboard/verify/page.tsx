@@ -14,10 +14,10 @@ export default async function VerifySingle({
 }) {
 	const subscription = await getSubscription();
 	const userDetails = await getUserDetails();
-	const d = dictionary(lang);
+	const d = await dictionary(lang);
 
 	return (
-		<Dashboard subscription={subscription} tab="verify">
+		<Dashboard d={d} subscription={subscription} tab="verify">
 			{subscription ? (
 				<>
 					<GetStartedSaaS userDetails={userDetails} d={d} />
@@ -25,7 +25,7 @@ export default async function VerifySingle({
 					<GetStartedApi userDetails={userDetails} d={d} />
 				</>
 			) : (
-				<GetStartedNoPlan />
+				<GetStartedNoPlan d={d} />
 			)}
 		</Dashboard>
 	);
