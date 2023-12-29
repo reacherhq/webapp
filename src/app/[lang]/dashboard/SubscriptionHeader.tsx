@@ -1,6 +1,5 @@
 import { Text } from "@geist-ui/react";
 import React from "react";
-import Link from "next/link";
 import { StripeMananageButton } from "./StripeManageButton";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
@@ -12,6 +11,7 @@ import { Dictionary } from "@/dictionaries";
 
 import styles from "./SubscriptionHeader.module.css";
 import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
+import { DLink } from "@/components/DLink";
 
 interface SubscriptionHeaderProps {
 	d: Dictionary;
@@ -68,12 +68,13 @@ export function SubscriptionHeader({
 				{subscription?.prices?.product_id !==
 					COMMERCIAL_LICENSE_PRODUCT_ID && (
 					<div className="text-right">
-						<Link
+						<DLink
+							d={d}
 							href="/pricing"
 							data-sa-link-event="dashboard:upgrade:click"
 						>
 							<strong>{d.dashboard.header.upgrade}</strong>
-						</Link>
+						</DLink>
 					</div>
 				)}
 			</div>

@@ -25,9 +25,13 @@ export function ApiUsage({
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
 
 	useEffect(() => {
-		getApiUsageClient(supabase, subscription)
-			.then(setApiCalls)
-			.catch(sentryException);
+		const t = setInterval(() => {
+			getApiUsageClient(supabase, subscription)
+				.then(setApiCalls)
+				.catch(sentryException);
+		}, 3000);
+
+		return () => clearInterval(t);
 	}, [supabase, subscription]);
 
 	return (
@@ -61,13 +65,17 @@ export function ApiUsage({
 							apiCalls
 						)}
 					</Text>
-					/{subApiMaxCalls(subscription)}
+					/{subApiMaxCalls(subscription?.prices?.product_id)}
 				</Text>
 			</div>
 
 			<Capacity
 				className={styles.capacity}
-				value={((apiCalls || 0) / subApiMaxCalls(subscription)) * 100}
+				value={
+					((apiCalls || 0) /
+						subApiMaxCalls(subscription?.prices?.product_id)) *
+					100
+				}
 			/>
 		</section>
 	);

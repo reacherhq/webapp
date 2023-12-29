@@ -12,7 +12,9 @@ export function GetStartedNoPlan(props: { d: Dictionary }) {
 	return (
 		<Card>
 			<Text h4>{d.title}</Text>
-			<Markdown renderer={LinkRenderer}>{d.head_to_pricing}</Markdown>
+			<Markdown renderer={LinkRenderer(props.d)}>
+				{d.head_to_pricing}
+			</Markdown>
 		</Card>
 	);
 }

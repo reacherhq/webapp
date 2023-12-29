@@ -8,7 +8,7 @@ import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { Dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
-import { LinkRenderer, SpanRenderer } from "../../../../components/Markdown";
+import { SpanRenderer } from "../../../../components/Markdown";
 import { UserDetails } from "@/supabase/supabaseServer";
 
 function alertError(
@@ -110,8 +110,6 @@ export function GetStartedSaaS({
 						</Markdown>
 					</Text>
 					<Code block>{JSON.stringify(result, undefined, "  ")}</Code>
-					<Spacer />
-					<Markdown renderer={LinkRenderer}>{d.see_api}</Markdown>
 				</>
 			)}
 		</Card>

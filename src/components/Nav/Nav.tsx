@@ -5,10 +5,10 @@ import { Button, Select, SelectOption, Spacer, Text } from "@/components/Geist";
 import Image from "next/image";
 import logo from "@/assets/logo/reacher.svg";
 import styles from "./Nav.module.css";
-import Link from "next/link";
 import { Dictionary } from "@/dictionaries";
 import { Locale } from "./Locale";
 import { SignOut } from "./SignOut";
+import { DLink } from "../DLink";
 
 export async function Nav({ d }: { d: Dictionary }) {
 	const cookieStore = cookies();
@@ -21,7 +21,8 @@ export async function Nav({ d }: { d: Dictionary }) {
 	return (
 		<header className={styles.container}>
 			<div>
-				<Link
+				<DLink
+					d={d}
 					className="flex"
 					href={user ? "/" : "https://reacher.email"}
 				>
@@ -43,21 +44,22 @@ export async function Nav({ d }: { d: Dictionary }) {
 							</Text>
 						)}
 					</Text>
-				</Link>
+				</DLink>
 			</div>
 
 			<div className={styles.filler} />
 
 			<div>
-				<Link
+				<DLink
+					d={d}
 					className={styles.link}
 					href="/pricing"
 					data-sa-link-event="nav:pricing:click"
 				>
 					{d.nav.pricing}
-				</Link>
+				</DLink>
 
-				<Link
+				<a
 					className={styles.link}
 					href="https://help.reacher.email"
 					target="_blank"
@@ -65,7 +67,7 @@ export async function Nav({ d }: { d: Dictionary }) {
 					data-sa-link-event="nav:help:click"
 				>
 					{d.nav.help}
-				</Link>
+				</a>
 				<Locale />
 			</div>
 
@@ -78,15 +80,15 @@ export async function Nav({ d }: { d: Dictionary }) {
 				</Select>
 			) : (
 				<>
-					<Link href="/login">
+					<DLink d={d} href="/login">
 						<Button auto>{d.nav.login}</Button>
-					</Link>
+					</DLink>
 					<Spacer w={0.5} />
-					<Link href="/signup">
+					<DLink d={d} href="/signup">
 						<Button auto type="success">
 							{d.nav.signup}
 						</Button>
-					</Link>
+					</DLink>
 				</>
 			)}
 		</header>

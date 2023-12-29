@@ -13,7 +13,13 @@ import { sentryException } from "@/util/sentry";
 export async function POST(req: Request) {
 	if (req.method === "POST") {
 		// 1. Destructure the price and quantity from the POST body
-		const { price, quantity = 1, metadata = {}, locale } = await req.json();
+		const {
+			price,
+			quantity = 1,
+			metadata = {},
+			...rest
+		} = await req.json();
+		const locale = rest.locale || "en";
 
 		try {
 			// 2. Get the user from Supabase auth
@@ -51,8 +57,8 @@ export async function POST(req: Request) {
 						trial_from_plan: true,
 						metadata,
 					},
-					success_url: `${getWebappURL()}/account`,
-					cancel_url: `${getWebappURL()}/`,
+					success_url: `${getWebappURL()}/${locale}/dashboard`,
+					cancel_url: `${getWebappURL()}/${locale}/dashboard`,
 				});
 			} else if (price.type === "one_time") {
 				session = await stripe.checkout.sessions.create({
@@ -71,8 +77,8 @@ export async function POST(req: Request) {
 					locale,
 					mode: "payment",
 					allow_promotion_codes: true,
-					success_url: `${getWebappURL()}/account`,
-					cancel_url: `${getWebappURL()}/`,
+					success_url: `${getWebappURL()}/${locale}/dashboard`,
+					cancel_url: `${getWebappURL()}/${locale}/dashboard`,
 				});
 			}
 

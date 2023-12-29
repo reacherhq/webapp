@@ -4,6 +4,8 @@ import { dictionary } from "@/dictionaries";
 import { getActiveProductsWithPrices } from "@/supabase/supabaseServer";
 import { Plans } from "./Plans";
 import { Faq } from "./Faq";
+import { Nav } from "@/components/Nav/Nav";
+import { Footer } from "@/components/Footer";
 
 export default async function Pricing({
 	params: { lang },
@@ -15,6 +17,7 @@ export default async function Pricing({
 
 	return (
 		<>
+			<Nav d={d} />
 			<Spacer h={5} />
 			<Text className="text-center" h2>
 				{d.pricing.title}
@@ -30,6 +33,7 @@ export default async function Pricing({
 				<Spacer h={2} />
 				<Faq d={d} />
 			</section>
+			<Footer d={d} />
 		</>
 	);
 }

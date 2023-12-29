@@ -1,19 +1,17 @@
-// TODO this should be server-side
-"use client";
-
-import { Divider, Grid, Link, Spacer, Text } from "@/components/Geist";
+import { Divider, Grid, Spacer, Text, GridContainer } from "@/components/Geist";
 import Image from "next/image";
 import React from "react";
-
 import logo from "../assets/logo/reacher.svg";
 import styles from "./Footer.module.css";
 import { Dictionary } from "@/dictionaries";
+import { DLink } from "./DLink";
+import poweredByVercel from "@/assets/img/powered-by-vercel.svg";
 
 export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 	return (
 		<footer className={styles.container}>
 			<div className={styles.top}>
-				<Grid.Container justify="space-between">
+				<GridContainer justify="space-between">
 					<Grid className={styles.grid} xs={5}>
 						<div>
 							<Image
@@ -35,94 +33,94 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 						<h5>{d.footer.sitemap.title}</h5>
 						<Spacer h={2} />
 						<div>
-							<Link href="https://reacher.email">
+							<a href="https://reacher.email">
 								{d.footer.sitemap.homepage}
-							</Link>
+							</a>
 						</div>
 						<Spacer />
 						<div>
-							<Link href="/pricing">
+							<DLink href="/pricing" d={d}>
 								{d.footer.sitemap.pricing}
-							</Link>
+							</DLink>
 						</div>
 						<Spacer />
-						<Link
+						<a
 							href="https://help.reacher.email/cgu-cgv"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
 							{d.footer.sitemap.tos}
-						</Link>
+						</a>
 						<Spacer />
-						<Link
+						<a
 							href="https://help.reacher.email/politique-de-confidentialit"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
 							{d.footer.sitemap.privacy}
-						</Link>
+						</a>
 						<Spacer />
-						<Link
+						<a
 							href="https://help.reacher.email/mentions-lgales"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
 							{d.footer.sitemap.legal_mentions}
-						</Link>
+						</a>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>{d.footer.help.title}</Text>
 						<Spacer h={2} />
 						<div>
-							<Link
+							<a
 								href="https://help.reacher.email/self-host-guide"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								{d.footer.help.self_host}
-							</Link>
+							</a>
 						</div>
 						<Spacer />
 						<div>
-							<Link
+							<a
 								href="https://reacher.stoplight.io/docs/backend/76c074a57efb1-check-email"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								{d.footer.help.api}
-							</Link>
+							</a>
 						</div>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>{d.footer.contact.title}</Text>
 						<Spacer h={2} />
 						<div>
-							<Link href="mailto:amaury@reacher.email">
+							<a href="mailto:amaury@reacher.email">
 								{d.footer.contact.email}
-							</Link>
+							</a>
 						</div>
 						<Spacer />
 						<div>
-							<Link
+							<a
 								href="https://github.com/reacherhq/check-if-email-exists"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								{d.footer.contact.github}
-							</Link>
+							</a>
 						</div>
 						<Spacer />
 						<div>
-							<Link
+							<a
 								href="https://help.reacher.email"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								{d.footer.contact.help}
-							</Link>
+							</a>
 						</div>
 					</Grid>
-				</Grid.Container>
+				</GridContainer>
 			</div>
 
 			<Spacer />
@@ -136,7 +134,7 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<img alt="Powered by Vercel" src="/powered-by-vercel.svg" />
+					<Image alt="Powered by Vercel" src={poweredByVercel} />
 				</a>
 			</div>
 			<Spacer />

@@ -26,11 +26,12 @@ export async function POST(req: Request) {
 
 			if (!customer) throw Error("Could not get customer");
 			// This line was added to the original code.
-			const { locale } = (await req.json()) as { locale?: "fr" | "en" };
+			const body = (await req.json()) as { locale?: "fr" | "en" };
+			const locale = body.locale || "en";
 			const { url } = await stripe.billingPortal.sessions.create({
 				customer,
 				locale,
-				return_url: `${getWebappURL()}/account`,
+				return_url: `${getWebappURL()}/${locale}/dashboard`,
 			});
 			return new Response(JSON.stringify({ url }), {
 				status: 200,
