@@ -1,7 +1,8 @@
-import { GeistProvider, myTheme } from "@/components/Geist";
-
 import "./global.css";
 import "./geist.gen.css";
+
+import { GeistProvider, myTheme } from "@/components/Geist";
+import Script from "next/script";
 import { Crisp } from "@/components/Crisp";
 
 export const metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
 	return (
 		<html>
 			<head>
+				<meta charSet="utf-8" />
 				<link rel="icon" href="/favicon.png" sizes="any" />
 			</head>
 			<body>
@@ -25,6 +27,19 @@ export default function RootLayout({
 					{children}
 				</GeistProvider>
 				<Crisp />
+				<Script
+					async
+					src="https://scripts.simpleanalyticscdn.com/latest.js"
+				/>
+				<Script
+					async
+					src="https://scripts.simpleanalyticscdn.com/auto-events.js"
+				></Script>
+				<Script
+					async
+					src="/js/simpleanalytics.js"
+					type="text/javascript"
+				></Script>
 			</body>
 		</html>
 	);
