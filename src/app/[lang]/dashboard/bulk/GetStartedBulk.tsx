@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { Dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";

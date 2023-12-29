@@ -40,7 +40,6 @@ export function Dashboard({
 						!subscription ||
 						subscription?.prices?.product_id === SAAS_10K_PRODUCT_ID
 					}
-					apiDisabled={!subscription}
 					tab={tab}
 				/>
 			)}

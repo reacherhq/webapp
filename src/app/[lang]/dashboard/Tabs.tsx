@@ -3,19 +3,17 @@ import React from "react";
 import { Dictionary } from "@/dictionaries";
 import Mail from "@geist-ui/react-icons/mail";
 import Database from "@geist-ui/react-icons/database";
-import GitPullRequest from "@geist-ui/react-icons/gitPullRequest";
 import Lock from "@geist-ui/react-icons/lock";
 import { ENABLE_BULK } from "@/util/helpers";
 import { useRouter } from "next/navigation";
 
 export interface TabsProps {
 	d: Dictionary;
-	apiDisabled: boolean;
 	bulkDisabled: boolean;
 	tab: "verify" | "bulk" | "api";
 }
 
-export function Tabs({ apiDisabled, bulkDisabled, tab, ...props }: TabsProps) {
+export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
 	const router = useRouter();
 	const d = props.d.dashboard.tabs;
 
@@ -50,17 +48,6 @@ export function Tabs({ apiDisabled, bulkDisabled, tab, ...props }: TabsProps) {
 					)
 				}
 				value="bulk"
-			/>
-
-			<GTabs.Item
-				disabled={apiDisabled}
-				label={
-					<>
-						<GitPullRequest />
-						{d.api}
-					</>
-				}
-				value="api"
 			/>
 		</GTabs>
 	) : null;
