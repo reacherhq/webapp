@@ -6,7 +6,10 @@ import Script from "next/script";
 import { Crisp } from "@/components/Crisp";
 
 export const metadata = {
-	title: "Reacher Email Verification",
+	title: {
+		template: "%s | Reacher Email Verification",
+		default: "Reacher Email Verification",
+	},
 	description:
 		"Reacher is a simple, fast, accurate email verification tool to reduce your bounce rate and avoid spam sign-ups. We check SMTP responses, MX records, catch-all and disposable addresses.",
 };

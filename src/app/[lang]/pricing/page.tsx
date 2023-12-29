@@ -11,6 +11,10 @@ import { Faq } from "./Faq";
 import { Nav } from "@/components/Nav/Nav";
 import { Footer } from "@/components/Footer";
 
+export const metadata = {
+	title: "Pricing",
+};
+
 export default async function Pricing({
 	params: { lang },
 }: {
