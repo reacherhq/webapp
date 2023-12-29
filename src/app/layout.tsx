@@ -2,7 +2,6 @@ import { GeistProvider, myTheme } from "@/components/Geist";
 
 import "./global.css";
 import "./geist.gen.css";
-import { Nav } from "@/components/Nav/Nav";
 import { Footer } from "@/components/Footer";
 
 export const metadata = {
@@ -19,7 +18,6 @@ export default function RootLayout({
 		<html lang="en">
 			<body>
 				<GeistProvider themes={[myTheme]} themeType="default">
-					<Nav />
 					{children}
 					<Footer />
 				</GeistProvider>

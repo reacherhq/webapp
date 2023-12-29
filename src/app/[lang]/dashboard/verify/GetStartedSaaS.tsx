@@ -8,7 +8,7 @@ import { useUser } from "@/util/useUser";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
-import { LinkRenderer, SpanRenderer } from "../Markdown";
+import { LinkRenderer, SpanRenderer } from "../../../../components/Markdown";
 
 function alertError(
 	email: string,

@@ -1,7 +1,7 @@
 import { Card, Text } from "@geist-ui/react";
 import Markdown from "marked-react";
 import React from "react";
-import { LinkRenderer } from "../Markdown";
+import { LinkRenderer } from "../../../../components/Markdown";
 import { useRouter } from "next/router";
 import { dictionary } from "@/dictionaries";
 

@@ -1,26 +1,22 @@
-import { Button, Select, Spacer, Text } from "@/components/Geist";
-import Image from "next/image";
 import React from "react";
-import logo from "@/assets/logo/reacher.svg";
-import { sentryException } from "@/util/sentry";
-import styles from "./Nav.module.css";
-import Link from "next/link";
-import { dictionary } from "@/dictionaries";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
-import { redirect } from "next/navigation";
+import { Button, Select, SelectOption, Spacer, Text } from "@/components/Geist";
+import Image from "next/image";
+import logo from "@/assets/logo/reacher.svg";
+import styles from "./Nav.module.css";
+import Link from "next/link";
+import { Dictionary } from "@/dictionaries";
 import { Locale } from "./Locale";
+import { SignOut } from "./SignOut";
 
-export async function Nav() {
+export async function Nav({ d }: { d: Dictionary }) {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
 
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
-	console.log(await supabase.auth.getSession());
-
-	const d = dictionary("en");
 
 	return (
 		<header className={styles.container}>
@@ -76,16 +72,9 @@ export async function Nav() {
 			<Spacer w={2} />
 			{user ? (
 				<Select className={styles.dropdown} placeholder={user.email}>
-					<Select.Option
-						onClick={() => {
-							supabase.auth
-								.signOut()
-								.then(() => redirect("/login"))
-								.catch(sentryException);
-						}}
-					>
-						{d.nav.logout}
-					</Select.Option>
+					<SelectOption value="logout">
+						<SignOut d={d} />
+					</SelectOption>
 				</Select>
 			) : (
 				<>

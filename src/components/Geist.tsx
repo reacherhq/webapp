@@ -2,6 +2,7 @@
 
 import { Themes } from "@geist-ui/react";
 export * from "@geist-ui/react";
+export { default as SelectOption } from "@geist-ui/react/esm/select/select-option";
 
 export const myTheme = Themes.createFromLight({
 	type: "default",

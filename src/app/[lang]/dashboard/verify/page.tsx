@@ -1,11 +1,12 @@
 import { Loading, Page } from "@geist-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { GetStartedSaaS, Dashboard } from "@/components/Dashboard";
+import { Dashboard } from "../Dashboard";
+import { GetStartedSaaS } from "./GetStartedSaaS";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
 
-export default function VerifySingle(): React.ReactElement {
+export default async function VerifySingle() {
 	const router = useRouter();
 	const { user, userLoaded, subscription } = useUser();
 

@@ -1,21 +1,19 @@
+"use client";
+
 import { Page, Spacer } from "@geist-ui/react";
 import React from "react";
-import { ApiUsage, SubscriptionHeader, Tabs } from "@/components/Dashboard";
-import { TabsProps } from "./Tabs";
+import { ApiUsage } from "./ApiUsage";
+import { Tabs, TabsProps } from "./Tabs";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { SAAS_10K_PRODUCT_ID } from "@/util/subs";
-import { GetStartedNoPlan } from "./GetStartedNoPlan";
+import { SubscriptionHeader } from "./SubscriptionHeader";
 
 interface DashboardProps {
 	children: React.ReactNode;
 	subscription: SubscriptionWithPrice | null;
 	tab: TabsProps["tab"];
 }
-export function Dashboard({
-	children,
-	subscription,
-	tab,
-}: DashboardProps): React.ReactElement {
+export function Dashboard({ children, subscription, tab }: DashboardProps) {
 	return (
 		<Page>
 			<SubscriptionHeader subscription={subscription} />
@@ -26,7 +24,6 @@ export function Dashboard({
 					<Spacer h={2} />
 				</>
 			)}
-
 			<Tabs
 				bulkDisabled={
 					!subscription ||
@@ -35,7 +32,7 @@ export function Dashboard({
 				apiDisabled={!subscription}
 				tab={tab}
 			/>
-			{subscription ? children : <GetStartedNoPlan />}
+			{children}
 		</Page>
 	);
 }
