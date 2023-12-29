@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 			const { url } = await stripe.billingPortal.sessions.create({
 				customer,
 				locale,
-				return_url: `${getWebappURL()}/${locale}/dashboard/verify`,
+				return_url: `${getWebappURL()}/${locale}/dashboard`,
 			});
 			return new Response(JSON.stringify({ url }), {
 				status: 200,

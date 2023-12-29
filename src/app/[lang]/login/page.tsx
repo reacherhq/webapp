@@ -10,14 +10,12 @@ import { getSession } from "@/supabase/supabaseServer";
 
 export default async function SignIn({
 	params: { lang },
-	searchParams: { view },
 }: {
 	params: { lang: string };
-	searchParams: { view?: "sign_up" };
 }) {
 	const session = await getSession();
 	if (session) {
-		return redirect(`/${lang}/dashboard/verify`);
+		return redirect(`/${lang}/dashboard`);
 	}
 	const d = await dictionary(lang);
 
@@ -30,7 +28,7 @@ export default async function SignIn({
 				{d.login.title}
 			</Text>
 			<div className={styles.container}>
-				<AuthUI d={d} view={view} />
+				<AuthUI d={d} />
 			</div>
 
 			<Footer d={d} />

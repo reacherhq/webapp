@@ -12,29 +12,38 @@ import { Dictionary } from "@/dictionaries";
 interface DashboardProps {
 	children: React.ReactNode;
 	d: Dictionary;
+	showApiUsage?: boolean;
 	subscription: SubscriptionWithPrice | null;
-	tab: TabsProps["tab"];
+	tab: TabsProps["tab"] | false;
 }
-export function Dashboard({ children, d, subscription, tab }: DashboardProps) {
+export function Dashboard({
+	children,
+	d,
+	showApiUsage,
+	subscription,
+	tab,
+}: DashboardProps) {
 	return (
 		<Page>
 			<SubscriptionHeader d={d} subscription={subscription} />
 			<Spacer h={2} />
-			{subscription && (
+			{showApiUsage && subscription && (
 				<>
 					<ApiUsage d={d} subscription={subscription} />
 					<Spacer h={2} />
 				</>
 			)}
-			<Tabs
-				d={d}
-				bulkDisabled={
-					!subscription ||
-					subscription?.prices?.product_id === SAAS_10K_PRODUCT_ID
-				}
-				apiDisabled={!subscription}
-				tab={tab}
-			/>
+			{tab !== false && (
+				<Tabs
+					d={d}
+					bulkDisabled={
+						!subscription ||
+						subscription?.prices?.product_id === SAAS_10K_PRODUCT_ID
+					}
+					apiDisabled={!subscription}
+					tab={tab}
+				/>
+			)}
 			{children}
 		</Page>
 	);

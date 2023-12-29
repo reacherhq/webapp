@@ -57,8 +57,8 @@ export async function POST(req: Request) {
 						trial_from_plan: true,
 						metadata,
 					},
-					success_url: `${getWebappURL()}/${locale}/dashboard/verify`,
-					cancel_url: `${getWebappURL()}/${locale}/dashboard/verify`,
+					success_url: `${getWebappURL()}/${locale}/dashboard`,
+					cancel_url: `${getWebappURL()}/${locale}/dashboard`,
 				});
 			} else if (price.type === "one_time") {
 				session = await stripe.checkout.sessions.create({
@@ -77,8 +77,8 @@ export async function POST(req: Request) {
 					locale,
 					mode: "payment",
 					allow_promotion_codes: true,
-					success_url: `${getWebappURL()}/${locale}/dashboard/verify`,
-					cancel_url: `${getWebappURL()}/${locale}/dashboard/verify`,
+					success_url: `${getWebappURL()}/${locale}/dashboard`,
+					cancel_url: `${getWebappURL()}/${locale}/dashboard`,
 				});
 			}
 

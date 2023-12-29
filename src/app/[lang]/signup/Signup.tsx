@@ -14,6 +14,7 @@ import { sentryException } from "@/util/sentry";
 import { Dictionary } from "@/dictionaries";
 import { createClient } from "@/supabase/client";
 import { DLink } from "@/components/DLink";
+import { getWebappURL } from "@/util/helpers";
 
 export default function SignUp(props: { d: Dictionary }): React.ReactElement {
 	const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ export default function SignUp(props: { d: Dictionary }): React.ReactElement {
 			password,
 			options: {
 				data: feedback ? { heardFrom: feedback } : undefined,
+				emailRedirectTo: `${getWebappURL()}/auth/callback`,
 			},
 		});
 		if (error) {

@@ -13,7 +13,7 @@ export default async function SignUpPage({
 }) {
 	const session = await getSession();
 	if (session) {
-		return redirect(`/${lang}/dashboard/verify`);
+		return redirect(`/${lang}/dashboard`);
 	}
 	const d = await dictionary(lang);
 

@@ -11,7 +11,10 @@ export default async function Dashboard({
 
 	switch (subscription?.prices?.product_id) {
 		case COMMERCIAL_LICENSE_PRODUCT_ID:
-			redirect(`/${lang}/dashboard/license`, RedirectType.replace);
+			redirect(
+				`/${lang}/dashboard/commercial_license`,
+				RedirectType.replace
+			);
 		default:
 			redirect(`/${lang}/dashboard/verify`, RedirectType.replace);
 	}
