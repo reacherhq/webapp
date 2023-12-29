@@ -12,7 +12,7 @@ export function SignOut({ d, email }: { d: Dictionary; email?: string }) {
 	const router = useRouter();
 	const handleSignOut = async () => {
 		await supabase.auth.signOut();
-		router.push(`/${d.lang}/login`);
+		router.refresh();
 	};
 
 	return (

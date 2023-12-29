@@ -23,7 +23,6 @@
 		"@sendinblue/client": "^3.3.1",
 		"@sentry/nextjs": "^7.86.0",
 		"@stripe/stripe-js": "^1.52.0",
-		"@supabase/auth-helpers-nextjs": "^0.8.7",
 		"@supabase/auth-ui-react": "^0.4.6",
 		"@supabase/ssr": "^0.0.10",
 		"@supabase/supabase-js": "^2.39.1",

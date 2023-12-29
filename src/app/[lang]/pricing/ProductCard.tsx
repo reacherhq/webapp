@@ -1,5 +1,4 @@
 import { Button } from "@geist-ui/react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { postData } from "@/util/helpers";
@@ -10,6 +9,7 @@ import { Card } from "./Card";
 import { Tables } from "@/supabase/database.types";
 import { Dictionary } from "@/dictionaries";
 import { ProductWithPrice } from "@/supabase/supabaseServer";
+import { DLink } from "@/components/DLink";
 
 export interface ProductCardProps {
 	d: Dictionary;
@@ -32,7 +32,6 @@ export function ProductCard({
 	...props
 }: ProductCardProps): React.ReactElement {
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
-	const router = useRouter();
 	const d = props.d.pricing;
 
 	const active = !!subscription;
@@ -45,8 +44,6 @@ export function ProductCard({
 		setPriceIdLoading(price.id);
 
 		if (!isLoggedIn) {
-			router.push(`/${props.d.lang}/signup`);
-
 			return;
 		}
 
@@ -78,35 +75,45 @@ export function ProductCard({
 		minimumFractionDigits: 0,
 	}).format(price.unit_amount / 100);
 
+	const b = (
+		<Button
+			className="full-width"
+			disabled={!!priceIdLoading || active}
+			onClick={() => {
+				window.sa_event &&
+					window.sa_event(
+						`pricing:${
+							product.id === COMMERCIAL_LICENSE_PRODUCT_ID
+								? "commercial"
+								: "saas"
+						}`
+					);
+				handleCheckout(price).catch(sentryException);
+			}}
+			type="success"
+		>
+			{priceIdLoading
+				? isLoggedIn
+					? d.cards.redirecting_to_stripe
+					: d.cards.redirecting_to_signup
+				: active
+				? d.cards.current_plan
+				: isLoggedIn
+				? d.cards.select_plan_cta
+				: d.cards.get_started}
+		</Button>
+	);
+
 	return (
 		<Card
 			cta={
-				<Button
-					className="full-width"
-					disabled={!!priceIdLoading || active}
-					onClick={() => {
-						window.sa_event &&
-							window.sa_event(
-								`pricing:${
-									product.id === COMMERCIAL_LICENSE_PRODUCT_ID
-										? "commercial"
-										: "saas"
-								}`
-							);
-						handleCheckout(price).catch(sentryException);
-					}}
-					type="success"
-				>
-					{priceIdLoading
-						? isLoggedIn
-							? d.cards.redirecting_to_stripe
-							: d.cards.redirecting_to_signup
-						: active
-						? d.cards.current_plan
-						: isLoggedIn
-						? d.cards.select_plan_cta
-						: d.cards.get_started}
-				</Button>
+				isLoggedIn ? (
+					b
+				) : (
+					<DLink d={props.d} href="/signup" className="full-width">
+						{b}
+					</DLink>
+				)
 			}
 			key={price.product_id}
 			price={priceString}

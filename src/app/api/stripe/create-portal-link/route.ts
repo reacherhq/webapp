@@ -3,17 +3,17 @@
 // License: MIT
 
 import { cookies } from "next/headers";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { stripe } from "@/util/stripeServer";
 import { createOrRetrieveCustomer } from "@/supabase/supabaseAdmin";
 import { getWebappURL } from "@/util/helpers";
-import { Database } from "@/supabase/database.types";
 import { sentryException } from "@/util/sentry";
+import { createClient } from "@/supabase/server";
 
 export async function POST(req: Request) {
 	if (req.method === "POST") {
 		try {
-			const supabase = createRouteHandlerClient<Database>({ cookies });
+			const cookieStore = cookies();
+			const supabase = createClient(cookieStore);
 			const {
 				data: { user },
 			} = await supabase.auth.getUser();
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 			const { url } = await stripe.billingPortal.sessions.create({
 				customer,
 				locale,
-				return_url: `${getWebappURL()}/${locale}/dashboard`,
+				return_url: `${getWebappURL()}/${locale}/dashboard/verify`,
 			});
 			return new Response(JSON.stringify({ url }), {
 				status: 200,

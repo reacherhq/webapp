@@ -3,12 +3,11 @@
 // License: MIT
 
 import { cookies } from "next/headers";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { stripe } from "@/util/stripeServer";
 import { createOrRetrieveCustomer } from "@/supabase/supabaseAdmin";
 import { getWebappURL } from "@/util/helpers";
-import { Database } from "@/supabase/database.types";
 import { sentryException } from "@/util/sentry";
+import { createClient } from "@/supabase/server";
 
 export async function POST(req: Request) {
 	if (req.method === "POST") {
@@ -23,7 +22,8 @@ export async function POST(req: Request) {
 
 		try {
 			// 2. Get the user from Supabase auth
-			const supabase = createRouteHandlerClient<Database>({ cookies });
+			const cookieStore = cookies();
+			const supabase = createClient(cookieStore);
 			const {
 				data: { user },
 			} = await supabase.auth.getUser();
@@ -57,8 +57,8 @@ export async function POST(req: Request) {
 						trial_from_plan: true,
 						metadata,
 					},
-					success_url: `${getWebappURL()}/${locale}/dashboard`,
-					cancel_url: `${getWebappURL()}/${locale}/dashboard`,
+					success_url: `${getWebappURL()}/${locale}/dashboard/verify`,
+					cancel_url: `${getWebappURL()}/${locale}/dashboard/verify`,
 				});
 			} else if (price.type === "one_time") {
 				session = await stripe.checkout.sessions.create({
@@ -77,8 +77,8 @@ export async function POST(req: Request) {
 					locale,
 					mode: "payment",
 					allow_promotion_codes: true,
-					success_url: `${getWebappURL()}/${locale}/dashboard`,
-					cancel_url: `${getWebappURL()}/${locale}/dashboard`,
+					success_url: `${getWebappURL()}/${locale}/dashboard/verify`,
+					cancel_url: `${getWebappURL()}/${locale}/dashboard/verify`,
 				});
 			}
 

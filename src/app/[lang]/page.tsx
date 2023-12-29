@@ -12,7 +12,7 @@ export default async function Index({
 	const session = await supabase.auth.getSession();
 
 	if (session) {
-		return redirect(`/${lang}/dashboard`);
+		return redirect(`/${lang}/dashboard/verify`);
 	} else {
 		return redirect(`/${lang}/login`);
 	}

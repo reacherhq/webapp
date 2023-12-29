@@ -1,28 +1,23 @@
 import AuthUI from "./AuthUI";
-
 import { redirect } from "next/navigation";
-import { Spacer } from "@/components/Geist";
-import { cookies } from "next/headers";
-import { createClient } from "@/supabase/server";
+import { Spacer, Text } from "@/components/Geist";
 import { Nav } from "@/components/Nav/Nav";
 import { dictionary } from "@/dictionaries";
 
 import styles from "./page.module.css";
 import { Footer } from "@/components/Footer";
+import { getSession } from "@/supabase/supabaseServer";
 
 export default async function SignIn({
 	params: { lang },
+	searchParams: { view },
 }: {
 	params: { lang: string };
+	searchParams: { view?: "sign_up" };
 }) {
-	const cookieStore = cookies();
-	const supabase = createClient(cookieStore);
-	const {
-		data: { session },
-	} = await supabase.auth.getSession();
-
+	const session = await getSession();
 	if (session) {
-		return redirect(`/${lang}/dashboard`);
+		return redirect(`/${lang}/dashboard/verify`);
 	}
 	const d = await dictionary(lang);
 
@@ -31,8 +26,11 @@ export default async function SignIn({
 			<Nav d={d} />
 
 			<Spacer h={5} />
+			<Text className="text-center" h3>
+				{d.login.title}
+			</Text>
 			<div className={styles.container}>
-				<AuthUI />
+				<AuthUI d={d} view={view} />
 			</div>
 
 			<Footer d={d} />
