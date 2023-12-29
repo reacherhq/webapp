@@ -4,8 +4,6 @@ import { CheckCircle, XCircle } from "@geist-ui/react-icons";
 import type { User } from "@supabase/supabase-js";
 import React from "react";
 
-import styles from "./SigninLayout.module.css";
-
 interface SiginLayoutProps extends React.HTMLProps<HTMLDivElement> {
 	title: string;
 	user?: User;
@@ -17,7 +15,7 @@ export function SigninLayout({
 	user,
 }: SiginLayoutProps): React.ReactElement {
 	return (
-		<Grid.Container className={styles.container} gap={2} justify="center">
+		<Grid.Container gap={2} justify="center">
 			<Grid xs={8}>
 				{user ? (
 					<Loading />
@@ -60,12 +58,12 @@ export function SigninLayoutMessage({
 
 export function SigninButton({
 	children,
-	className = styles.button,
+	className,
 	type = "secondary",
 	...rest
 }: Partial<ButtonProps>): React.ReactElement {
 	return (
-		<Button className={className} type={type} {...rest}>
+		<Button className={`${className} full-width`} type={type} {...rest}>
 			{children}
 		</Button>
 	);

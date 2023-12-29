@@ -7,11 +7,10 @@ import {
 	isEarlyResponse,
 	newEarlyResponse,
 	removeSensitiveData,
-} from "@/util/api";
+} from "@/app/api/v0/check_email/checkUserInDb";
 import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
-import { supabaseAdmin } from "@/util/supabaseServer";
-import { Tables } from "@/supabase/database.types";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { NextRequest } from "next/server";
 
 // https://vercel.com/changelog/serverless-functions-can-now-run-up-to-5-minutes
@@ -66,7 +65,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 
 							// Add to supabase
 							const response = await supabaseAdmin
-								.from<Tables<"calls">>("calls")
+								.from("calls")
 								.insert({
 									endpoint: "/v0/check_email",
 									user_id: user.id,

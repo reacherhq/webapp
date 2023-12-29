@@ -1,10 +1,14 @@
 import { NextRequest } from "next/server";
 import amqplib from "amqplib";
-import { supabaseAdmin } from "@/util/supabaseServer";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
 import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
-import { checkUserInDB, isEarlyResponse } from "@/util/api";
+import {
+	checkUserInDB,
+	isEarlyResponse,
+} from "@/app/api/v0/check_email/checkUserInDb";
 import { SAAS_100K_PRODUCT_ID } from "@/util/subs";
+import { Json } from "@/supabase/database.types";
 
 interface BulkPayload {
 	input_type: "array";
@@ -41,7 +45,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 			.from("bulk_jobs")
 			.insert({
 				user_id: user.id,
-				payload,
+				payload: payload as unknown as Json,
 			})
 			.select("*");
 		if (res1.error) {

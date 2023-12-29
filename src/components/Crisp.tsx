@@ -1,17 +1,21 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { useUser } from "@/util/useUser";
-import { useRouter } from "next/router";
+import { createClient } from "@/supabase/client";
+import { sentryException } from "@/util/sentry";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Crisp(): null {
-	const router = useRouter();
-	const { user } = useUser();
+export function Crisp() {
+	const supabase = createClient();
+	const pathname = usePathname();
+	const lang = pathname?.split("/")[1];
 
 	useEffect(() => {
 		// @ts-expect-error
 		window.CRISP_RUNTIME_CONFIG = {
-			locale: router.locale || "en",
+			locale: lang || "en",
 		};
 
 		// @ts-ignore
@@ -26,16 +30,21 @@ export default function Crisp(): null {
 			s.async = 1;
 			d.getElementsByTagName("body")[0].appendChild(s);
 		})();
-	}, [router]);
+	}, [lang]);
 
 	useEffect(() => {
-		if (!user?.email) {
-			return;
-		}
+		supabase.auth
+			.getUser()
+			.then(({ data: { user } }) => {
+				if (!user?.email) {
+					return;
+				}
 
-		// @ts-expect-error
-		window.$crisp.push(["set", "user:email", user.email]);
-	}, [user]);
+				// @ts-expect-error
+				window.$crisp.push(["set", "user:email", user?.email]);
+			})
+			.catch(sentryException);
+	}, [supabase]);
 
 	return null;
 }

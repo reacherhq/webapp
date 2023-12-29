@@ -1,8 +1,7 @@
 import { CheckEmailOutput } from "@reacherhq/api";
-import { supabaseAdmin } from "@/util/supabaseServer";
+import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { NextRequest } from "next/server";
-import { removeSensitiveData } from "@/util/api";
-import { Tables } from "@/supabase/database.types";
+import { removeSensitiveData } from "@/app/api/v0/check_email/checkUserInDb";
 
 export interface WebhookExtra {
 	bulkEmailId: number;
@@ -25,7 +24,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 
 	// Add to supabase calls
 	const res1 = await supabaseAdmin
-		.from<Tables<"calls">>("calls")
+		.from("calls")
 		.insert({
 			endpoint: extra.endpoint,
 			user_id: extra.userId,

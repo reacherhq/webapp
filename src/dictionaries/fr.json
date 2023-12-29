@@ -1,4 +1,5 @@
 {
+	"lang": "fr",
 	"dashboard": {
 		"header": {
 			"hello": "Bonjour,",
@@ -28,8 +29,7 @@
 			"result_safe": "ce qui signifie que l'email existe et qu'il est sûr de l'envoyer.",
 			"result_risky": "ce qui signifie que l'email existe mais l'envoi pourrait être rejeté.",
 			"result_unknown": "ce qui signifie que Reacher n'est actuellement pas en mesure de dire si l'email existe ou non.",
-			"unexpected_error": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nEmail : %s1\nErreur : %s2",
-			"see_api": "Vous pouvez également utiliser l'[API](/dashboard/api) pour vérifier les emails de manière automatisée."
+			"unexpected_error": "Une erreur inattendue s'est produite. Pouvez-vous envoyer un email à amaury@reacher.email avec ce message (ou une capture d'écran) ?\nEmail : %s1\nErreur : %s2"
 		},
 		"get_started_bulk": {
 			"upload_csv": "Téléchargez un fichier CSV",
@@ -151,9 +151,9 @@
 	},
 	"pricing": {
 		"plans": {
-			"SaaS 10K Emails Plan": "Plan SaaS 10K Emails",
-			"SaaS 100K Emails Plan": "Plan SaaS 100K Emails",
-			"Commercial License Plan": "Licence Commerciale"
+			"saas_10k": "Plan SaaS 10K Emails",
+			"saas_100k": "Plan SaaS 100K Emails",
+			"commercial_license": "Licence Commerciale"
 		},
 		"title": "Tarifs",
 		"30d_money_back": "Tous les plans incluent une garantie de remboursement sous 30 jours.",

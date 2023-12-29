@@ -1,6 +1,7 @@
 import { CustomReactRenderer } from "marked-react/dist/ReactRenderer";
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { DLink } from "./DLink";
+import { Dictionary } from "@/dictionaries";
 
 export const SpanRenderer: CustomReactRenderer = {
 	paragraph(children: ReactNode) {
@@ -8,8 +9,14 @@ export const SpanRenderer: CustomReactRenderer = {
 	},
 };
 
-export const LinkRenderer: CustomReactRenderer = {
-	link(href: string, text: ReactNode) {
-		return <Link href={href}>{text}</Link>;
-	},
-};
+export function LinkRenderer(d: Dictionary): CustomReactRenderer {
+	return {
+		link(href: string, text: ReactNode) {
+			return (
+				<DLink d={d} href={href}>
+					{text}
+				</DLink>
+			);
+		},
+	};
+}
