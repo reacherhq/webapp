@@ -18,6 +18,7 @@ export async function Nav() {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
+	console.log(await supabase.auth.getSession());
 
 	const d = dictionary("en");
 
