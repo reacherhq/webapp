@@ -22,7 +22,7 @@ export default async function SignIn({
 	} = await supabase.auth.getSession();
 
 	if (session) {
-		return redirect("/dashboard");
+		return redirect(`/${lang}/dashboard`);
 	}
 	const d = await dictionary(lang);
 

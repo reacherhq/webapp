@@ -16,6 +16,9 @@ export default function RootLayout({
 }) {
 	return (
 		<html>
+			<head>
+				<link rel="icon" href="/favicon.png" sizes="any" />
+			</head>
 			<body>
 				<GeistProvider themes={[myTheme]} themeType="default">
 					{children}

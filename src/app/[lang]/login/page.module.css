@@ -3,3 +3,10 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+/**
+ * The default has width 100%, which is too wide for the container.
+ */
+.container button {
+    width: auto;
+}

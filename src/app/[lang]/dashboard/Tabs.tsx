@@ -20,7 +20,7 @@ export function Tabs({ apiDisabled, bulkDisabled, tab, ...props }: TabsProps) {
 	const d = props.d.dashboard.tabs;
 
 	const handler = (value: string) => {
-		router.push(`/dashboard/${value}`);
+		router.push(`/${props.d.lang}/dashboard/${value}`);
 	};
 
 	return ENABLE_BULK === 1 ? (

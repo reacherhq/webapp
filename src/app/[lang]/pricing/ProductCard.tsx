@@ -45,7 +45,7 @@ export function ProductCard({
 		setPriceIdLoading(price.id);
 
 		if (!isLoggedIn) {
-			router.push("/signup");
+			router.push(`/${props.d.lang}/signup`);
 
 			return;
 		}
