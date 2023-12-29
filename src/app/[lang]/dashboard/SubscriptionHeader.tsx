@@ -4,11 +4,11 @@ import Link from "next/link";
 import { StripeMananageButton } from "./StripeManageButton";
 import { COMMERCIAL_LICENSE_PRODUCT_ID, productName } from "@/util/subs";
 import { formatDate } from "@/util/helpers";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { dictionary, getLocale } from "@/dictionaries";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 
 import styles from "./SubscriptionHeader.module.css";
+import { usePathname } from "next/navigation";
 
 interface SubscriptionHeaderProps {
 	subscription: SubscriptionWithPrice | null;
@@ -17,8 +17,9 @@ interface SubscriptionHeaderProps {
 export function SubscriptionHeader({
 	subscription,
 }: SubscriptionHeaderProps): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale);
+	const pathname = usePathname();
+	const lang = getLocale(pathname);
+	const d = dictionary(lang);
 
 	return (
 		<section className={styles.plan}>
@@ -59,10 +60,7 @@ export function SubscriptionHeader({
 					<Text p small em className="text-right mt-0">
 						{d.dashboard.header.plan_ends_on.replace(
 							"%s",
-							formatDate(
-								new Date(subscription.cancel_at),
-								router.locale
-							)
+							formatDate(new Date(subscription.cancel_at), lang)
 						)}
 					</Text>
 				)}

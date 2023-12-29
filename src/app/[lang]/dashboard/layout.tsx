@@ -3,8 +3,10 @@ import { dictionary } from "@/dictionaries";
 import React from "react";
 
 export default function Layout({
+	children,
 	params: { lang },
 }: {
+	children: React.ReactNode;
 	params: { lang: string };
 }) {
 	const d = dictionary(lang);
@@ -12,6 +14,7 @@ export default function Layout({
 	return (
 		<>
 			<Nav d={d} />
+			{children}
 		</>
 	);
 }

@@ -3,7 +3,8 @@ import React, { useState } from "react";
 
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+import { getLocale } from "@/dictionaries";
 
 export interface StripeMananageButton {
 	children: React.ReactNode | string;
@@ -13,7 +14,8 @@ export function StripeMananageButton({
 	children,
 }: StripeMananageButton): React.ReactElement {
 	const [loading, setLoading] = useState(false);
-	const router = useRouter();
+	const pathname = usePathname();
+	const lang = getLocale(pathname);
 
 	const redirectToCustomerPortal = async () => {
 		setLoading(true);
@@ -21,7 +23,7 @@ export function StripeMananageButton({
 			const { url } = await postData<{ url: string }>({
 				url: "/api/stripe/create-portal-link",
 				data: {
-					locale: router.locale,
+					locale: lang,
 				},
 			});
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Card, Code, Input, Spacer, Text } from "@geist-ui/react";
 import { CheckEmailOutput } from "@reacherhq/api/lib";
 import React, { useState } from "react";

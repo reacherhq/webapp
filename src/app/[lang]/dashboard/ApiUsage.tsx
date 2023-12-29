@@ -5,13 +5,13 @@ import { sentryException } from "@/util/sentry";
 import { subApiMaxCalls } from "@/util/subs";
 import styles from "./ApiUsage.module.css";
 import { formatDate } from "@/util/helpers";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { dictionary, getLocale } from "@/dictionaries";
 import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { useUser } from "@/util/useUser";
 import { Tables } from "@/supabase/database.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { parseISO, subMonths } from "date-fns";
+import { usePathname } from "next/navigation";
 
 interface ApiUsageProps {
 	subscription: SubscriptionWithPrice;
@@ -20,8 +20,9 @@ interface ApiUsageProps {
 export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 	const { supabase } = useUser();
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard;
+	const pathname = usePathname();
+	const lang = getLocale(pathname);
+	const d = dictionary(lang).dashboard;
 
 	useEffect(() => {
 		getApiUsageClient(supabase, subscription)
@@ -40,14 +41,10 @@ export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
 							(
 							{formatDate(
 								subscription.current_period_start,
-								router.locale
+								lang
 							)}{" "}
 							-{" "}
-							{formatDate(
-								subscription.current_period_end,
-								router.locale
-							)}
-							)
+							{formatDate(subscription.current_period_end, lang)})
 						</>
 					)}
 				</Text>

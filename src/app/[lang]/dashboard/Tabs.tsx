@@ -1,13 +1,12 @@
 import { Tabs as GTabs } from "@geist-ui/react";
 import React from "react";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { dictionary, getLocale } from "@/dictionaries";
 import Mail from "@geist-ui/react-icons/mail";
 import Database from "@geist-ui/react-icons/database";
 import GitPullRequest from "@geist-ui/react-icons/gitPullRequest";
 import Lock from "@geist-ui/react-icons/lock";
-import { sentryException } from "@/util/sentry";
 import { ENABLE_BULK } from "@/util/helpers";
+import { usePathname, useRouter } from "next/navigation";
 
 export interface TabsProps {
 	apiDisabled: boolean;
@@ -20,13 +19,13 @@ export function Tabs({
 	bulkDisabled,
 	tab,
 }: TabsProps): React.ReactElement {
+	const pathname = usePathname();
+	const lang = getLocale(pathname);
+	const d = dictionary(lang).dashboard.tabs;
 	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.tabs;
 
 	const handler = (value: string) => {
-		router
-			.push(`/dashboard/${value}`, undefined, { locale: router.locale })
-			.catch(sentryException);
+		router.push(`/dashboard/${value}`);
 	};
 
 	return (

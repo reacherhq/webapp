@@ -2,11 +2,13 @@
 // https://github.com/vercel/nextjs-subscription-payments/blob/c7867b2d9e08d033056293d12aeb9825b8331806/app/supabase-server.ts
 // License: MIT
 
-import { ProductWithPrice } from "./domain.types";
-import { supabaseAdmin } from "./supabaseAdmin";
+import { cookies } from "next/headers";
+import { ProductWithPrice, SubscriptionWithPrice } from "./domain.types";
+import { createClient } from "./server";
 
 export async function getSession() {
-	const supabase = supabaseAdmin;
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
 	const {
 		data: { session },
 		error,
@@ -19,45 +21,39 @@ export async function getSession() {
 }
 
 export async function getUserDetails() {
-	const supabase = supabaseAdmin;
-	const { data: userDetails, error } = await supabase
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const { data: userDetails } = await supabase
 		.from("users")
 		.select("*")
 		.single();
 	return userDetails;
-	if (error) {
-		throw error;
-	}
 }
 
-export async function getSubscription() {
-	const supabase = supabaseAdmin;
-	const { data: subscription, error } = await supabase
+export async function getSubscription(): Promise<SubscriptionWithPrice> {
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const { data: subscription } = await supabase
 		.from("subscriptions")
 		.select("*, prices(*, products(*))")
 		.in("status", ["trialing", "active"])
 		.maybeSingle()
 		.throwOnError();
-	if (error) {
-		throw error;
-	}
 	return subscription;
 }
 
 export const getActiveProductsWithPrices = async (): Promise<
 	ProductWithPrice[]
 > => {
-	const supabase = supabaseAdmin;
-	const { data, error } = await supabase
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const { data } = await supabase
 		.from("products")
 		.select("*, prices(*)")
 		.eq("active", true)
 		.eq("prices.active", true)
 		.order("metadata->index")
-		.order("unit_amount", { foreignTable: "prices" });
-
-	if (error) {
-		throw error;
-	}
+		.order("unit_amount", { foreignTable: "prices" })
+		.throwOnError();
 	return data ?? [];
 };
