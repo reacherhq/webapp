@@ -47,6 +47,17 @@ export const GET = async (
 			);
 		}
 
+		if (!res.data.length) {
+			return Response.json(
+				{
+					error: "No results found",
+				},
+				{
+					status: 404,
+				}
+			);
+		}
+
 		const rows = res.data.map((row) => {
 			const result = row.result as CheckEmailOutput;
 			result.misc;
