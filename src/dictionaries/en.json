@@ -151,9 +151,9 @@
 	},
 	"pricing": {
 		"plans": {
-			"SaaS 10K Emails Plan": "SaaS 10K Emails Plan",
-			"SaaS 100K Emails Plan": "SaaS 100K Emails Plan",
-			"Commercial License Plan": "Commercial License Plan"
+			"saas_10k": "SaaS 10K Emails Plan",
+			"saas_100k": "SaaS 100K Emails Plan",
+			"commercial_license": "Commercial License Plan"
 		},
 		"title": "Pricing",
 		"30d_money_back": "All plans include a 30-day money back guarantee.",

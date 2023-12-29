@@ -1,15 +1,19 @@
+"use client";
+
 import { Card, Snippet, Spacer, Text } from "@geist-ui/react";
 import React from "react";
-
-import { useUser } from "@/util/useUser";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
+import { UserDetails } from "@/supabase/supabaseServer";
 
-export function GetStartedApi(): React.ReactElement {
-	const { userDetails } = useUser();
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.get_started_api;
+export function GetStartedApi({
+	userDetails,
+	...props
+}: {
+	d: Dictionary;
+	userDetails: UserDetails;
+}): React.ReactElement {
+	const d = props.d.dashboard.get_started_api;
 
 	return (
 		<Card>

@@ -1,6 +1,5 @@
 import { dictionary } from "@/dictionaries";
-import { Tables } from "@/supabase/database.types";
-import { SubscriptionWithPrice } from "@/supabase/domain.types";
+import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 
 // We're hardcoding these as env variables.
 export const SAAS_10K_PRODUCT_ID = process.env.NEXT_PUBLIC_SAAS_10K_PRODUCT_ID;
@@ -15,24 +14,11 @@ if (!SAAS_10K_PRODUCT_ID || !COMMERCIAL_LICENSE_PRODUCT_ID) {
 	);
 }
 
-// Get the user-friendly name of a product.
-export function productName(
-	product: Tables<"products"> | undefined,
-	d: ReturnType<typeof dictionary>
-): string {
-	return (
-		(product?.name &&
-			d.pricing.plans[product?.name as keyof typeof d.pricing.plans]) ||
-		product?.name ||
-		d.dashboard.header.no_active_subscription
-	);
-}
-
 // Return the max monthly calls
 export function subApiMaxCalls(sub: SubscriptionWithPrice | null): number {
-	return sub?.prices?.products?.id === SAAS_100K_PRODUCT_ID
+	return sub?.prices?.product_id === SAAS_100K_PRODUCT_ID
 		? 100_000
-		: sub?.prices?.products?.id === SAAS_10K_PRODUCT_ID
+		: sub?.prices?.product_id === SAAS_10K_PRODUCT_ID
 		? 10_000
 		: 50;
 }

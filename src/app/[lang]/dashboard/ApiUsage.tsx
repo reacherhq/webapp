@@ -6,19 +6,19 @@ import { subApiMaxCalls } from "@/util/subs";
 import styles from "./ApiUsage.module.css";
 import { formatDate } from "@/util/helpers";
 import { dictionary, getLocale } from "@/dictionaries";
-import { SubscriptionWithPrice } from "@/supabase/domain.types";
-import { useUser } from "@/util/useUser";
 import { Tables } from "@/supabase/database.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { parseISO, subMonths } from "date-fns";
 import { usePathname } from "next/navigation";
+import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
+import { createClient } from "@/supabase/client";
 
 interface ApiUsageProps {
 	subscription: SubscriptionWithPrice;
 }
 
 export function ApiUsage({ subscription }: ApiUsageProps): React.ReactElement {
-	const { supabase } = useUser();
+	const supabase = createClient();
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
 	const pathname = usePathname();
 	const lang = getLocale(pathname);

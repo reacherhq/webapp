@@ -6,11 +6,10 @@ import React, { useState } from "react";
 
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
-import { useUser } from "@/util/useUser";
-import { dictionary, getLocale } from "@/dictionaries";
+import { Dictionary, dictionary } from "@/dictionaries";
 import Markdown from "marked-react";
 import { LinkRenderer, SpanRenderer } from "../../../../components/Markdown";
-import { usePathname } from "next/navigation";
+import { UserDetails } from "@/supabase/supabaseServer";
 
 function alertError(
 	email: string,
@@ -21,17 +20,20 @@ function alertError(
 }
 
 interface DemoProps {
+	d: Dictionary;
+	userDetails: UserDetails;
 	onVerified?(result: CheckEmailOutput): Promise<void>;
 }
 
-export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
-	const { user, userDetails } = useUser();
+export function GetStartedSaaS({
+	onVerified,
+	userDetails,
+	...props
+}: DemoProps) {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
-	const pathname = usePathname();
-	const lang = getLocale(pathname);
-	const d = dictionary(lang).dashboard.get_started_saas;
+	const d = props.d.dashboard.get_started_saas;
 
 	function handleVerify() {
 		window.sa_event && window.sa_event("dashboard:verify:click");
@@ -40,15 +42,6 @@ export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 		}
 
 		setResult(undefined);
-
-		if (!userDetails) {
-			alertError(
-				"n/a",
-				`userDetails is undefined for user ${user?.id || "undefined"}`,
-				d
-			);
-			return;
-		}
 
 		setLoading(true);
 		console.log("[/dashboard] Verifying email", email);

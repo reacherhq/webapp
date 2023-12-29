@@ -4,6 +4,7 @@
 
 import { cookies } from "next/headers";
 import { createClient } from "./server";
+import { Tables } from "./database.types";
 
 export async function getSession() {
 	const cookieStore = cookies();
@@ -19,45 +20,52 @@ export async function getSession() {
 	return session;
 }
 
+export type UserDetails = Awaited<ReturnType<typeof getUserDetails>>;
+
 export async function getUserDetails() {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
-	const { data: userDetails } = await supabase
+	const { data: userDetails, error } = await supabase
 		.from("users")
 		.select("*")
 		.single();
+	if (error) throw error;
 	return userDetails;
 }
 
-export type SubscriptionWithPrice = Awaited<ReturnType<typeof getSubscription>>;
+export interface SubscriptionWithPrice extends Tables<"subscriptions"> {
+	prices: Tables<"prices">;
+}
+
 export async function getSubscription() {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
-	const { data: subscription } = await supabase
+
+	const { data, error } = await supabase
 		.from("subscriptions")
-		.select("*, prices(*, products(*))")
+		.select("*, prices(*)")
 		.in("status", ["trialing", "active"])
-		.maybeSingle()
-		.throwOnError();
-	return subscription;
+		.order("current_period_start", { ascending: false })
+		.limit(1);
+	if (error) throw error;
+
+	return data[0] as SubscriptionWithPrice;
 }
 
-type ArrayElement<ArrayType extends readonly unknown[]> =
-	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+export interface ProductWithPrice extends Tables<"products"> {
+	prices: Tables<"prices">;
+}
 
-export type ProductWithPrice = ArrayElement<
-	Awaited<ReturnType<typeof getActiveProductsWithPrices>>
-> & { id: string };
 export const getActiveProductsWithPrices = async () => {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
-	const { data } = await supabase
+	const { data, error } = await supabase
 		.from("products")
 		.select("*, prices(*)")
 		.eq("active", true)
 		.eq("prices.active", true)
 		.order("metadata->index")
-		.order("unit_amount", { foreignTable: "prices" })
-		.throwOnError();
-	return data ?? [];
+		.order("unit_amount", { foreignTable: "prices" });
+	if (error) throw error;
+	return (data as unknown as ProductWithPrice[]) ?? [];
 };

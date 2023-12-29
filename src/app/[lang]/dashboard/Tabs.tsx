@@ -14,11 +14,7 @@ export interface TabsProps {
 	tab: "verify" | "bulk" | "api";
 }
 
-export function Tabs({
-	apiDisabled,
-	bulkDisabled,
-	tab,
-}: TabsProps): React.ReactElement {
+export function Tabs({ apiDisabled, bulkDisabled, tab }: TabsProps) {
 	const pathname = usePathname();
 	const lang = getLocale(pathname);
 	const d = dictionary(lang).dashboard.tabs;
@@ -28,7 +24,7 @@ export function Tabs({
 		router.push(`/dashboard/${value}`);
 	};
 
-	return (
+	return ENABLE_BULK === 1 ? (
 		<GTabs onChange={handler} value={tab}>
 			<GTabs.Item
 				label={
@@ -39,25 +35,24 @@ export function Tabs({
 				}
 				value="verify"
 			/>
-			{ENABLE_BULK === 1 && (
-				<GTabs.Item
-					disabled={bulkDisabled}
-					label={
-						bulkDisabled ? (
-							<>
-								<Lock />
-								{d.bulk}
-							</>
-						) : (
-							<>
-								<Database />
-								{d.bulk}
-							</>
-						)
-					}
-					value="bulk"
-				/>
-			)}
+			<GTabs.Item
+				disabled={bulkDisabled}
+				label={
+					bulkDisabled ? (
+						<>
+							<Lock />
+							{d.bulk}
+						</>
+					) : (
+						<>
+							<Database />
+							{d.bulk}
+						</>
+					)
+				}
+				value="bulk"
+			/>
+
 			<GTabs.Item
 				disabled={apiDisabled}
 				label={
@@ -69,5 +64,5 @@ export function Tabs({
 				value="api"
 			/>
 		</GTabs>
-	);
+	) : null;
 }
