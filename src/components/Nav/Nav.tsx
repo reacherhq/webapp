@@ -1,19 +1,25 @@
-import { Button, Select, Spacer, Text } from "@geist-ui/react";
+import { Button, Select, Spacer, Text } from "@/components/Geist";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import React from "react";
-
-import logo from "../assets/logo/reacher.svg";
+import logo from "@/assets/logo/reacher.svg";
 import { sentryException } from "@/util/sentry";
-import { useUser } from "@/util/useUser";
 import styles from "./Nav.module.css";
 import Link from "next/link";
 import { dictionary } from "@/dictionaries";
+import { cookies } from "next/headers";
+import { createClient } from "@/supabase/server";
+import { redirect } from "next/navigation";
+import { Locale } from "./Locale";
 
-export function Nav(): React.ReactElement {
-	const { user, userDetails, supabase } = useUser();
-	const router = useRouter();
-	const d = dictionary(router.locale);
+export async function Nav() {
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	const d = dictionary("en");
 
 	return (
 		<header className={styles.container}>
@@ -63,34 +69,17 @@ export function Nav(): React.ReactElement {
 				>
 					{d.nav.help}
 				</Link>
-				<Select
-					className={styles.language}
-					disableMatchWidth
-					onChange={(v) => {
-						router
-							.push(router, router.asPath, {
-								locale: v as string,
-							})
-							.catch(sentryException);
-					}}
-					value={router.locale === "fr" ? "fr" : "en"}
-				>
-					<Select.Option value="en">🇺🇸 English</Select.Option>
-					<Select.Option value="fr">🇫🇷 Français</Select.Option>
-				</Select>
+				<Locale />
 			</div>
 
 			<Spacer w={2} />
 			{user ? (
-				<Select
-					className={styles.dropdown}
-					placeholder={userDetails?.full_name || user.email}
-				>
+				<Select className={styles.dropdown} placeholder={user.email}>
 					<Select.Option
 						onClick={() => {
 							supabase.auth
 								.signOut()
-								.then(() => router.push("/login"))
+								.then(() => redirect("/login"))
 								.catch(sentryException);
 						}}
 					>
