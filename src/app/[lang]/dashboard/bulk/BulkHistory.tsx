@@ -98,7 +98,7 @@ export function BulkHistory(props: {
 					prop="safe"
 					render={renderSafe}
 				>
-					<Text className="full-width text-right" span type="success">
+					<Text className="full-width text-right green" span>
 						{d.table.safe}
 					</Text>
 				</Table.Column>
@@ -152,7 +152,7 @@ export function BulkHistory(props: {
 }
 
 const renderSafe = (value: string) => (
-	<Text className="full-width text-right" span type="success">
+	<Text className="full-width text-right green" span>
 		{value}
 	</Text>
 );

@@ -52,3 +52,7 @@ button {
 .mt-0 {
 	margin-top: 0;
 }
+
+.green {
+	color: green !important;
+}

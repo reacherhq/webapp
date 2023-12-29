@@ -3,12 +3,12 @@ import amqplib from "amqplib";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
 import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
-import {
-	checkUserInDB,
-	isEarlyResponse,
-} from "@/app/api/v0/check_email/checkUserInDb";
-import { SAAS_100K_PRODUCT_ID } from "@/util/subs";
+import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
+import { SAAS_100K_PRODUCT_ID, getApiUsage } from "@/util/subs";
 import { Json } from "@/supabase/database.types";
+import { cookies } from "next/headers";
+import { createClient } from "@/supabase/server";
+import { getSubscription } from "@/supabase/supabaseServer";
 
 interface BulkPayload {
 	input_type: "array";
@@ -25,9 +25,24 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 	}
 
 	try {
-		const { user, subAndCalls } = await checkUserInDB(req);
+		const cookieStore = cookies();
+		const supabase = createClient(cookieStore);
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		if (!user) {
+			return Response.json(
+				{
+					error: "Not logged in",
+				},
+				{
+					status: 401,
+				}
+			);
+		}
+		const subscripton = await getSubscription();
 
-		if (subAndCalls.product_id !== SAAS_100K_PRODUCT_ID) {
+		if (subscripton?.prices?.product_id !== SAAS_100K_PRODUCT_ID) {
 			return Response.json(
 				{
 					error: "Bulk verification is not available on your plan",
@@ -39,10 +54,13 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		}
 
 		const payload: BulkPayload = await req.json();
-		if (payload.input.length > 100000) {
+
+		const callsUsed = await getApiUsage(supabase, subscripton);
+
+		if (payload.input.length + callsUsed > 100_000) {
 			return Response.json(
 				{
-					error: "Bulk verification is limited to 100_000 emails",
+					error: "Verifying more than 100,000 emails per month is not available on your plan. Please contact amaury@reacher.email to upgrade to the Commercial License.",
 				},
 				{
 					status: 403,
