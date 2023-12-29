@@ -3,17 +3,19 @@
 import { Select } from "@/components/Geist";
 import React from "react";
 import styles from "./Nav.module.css";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { getLocale } from "@/dictionaries";
 
 export function Locale() {
 	const pathname = usePathname();
+	const router = useRouter();
 
 	return (
 		<Select
 			className={styles.language}
 			disableMatchWidth
 			onChange={(v) => {
-				redirect(redirectedPathname(pathname, v as string));
+				router.push(redirectedPathname(pathname, v as string));
 			}}
 			value={getLocale(pathname)}
 		>
@@ -21,13 +23,6 @@ export function Locale() {
 			<Select.Option value="fr">🇫🇷 Français</Select.Option>
 		</Select>
 	);
-}
-
-function getLocale(pathname: string | null) {
-	if (!pathname) return "en";
-	const segments = pathname.split("/");
-	if (segments[1] === "fr") return "fr";
-	return "en";
 }
 
 const redirectedPathname = (pathname: string | null, locale: string) => {

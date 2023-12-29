@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// TODO this should be server-side
+"use client";
 
-import { Divider, Grid, Link, Spacer, Text } from "@geist-ui/react";
+import { Divider, Grid, Link, Spacer, Text } from "@/components/Geist";
 import Image from "next/image";
 import React from "react";
 
 import logo from "../assets/logo/reacher.svg";
 import styles from "./Footer.module.css";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { dictionary, getLocale } from "@/dictionaries";
+import { usePathname } from "next/navigation";
 
 export function Footer(): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale);
+	const pathname = usePathname();
+	const d = dictionary(getLocale(pathname));
 
 	return (
 		<footer className={styles.container}>

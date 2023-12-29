@@ -12,3 +12,11 @@ export function dictionary(locale?: string) {
 
 	return dictionaries[locale];
 }
+
+// Get locale from pathname.
+export function getLocale(pathname: string | null) {
+	if (!pathname) return "en";
+	const segments = pathname.split("/");
+	if (segments[1] === "fr") return "fr";
+	return "en";
+}
