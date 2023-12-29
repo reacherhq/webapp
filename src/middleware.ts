@@ -63,7 +63,7 @@ function getLocale({ headers }: NextRequest): string {
 		headers: {
 			"accept-language": headers.get("accept-language") || undefined,
 		},
-	}).languages();
+	}).languages(locales);
 
 	return match(languages, locales, defaultLocale);
 }
