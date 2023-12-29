@@ -6,15 +6,15 @@ import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { getStripe } from "@/util/stripeClient";
 import { COMMERCIAL_LICENSE_PRODUCT_ID } from "@/util/subs";
-import { useUser } from "@/util/useUser";
 import { Card } from "./Card";
 import { Tables } from "@/supabase/database.types";
-import { ProductWithPrice } from "@/supabase/domain.types";
 import { Dictionary } from "@/dictionaries";
+import { ProductWithPrice } from "@/supabase/supabaseServer";
 
 export interface ProductCardProps {
 	d: Dictionary;
 	currency: string;
+	isLoggedIn: boolean;
 	product: ProductWithPrice;
 	subscription: Tables<"subscriptions"> | null;
 	extra?: React.ReactElement;
@@ -26,12 +26,12 @@ export interface ProductCardProps {
 
 export function ProductCard({
 	currency,
+	isLoggedIn,
 	product,
 	subscription,
 	...props
 }: ProductCardProps): React.ReactElement {
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
-	const { user, userLoaded } = useUser();
 	const router = useRouter();
 	const d = props.d.pricing;
 
@@ -44,7 +44,7 @@ export function ProductCard({
 	const handleCheckout = async (price: Tables<"prices">) => {
 		setPriceIdLoading(price.id);
 
-		if (userLoaded && !user) {
+		if (!isLoggedIn) {
 			router.push("/signup");
 
 			return;
@@ -53,7 +53,7 @@ export function ProductCard({
 		try {
 			const { sessionId } = await postData<{ sessionId: string }>({
 				url: "/api/stripe/create-checkout-session",
-				data: { price, locale: router.locale },
+				data: { price, locale: props.d.lang },
 			});
 
 			const stripe = await getStripe();
@@ -98,12 +98,12 @@ export function ProductCard({
 					type="success"
 				>
 					{priceIdLoading
-						? user
+						? isLoggedIn
 							? d.cards.redirecting_to_stripe
 							: d.cards.redirecting_to_signup
 						: active
 						? d.cards.current_plan
-						: user
+						: isLoggedIn
 						? d.cards.select_plan_cta
 						: d.cards.get_started}
 				</Button>

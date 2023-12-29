@@ -7,20 +7,23 @@ import {
 	SAAS_100K_PRODUCT_ID,
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
-import { useUser } from "@/util/useUser";
 import { Dictionary } from "@/dictionaries";
 import { SaaS10k } from "./SaaS10k";
 import { SaaS100k } from "./SaaS100k";
 import { Commercial } from "./Commercial";
-import type { ProductWithPrice } from "@/supabase/supabaseServer";
+import type {
+	ProductWithPrice,
+	SubscriptionWithPrice,
+} from "@/supabase/supabaseServer";
 
 interface PlansProps {
 	d: Dictionary;
+	isLoggedIn: boolean;
 	products: ProductWithPrice[];
+	subscription: SubscriptionWithPrice | null;
 }
 
-export function Plans({ d, products }: PlansProps) {
-	const { subscription } = useUser();
+export function Plans({ d, products, subscription, isLoggedIn }: PlansProps) {
 	const subscriptionCurrency = subscription?.prices?.currency;
 	const [currency, setCurrency] = useState<string>(
 		subscriptionCurrency || "eur"
@@ -57,6 +60,7 @@ export function Plans({ d, products }: PlansProps) {
 				<SaaS10k
 					d={d}
 					currency={currency}
+					isLoggedIn={isLoggedIn}
 					product={saas10kProduct}
 					subscription={
 						subscription?.prices?.product_id === SAAS_10K_PRODUCT_ID
@@ -69,6 +73,7 @@ export function Plans({ d, products }: PlansProps) {
 				<SaaS100k
 					d={d}
 					currency={currency}
+					isLoggedIn={isLoggedIn}
 					product={saas100kProduct}
 					subscription={
 						subscription?.prices?.product_id ===
@@ -82,6 +87,7 @@ export function Plans({ d, products }: PlansProps) {
 				<Commercial
 					d={d}
 					currency={currency}
+					isLoggedIn={isLoggedIn}
 					product={commercialProduct}
 					subscription={
 						subscription?.prices?.product_id ===

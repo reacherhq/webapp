@@ -1,11 +1,14 @@
 import AuthUI from "./AuthUI";
 
 import { redirect } from "next/navigation";
-import { Page, Card } from "@/components/Geist";
+import { Spacer } from "@/components/Geist";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
 import { Nav } from "@/components/Nav/Nav";
 import { dictionary } from "@/dictionaries";
+
+import styles from "./page.module.css";
+import { Footer } from "@/components/Footer";
 
 export default async function SignIn({
 	params: { lang },
@@ -21,17 +24,18 @@ export default async function SignIn({
 	if (session) {
 		return redirect("/dashboard");
 	}
-	const d = dictionary(lang);
+	const d = await dictionary(lang);
 
 	return (
 		<>
 			<Nav d={d} />
 
-			<Page>
-				<Card className="m-auto" width="40rem">
-					<AuthUI />
-				</Card>
-			</Page>
+			<Spacer h={5} />
+			<div className={styles.container}>
+				<AuthUI />
+			</div>
+
+			<Footer d={d} />
 		</>
 	);
 }

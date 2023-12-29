@@ -11,7 +11,10 @@ export interface DLinkProps
 
 export function DLink({ d, href, children, ...rest }: DLinkProps) {
 	return (
-		<Link href={`/${d.lang}${href}`} {...rest}>
+		<Link
+			href={href.toString().startsWith("/") ? `/${d.lang}${href}` : href}
+			{...rest}
+		>
 			{children}
 		</Link>
 	);

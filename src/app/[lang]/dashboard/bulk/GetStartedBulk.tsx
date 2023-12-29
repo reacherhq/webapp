@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";
 import { sentryException } from "@/util/sentry";
-import { useUser } from "@/util/useUser";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { postData } from "@/util/helpers";
 import { useDropzone } from "react-dropzone";
@@ -13,10 +11,12 @@ import FileText from "@geist-ui/react-icons/fileText";
 import { BulkHistory } from "./BulkHistory";
 import XCircleFill from "@geist-ui/react-icons/xCircleFill";
 
-export function GetStartedBulk(): React.ReactElement {
-	const { user, userDetails } = useUser();
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.get_started_bulk;
+export function GetStartedBulk({
+	...props
+}: {
+	d: Dictionary;
+}): React.ReactElement {
+	const d = props.d.dashboard.get_started_bulk;
 
 	const [emails, setEmails] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
@@ -110,17 +110,6 @@ export function GetStartedBulk(): React.ReactElement {
 		if (!emails) {
 			return;
 		}
-		if (!userDetails) {
-			setUpload(
-				<Error
-					error={`userDetails is undefined for user ${
-						user?.id || "undefined"
-					}`}
-					d={d}
-				/>
-			);
-			return;
-		}
 		setLoading(true);
 		postData<CheckEmailOutput>({
 			url: `/api/v1/bulk`,
@@ -188,7 +177,7 @@ export function GetStartedBulk(): React.ReactElement {
 
 			<Spacer />
 
-			<BulkHistory />
+			<BulkHistory d={props.d} />
 		</>
 	);
 }
@@ -196,7 +185,7 @@ export function GetStartedBulk(): React.ReactElement {
 function UploadButton({
 	d,
 }: {
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+	d: Dictionary["dashboard"]["get_started_bulk"];
 }) {
 	return (
 		<>
@@ -214,7 +203,7 @@ function Analyzing({
 	file,
 }: {
 	file: File;
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+	d: Dictionary["dashboard"]["get_started_bulk"];
 }) {
 	return <h4>{d.step_analzying.replace("%s", file.name)}</h4>;
 }
@@ -226,7 +215,7 @@ function Analyzed({
 }: {
 	file: File;
 	emails: string[];
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+	d: Dictionary["dashboard"]["get_started_bulk"];
 }) {
 	const rows = emails.map((email) => ({ email })).slice(0, 3);
 	if (emails.length > 3) {
@@ -260,7 +249,7 @@ function Uploaded({
 	d,
 }: {
 	emailsNum: number;
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+	d: Dictionary["dashboard"]["get_started_bulk"];
 }) {
 	return (
 		<>
@@ -281,7 +270,7 @@ function Error({
 	d,
 }: {
 	error: string;
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_bulk"];
+	d: Dictionary["dashboard"]["get_started_bulk"];
 }) {
 	return (
 		<>

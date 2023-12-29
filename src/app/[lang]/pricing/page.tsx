@@ -1,7 +1,11 @@
 import { Spacer, Text } from "@/components/Geist";
 import React from "react";
 import { dictionary } from "@/dictionaries";
-import { getActiveProductsWithPrices } from "@/supabase/supabaseServer";
+import {
+	getActiveProductsWithPrices,
+	getSession,
+	getSubscription,
+} from "@/supabase/supabaseServer";
 import { Plans } from "./Plans";
 import { Faq } from "./Faq";
 import { Nav } from "@/components/Nav/Nav";
@@ -13,6 +17,9 @@ export default async function Pricing({
 	params: { lang: string };
 }) {
 	const products = await getActiveProductsWithPrices();
+	const session = await getSession();
+	const isLoggedIn = !!session?.user;
+	const subscription = await getSubscription();
 	const d = await dictionary(lang);
 
 	return (
@@ -28,7 +35,12 @@ export default async function Pricing({
 
 			<Spacer h={2} />
 			<section>
-				<Plans d={d} products={products} />
+				<Plans
+					d={d}
+					products={products}
+					isLoggedIn={isLoggedIn}
+					subscription={subscription}
+				/>
 
 				<Spacer h={2} />
 				<Faq d={d} />

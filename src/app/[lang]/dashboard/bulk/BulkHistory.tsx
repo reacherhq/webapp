@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { Dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";
 import { Tables } from "@/supabase/database.types";
 import { sentryException } from "@/util/sentry";
@@ -8,22 +7,14 @@ import { formatDate } from "@/util/helpers";
 import { Download } from "@geist-ui/react-icons";
 import { TableColumnRender } from "@geist-ui/react/esm/table";
 import Check from "@geist-ui/react-icons/check";
-import { useUser } from "@/util/useUser";
+import { createClient } from "@/supabase/client";
 
-export function alertError(
-	e: string,
-	d: ReturnType<typeof dictionary>["dashboard"]["get_started_saas"]
-) {
-	alert(d.unexpected_error.replace("%s2", e));
-}
-
-export function BulkHistory(): React.ReactElement {
+export function BulkHistory(props: { d: Dictionary }) {
 	const [bulkJobs, setBulkJobs] = useState<
 		Tables<"bulk_jobs_info">[] | undefined
 	>();
-	const { supabase } = useUser();
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.get_started_bulk.history;
+	const supabase = createClient();
+	const d = props.d.dashboard.get_started_bulk.history;
 
 	useEffect(() => {
 		setInterval(async () => {
@@ -96,7 +87,7 @@ export function BulkHistory(): React.ReactElement {
 					prop="created_at"
 					label={d.table.uploaded_at}
 					render={(value) => (
-						<>{formatDate(value as string, router.locale)}</>
+						<>{formatDate(value as string, props.d.lang)}</>
 					)}
 				/>
 				<Table.Column

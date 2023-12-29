@@ -53,7 +53,7 @@ export async function getSubscription() {
 }
 
 export interface ProductWithPrice extends Tables<"products"> {
-	prices: Tables<"prices">;
+	prices: Tables<"prices">[];
 }
 
 export const getActiveProductsWithPrices = async () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
-import { Button, Select, SelectOption, Spacer, Text } from "@/components/Geist";
+import { Button, Spacer, Text } from "@/components/Geist";
 import Image from "next/image";
 import logo from "@/assets/logo/reacher.svg";
 import styles from "./Nav.module.css";
@@ -73,11 +73,7 @@ export async function Nav({ d }: { d: Dictionary }) {
 
 			<Spacer w={2} />
 			{user ? (
-				<Select className={styles.dropdown} placeholder={user.email}>
-					<SelectOption value="logout">
-						<SignOut d={d} />
-					</SelectOption>
-				</Select>
+				<SignOut d={d} email={user.email} />
 			) : (
 				<>
 					<DLink d={d} href="/login">

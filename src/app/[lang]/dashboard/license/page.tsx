@@ -1,12 +1,14 @@
 import { dictionary } from "@/dictionaries";
 import { Card, Text } from "@geist-ui/react";
 import Markdown from "marked-react";
-import { useRouter } from "next/router";
 import React from "react";
 
-export function GetStartedLicense(): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.get_started_license;
+export async function GetStartedLicense({
+	params: { lang },
+}: {
+	params: { lang: string };
+}) {
+	const d = (await dictionary(lang)).dashboard.get_started_license;
 
 	return (
 		<Card>

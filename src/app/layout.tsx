@@ -2,6 +2,7 @@ import { GeistProvider, myTheme } from "@/components/Geist";
 
 import "./global.css";
 import "./geist.gen.css";
+import { Crisp } from "@/components/Crisp";
 
 export const metadata = {
 	title: "Reacher Email Verification",
@@ -14,11 +15,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html>
 			<body>
 				<GeistProvider themes={[myTheme]} themeType="default">
 					{children}
 				</GeistProvider>
+				<Crisp />
 			</body>
 		</html>
 	);
