@@ -39,6 +39,16 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		}
 
 		const payload: BulkPayload = await req.json();
+		if (payload.input.length > 100000) {
+			return Response.json(
+				{
+					error: "Bulk verification is limited to 100_000 emails",
+				},
+				{
+					status: 403,
+				}
+			);
+		}
 
 		// Add to Supabase
 		const res1 = await supabaseAdmin

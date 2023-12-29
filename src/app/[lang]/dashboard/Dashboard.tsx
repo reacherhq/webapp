@@ -17,7 +17,7 @@ interface DashboardProps {
 export function Dashboard({
 	children,
 	d,
-	showApiUsage,
+	showApiUsage = true,
 	subscription,
 	tab,
 }: DashboardProps) {
