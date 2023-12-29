@@ -23,10 +23,14 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		// Skip all internal paths (_next)
-		"/((?!_next).*)",
-		// Optional: only run on root (/) URL
-		// '/'
+		/*
+		 * Match all request paths except for the ones starting with:
+		 * - api (API routes)
+		 * - _next/static (static files)
+		 * - _next/image (image optimization files)
+		 * - favicon (favicon file)
+		 */
+		"/((?!api|_next/static|_next/image|favicon).*)",
 	],
 };
 
