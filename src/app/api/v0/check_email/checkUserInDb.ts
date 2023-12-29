@@ -3,7 +3,6 @@ import { RateLimiterRes } from "rate-limiter-flexible";
 import { subApiMaxCalls } from "@/util/subs";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { Tables } from "@/supabase/database.types";
-import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { NextRequest } from "next/server";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 
@@ -75,13 +74,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 		? parseISO(subAndCalls.current_period_end as string) // Safe to type cast here, if there's a subscription, there's a current_period_end.
 		: addMonths(now, 1);
 	const msDiff = differenceInMilliseconds(nextReset, now);
-	const max = subApiMaxCalls({
-		prices: {
-			products: {
-				id: subAndCalls.product_id,
-			},
-		},
-	} as SubscriptionWithPrice);
+	const max = subApiMaxCalls(subAndCalls.product_id);
 	const rateLimitHeaders = getRateLimitHeaders(
 		new RateLimiterRes(
 			max - numberOfCalls - 1,

@@ -7,7 +7,6 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 export default function AuthUI() {
 	const supabase = createClient();
-	console.log(`${getWebappURL()}/auth/callback`);
 
 	return (
 		<Auth

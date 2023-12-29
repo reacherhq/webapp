@@ -5,8 +5,6 @@ import { RedirectType, redirect } from "next/navigation";
 export default async function Dashboard() {
 	const subscription = await getSubscription();
 
-	console.log("AAA", subscription);
-
 	switch (subscription?.prices?.product_id) {
 		case COMMERCIAL_LICENSE_PRODUCT_ID:
 			redirect("/dashboard/license", RedirectType.replace);
