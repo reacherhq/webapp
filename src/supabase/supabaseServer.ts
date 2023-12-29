@@ -3,7 +3,6 @@
 // License: MIT
 
 import { cookies } from "next/headers";
-import { ProductWithPrice, SubscriptionWithPrice } from "./domain.types";
 import { createClient } from "./server";
 
 export async function getSession() {
@@ -30,7 +29,8 @@ export async function getUserDetails() {
 	return userDetails;
 }
 
-export async function getSubscription(): Promise<SubscriptionWithPrice> {
+export type SubscriptionWithPrice = Awaited<ReturnType<typeof getSubscription>>;
+export async function getSubscription() {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
 	const { data: subscription } = await supabase
@@ -42,9 +42,13 @@ export async function getSubscription(): Promise<SubscriptionWithPrice> {
 	return subscription;
 }
 
-export const getActiveProductsWithPrices = async (): Promise<
-	ProductWithPrice[]
-> => {
+type ArrayElement<ArrayType extends readonly unknown[]> =
+	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
+export type ProductWithPrice = ArrayElement<
+	Awaited<ReturnType<typeof getActiveProductsWithPrices>>
+> & { id: string };
+export const getActiveProductsWithPrices = async () => {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
 	const { data } = await supabase

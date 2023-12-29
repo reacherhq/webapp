@@ -8,11 +8,11 @@ import {
 	SAAS_10K_PRODUCT_ID,
 } from "@/util/subs";
 import { useUser } from "@/util/useUser";
-import { ProductWithPrice } from "@/supabase/domain.types";
 import { Dictionary } from "@/dictionaries";
 import { SaaS10k } from "./SaaS10k";
 import { SaaS100k } from "./SaaS100k";
 import { Commercial } from "./Commercial";
+import type { ProductWithPrice } from "@/supabase/supabaseServer";
 
 interface PlansProps {
 	d: Dictionary;

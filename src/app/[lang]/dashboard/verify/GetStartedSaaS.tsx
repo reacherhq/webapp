@@ -7,10 +7,10 @@ import React, { useState } from "react";
 import { postData } from "@/util/helpers";
 import { sentryException } from "@/util/sentry";
 import { useUser } from "@/util/useUser";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { dictionary, getLocale } from "@/dictionaries";
 import Markdown from "marked-react";
 import { LinkRenderer, SpanRenderer } from "../../../../components/Markdown";
+import { usePathname } from "next/navigation";
 
 function alertError(
 	email: string,
@@ -29,8 +29,9 @@ export function GetStartedSaaS({ onVerified }: DemoProps): React.ReactElement {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<CheckEmailOutput | undefined>();
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.get_started_saas;
+	const pathname = usePathname();
+	const lang = getLocale(pathname);
+	const d = dictionary(lang).dashboard.get_started_saas;
 
 	function handleVerify() {
 		window.sa_event && window.sa_event("dashboard:verify:click");

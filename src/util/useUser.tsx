@@ -3,9 +3,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { sentryException } from "./sentry";
 import { Database, Tables } from "@/supabase/database.types";
-import { SubscriptionWithPrice } from "@/supabase/domain.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import type { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 
 interface UserContext {
 	supabase: SupabaseClient;

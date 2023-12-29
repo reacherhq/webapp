@@ -1,13 +1,16 @@
+"use client";
+
 import { Card, Text } from "@geist-ui/react";
 import Markdown from "marked-react";
 import React from "react";
-import { LinkRenderer } from "../../../../components/Markdown";
-import { useRouter } from "next/router";
-import { dictionary } from "@/dictionaries";
+import { LinkRenderer } from "@/components/Markdown";
+import { dictionary, getLocale } from "@/dictionaries";
+import { usePathname } from "next/navigation";
 
-export function GetStartedNoPlan(): React.ReactElement {
-	const router = useRouter();
-	const d = dictionary(router.locale).dashboard.get_started_no_plan;
+export function GetStartedNoPlan() {
+	const pathname = usePathname();
+	const lang = getLocale(pathname);
+	const d = dictionary(lang).dashboard.get_started_no_plan;
 
 	return (
 		<Card>
