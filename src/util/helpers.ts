@@ -108,4 +108,4 @@ export function formatDate(d: string | Date, locale?: string): string {
 
 // TODO This is a temporary solution to enable bulk actions in development,
 // but disable them in production.
-export const ENABLE_BULK = 0 as 0 | 1;
+export const ENABLE_BULK = 1 as 0 | 1;
