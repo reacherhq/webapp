@@ -1,6 +1,7 @@
-import { CssBaseline, GeistProvider, myTheme } from "@/components/Geist";
+import { GeistProvider, myTheme } from "@/components/Geist";
 
 import "./global.css";
+import "./geist.gen.css";
 
 export const metadata = {
 	title: "Next.js",
@@ -16,7 +17,6 @@ export default function RootLayout({
 		<html lang="en">
 			<body>
 				<GeistProvider themes={[myTheme]} themeType="default">
-					<CssBaseline />
 					{children}
 				</GeistProvider>
 			</body>

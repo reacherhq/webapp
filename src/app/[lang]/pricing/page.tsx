@@ -11,7 +11,7 @@ export default async function Pricing({
 	params: { lang: string };
 }) {
 	const products = await getActiveProductsWithPrices();
-	const d = dictionary(lang || "en");
+	const d = dictionary(lang);
 
 	return (
 		<>
