@@ -1,13 +1,11 @@
-import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
-import {
-	checkUserInDB,
-	isEarlyResponse,
-} from "@/app/api/v0/check_email/checkUserInDb";
+import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { components } from "@reacherhq/api/lib/types";
 import { NextRequest } from "next/server";
 import { ENABLE_BULK } from "@/util/helpers";
+import { cookies } from "next/headers";
+import { createClient } from "@/supabase/server";
 
 type SmtpD = components["schemas"]["SmtpDetails"];
 type MiscD = components["schemas"]["MiscDetails"];
@@ -31,22 +29,13 @@ export const GET = async (
 	}
 
 	try {
-		const { user } = await checkUserInDB(req);
-		if (!user) {
-			return Response.json(
-				{
-					error: "User not found",
-				},
-				{
-					status: 401,
-				}
-			);
-		}
+		const cookieStore = cookies();
+		const supabase = createClient(cookieStore);
 
 		const { jobId } = params;
 		const id_param = parseInt(jobId, 10);
 
-		const res = await supabaseAdmin
+		const res = await supabase
 			.rpc("get_bulk_results", { id_param })
 			.select("*");
 		if (res.error) {

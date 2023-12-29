@@ -1,3 +1,5 @@
+"use client";
+
 import { Capacity, Text } from "@geist-ui/react";
 import { Loader } from "@geist-ui/react-icons";
 import React, { useEffect, useState } from "react";

@@ -1,6 +1,4 @@
-"use client";
-
-import { Page, Spacer } from "@geist-ui/react";
+import { Page, Spacer } from "@/components/Geist";
 import React from "react";
 import { ApiUsage } from "./ApiUsage";
 import { Tabs, TabsProps } from "./Tabs";

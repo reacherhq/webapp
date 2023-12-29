@@ -1,20 +1,23 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";
 import { Tables } from "@/supabase/database.types";
-import { sentryException } from "@/util/sentry";
 import { formatDate } from "@/util/helpers";
 import { Download } from "@geist-ui/react-icons";
 import { TableColumnRender } from "@geist-ui/react/esm/table";
 import Check from "@geist-ui/react-icons/check";
 import { createClient } from "@/supabase/client";
+import { sentryException } from "@/util/sentry";
 
-export function BulkHistory(props: { d: Dictionary }) {
-	const [bulkJobs, setBulkJobs] = useState<
-		Tables<"bulk_jobs_info">[] | undefined
-	>();
+export function BulkHistory(props: {
+	initialBulksJobs: Tables<"bulk_jobs_info">[];
+	d: Dictionary;
+}) {
 	const supabase = createClient();
 	const d = props.d.dashboard.get_started_bulk.history;
+	const [bulkJobs, setBulkJobs] = useState(props.initialBulksJobs);
 
 	useEffect(() => {
 		setInterval(async () => {

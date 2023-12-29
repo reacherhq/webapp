@@ -1,3 +1,5 @@
+"use client";
+
 import { Tabs as GTabs } from "@geist-ui/react";
 import React from "react";
 import { Dictionary } from "@/dictionaries";

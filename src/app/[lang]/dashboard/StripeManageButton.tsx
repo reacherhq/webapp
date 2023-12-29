@@ -1,3 +1,5 @@
+"use client";
+
 import { Link as GLink } from "@geist-ui/react";
 import React, { useState } from "react";
 

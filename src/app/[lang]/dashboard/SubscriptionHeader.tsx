@@ -1,4 +1,4 @@
-import { Text } from "@geist-ui/react";
+import { Text } from "@/components/Geist";
 import React from "react";
 import { StripeMananageButton } from "./StripeManageButton";
 import {
@@ -25,8 +25,8 @@ export function SubscriptionHeader({
 	return (
 		<section className={styles.plan}>
 			<div>
-				<Text h2>{d.dashboard.header.hello}</Text>
-				<Text p>
+				<h2>{d.dashboard.header.hello}</h2>
+				<p>
 					<span>
 						{subscription
 							? d.dashboard.header.thanks_for_subscription.replace(
@@ -38,7 +38,7 @@ export function SubscriptionHeader({
 							  )
 							: d.dashboard.header.thanks_for_signup}
 					</span>
-				</Text>
+				</p>
 				{subscription && (
 					<>
 						<StripeMananageButton d={d}>
@@ -51,12 +51,12 @@ export function SubscriptionHeader({
 				</StripeMananageButton>
 			</div>
 			<div>
-				<Text className="text-right" p>
+				<p className="text-right">
 					{d.dashboard.header.active_subscription}
-				</Text>
-				<Text className="text-right" h3>
+				</p>
+				<h3 className="text-right">
 					{productName(subscription?.prices?.product_id, d)}
-				</Text>
+				</h3>
 				{subscription?.status === "active" && subscription?.cancel_at && (
 					<Text p small em className="text-right mt-0">
 						{d.dashboard.header.plan_ends_on.replace(

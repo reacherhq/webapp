@@ -10,14 +10,9 @@ import { useDropzone } from "react-dropzone";
 import CheckInCircleFill from "@geist-ui/react-icons/checkInCircleFill";
 import Upload from "@geist-ui/react-icons/upload";
 import FileText from "@geist-ui/react-icons/fileText";
-import { BulkHistory } from "./BulkHistory";
 import XCircleFill from "@geist-ui/react-icons/xCircleFill";
 
-export function GetStartedBulk({
-	...props
-}: {
-	d: Dictionary;
-}): React.ReactElement {
+export function Csv({ ...props }: { d: Dictionary }): React.ReactElement {
 	const d = props.d.dashboard.get_started_bulk;
 
 	const [emails, setEmails] = useState<string[]>([]);
@@ -134,53 +129,47 @@ export function GetStartedBulk({
 	}
 
 	return (
-		<>
-			<Card>
-				<Text h3>{d.upload_csv}</Text>
+		<Card>
+			<Text h3>{d.upload_csv}</Text>
 
-				<Spacer h={3} />
-				<Card
-					className="m-auto text-center"
-					hoverable
-					shadow={isDragActive}
-					width="400px"
-				>
-					<Spacer h={2} />
-					<Card.Body {...getRootProps()}>
-						<input {...getInputProps()} />
-						{upload}
-					</Card.Body>
+			<Spacer h={3} />
+			<Card
+				className="m-auto text-center"
+				hoverable
+				shadow={isDragActive}
+				width="400px"
+			>
+				<Spacer h={2} />
+				<Card.Body {...getRootProps()}>
+					<input {...getInputProps()} />
+					{upload}
+				</Card.Body>
 
-					{!!emails.length && (
-						<div className="text-center">
-							<Spacer />
-							<Button
-								auto
-								className="m-auto"
-								disabled={loading}
-								loading={loading}
-								onClick={handleVerify}
-								type="success"
-								icon={!loading && <Upload />}
-							>
-								{loading
-									? d.button_uploading
-									: d.button_upload.replace(
-											"%s",
-											emails.length.toString()
-									  )}
-							</Button>
-						</div>
-					)}
-					<Spacer h={2} />
-				</Card>
-				<Spacer h={3} />
+				{!!emails.length && (
+					<div className="text-center">
+						<Spacer />
+						<Button
+							auto
+							className="m-auto"
+							disabled={loading}
+							loading={loading}
+							onClick={handleVerify}
+							type="success"
+							icon={!loading && <Upload />}
+						>
+							{loading
+								? d.button_uploading
+								: d.button_upload.replace(
+										"%s",
+										emails.length.toString()
+								  )}
+						</Button>
+					</div>
+				)}
+				<Spacer h={2} />
 			</Card>
-
-			<Spacer />
-
-			<BulkHistory d={props.d} />
-		</>
+			<Spacer h={3} />
+		</Card>
 	);
 }
 
