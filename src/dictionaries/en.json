@@ -191,6 +191,7 @@
 			"overtitle": "✨ New ✨",
 			"subtitle": "100,000 email verifications / mo",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
+			"bulk": "💪  **Bulk** email verification via CSV list upload.",
 			"full_feature": "[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime."

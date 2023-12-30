@@ -8,7 +8,7 @@ import { SpanRenderer } from "@/components/Markdown";
 export function SaaS100k(
 	props: Omit<ProductCardProps, "title">
 ): React.ReactElement {
-	const d = props.d.pricing.saas10k;
+	const d = props.d.pricing.saas100k;
 
 	return (
 		<ProductCard
@@ -19,6 +19,9 @@ export function SaaS100k(
 				</Text>
 			}
 			features={[
+				<Markdown renderer={SpanRenderer} key="licenseFeatures-1">
+					{d.bulk}
+				</Markdown>,
 				d.reacher_ip,
 				<Markdown renderer={SpanRenderer} key="saasFeatures-2">
 					{d.full_feature}
