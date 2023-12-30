@@ -1,6 +1,5 @@
 import React from "react";
 import { Dashboard } from "../Dashboard";
-import { ENABLE_BULK } from "@/util/helpers";
 import { getSession, getSubscription } from "@/supabase/supabaseServer";
 import { dictionary } from "@/dictionaries";
 import { cookies } from "next/headers";
@@ -22,10 +21,6 @@ export default async function Bulk({
 
 	const subscription = await getSubscription();
 	const d = await dictionary(lang);
-
-	if (ENABLE_BULK === 0) {
-		return <p>Bulk is disabled</p>;
-	}
 
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);

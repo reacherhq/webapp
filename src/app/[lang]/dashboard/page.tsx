@@ -1,5 +1,4 @@
 import { getSubscription } from "@/supabase/supabaseServer";
-import { ENABLE_BULK } from "@/util/helpers";
 import {
 	COMMERCIAL_LICENSE_PRODUCT_ID,
 	SAAS_100K_PRODUCT_ID,
@@ -20,9 +19,7 @@ export default async function Dashboard({
 				RedirectType.replace
 			);
 		case SAAS_100K_PRODUCT_ID:
-			return ENABLE_BULK === 1
-				? redirect(`/${lang}/dashboard/bulk`, RedirectType.replace)
-				: redirect(`/${lang}/dashboard/verify`, RedirectType.replace);
+			return redirect(`/${lang}/dashboard/bulk`, RedirectType.replace);
 		default:
 			return redirect(`/${lang}/dashboard/verify`, RedirectType.replace);
 	}

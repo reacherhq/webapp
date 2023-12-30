@@ -65,7 +65,7 @@ export const getActiveProductsWithPrices = async () => {
 		.eq("active", true)
 		.eq("prices.active", true)
 		.order("metadata->index")
-		.order("unit_amount", { foreignTable: "prices" });
+		.order("unit_amount", { referencedTable: "prices", ascending: false });
 	if (error) throw error;
 	return (data as unknown as ProductWithPrice[]) ?? [];
 };
