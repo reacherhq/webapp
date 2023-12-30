@@ -160,7 +160,7 @@
 		"cards": {
 			"price": "/mo",
 			"what_you_get": "What you get:",
-			"select_plan_cta": "Choisir ce plan",
+			"select_plan_cta": "Choose plan",
 			"redirecting_to_stripe": "Redirecting to Stripe...",
 			"redirecting_to_signup": "Redirecting to signup...",
 			"current_plan": "Current plan",
