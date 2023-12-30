@@ -6,7 +6,6 @@ import { Dictionary } from "@/dictionaries";
 import Mail from "@geist-ui/react-icons/mail";
 import Database from "@geist-ui/react-icons/database";
 import Lock from "@geist-ui/react-icons/lock";
-import { ENABLE_BULK } from "@/util/helpers";
 import { useRouter } from "next/navigation";
 
 export interface TabsProps {
@@ -23,7 +22,7 @@ export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
 		router.push(`/${props.d.lang}/dashboard/${value}`);
 	};
 
-	return ENABLE_BULK === 1 ? (
+	return (
 		<GTabs onChange={handler} value={tab}>
 			<GTabs.Item
 				label={
@@ -52,5 +51,5 @@ export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
 				value="bulk"
 			/>
 		</GTabs>
-	) : null;
+	);
 }

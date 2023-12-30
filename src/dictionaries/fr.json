@@ -172,7 +172,7 @@
 			"what_need_to_do": "Ce que vous devez faire :",
 			"purchase_server": "Acheter vous-même des serveurs pour auto-héberger Reacher. [Lisez comment](https://help.reacher.email/self-host-guide).",
 			"unlimited_emails": "Vérifications d'emails **illimitées** [complètes]((https://help.reacher.email/email-attributes-inside-json)).",
-			"bulk": "💪 Vérifications d'emails **en bulk**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
+			"bulk": "💪 Vérifications d'emails **en Bulk**. [En savoir plus](https://help.reacher.email/bulk-email-verification).",
 			"no_data_reacher": "Aucune donnée renvoyée à Reacher.",
 			"support": "**Support client** par email/chat.",
 			"cancel": "Annulez à tout moment.",
@@ -191,6 +191,7 @@
 			"overtitle": "✨ Nouveau ✨",
 			"subtitle": "100 000 vérifications d'emails / mois",
 			"reacher_ip": "Utilisez les serveurs de Reacher avec une haute réputation IP.",
+			"bulk": "💪 **Verifications d'emails en Bulk** avec upload de fichier CSV.",
 			"full_feature": "Vérifications d'emails [complètes](https://help.reacher.email/email-attributes-inside-json).",
 			"support": "**Support client** par email/chat.",
 			"cancel": "Annulez à tout moment."

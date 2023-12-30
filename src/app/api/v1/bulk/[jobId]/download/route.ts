@@ -3,7 +3,6 @@ import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
 import { CheckEmailOutput } from "@reacherhq/api";
 import { components } from "@reacherhq/api/lib/types";
 import { NextRequest } from "next/server";
-import { ENABLE_BULK } from "@/util/helpers";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
 
@@ -13,21 +12,13 @@ type MxD = components["schemas"]["MxDetails"];
 type ReacherError = components["schemas"]["Error"];
 
 export const GET = async (
-	req: NextRequest,
+	_req: NextRequest,
 	{
 		params,
 	}: {
 		params: { jobId: string };
 	}
 ): Promise<Response> => {
-	// TODO Remove this once we allow Bulk.
-	if (ENABLE_BULK === 0) {
-		return Response.json(
-			{ error: "Not available in production" },
-			{ status: 403 }
-		);
-	}
-
 	try {
 		const cookieStore = cookies();
 		const supabase = createClient(cookieStore);
@@ -81,12 +72,15 @@ export const GET = async (
 				["misc.error"]: formatCsvError(result.misc),
 				// Mx
 				["mx.accepts_mail"]: (result.mx as MxD)?.accepts_mail,
-				["mx.records"]: (result.mx as MxD)?.records,
+				["mx.records"]: (result.mx as MxD)?.records.join(";"), // Don't join using commas, to avoid messing up with CSV
 				["mx.error"]: formatCsvError(result.mx),
 				// Syntax
 				["syntax.is_valid_syntax"]: result.syntax.is_valid_syntax,
 				["syntax.domain"]: result.syntax.domain,
 				["syntax.username"]: result.syntax.username,
+				// Debug
+				["debug.smtp.verif_method"]:
+					result.debug?.smtp?.verif_method?.type,
 			};
 		});
 
@@ -130,7 +124,7 @@ function formatCsvError(err: unknown): string | null {
 	if ((err as ReacherError)?.type && (err as ReacherError)?.message) {
 		return `${(err as ReacherError).type}: ${
 			(err as ReacherError).message
-		}`;
+		}`.replaceAll(",", ";"); // Don't use commas to avoid messing up with CSV
 	}
 
 	return null;

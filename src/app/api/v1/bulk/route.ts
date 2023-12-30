@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import amqplib from "amqplib";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
-import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
+import { getWebappURL } from "@/util/helpers";
 import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
 import { SAAS_100K_PRODUCT_ID, getApiUsage } from "@/util/subs";
 import { Json } from "@/supabase/database.types";
@@ -16,14 +16,6 @@ interface BulkPayload {
 }
 
 export const POST = async (req: NextRequest): Promise<Response> => {
-	// TODO Remove this once we allow Bulk.
-	if (ENABLE_BULK === 0) {
-		return Response.json(
-			{ error: "Not available in production" },
-			{ status: 403 }
-		);
-	}
-
 	try {
 		const cookieStore = cookies();
 		const supabase = createClient(cookieStore);

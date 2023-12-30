@@ -35,6 +35,7 @@ export function ProductCard({
 	const d = props.d.pricing;
 
 	const active = !!subscription;
+	console.log("AAA", product.prices);
 	const price = product.prices.find(({ currency: c }) => currency === c);
 	if (!price || !price.unit_amount) {
 		return <p>Error: No price found for product {product.id}.</p>;
