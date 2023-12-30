@@ -39,7 +39,7 @@ export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
 					bulkDisabled ? (
 						<>
 							<Lock />
-							{d.bulk}
+							{d.bulk_locked}
 						</>
 					) : (
 						<>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Dictionary } from "@/dictionaries";
 import { Button, Card, Spacer, Table, Text } from "@geist-ui/react";
 import { sentryException } from "@/util/sentry";
@@ -18,14 +18,6 @@ export function Csv({ ...props }: { d: Dictionary }): React.ReactElement {
 	const [emails, setEmails] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [upload, setUpload] = useState(<UploadButton d={d} />);
-
-	useEffect(() => {
-		// This is a temporary redirect to the dashboard while I still work
-		// on the bulk page.
-		if (window.location.hostname == "app.reacher.email") {
-			window.location.href = "https://app.reacher.email/dashboard/verify";
-		}
-	}, []);
 
 	const onDrop = useCallback(
 		(acceptedFiles: File[]) => {
