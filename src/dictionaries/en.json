@@ -42,6 +42,10 @@
 				"title": "Analyzed %s",
 				"label": "Found %s emails"
 			},
+			"step_loading": {
+				"title": "Loading...",
+				"description": "This might take up to 1 minute. Please don't close this page."
+			},
 			"step_complete": {
 				"title": "Congratulations!",
 				"description": "Your %s emails are currently being verified. You'll get notified by email once the job is done. You can also check the progress in the table below.",

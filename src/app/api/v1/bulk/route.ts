@@ -5,7 +5,7 @@ import { sentryException } from "@/util/sentry";
 import { getWebappURL } from "@/util/helpers";
 import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
 import { SAAS_100K_PRODUCT_ID, getApiUsage } from "@/util/subs";
-import { Json } from "@/supabase/database.types";
+import { Json, Tables } from "@/supabase/database.types";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
 import { getSubscription } from "@/supabase/supabaseServer";
@@ -72,17 +72,34 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 			throw res1.error;
 		}
 		const bulkJob = res1.data[0];
-		const res2 = await supabaseAdmin
-			.from("bulk_emails")
-			.insert(
-				payload.input.map((email) => ({
-					bulk_job_id: bulkJob.id,
-					email,
-				}))
-			)
-			.select("*");
-		if (res2.error) {
-			throw res2.error;
+		console.log(`[💪] Created job ${bulkJob.id}`);
+
+		// Split Array in chunks of 5000 so that Supabase can handle it.
+		const chunkSize = 5000;
+		const chunks = [];
+		for (let i = 0; i < payload.input.length; i += chunkSize) {
+			chunks.push(payload.input.slice(i, i + chunkSize));
+		}
+		let i = 1;
+		let bulkEmails: Tables<"bulk_emails">[] = [];
+		for (const chunk of chunks) {
+			const res2 = await supabaseAdmin
+				.from("bulk_emails")
+				.insert(
+					chunk.map((email) => ({
+						bulk_job_id: bulkJob.id,
+						email,
+					}))
+				)
+				.select("*");
+			if (res2.error) {
+				throw res2.error;
+			}
+			bulkEmails = bulkEmails.concat(res2.data);
+
+			console.log(
+				`[💪] Inserted job ${bulkJob.id} chunk ${i++}/${chunks.length}`
+			);
 		}
 
 		const conn = await amqplib
@@ -107,7 +124,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 			maxPriority: 5,
 		});
 
-		res2.data.forEach(({ email, id }) => {
+		bulkEmails.forEach(({ email, id }) => {
 			ch1.sendToQueue(
 				queueName,
 				Buffer.from(
@@ -137,7 +154,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 
 		return Response.json({
 			bulk_job_id: bulkJob.id,
-			emails: res2.data.length,
+			emails: bulkEmails.length,
 		});
 	} catch (err) {
 		if (isEarlyResponse(err)) {

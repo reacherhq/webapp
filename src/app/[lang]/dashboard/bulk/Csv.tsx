@@ -100,6 +100,7 @@ export function Csv({ ...props }: { d: Dictionary }): React.ReactElement {
 			return;
 		}
 		setLoading(true);
+		setUpload(<Uploading d={d} />);
 		postData<CheckEmailOutput>({
 			url: `/api/v1/bulk`,
 			data: {
@@ -223,6 +224,16 @@ function Analyzed({
 					prop="email"
 				/>
 			</Table>
+		</>
+	);
+}
+
+function Uploading({ d }: { d: Dictionary["dashboard"]["get_started_bulk"] }) {
+	return (
+		<>
+			<Upload />
+			<h4>{d.step_loading.title}</h4>
+			<p>{d.step_loading.description}</p>
 		</>
 	);
 }

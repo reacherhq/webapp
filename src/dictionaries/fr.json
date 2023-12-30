@@ -42,6 +42,10 @@
 				"title": "Analyse de %s terminée",
 				"label": "%s emails trouvés"
 			},
+			"step_loading": {
+				"title": "Upload en cours...",
+				"description": "Cette opération peut prendre jusqu'à une minute, veuillez ne pas fermer cette fenêtre."
+			},
 			"step_complete": {
 				"title": "Félicitations !",
 				"description": "Vos %s emails sont actuellement en cours de vérification. Vous serez notifié par email une fois le travail terminé. Vous pouvez également vérifier la progression dans le tableau ci-dessous.",
