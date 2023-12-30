@@ -6,6 +6,7 @@ import { SAAS_10K_PRODUCT_ID } from "@/util/subs";
 import { SubscriptionHeader } from "./SubscriptionHeader";
 import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 import { Dictionary } from "@/dictionaries";
+import { ENABLE_BULK } from "@/util/helpers";
 
 interface DashboardProps {
 	children: React.ReactNode;
@@ -31,7 +32,7 @@ export function Dashboard({
 					<Spacer h={2} />
 				</>
 			)}
-			{tab !== false && (
+			{tab !== false && ENABLE_BULK && (
 				<Tabs
 					d={d}
 					bulkDisabled={

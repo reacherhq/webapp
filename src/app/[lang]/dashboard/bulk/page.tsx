@@ -8,12 +8,17 @@ import { Csv } from "./Csv";
 import { Spacer } from "@/components/Geist";
 import { BulkHistory } from "./BulkHistory";
 import { redirect } from "next/navigation";
+import { ENABLE_BULK } from "@/util/helpers";
 
 export default async function Bulk({
 	params: { lang },
 }: {
 	params: { lang: string };
 }) {
+	if (!ENABLE_BULK) {
+		return redirect(`/${lang}/dashboard/verify`);
+	}
+
 	const session = await getSession();
 	if (!session) {
 		return redirect(`/${lang}/login`);

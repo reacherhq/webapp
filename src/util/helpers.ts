@@ -105,3 +105,5 @@ export function formatDate(d: string | Date, locale?: string): string {
 		locale: locale === "fr" ? fr : enUS,
 	});
 }
+
+export const ENABLE_BULK: boolean = false;

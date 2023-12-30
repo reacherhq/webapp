@@ -29,8 +29,10 @@ export const config = {
 		 * - _next/static (static files)
 		 * - _next/image (image optimization files)
 		 * - favicon (favicon file)
+		 * - monitoring (health check)
+		 * - js (JavaScript files)
 		 */
-		"/((?!api|_next/static|_next/image|favicon).*)",
+		"/((?!api|_next/static|_next/image|favicon|monitoring|js).*)",
 	],
 };
 

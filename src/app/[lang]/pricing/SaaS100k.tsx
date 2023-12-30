@@ -4,6 +4,7 @@ import { ProductCard } from "./ProductCard";
 import type { ProductCardProps } from "./ProductCard";
 import Markdown from "marked-react";
 import { SpanRenderer } from "@/components/Markdown";
+import { ENABLE_BULK } from "@/util/helpers";
 
 export function SaaS100k(
 	props: Omit<ProductCardProps, "title">
@@ -19,9 +20,13 @@ export function SaaS100k(
 				</Text>
 			}
 			features={[
-				<Markdown renderer={SpanRenderer} key="licenseFeatures-1">
-					{d.bulk}
-				</Markdown>,
+				ENABLE_BULK ? (
+					<Markdown renderer={SpanRenderer} key="licenseFeatures-1">
+						{d.bulk}
+					</Markdown>
+				) : (
+					""
+				),
 				d.reacher_ip,
 				<Markdown renderer={SpanRenderer} key="saasFeatures-2">
 					{d.full_feature}
@@ -30,7 +35,7 @@ export function SaaS100k(
 					{d.support}
 				</Markdown>,
 				d.cancel,
-			]}
+			].filter((x) => !!x)}
 			subtitle={<span>{d.subtitle}</span>}
 		/>
 	);
