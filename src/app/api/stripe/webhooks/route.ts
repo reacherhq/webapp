@@ -11,6 +11,8 @@ import {
 } from "@/supabase/supabaseAdmin";
 import { sendLicenseEmail } from "./license";
 import { sentryException } from "@/util/sentry";
+import { NextApiRequest } from "next";
+import type { Readable } from "node:stream";
 
 const relevantEvents = new Set([
 	"product.created",
@@ -23,15 +25,29 @@ const relevantEvents = new Set([
 	"customer.subscription.deleted",
 ]);
 
-export async function POST(req: Request) {
-	const body = await req.text();
-	const sig = req.headers.get("stripe-signature") as string;
-	const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-	let event: Stripe.Event;
+// Stripe requires the raw body to construct the event.
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
 
+async function buffer(readable: Readable) {
+	const chunks = [];
+	for await (const chunk of readable) {
+		chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+	}
+	return Buffer.concat(chunks);
+}
+
+export async function POST(req: NextApiRequest) {
+	let event: Stripe.Event;
 	try {
-		if (!sig || !webhookSecret) return;
-		event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+		const buf = await buffer(req);
+		const sig = req.headers["stripe-signature"] as string;
+		const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+
+		event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
 	} catch (err) {
 		console.log(`❌ Error message: ${(err as Error).message}`);
 		return new Response(`Webhook Error: ${(err as Error).message}`, {
