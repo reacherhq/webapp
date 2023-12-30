@@ -43,7 +43,7 @@
 				"label": "Found %s emails"
 			},
 			"step_loading": {
-				"title": "Loading...",
+				"title": "Uploading...",
 				"description": "This might take up to 1 minute. Please don't close this page."
 			},
 			"step_complete": {
