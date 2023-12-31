@@ -18,12 +18,12 @@ if (
 }
 
 // Return the max monthly calls
-export function subApiMaxCalls(productId: string | null): number {
+export function subApiMaxCalls(productId: string | null | undefined): number {
 	return productId === SAAS_100K_PRODUCT_ID
 		? 100_000
 		: productId === SAAS_10K_PRODUCT_ID
 		? 10_000
-		: 50;
+		: 3;
 }
 
 // Get the api calls of a user in the past month/billing period.

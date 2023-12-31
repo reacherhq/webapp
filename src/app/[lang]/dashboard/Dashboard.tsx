@@ -26,7 +26,7 @@ export function Dashboard({
 		<Page>
 			<SubscriptionHeader d={d} subscription={subscription} />
 			<Spacer h={2} />
-			{showApiUsage && subscription && (
+			{showApiUsage && (
 				<>
 					<ApiUsage d={d} subscription={subscription} />
 					<Spacer h={2} />

@@ -13,7 +13,7 @@ import { createClient } from "@/supabase/client";
 
 interface ApiUsageProps {
 	d: Dictionary;
-	subscription: SubscriptionWithPrice;
+	subscription: SubscriptionWithPrice | null;
 }
 
 export function ApiUsage({

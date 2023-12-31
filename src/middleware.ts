@@ -31,9 +31,10 @@ export const config = {
 		 * - favicon (favicon file)
 		 * - monitoring (health check)
 		 * - js (JavaScript files)
-		 * - v0,v1 (API routes)
+		 * - v0,v1 (api.reacher.email/v0/...)
+		 * - version (api.reacher.email/version)
 		 */
-		"/((?!api|_next/static|_next/image|favicon|monitoring|js|v0|v1).*)",
+		"/((?!api|_next/static|_next/image|favicon|monitoring|js|v0|v1|version).*)",
 	],
 };
 

@@ -29,6 +29,7 @@ export function Feedback({
 				<Select.Option value="blog-du-modérateur">
 					Blog du Modérateur
 				</Select.Option>
+				<Select.Option value="facebook">Facebook</Select.Option>
 				<Select.Option value="other">{d.other}</Select.Option>
 			</Select>
 

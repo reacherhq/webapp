@@ -6,7 +6,6 @@ import {
 	getSubscription,
 	getUserDetails,
 } from "@/supabase/supabaseServer";
-import { GetStartedNoPlan } from "./GetStartedNoPlan";
 import { GetStartedApi } from "./GetStartedApi";
 import { dictionary } from "@/dictionaries";
 import { Spacer } from "@/components/Geist";
@@ -27,16 +26,15 @@ export default async function VerifySingle({
 	const d = await dictionary(lang);
 
 	return (
-		<Dashboard d={d} subscription={subscription} tab="verify">
-			{subscription ? (
-				<>
-					<GetStartedSaaS userDetails={userDetails} d={d} />
-					<Spacer />
-					<GetStartedApi userDetails={userDetails} d={d} />
-				</>
-			) : (
-				<GetStartedNoPlan d={d} />
-			)}
+		<Dashboard
+			showApiUsage={true}
+			d={d}
+			subscription={subscription}
+			tab="verify"
+		>
+			<GetStartedSaaS userDetails={userDetails} d={d} />
+			<Spacer />
+			<GetStartedApi userDetails={userDetails} d={d} />
 		</Dashboard>
 	);
 }
