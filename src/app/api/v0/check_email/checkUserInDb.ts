@@ -85,7 +85,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 		max
 	);
 
-	if (numberOfCalls > max) {
+	if (numberOfCalls >= max) {
 		throw newEarlyResponse(
 			Response.json(
 				{
