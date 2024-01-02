@@ -106,4 +106,4 @@ export function formatDate(d: string | Date, locale?: string): string {
 	});
 }
 
-export const ENABLE_BULK: boolean = true;
+export const ENABLE_BULK: boolean = false;
