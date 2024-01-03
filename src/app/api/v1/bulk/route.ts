@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import amqplib from "amqplib";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
-import { getWebappURL } from "@/util/helpers";
+import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
 import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
 import { SAAS_100K_PRODUCT_ID, getApiUsage } from "@/util/subs";
 import { Json, Tables } from "@/supabase/database.types";
@@ -17,6 +17,17 @@ interface BulkPayload {
 
 export const POST = async (req: NextRequest): Promise<Response> => {
 	try {
+		if (!ENABLE_BULK) {
+			return Response.json(
+				{
+					error: "Bulk verification is not enabled",
+				},
+				{
+					status: 403,
+				}
+			);
+		}
+
 		const cookieStore = cookies();
 		const supabase = createClient(cookieStore);
 		const {

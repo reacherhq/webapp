@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import retry from "async-retry";
 import { format, parseISO } from "date-fns";
 import { enUS, fr } from "date-fns/locale";
+import { PostgrestError } from "@supabase/supabase-js";
 
 // Gets the currently depoloyed URL.
 export const getWebappURL = (): string => {
@@ -104,6 +105,12 @@ export function formatDate(d: string | Date, locale?: string): string {
 	return format(typeof d === "string" ? parseISO(d) : d, "dd MMM yyyy", {
 		locale: locale === "fr" ? fr : enUS,
 	});
+}
+
+export function convertPgError(err: PostgrestError): Error {
+	return new Error(
+		`PostgrestError: [${err.code}] ${err.message} ${err.details} ${err.hint}`
+	);
 }
 
 export const ENABLE_BULK: boolean = false;

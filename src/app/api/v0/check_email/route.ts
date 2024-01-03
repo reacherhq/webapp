@@ -12,6 +12,7 @@ import { updateSendinblue } from "@/util/sendinblue";
 import { sentryException } from "@/util/sentry";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { NextRequest } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 // https://vercel.com/changelog/serverless-functions-can-now-run-up-to-5-minutes
 export const maxDuration = 300; // 5min
@@ -25,7 +26,12 @@ export async function POST(req: NextRequest): Promise<Response> {
 	console.log("[🐢] POST /v0/check_email");
 
 	try {
+		Sentry.setTag("rch.route", "/v0/check_email");
 		const { user, rateLimitHeaders } = await checkUserInDB(req);
+		Sentry.setContext("user", {
+			supbaseUuid: user.id,
+		});
+
 		const d1 = performance.now() - startTime;
 		console.log(`[🐢] checkUserInDB: ${Math.round(d1)}ms`);
 
@@ -89,7 +95,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 									newEarlyResponse(
 										Response.json(
 											{
-												error: `${response.error.message}: ${response.error.details}`,
+												error: `Postgres error: [${response.error.code}] ${response.error.message}: ${response.error.details} ${response.error.hint}`,
 											},
 											response
 										)

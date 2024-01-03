@@ -5,6 +5,7 @@ import { CheckEmailOutput } from "@reacherhq/api";
 import { Tables } from "@/supabase/database.types";
 import { NextRequest } from "next/server";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
+import { convertPgError } from "@/util/helpers";
 
 type UserWithSub = {
 	user: Tables<"users">;
@@ -40,7 +41,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 		.select("*")
 		.eq("api_token", token);
 	if (error) {
-		throw error;
+		throw convertPgError(error);
 	}
 	if (!data?.length) {
 		throw newEarlyResponse(
@@ -62,7 +63,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 		.limit(1)
 		.single();
 	if (res2.error) {
-		throw res2.error;
+		throw convertPgError(res2.error);
 	}
 
 	const subAndCalls = res2.data;
