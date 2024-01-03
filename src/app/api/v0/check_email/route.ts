@@ -15,19 +15,33 @@ export const runtime = "nodejs"; // https://github.com/orgs/vercel/discussions/4
 
 export async function POST(req: NextRequest): Promise<Response> {
 	try {
+		const t0 = performance.now();
 		Sentry.setTag("rch.route", "/v0/check_email");
 		const { user, rateLimitHeaders } = await checkUserInDB(req);
 		Sentry.setContext("user", {
 			supbaseUuid: user.id,
 		});
+		const t1 = performance.now();
+		console.log(`[🐢] Fetch user from DB: +${Math.round(t1 - t0)}ms`);
 
 		const emailInput = (await req.json()) as CheckEmailInput;
 		const res = await tryAllBackends(emailInput, user);
 
 		// Update the LAST_API_CALL field in Sendinblue.
-		await updateSendinblue(user.id, user.sendinblue_contact_id);
+		const t2 = performance.now();
+		try {
+			await updateSendinblue(user.id, user.sendinblue_contact_id);
+		} catch (err) {
+			sentryException(err as Error);
+		}
+		console.log(
+			`[🐢] Update Sendinblue: +${Math.round(performance.now() - t2)}ms`
+		);
 
-		return Response.json(res.body, {
+		console.log(
+			`[🐢] Total time: +${Math.round(performance.now() - t0)}ms`
+		);
+		return Response.json(await res.json(), {
 			headers: {
 				...res.headers,
 				...rateLimitHeaders,

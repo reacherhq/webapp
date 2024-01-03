@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { CheckEmailInput, CheckEmailOutput } from "@reacherhq/api";
 import { Tables } from "@/supabase/database.types";
+import { convertPgError } from "@/util/helpers";
 
 // Vercel functions time out after 60s.
 const VERCEL_TIMEOUT = 90_000; // ms
@@ -123,13 +124,11 @@ async function makeSingleBackendCall(
 	emailInput: CheckEmailInput,
 	user: Tables<"users">
 ): Promise<CheckEmailOutput> {
-	// Measure the API request time.
-	const startDate = new Date();
-
+	const t0 = performance.now();
 	// Send an API request to Reacher backend, which handles email
 	// verifications, see https://github.com/reacherhq/backend.
 	const result = await axios.post<CheckEmailOutput>(
-		`${reacherBackend}/v0/check_email`,
+		`${reacherBackend.url}/v0/check_email`,
 		emailInput,
 		{
 			headers: {
@@ -137,8 +136,8 @@ async function makeSingleBackendCall(
 			},
 		}
 	);
-
-	const endDate = new Date();
+	const t1 = performance.now();
+	console.log(`[🐢] Call ${reacherBackend.name}: +${Math.round(t1 - t0)}ms`);
 
 	// Get the domain of the email, i.e. the part after '@'.
 
@@ -153,12 +152,17 @@ async function makeSingleBackendCall(
 		backend_ip: result.request?.socket?.remoteAddress as string,
 		domain,
 		verification_id: verificationId,
-		duration: endDate.getTime() - startDate.getTime(), // In ms.
+		duration:
+			(result?.data.debug?.duration.secs || 0) * 1000 +
+			Math.round((result.data.debug?.duration.nanos || 0) * 1e-6), // in ms
 		is_reachable: result.data.is_reachable,
 		verif_method: result.data.debug?.smtp?.verif_method?.type,
+		result: result.data,
 	});
-
-	if (error) throw error;
+	if (error) {
+		throw convertPgError(error);
+	}
+	console.log(`[🐢] Log DB entry: +${Math.round(performance.now() - t1)}ms`);
 
 	return result.data;
 }
