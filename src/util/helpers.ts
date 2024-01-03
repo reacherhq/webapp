@@ -24,10 +24,12 @@ export const postData = async <T = unknown>({
 	url,
 	token,
 	data,
+	retries = 2,
 }: {
 	url: string;
 	token?: string | null;
 	data?: unknown;
+	retries?: number;
 }): Promise<T> => {
 	try {
 		return await retry(
@@ -47,7 +49,7 @@ export const postData = async <T = unknown>({
 				return res;
 			},
 			{
-				retries: 2,
+				retries: retries,
 			}
 		);
 	} catch (err) {

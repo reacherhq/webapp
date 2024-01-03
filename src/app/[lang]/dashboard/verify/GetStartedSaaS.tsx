@@ -51,6 +51,7 @@ export function GetStartedSaaS({
 			data: {
 				to_email: email,
 			},
+			retries: 1,
 		})
 			.then((r) => {
 				setResult(r);
