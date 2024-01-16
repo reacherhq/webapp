@@ -32,6 +32,16 @@ export default function SignUp(props: { d: Dictionary }): React.ReactElement {
 	const handleSignup = async () => {
 		setLoading(true);
 		setMessage(undefined);
+		if (email.endsWith("@gmail.com")) {
+			setMessage({
+				type: "error",
+				content:
+					"Gmail addresses are currently disabled due to spam abuse. Please use a company email.",
+			});
+			setLoading(false);
+			return;
+		}
+
 		const { error } = await supabase.auth.signUp({
 			email,
 			password,

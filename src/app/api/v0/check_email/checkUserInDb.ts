@@ -78,11 +78,11 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 	const max = subApiMaxCalls(subAndCalls.product_id);
 	const rateLimitHeaders = getRateLimitHeaders(
 		new RateLimiterRes(
-			max - numberOfCalls - 1,
+			max - numberOfCalls - 1, // -1 because we just consumed 1 email.
 			msDiff,
 			numberOfCalls,
 			undefined
-		), // 1st arg has -1, because we just consumed 1 email.
+		),
 		max
 	);
 
