@@ -24,13 +24,9 @@ export function ApiUsage({
 	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
 
 	useEffect(() => {
-		const t = setInterval(() => {
-			getApiUsage(supabase, subscription)
-				.then(setApiCalls)
-				.catch(sentryException);
-		}, 3000);
-
-		return () => clearInterval(t);
+		getApiUsage(supabase, subscription)
+			.then(setApiCalls)
+			.catch(sentryException);
 	}, [supabase, subscription]);
 
 	return (
