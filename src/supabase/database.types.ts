@@ -437,6 +437,12 @@ export interface Database {
 					verified_at: string;
 				}[];
 			};
+			get_user_calls_count: {
+				Args: {
+					created_at_param: string;
+				};
+				Returns: number;
+			};
 		};
 		Enums: {
 			is_reachable_type: "safe" | "invalid" | "risky" | "unknown";

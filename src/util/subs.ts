@@ -1,4 +1,4 @@
-import { Tables } from "@/supabase/database.types";
+import { Database, Tables } from "@/supabase/database.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { parseISO, subMonths } from "date-fns";
 
@@ -28,19 +28,19 @@ export function subApiMaxCalls(productId: string | null | undefined): number {
 
 // Get the api calls of a user in the past month/billing period.
 export async function getApiUsage(
-	supabase: SupabaseClient,
+	supabase: SupabaseClient<Database>,
 	subscription: Tables<"subscriptions"> | null
 ): Promise<number> {
-	const { error, count } = await supabase
-		.from("calls")
-		.select("*", { count: "exact" })
-		.gt("created_at", getUsageStartDate(subscription).toISOString());
-
+	const { data, error } = await supabase
+		.rpc("get_user_calls_count", {
+			created_at_param: getUsageStartDate(subscription).toISOString(),
+		})
+		.select("*");
 	if (error) {
 		throw error;
 	}
 
-	return count || 0;
+	return (data as unknown as number) || 0;
 }
 
 // Returns the start date of the usage metering.
