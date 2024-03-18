@@ -16,6 +16,8 @@ import type {
 	SubscriptionWithPrice,
 } from "@/supabase/supabaseServer";
 
+const SHOW_100K = false;
+
 interface PlansProps {
 	d: Dictionary;
 	isLoggedIn: boolean;
@@ -69,20 +71,22 @@ export function Plans({ d, products, subscription, isLoggedIn }: PlansProps) {
 					}
 				/>
 			</Grid>
-			<Grid xs={20} sm={6}>
-				<SaaS100k
-					d={d}
-					currency={currency}
-					isLoggedIn={isLoggedIn}
-					product={saas100kProduct}
-					subscription={
-						subscription?.prices?.product_id ===
-						SAAS_100K_PRODUCT_ID
-							? subscription
-							: null
-					}
-				/>
-			</Grid>
+			{SHOW_100K && (
+				<Grid xs={20} sm={6}>
+					<SaaS100k
+						d={d}
+						currency={currency}
+						isLoggedIn={isLoggedIn}
+						product={saas100kProduct}
+						subscription={
+							subscription?.prices?.product_id ===
+							SAAS_100K_PRODUCT_ID
+								? subscription
+								: null
+						}
+					/>
+				</Grid>
+			)}
 			<Grid xs={20} sm={6}>
 				<Commercial
 					d={d}
