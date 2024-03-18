@@ -2,7 +2,7 @@ import { dictionary } from "@/dictionaries";
 import React from "react";
 import { GetStartedCommercial } from "./GetStartedCommercial";
 import { Dashboard } from "../Dashboard";
-import { getSession, getSubscription } from "@/supabase/supabaseServer";
+import { getSession, getSubAndCalls } from "@/supabase/supabaseServer";
 import { redirect } from "next/navigation";
 
 export default async function CommercialLicensePage({
@@ -15,13 +15,13 @@ export default async function CommercialLicensePage({
 		return redirect(`/${lang}/login`);
 	}
 
-	const subscription = await getSubscription();
+	const subAndCalls = await getSubAndCalls(session.user.id);
 	const d = await dictionary(lang);
 
 	return (
 		<Dashboard
 			d={d}
-			subscription={subscription}
+			subAndCalls={subAndCalls}
 			showApiUsage={false}
 			tab={false}
 		>

@@ -396,10 +396,14 @@ export interface Database {
 			};
 			sub_and_calls: {
 				Row: {
+					cancel_at: string | null;
 					current_period_end: string | null;
 					current_period_start: string | null;
 					number_of_calls: number | null;
 					product_id: string | null;
+					status:
+						| Database["public"]["Enums"]["subscription_status"]
+						| null;
 					subscription_id: string | null;
 					user_id: string | null;
 				};

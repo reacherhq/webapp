@@ -10,17 +10,17 @@ import { formatDate } from "@/util/helpers";
 import { Dictionary } from "@/dictionaries";
 
 import styles from "./SubscriptionHeader.module.css";
-import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 import { DLink } from "@/components/DLink";
+import { Tables } from "@/supabase/database.types";
 
 interface SubscriptionHeaderProps {
 	d: Dictionary;
-	subscription: SubscriptionWithPrice | null;
+	subAndCalls: Tables<"sub_and_calls">;
 }
 
 export function SubscriptionHeader({
 	d,
-	subscription,
+	subAndCalls,
 }: SubscriptionHeaderProps): React.ReactElement {
 	return (
 		<section className={styles.plan}>
@@ -28,18 +28,15 @@ export function SubscriptionHeader({
 				<h2>{d.dashboard.header.hello}</h2>
 				<p>
 					<span>
-						{subscription
+						{subAndCalls.subscription_id
 							? d.dashboard.header.thanks_for_subscription.replace(
 									"%s",
-									productName(
-										subscription?.prices?.product_id,
-										d
-									)
+									productName(subAndCalls.product_id, d)
 							  )
 							: d.dashboard.header.thanks_for_signup}
 					</span>
 				</p>
-				{subscription && (
+				{subAndCalls.subscription_id && (
 					<>
 						<StripeMananageButton d={d}>
 							{d.dashboard.header.manage_subscription}
@@ -55,18 +52,17 @@ export function SubscriptionHeader({
 					{d.dashboard.header.active_subscription}
 				</p>
 				<h3 className="text-right">
-					{productName(subscription?.prices?.product_id, d)}
+					{productName(subAndCalls.product_id, d)}
 				</h3>
-				{subscription?.status === "active" && subscription?.cancel_at && (
+				{subAndCalls.status === "active" && subAndCalls.cancel_at && (
 					<Text p small em className="text-right mt-0">
 						{d.dashboard.header.plan_ends_on.replace(
 							"%s",
-							formatDate(new Date(subscription.cancel_at), d.lang)
+							formatDate(new Date(subAndCalls.cancel_at), d.lang)
 						)}
 					</Text>
 				)}
-				{subscription?.prices?.product_id !==
-					COMMERCIAL_LICENSE_PRODUCT_ID && (
+				{subAndCalls.product_id !== COMMERCIAL_LICENSE_PRODUCT_ID && (
 					<div className="text-right">
 						<DLink
 							d={d}

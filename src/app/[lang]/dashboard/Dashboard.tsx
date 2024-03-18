@@ -4,31 +4,31 @@ import { ApiUsage } from "./ApiUsage";
 import { Tabs, TabsProps } from "./Tabs";
 import { SAAS_10K_PRODUCT_ID } from "@/util/subs";
 import { SubscriptionHeader } from "./SubscriptionHeader";
-import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
 import { Dictionary } from "@/dictionaries";
 import { ENABLE_BULK } from "@/util/helpers";
+import { Tables } from "@/supabase/database.types";
 
 interface DashboardProps {
 	children: React.ReactNode;
 	d: Dictionary;
 	showApiUsage?: boolean;
-	subscription: SubscriptionWithPrice | null;
+	subAndCalls: Tables<"sub_and_calls">;
 	tab: TabsProps["tab"] | false;
 }
 export function Dashboard({
 	children,
 	d,
 	showApiUsage = true,
-	subscription,
+	subAndCalls,
 	tab,
 }: DashboardProps) {
 	return (
 		<Page>
-			<SubscriptionHeader d={d} subscription={subscription} />
+			<SubscriptionHeader d={d} subAndCalls={subAndCalls} />
 			<Spacer h={2} />
 			{showApiUsage && (
 				<>
-					<ApiUsage d={d} subscription={subscription} />
+					<ApiUsage d={d} subAndCalls={subAndCalls} />
 					<Spacer h={2} />
 				</>
 			)}
@@ -36,8 +36,8 @@ export function Dashboard({
 				<Tabs
 					d={d}
 					bulkDisabled={
-						!subscription ||
-						subscription?.prices?.product_id === SAAS_10K_PRODUCT_ID
+						!subAndCalls.subscription_id ||
+						subAndCalls.product_id === SAAS_10K_PRODUCT_ID
 					}
 					tab={tab}
 				/>

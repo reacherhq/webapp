@@ -4,11 +4,11 @@ import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
 import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
 import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
-import { SAAS_100K_PRODUCT_ID, getApiUsage } from "@/util/subs";
+import { SAAS_100K_PRODUCT_ID } from "@/util/subs";
 import { Json, Tables } from "@/supabase/database.types";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
-import { getSubscription } from "@/supabase/supabaseServer";
+import { getSubAndCalls } from "@/supabase/supabaseServer";
 
 interface BulkPayload {
 	input_type: "array";
@@ -43,9 +43,9 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 				}
 			);
 		}
-		const subscripton = await getSubscription();
+		const subAndCalls = await getSubAndCalls(user.id);
 
-		if (subscripton?.prices?.product_id !== SAAS_100K_PRODUCT_ID) {
+		if (subAndCalls.product_id !== SAAS_100K_PRODUCT_ID) {
 			return Response.json(
 				{
 					error: "Bulk verification is not available on your plan",
@@ -58,7 +58,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 
 		const payload: BulkPayload = await req.json();
 
-		const callsUsed = await getApiUsage(supabase, subscripton);
+		const callsUsed = subAndCalls.number_of_calls || 0;
 
 		if (payload.input.length + callsUsed > 100_000) {
 			return Response.json(

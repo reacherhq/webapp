@@ -2,49 +2,38 @@
 
 import { Capacity, Text } from "@geist-ui/react";
 import { Loader } from "@geist-ui/react-icons";
-import React, { useEffect, useState } from "react";
-import { sentryException } from "@/util/sentry";
-import { getApiUsage, subApiMaxCalls } from "@/util/subs";
+import React from "react";
+import { subApiMaxCalls } from "@/util/subs";
 import styles from "./ApiUsage.module.css";
 import { formatDate } from "@/util/helpers";
 import { Dictionary } from "@/dictionaries";
-import { SubscriptionWithPrice } from "@/supabase/supabaseServer";
-import { createClient } from "@/supabase/client";
+import { Tables } from "@/supabase/database.types";
 
 interface ApiUsageProps {
 	d: Dictionary;
-	subscription: SubscriptionWithPrice | null;
+	subAndCalls: Tables<"sub_and_calls">;
 }
 
 export function ApiUsage({
-	subscription,
+	subAndCalls,
 	d,
 }: ApiUsageProps): React.ReactElement {
-	const supabase = createClient();
-	const [apiCalls, setApiCalls] = useState<number | undefined>(undefined); // undefined means loading
-
-	useEffect(() => {
-		getApiUsage(supabase, subscription)
-			.then(setApiCalls)
-			.catch(sentryException);
-	}, [supabase, subscription]);
-
 	return (
 		<section>
 			<div className={styles.textContainer}>
 				<Text h5>
 					{d.dashboard.emails_this_month}
-					{subscription && (
+					{subAndCalls.subscription_id && (
 						<>
 							{" "}
 							(
 							{formatDate(
-								subscription.current_period_start,
+								subAndCalls.current_period_start as string,
 								d.lang
 							)}{" "}
 							-{" "}
 							{formatDate(
-								subscription.current_period_end,
+								subAndCalls.current_period_end as string,
 								d.lang
 							)}
 							)
@@ -54,21 +43,21 @@ export function ApiUsage({
 
 				<Text h4>
 					<Text type="success" span>
-						{apiCalls === undefined ? (
+						{subAndCalls.number_of_calls === null ? (
 							<Loader size={16} />
 						) : (
-							apiCalls
+							subAndCalls.number_of_calls
 						)}
 					</Text>
-					/{subApiMaxCalls(subscription?.prices?.product_id)}
+					/{subApiMaxCalls(subAndCalls.product_id)}
 				</Text>
 			</div>
 
 			<Capacity
 				className={styles.capacity}
 				value={
-					((apiCalls || 0) /
-						subApiMaxCalls(subscription?.prices?.product_id)) *
+					((subAndCalls.number_of_calls || 0) /
+						subApiMaxCalls(subAndCalls.product_id)) *
 					100
 				}
 			/>
