@@ -69,3 +69,33 @@ export const getActiveProductsWithPrices = async () => {
 	if (error) throw error;
 	return (data as unknown as ProductWithPrice[]) ?? [];
 };
+
+// Get the api calls of a user in the past month/billing period.
+// Once we upgrade to postgres 15, we can use the security_invoker = true
+// and skip the userId here.
+export async function getSubAndCalls(
+	userId: string
+): Promise<Tables<"sub_and_calls">> {
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+
+	const { data, error } = await supabase
+		.from("sub_and_calls")
+		.select("*")
+		.eq("user_id", userId);
+	if (error) {
+		throw error;
+	}
+
+	if (!data[0]) {
+		throw new Error(
+			`No sub_and_calls found for user ${
+				(await supabase.auth.getUser()).data.user?.id
+			}.`
+		);
+	}
+
+	console.log("aaa", data[0]);
+
+	return data[0];
+}

@@ -3,7 +3,7 @@ import { Dashboard } from "../Dashboard";
 import { GetStartedSaaS } from "./GetStartedSaaS";
 import {
 	getSession,
-	getSubscription,
+	getSubAndCalls,
 	getUserDetails,
 } from "@/supabase/supabaseServer";
 import { GetStartedApi } from "./GetStartedApi";
@@ -21,15 +21,15 @@ export default async function VerifySingle({
 		return redirect(`/${lang}/login`);
 	}
 
-	const subscription = await getSubscription();
 	const userDetails = await getUserDetails();
+	const subAndCalls = await getSubAndCalls(session.user.id);
 	const d = await dictionary(lang);
 
 	return (
 		<Dashboard
 			showApiUsage={true}
+			subAndCalls={subAndCalls}
 			d={d}
-			subscription={subscription}
 			tab="verify"
 		>
 			<GetStartedSaaS userDetails={userDetails} d={d} />
