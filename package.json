@@ -21,7 +21,7 @@
 		"@hcaptcha/react-hcaptcha": "^1.9.2",
 		"@reacherhq/api": "^0.3.10",
 		"@sendinblue/client": "^3.3.1",
-		"@sentry/nextjs": "^7.91.0",
+		"@sentry/nextjs": "^8",
 		"@stripe/stripe-js": "^1.52.0",
 		"@supabase/auth-ui-react": "^0.4.6",
 		"@supabase/ssr": "^0.0.10",
