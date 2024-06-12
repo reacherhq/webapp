@@ -45,3 +45,4 @@ reacher_backends.json
 
 # Sentry Config File
 .sentryclirc
+.env.sentry-build-plugin
