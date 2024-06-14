@@ -27,7 +27,8 @@ export function subApiMaxCalls(
 	// inside the DB, with an admin dashboard to update etc. But for now, let's
 	// do like this.
 	if (
-		userId === "fe601de1-adc5-442f-a1b3-b58a01503474" &&
+		(userId === "fe601de1-adc5-442f-a1b3-b58a01503474" ||
+			userId === "350c4640-42b3-4596-89fd-cacfd81e2b8a") &&
 		isBefore(today, julySeventh)
 	) {
 		return 20_000;
