@@ -49,7 +49,11 @@ export function ApiUsage({
 							subAndCalls.number_of_calls
 						)}
 					</Text>
-					/{subApiMaxCalls(subAndCalls.product_id)}
+					/
+					{subApiMaxCalls(
+						subAndCalls.product_id,
+						subAndCalls.user_id
+					)}
 				</Text>
 			</div>
 
@@ -57,7 +61,10 @@ export function ApiUsage({
 				className={styles.capacity}
 				value={
 					((subAndCalls.number_of_calls || 0) /
-						subApiMaxCalls(subAndCalls.product_id)) *
+						subApiMaxCalls(
+							subAndCalls.product_id,
+							subAndCalls.user_id
+						)) *
 					100
 				}
 			/>

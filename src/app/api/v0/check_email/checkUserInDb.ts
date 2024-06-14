@@ -75,7 +75,7 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 		? parseISO(subAndCalls.current_period_end as string) // Safe to type cast here, if there's a subscription, there's a current_period_end.
 		: addMonths(now, 1);
 	const msDiff = differenceInMilliseconds(nextReset, now);
-	const max = subApiMaxCalls(subAndCalls.product_id);
+	const max = subApiMaxCalls(subAndCalls.product_id, user.id);
 	const rateLimitHeaders = getRateLimitHeaders(
 		new RateLimiterRes(
 			max - numberOfCalls - 1, // -1 because we just consumed 1 email.
