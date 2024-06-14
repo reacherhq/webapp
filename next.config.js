@@ -16,7 +16,7 @@ const apiConfig = {
 
 const { withSentryConfig } = require("@sentry/nextjs");
 
-module.exports = withSentryConfig(module.exports, {
+module.exports = withSentryConfig(apiConfig, {
 	// For all available options, see:
 	// https://github.com/getsentry/sentry-webpack-plugin#options
 
