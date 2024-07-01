@@ -35,8 +35,11 @@ export function ProductCard({
 	const d = props.d.pricing;
 
 	const active = !!subscription;
-	console.log("AAA", product.prices);
-	const price = product.prices.find(({ currency: c }) => currency === c);
+	// For the SAA10k and SaaS100k products, we also allow a yearly subscription.
+	// This is currently not implemented in the UI, but the backend supports it.
+	const price = product.prices.find(
+		({ currency: c, interval }) => currency === c && interval === "month"
+	);
 	if (!price || !price.unit_amount) {
 		return <p>Error: No price found for product {product.id}.</p>;
 	}
