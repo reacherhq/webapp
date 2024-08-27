@@ -1,4 +1,8 @@
-CREATE VIEW bulk_jobs_info AS
+DROP VIEW bulk_jobs_info;
+CREATE VIEW bulk_jobs_info
+WITH
+    ( security_invoker = TRUE )
+AS
     SELECT 
         bj.id AS bulk_job_id,
         bj.user_id,

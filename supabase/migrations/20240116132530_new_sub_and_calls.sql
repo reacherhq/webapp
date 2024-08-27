@@ -4,28 +4,42 @@ WITH
     ( security_invoker = TRUE )
 AS
     SELECT
-        u.id as user_id,
+        u.id AS user_id,
         s.id AS subscription_id,
         s.status,
         s.current_period_start,
         s.current_period_end,
         s.cancel_at,
         COUNT(c.id) AS number_of_calls,
-        pro.id as product_id
+        pro.id AS product_id
     FROM
-        users u
-    LEFT JOIN
-        subscriptions s ON u.id = s.user_id AND s.status = 'active'
-    LEFT JOIN
-        prices pri ON pri.id = s.price_id
-    LEFT JOIN
-        products pro ON pro.id = pri.product_id
-    LEFT JOIN
-        calls c ON u.id = c.user_id
+        public.users u
+        LEFT JOIN public.subscriptions s ON u.id = s.user_id
+        AND s.status = 'active'::public.subscription_status
+        LEFT JOIN public.prices pri ON pri.id = s.price_id
+        LEFT JOIN public.products pro ON pro.id = pri.product_id
+        LEFT JOIN public.calls c ON u.id = c.user_id
         AND (
-            (s.current_period_start IS NOT NULL AND s.current_period_end IS NOT NULL AND c.created_at BETWEEN s.current_period_start AND s.current_period_end)
-            OR
-            (s.current_period_start IS NULL OR s.current_period_end IS NULL) AND (c.created_at >= NOW() - INTERVAL '1 MONTH')
+            (
+                s.current_period_start IS NOT NULL
+                AND s.current_period_end IS NOT NULL
+                AND c.created_at >= s.current_period_start
+                AND c.created_at <= s.current_period_end
+            )
+            OR 
+            (
+                (
+                    s.current_period_start IS NULL
+                    OR s.current_period_end IS NULL
+                )
+                AND c.created_at >= (NOW() - '1 mon'::INTERVAL)
+            )
         )
     GROUP BY
-        u.id, s.id, s.status, s.current_period_start, s.current_period_end, s.cancel_at, pro.id;
+        u.id,
+        s.id,
+        s.status,
+        s.current_period_start,
+        s.current_period_end,
+        s.cancel_at,
+        pro.id;
