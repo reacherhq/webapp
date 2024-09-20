@@ -44,36 +44,34 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 							</DLink>
 						</div>
 						<Spacer />
-						<a
-							href="https://help.reacher.email/cgu-cgv"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<DLink href="/legal/terms" d={d}>
 							{d.footer.sitemap.tos}
-						</a>
+						</DLink>
 						<Spacer />
-						<a
-							href="https://help.reacher.email/politique-de-confidentialit"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<DLink href="/legal/privacy" d={d}>
 							{d.footer.sitemap.privacy}
-						</a>
+						</DLink>
 						<Spacer />
-						<a
-							href="https://help.reacher.email/mentions-lgales"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<DLink href="/legal/mentions" d={d}>
 							{d.footer.sitemap.legal_mentions}
-						</a>
+						</DLink>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>{d.footer.help.title}</Text>
 						<Spacer h={2} />
 						<div>
 							<a
-								href="https://help.reacher.email/self-host-guide"
+								href="https://docs.reacher.email"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{d.footer.help.getting_started}
+							</a>
+						</div>
+						<Spacer />
+						<div>
+							<a
+								href="https://docs.reacher.email/self-hosting/install"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -83,11 +81,11 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 						<Spacer />
 						<div>
 							<a
-								href="https://reacher.stoplight.io/docs/backend/76c074a57efb1-check-email"
+								href="https://docs.reacher.email/self-hosting/proxies"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								{d.footer.help.api}
+								{d.footer.help.proxies}
 							</a>
 						</div>
 					</Grid>
@@ -107,16 +105,6 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 								rel="noopener noreferrer"
 							>
 								{d.footer.contact.github}
-							</a>
-						</div>
-						<Spacer />
-						<div>
-							<a
-								href="https://help.reacher.email"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								{d.footer.contact.help}
 							</a>
 						</div>
 					</Grid>

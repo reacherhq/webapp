@@ -52,7 +52,7 @@ Thank you for using Reacher. You will find attached the Commercial License for t
 			"dd/MM/yyyy"
 		)} to ${format(licenseEndDate, "dd/MM/yyyy")}.
 
-A self-host guide can be found at https://help.reacher.email/self-host-guide, let me know if you need help.
+A self-host guide can be found at https://docs.reacher.email/self-hosting/install, let me know if you need help.
 
 KR,
 Amaury`,
