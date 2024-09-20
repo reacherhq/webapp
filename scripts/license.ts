@@ -1,15 +1,15 @@
-import { addMonths } from 'date-fns';
-import { writeFile } from 'fs/promises';
-import { tmpdir } from 'os';
+import { addMonths } from "date-fns";
+import { writeFile } from "fs/promises";
+import { tmpdir } from "os";
 
-import { generateLicense } from '../src/util/license';
+import { generateLicense } from "../src/util/license";
 
 async function main(): Promise<void> {
 	const myArgs = process.argv.slice(2);
 
 	if (myArgs.length < 2 || myArgs.length > 3) {
 		console.error(
-			'Usage: yarn gen:license [name] [email] [address] [optional_start_date]'
+			"Usage: yarn gen:license [name] [email] [address] [optional_start_date]"
 		);
 		process.exit(1);
 	}
@@ -18,8 +18,8 @@ async function main(): Promise<void> {
 
 	// Generate with dummy data.
 	const pdf = await generateLicense({
-		backend_version: '0.3.x',
-		ciee_version: '0.8.x',
+		backend_version: "0.7.x",
+		ciee_version: "0.8.x | 0.9.x",
 		license_end_date: addMonths(startDate, 1),
 		number_devs: 25,
 		stripe_buy_date: startDate,

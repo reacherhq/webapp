@@ -61,7 +61,7 @@ export async function Nav({ d }: { d: Dictionary }) {
 
 				<a
 					className={styles.link}
-					href="https://help.reacher.email"
+					href="https://docs.reacher.email"
 					target="_blank"
 					rel="noopener noreferrer"
 					data-sa-link-event="nav:help:click"

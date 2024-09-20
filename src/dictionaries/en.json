@@ -24,7 +24,7 @@
 			"enter_text_results": "Simply enter an email and click 'Verify' to get the results.",
 			"verify_button": "Verify",
 			"congratulations": "Congratulations 💪! We got a result with",
-			"full_documentation": "The full response is below, check out [the documentation](https://help.reacher.email/email-attributes-inside-json) to understand all the fields.",
+			"full_documentation": "The full response is below, check out [the documentation](https://docs.reacher.email/getting-started/is-reachable) to understand all the fields.",
 			"result_invalid": "which means the email does not exist.",
 			"result_safe": "which means the email exists and is safe to send to.",
 			"result_risky": "which means the email exists but sending to it might bounce.",
@@ -94,21 +94,20 @@
 			"with_header": "with the following header:",
 			"unique_auth_token": "Below is your unique AUTH_TOKEN. **Don't share it with anyone else!**",
 			"curl_example": "For example, a `curl` request looks like:",
-			"explain_fields": "The most important field to check is `is_reachable`, and you can also understand [all the other fields](https://help.reacher.email/email-attributes-inside-json) or read the [API reference guide](https://reacher.stoplight.io/docs/backend).",
+			"explain_fields": "The most important field to check is `is_reachable`, and you can also understand [all the other fields](https://docs.reacher.email/getting-started/is-reachable) or read the [API reference guide](https://docs.reacher.email/advanced/openapi).",
 			"help_no_understand": "Help! I still don't understand what to do. 😱",
-			"dont_worry": "Don't worry, I have prepared a [beginner's guide](https://help.reacher.email/verify-your-1st-email) for using the API, with a program called Postman. If you still have questions, just use the chat widget on the bottom right corner to send me a message, or shoot me an email at [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
+			"dont_worry": "Don't worry, I have prepared a [beginner's guide](https://docs.reacher.email/getting-started/quickstart) for using the API, with a program called Postman. If you still have questions, just use the chat widget on the bottom right corner to send me a message, or shoot me an email at [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
 		},
 		"get_started_license": {
 			"title": "How to get started with the Commercial License?",
-			"explanation": "To get started with self-hosting, please refer to our [Self-Host Guide](https://help.reacher.email/self-host-guide).\n\nIf you have any questions about self-hosting, please contact [✉️ amaury@reacher.email](mailto:amaury@reacher.email)."
+			"explanation": "To get started with self-hosting, please refer to our [Self-Host Guide](https://docs.reacher.email/self-hosting/install).\n\nIf you have any questions about self-hosting, please contact [✉️ amaury@reacher.email](mailto:amaury@reacher.email)."
 		}
 	},
 	"footer": {
 		"contact": {
 			"title": "Contact",
 			"email": "Email",
-			"github": "Github",
-			"help": "Help Center"
+			"github": "Github"
 		},
 		"madeby": {
 			"line1": "Made by Amaury, an indie",
@@ -123,9 +122,10 @@
 			"legal_mentions": "Legal Mentions 🇫🇷"
 		},
 		"help": {
-			"title": "Help Center",
+			"title": "Docs",
+			"getting_started": "Getting Started",
 			"self_host": "Self-host",
-			"api": "API Documentation"
+			"proxies": "Proxies"
 		}
 	},
 	"homepage": {
@@ -148,7 +148,7 @@
 	},
 	"nav": {
 		"pricing": "Pricing",
-		"help": "Help Center",
+		"help": "Docs",
 		"login": "Login",
 		"signup": "Sign up",
 		"logout": "Logout"
@@ -174,20 +174,20 @@
 			"overtitle": "🏠 Self-Hosted",
 			"subtitle": "**Unlimited email** verifications / mo",
 			"what_need_to_do": "What you need to do:",
-			"purchase_server": "Purchase servers yourself to self-host Reacher. [Read how](https://help.reacher.email/self-host-guide).",
-			"unlimited_emails": "**Unlimited** [full-featured]((https://help.reacher.email/email-attributes-inside-json)) email verifications.",
-			"bulk": "💪 **Bulk** email verifications. [Read more](https://help.reacher.email/bulk-email-verification).",
+			"purchase_server": "Purchase servers yourself to self-host Reacher. [Read how](https://docs.reacher.email/self-hosting/install).",
+			"unlimited_emails": "**Unlimited** email verifications.",
+			"bulk": "💪 **Bulk** email verifications. [Read more](https://docs.reacher.email/self-hosting/bulk).",
 			"no_data_reacher": "No data sent back to Reacher.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime.",
-			"terms": "See [full terms and details](https://help.reacher.email/reacher-licenses).",
-			"free_trial": "Want a free trial before committing? Feel free to try self-hosting with the [open-source guide](https://help.reacher.email/self-host-guide), and subscribe once you're ready."
+			"terms": "See [full terms and details](https://docs.reacher.email/self-hosting/licensing).",
+			"free_trial": "Want a free trial before committing? Get started with [our docs](https://docs.reacher.email/self-hosting/licensing#does-reacher-offer-a-free-trial), and subscribe once you're ready."
 		},
 		"saas10k": {
 			"overtitle": "For individuals",
 			"subtitle": "10,000 email verifications / mo",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
-			"full_feature": "[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
+			"full_feature": "email verifications.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime."
 		},
@@ -196,7 +196,7 @@
 			"subtitle": "100,000 email verifications / mo",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
 			"bulk": "💪  **Bulk** email verification via CSV list upload.",
-			"full_feature": "[Full-featured](https://help.reacher.email/email-attributes-inside-json) email verifications.",
+			"full_feature": "email verifications.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime."
 		},
@@ -207,7 +207,7 @@
 			"refund_q": "What is your refund policy?",
 			"refund_a": "Sure. If you use Reacher and find that the verifications are slow or incorrect, I'll refund you the full amount if you email me [✉️ amaury@reacher.email](mailto:amaury@reacher.email) within 30 days of your subscription.",
 			"free_trial_q": "Do you offer a free trial?",
-			"free_trial_a": "If you are interested in the SaaS 10K or 100K plans, then no, Reacher does not offer any free trial. There is however a 30-day money back guarantee.\n\nIf you are interested in the Commercial License, you can follow the [self-host guide](https://help.reacher.email/self-host-guide) for a free trial.",
+			"free_trial_a": "If you are interested in the SaaS 10K or 100K plans, then no, Reacher does not offer any free trial. There is however a 30-day money back guarantee.\n\nIf you are interested in the Commercial License, you can follow the [self-host guide](https://docs.reacher.email/self-hosting/install) for a free trial.",
 			"another_q": "Have another question?",
 			"another_a": "Feel free to email me [✉️ amaury@reacher.email](mailto:amaury@reacher.email), I reply pretty fast."
 		}

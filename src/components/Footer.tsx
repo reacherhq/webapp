@@ -73,7 +73,17 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 						<Spacer h={2} />
 						<div>
 							<a
-								href="https://help.reacher.email/self-host-guide"
+								href="https://docs.reacher.email"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{d.footer.help.getting_started}
+							</a>
+						</div>
+						<Spacer />
+						<div>
+							<a
+								href="https://docs.reacher.email/self-hosting/install"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -83,11 +93,11 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 						<Spacer />
 						<div>
 							<a
-								href="https://reacher.stoplight.io/docs/backend/76c074a57efb1-check-email"
+								href="https://docs.reacher.email/self-hosting/proxies"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								{d.footer.help.api}
+								{d.footer.help.proxies}
 							</a>
 						</div>
 					</Grid>
@@ -107,16 +117,6 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 								rel="noopener noreferrer"
 							>
 								{d.footer.contact.github}
-							</a>
-						</div>
-						<Spacer />
-						<div>
-							<a
-								href="https://help.reacher.email"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								{d.footer.contact.help}
 							</a>
 						</div>
 					</Grid>
