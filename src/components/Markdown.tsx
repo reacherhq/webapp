@@ -20,3 +20,8 @@ export function LinkRenderer(d: Dictionary): CustomReactRenderer {
 		},
 	};
 }
+
+export function removeFrontMatter(markdown: string): string {
+	const frontMatterRegex = /^---[\s\S]*?---\n/;
+	return markdown.replace(frontMatterRegex, "");
+}

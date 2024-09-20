@@ -44,29 +44,17 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 							</DLink>
 						</div>
 						<Spacer />
-						<a
-							href="https://help.reacher.email/cgu-cgv"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<DLink href="/legal/terms" d={d}>
 							{d.footer.sitemap.tos}
-						</a>
+						</DLink>
 						<Spacer />
-						<a
-							href="https://help.reacher.email/politique-de-confidentialit"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<DLink href="/legal/privacy" d={d}>
 							{d.footer.sitemap.privacy}
-						</a>
+						</DLink>
 						<Spacer />
-						<a
-							href="https://help.reacher.email/mentions-lgales"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<DLink href="/legal/mentions" d={d}>
 							{d.footer.sitemap.legal_mentions}
-						</a>
+						</DLink>
 					</Grid>
 					<Grid className={styles.grid} xs={5}>
 						<Text h5>{d.footer.help.title}</Text>
