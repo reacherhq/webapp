@@ -168,7 +168,9 @@
 			"redirecting_to_stripe": "Redirecting to Stripe...",
 			"redirecting_to_signup": "Redirecting to signup...",
 			"current_plan": "Current plan",
-			"get_started": "Get started"
+			"get_started": "Get started",
+			"start_free_trial": "Start free trial",
+			"subscribe": "Subscribe"
 		},
 		"commercial": {
 			"overtitle": "🏠 Self-Hosted",
@@ -238,6 +240,16 @@
 		"button_sign_up": "Sign up",
 		"button_signing_up": "Signing up...",
 		"login": "Login",
+		"prevent_spam": "Due to a recent surge in spam usage of Reacher, I'm personally reviewing new signups for the Commercial License trial. Could you answer help me answer a few quick questions?",
+		"company_website": "Company website",
+		"email_volume": {
+			"title": "What is your monthly email volume?",
+			"per_month": "emails per month",
+			"other": "Other"
+		},
+		"b2b_b2c": {
+			"title": "The emails are mostly:"
+		},
 		"feedback": {
 			"title": "How did you hear about Reacher?",
 			"placeholder": "Please select an option",
