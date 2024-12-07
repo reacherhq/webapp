@@ -54,7 +54,7 @@ export async function Nav({ d }: { d: Dictionary }) {
 					d={d}
 					className={styles.link}
 					href="/pricing"
-					data-sa-link-event="nav:pricing:click"
+					data-sa-link-event="nav_pricing_click"
 				>
 					{d.nav.pricing}
 				</DLink>
@@ -64,7 +64,7 @@ export async function Nav({ d }: { d: Dictionary }) {
 					href="https://docs.reacher.email"
 					target="_blank"
 					rel="noopener noreferrer"
-					data-sa-link-event="nav:help:click"
+					data-sa-link-event="nav_help_click"
 				>
 					{d.nav.help}
 				</a>

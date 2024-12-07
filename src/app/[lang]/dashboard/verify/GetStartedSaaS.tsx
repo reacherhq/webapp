@@ -36,7 +36,7 @@ export function GetStartedSaaS({
 	const d = props.d.dashboard.get_started_saas;
 
 	function handleVerify() {
-		window.sa_event && window.sa_event("dashboard:verify:click");
+		window.sa_event && window.sa_event("dashboard_verify_click");
 		if (!email) {
 			return;
 		}
