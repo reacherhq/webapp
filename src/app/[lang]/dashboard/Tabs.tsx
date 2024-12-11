@@ -13,7 +13,7 @@ import { Package } from "@geist-ui/react-icons";
 export interface TabsProps {
 	d: Dictionary;
 	bulkDisabled: boolean;
-	tab: "verify" | "commercial_license";
+	tab: "verify" | "commercial_license" | "bulk";
 }
 
 export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
