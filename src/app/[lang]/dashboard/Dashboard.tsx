@@ -5,7 +5,6 @@ import { Tabs, TabsProps } from "./Tabs";
 import { SAAS_10K_PRODUCT_ID } from "@/util/subs";
 import { SubscriptionHeader } from "./SubscriptionHeader";
 import { Dictionary } from "@/dictionaries";
-import { ENABLE_BULK } from "@/util/helpers";
 import { Tables } from "@/supabase/database.types";
 
 interface DashboardProps {
@@ -13,7 +12,7 @@ interface DashboardProps {
 	d: Dictionary;
 	showApiUsage?: boolean;
 	subAndCalls: Tables<"sub_and_calls">;
-	tab: TabsProps["tab"] | false;
+	tab: TabsProps["tab"];
 }
 export function Dashboard({
 	children,
@@ -32,16 +31,14 @@ export function Dashboard({
 					<Spacer h={2} />
 				</>
 			)}
-			{tab !== false && ENABLE_BULK && (
-				<Tabs
-					d={d}
-					bulkDisabled={
-						!subAndCalls.subscription_id ||
-						subAndCalls.product_id === SAAS_10K_PRODUCT_ID
-					}
-					tab={tab}
-				/>
-			)}
+			<Tabs
+				d={d}
+				bulkDisabled={
+					!subAndCalls.subscription_id ||
+					subAndCalls.product_id === SAAS_10K_PRODUCT_ID
+				}
+				tab={tab}
+			/>
 			{children}
 		</Page>
 	);

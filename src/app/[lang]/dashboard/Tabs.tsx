@@ -7,11 +7,13 @@ import Mail from "@geist-ui/react-icons/mail";
 import Database from "@geist-ui/react-icons/database";
 import Lock from "@geist-ui/react-icons/lock";
 import { useRouter } from "next/navigation";
+import { ENABLE_BULK } from "@/util/helpers";
+import { Package } from "@geist-ui/react-icons";
 
 export interface TabsProps {
 	d: Dictionary;
 	bulkDisabled: boolean;
-	tab: "verify" | "bulk" | "api";
+	tab: "verify" | "commercial_license";
 }
 
 export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
@@ -33,22 +35,33 @@ export function Tabs({ bulkDisabled, tab, ...props }: TabsProps) {
 				}
 				value="verify"
 			/>
+			{ENABLE_BULK && (
+				<GTabs.Item
+					disabled={bulkDisabled}
+					label={
+						bulkDisabled ? (
+							<>
+								<Lock />
+								{d.bulk_locked}
+							</>
+						) : (
+							<>
+								<Database />
+								{d.bulk}
+							</>
+						)
+					}
+					value="bulk"
+				/>
+			)}
 			<GTabs.Item
-				disabled={bulkDisabled}
 				label={
-					bulkDisabled ? (
-						<>
-							<Lock />
-							{d.bulk_locked}
-						</>
-					) : (
-						<>
-							<Database />
-							{d.bulk}
-						</>
-					)
+					<>
+						<Package />
+						{d.commercial_license}
+					</>
 				}
-				value="bulk"
+				value="commercial_license"
 			/>
 		</GTabs>
 	);

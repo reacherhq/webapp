@@ -1,6 +1,6 @@
 "use client";
 
-import { Input, Select, Spacer, Text } from "@geist-ui/react";
+import { Input, Select, Spacer, Text, useToasts } from "@geist-ui/react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import React, { useState } from "react";
 
@@ -39,6 +39,7 @@ export default function SignUp(props: { d: Dictionary }): React.ReactElement {
 
 	const supabase = createClient();
 	const d = props.d.signup;
+	const [, setToast] = useToasts();
 
 	const handleSignup = async () => {
 		setLoading(true);
@@ -74,6 +75,10 @@ export default function SignUp(props: { d: Dictionary }): React.ReactElement {
 		if (error) {
 			setMessage({ type: "error", content: error?.message });
 		} else {
+			setToast({
+				text: d.success_check_email,
+				type: "success",
+			});
 			setMessage({
 				type: "success",
 				content: d.success_check_email,

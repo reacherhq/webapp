@@ -17,7 +17,7 @@
 			"verify": "Verify a single email",
 			"bulk": "Bulk verification",
 			"bulk_locked": "Bulk verification (SaaS 100K plan only)",
-			"api": "API"
+			"commercial_license": "Commercial License"
 		},
 		"get_started_saas": {
 			"verify_email": "Verify an email (quick & easy 💪)",
