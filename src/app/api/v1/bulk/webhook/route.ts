@@ -44,5 +44,5 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		return Response.json(res1.error, res1);
 	}
 
-	return Response.json({ message: "ok" }, { status: 200 });
+	return Response.json({ ok: true }, { status: 200 });
 };

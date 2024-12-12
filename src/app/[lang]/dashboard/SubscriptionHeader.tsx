@@ -67,7 +67,7 @@ export function SubscriptionHeader({
 						<DLink
 							d={d}
 							href="/pricing"
-							data-sa-link-event="dashboard:upgrade:click"
+							data-sa-link-event="dashboard_upgrade_click"
 						>
 							<strong>{d.dashboard.header.upgrade}</strong>
 						</DLink>

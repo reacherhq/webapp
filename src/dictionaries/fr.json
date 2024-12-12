@@ -17,7 +17,7 @@
 			"verify": "Vérifier un email",
 			"bulk": "Vérification en bulk",
 			"bulk_locked": "Vérification en bulk (Plan SaaS 100K uniquement)",
-			"api": "API"
+			"commercial_license": "Licence Commerciale"
 		},
 		"get_started_saas": {
 			"verify_email": "Vérifier un email (rapide & facile 💪)",
@@ -168,7 +168,9 @@
 			"redirecting_to_stripe": "Redirection vers Stripe...",
 			"redirecting_to_signup": "Redirection...",
 			"current_plan": "Déjà souscrit",
-			"get_started": "Créer un compte"
+			"get_started": "Créer un compte",
+			"start_free_trial": "Commencer l'essai gratuit",
+			"subscribe": "Souscrire"
 		},
 		"commercial": {
 			"overtitle": "🏠 Auto-hébergé",
@@ -238,6 +240,16 @@
 		"button_sign_up": "S'inscrire",
 		"button_signing_up": "Inscription en cours...",
 		"login": "Connexion",
+		"prevent_spam": "En raison d'une récente augmentation de l'utilisation abusive de Reacher, je passe personnellement en revue les nouvelles inscriptions pour l'essai de la Licence Commerciale. Pourriez-vous m'aider à répondre à quelques questions rapides ?",
+		"company_website": "Site web de l'entreprise",
+		"email_volume": {
+			"title": "Quel volume d'emails prévoyez-vous de vérifier chaque mois ?",
+			"per_month": "par mois",
+			"other": "Autre"
+		},
+		"b2b_b2c": {
+			"title": "Les emails à verifier sont majoritairement :"
+		},
 		"feedback": {
 			"title": "Comment avez-vous entendu parler de Reacher ?",
 			"placeholder": "Veuillez sélectionner une option",

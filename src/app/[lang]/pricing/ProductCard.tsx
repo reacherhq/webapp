@@ -22,6 +22,7 @@ export interface ProductCardProps {
 	footer?: React.ReactElement;
 	features?: (string | React.ReactElement)[];
 	subtitle?: React.ReactElement;
+	ctaLabel: string;
 }
 
 export function ProductCard({
@@ -29,6 +30,7 @@ export function ProductCard({
 	isLoggedIn,
 	product,
 	subscription,
+	ctaLabel,
 	...props
 }: ProductCardProps): React.ReactElement {
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
@@ -86,10 +88,10 @@ export function ProductCard({
 			onClick={() => {
 				window.sa_event &&
 					window.sa_event(
-						`pricing:${
+						`pricing_${
 							product.id === COMMERCIAL_LICENSE_PRODUCT_ID
 								? "commercial"
-								: "saas"
+								: "saas10k"
 						}`
 					);
 				handleCheckout(price).catch(sentryException);
@@ -104,7 +106,7 @@ export function ProductCard({
 				? d.cards.current_plan
 				: isLoggedIn
 				? d.cards.select_plan_cta
-				: d.cards.get_started}
+				: ctaLabel}
 		</Button>
 	);
 

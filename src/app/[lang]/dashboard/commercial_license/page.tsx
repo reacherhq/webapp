@@ -23,7 +23,7 @@ export default async function CommercialLicensePage({
 			d={d}
 			subAndCalls={subAndCalls}
 			showApiUsage={false}
-			tab={false}
+			tab="commercial_license"
 		>
 			<GetStartedCommercial d={d} />
 		</Dashboard>

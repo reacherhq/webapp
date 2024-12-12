@@ -16,6 +16,7 @@ import type {
 	SubscriptionWithPrice,
 } from "@/supabase/supabaseServer";
 
+// Currently the 100K plan per month is disabled.
 const SHOW_100K = false;
 
 interface PlansProps {
@@ -61,6 +62,7 @@ export function Plans({ d, products, subscription, isLoggedIn }: PlansProps) {
 			<Grid xs={20} sm={6}>
 				<SaaS10k
 					d={d}
+					ctaLabel={d.pricing.cards.subscribe}
 					currency={currency}
 					isLoggedIn={isLoggedIn}
 					product={saas10kProduct}
@@ -75,6 +77,7 @@ export function Plans({ d, products, subscription, isLoggedIn }: PlansProps) {
 				<Grid xs={20} sm={6}>
 					<SaaS100k
 						d={d}
+						ctaLabel={d.pricing.cards.subscribe}
 						currency={currency}
 						isLoggedIn={isLoggedIn}
 						product={saas100kProduct}
@@ -90,6 +93,7 @@ export function Plans({ d, products, subscription, isLoggedIn }: PlansProps) {
 			<Grid xs={20} sm={6}>
 				<Commercial
 					d={d}
+					ctaLabel={d.pricing.cards.start_free_trial}
 					currency={currency}
 					isLoggedIn={isLoggedIn}
 					product={commercialProduct}
