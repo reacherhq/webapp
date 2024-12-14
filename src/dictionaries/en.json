@@ -99,8 +99,17 @@
 			"dont_worry": "Don't worry, I have prepared a [beginner's guide](https://docs.reacher.email/getting-started/quickstart) for using the API, with a program called Postman. If you still have questions, just use the chat widget on the bottom right corner to send me a message, or shoot me an email at [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
 		},
 		"get_started_license": {
-			"title": "How to get started with the Commercial License?",
-			"explanation": "To get started with self-hosting, please refer to our [Self-Host Guide](https://docs.reacher.email/self-hosting/install).\n\nIf you have any questions about self-hosting, please contact [✉️ amaury@reacher.email](mailto:amaury@reacher.email)."
+			"request_docker_title": "Request a Docker image",
+			"request_docker_finished": "Done",
+			"explanation": "To get started with self-hosting, Reacher generates a unique Dockerfile for you, which should get you started in under 20 minutes. Once you request the Docker image, your **Commercial License Trial** will start.",
+			"has_requested_docker": "A Docker image is being built, please allow 2 minutes for the image to be ready.",
+			"run_docker_title": "Install Reacher in 20 minutes",
+			"run_docker_setup_server": "Follow the [setup guide](https://docs.reacher.email/self-hosting/install) to install Reacher on your server. When prompted to run the Docker image, use your unique Dockerfile:",
+			"run_docker_features": "The Dockerfile has the following features and limitations:\n- Uses a **built-in proxy** provided by [Proxy4Smtp](https://www.proxy4smtp.com). Read more [about proxies](https://docs.reacher.email/self-hosting/proxies).\n- **10000 verifications** per day.\n- Anonymized verification results **sent back to Reacher**.",
+			"run_docker_contact": "If you run into any issues, or need customization on the provided Dockerfile (e.g. use your own proxy, higher daily limit etc.), please contact me at [✉️ amaury@reacher.email](mailto:amaury@reacher.email).",
+			"purchase_license_title": "Purchase a Commercial License",
+			"purchase_license_explanation": "There is no hard time limit for the Commercial License Trial, but I will get in touch within more or less two weeks. Once you have tested Reacher extensively on your server, purchase a Commercial License to unlock **unlimited email verifications** and **no data sent back to Reacher**. Amaury will get in touch with you soon after the purchase to give you the new Dockerfile without limitations.",
+			"purchase_license_button": "Purchase a Commercial License"
 		}
 	},
 	"footer": {

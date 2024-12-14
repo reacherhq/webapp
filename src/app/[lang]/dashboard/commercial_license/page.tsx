@@ -25,7 +25,7 @@ export default async function CommercialLicensePage({
 			showApiUsage={false}
 			tab="commercial_license"
 		>
-			<GetStartedCommercial d={d} />
+			<GetStartedCommercial d={d} session={session} />
 		</Dashboard>
 	);
 }
