@@ -1,4 +1,5 @@
-CREATE VIEW commercial_license_trial AS
+CREATE VIEW commercial_license_trial
+WITH (security_invoker = on) AS
 SELECT 
     user_id,
     COUNT(*) AS calls_last_day,
