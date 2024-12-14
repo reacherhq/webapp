@@ -103,6 +103,8 @@ export async function checkUserInDB(req: NextRequest): Promise<{
 		.select("*")
 		.eq("user_id", user.id)
 		.limit(1)
+		// The commercial_license_trial only shows rows where the user has made
+		// at least one call to /v1/commercial_license_trial.
 		.maybeSingle();
 	if (res.error) {
 		throw convertPgError(res.error);
