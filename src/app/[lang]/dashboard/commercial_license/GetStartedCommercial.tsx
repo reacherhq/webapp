@@ -21,7 +21,7 @@ export function GetStartedCommercial(props: {
 				<Markdown>{d.run_docker_setup_server}</Markdown>
 				<Snippet
 					symbol=""
-					text={`docker run -p 8080:8080 -e RCH__COMMERCIAL_LICENSE_TRIAL__API_TOKEN-${userDetails.api_token} reacherhq/commercial-license-trial:latest`}
+					text={`docker run -p 8080:8080 -e RCH__COMMERCIAL_LICENSE_TRIAL__API_TOKEN=${userDetails.api_token} reacherhq/commercial-license-trial:latest`}
 					type="lite"
 					width="100%"
 				/>

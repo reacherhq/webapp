@@ -8,6 +8,13 @@ const apiConfig = {
 				source: "/v0/check_email",
 				destination: "/api/v0/check_email",
 			},
+			{
+				// Rewrite `api.reacher.email/v1/commercial_license_trial` to
+				// `reacher.email/api/v1/commercial_license_trial` to be handled by the
+				// Next.js API handlers.
+				source: "/v1/commercial_license_trial",
+				destination: "/api/v1/commercial_license_trial",
+			},
 		];
 	},
 };
