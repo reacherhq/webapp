@@ -77,6 +77,9 @@ export async function POST(req: NextRequest): Promise<Response> {
 	}
 }
 
+// Currently, hardcoding this to 10000.
+const MAX_REQUESTS_PER_24H = 10000;
+
 /**
  * Checks the user's authorization token and retrieves user information.
  * Also checks the user's subscription status and sets the rate limit headers,
@@ -100,9 +103,24 @@ export async function checkUserInDB(req: NextRequest): Promise<{
 		.select("*")
 		.eq("user_id", user.id)
 		.limit(1)
-		.single();
+		.maybeSingle();
 	if (res.error) {
 		throw convertPgError(res.error);
+	}
+
+	if (!res.data) {
+		return {
+			user,
+			rateLimitHeaders: getRateLimitHeaders(
+				new RateLimiterRes(
+					MAX_REQUESTS_PER_24H - 1, // -1 because we just consumed 1 email.
+					24 * 3600 * 1000,
+					0,
+					undefined
+				),
+				MAX_REQUESTS_PER_24H
+			),
+		};
 	}
 
 	// If the user has a commercial license trial, we need to check the rate limit.
@@ -126,18 +144,18 @@ export async function checkUserInDB(req: NextRequest): Promise<{
 		? addDays(parseISO(res.data.first_call_in_past_24h), 1)
 		: addDays(now, 1);
 	const msDiff = differenceInMilliseconds(nextReset, now);
-	const maxInPast24h = 10000; // Currently, hardcoding this to 10000.
+
 	const rateLimitHeaders = getRateLimitHeaders(
 		new RateLimiterRes(
-			maxInPast24h - callsInPast24h - 1, // -1 because we just consumed 1 email.
+			MAX_REQUESTS_PER_24H - callsInPast24h - 1, // -1 because we just consumed 1 email.
 			msDiff,
 			callsInPast24h,
 			undefined
 		),
-		maxInPast24h
+		MAX_REQUESTS_PER_24H
 	);
 
-	if (callsInPast24h >= maxInPast24h) {
+	if (callsInPast24h >= MAX_REQUESTS_PER_24H) {
 		throw newEarlyResponse(
 			Response.json(
 				{
