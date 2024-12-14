@@ -95,7 +95,5 @@ export async function getSubAndCalls(
 		);
 	}
 
-	console.log("aaa", data[0]);
-
 	return data[0];
 }

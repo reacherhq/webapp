@@ -6,7 +6,7 @@ export type Json =
 	| { [key: string]: Json | undefined }
 	| Json[];
 
-export interface Database {
+export type Database = {
 	public: {
 		Tables: {
 			bulk_emails: {
@@ -64,15 +64,7 @@ export interface Database {
 					payload?: Json;
 					user_id?: string;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "bulk_jobs_user_id_fkey";
-						columns: ["user_id"];
-						isOneToOne: false;
-						referencedRelation: "users";
-						referencedColumns: ["id"];
-					}
-				];
+				Relationships: [];
 			};
 			calls: {
 				Row: {
@@ -83,6 +75,7 @@ export interface Database {
 					domain: string | null;
 					duration: number | null;
 					endpoint: string;
+					error: Json | null;
 					id: number;
 					is_reachable:
 						| Database["public"]["Enums"]["is_reachable_type"]
@@ -100,6 +93,7 @@ export interface Database {
 					domain?: string | null;
 					duration?: number | null;
 					endpoint: string;
+					error?: Json | null;
 					id?: number;
 					is_reachable?:
 						| Database["public"]["Enums"]["is_reachable_type"]
@@ -117,6 +111,7 @@ export interface Database {
 					domain?: string | null;
 					duration?: number | null;
 					endpoint?: string;
+					error?: Json | null;
 					id?: number;
 					is_reachable?:
 						| Database["public"]["Enums"]["is_reachable_type"]
@@ -132,13 +127,6 @@ export interface Database {
 						columns: ["bulk_email_id"];
 						isOneToOne: false;
 						referencedRelation: "bulk_emails";
-						referencedColumns: ["id"];
-					},
-					{
-						foreignKeyName: "calls_user_id_fkey";
-						columns: ["user_id"];
-						isOneToOne: false;
-						referencedRelation: "users";
 						referencedColumns: ["id"];
 					}
 				];
@@ -156,15 +144,7 @@ export interface Database {
 					id?: string;
 					stripe_customer_id?: string | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "customers_id_fkey";
-						columns: ["id"];
-						isOneToOne: true;
-						referencedRelation: "users";
-						referencedColumns: ["id"];
-					}
-				];
+				Relationships: [];
 			};
 			prices: {
 				Row: {
@@ -321,13 +301,6 @@ export interface Database {
 						isOneToOne: false;
 						referencedRelation: "prices";
 						referencedColumns: ["id"];
-					},
-					{
-						foreignKeyName: "subscriptions_user_id_fkey";
-						columns: ["user_id"];
-						isOneToOne: false;
-						referencedRelation: "users";
-						referencedColumns: ["id"];
 					}
 				];
 			};
@@ -359,15 +332,7 @@ export interface Database {
 					payment_method?: Json | null;
 					sendinblue_contact_id?: string | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "users_id_fkey";
-						columns: ["id"];
-						isOneToOne: true;
-						referencedRelation: "users";
-						referencedColumns: ["id"];
-					}
-				];
+				Relationships: [];
 			};
 		};
 		Views: {
@@ -384,15 +349,16 @@ export interface Database {
 					user_id: string | null;
 					verified: number | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "bulk_jobs_user_id_fkey";
-						columns: ["user_id"];
-						isOneToOne: false;
-						referencedRelation: "users";
-						referencedColumns: ["id"];
-					}
-				];
+				Relationships: [];
+			};
+			commercial_license_trial: {
+				Row: {
+					calls_last_day: number | null;
+					calls_last_minute: number | null;
+					first_call_in_past_24h: string | null;
+					user_id: string | null;
+				};
+				Relationships: [];
 			};
 			sub_and_calls: {
 				Row: {
@@ -407,15 +373,7 @@ export interface Database {
 					subscription_id: string | null;
 					user_id: string | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "users_id_fkey";
-						columns: ["user_id"];
-						isOneToOne: true;
-						referencedRelation: "users";
-						referencedColumns: ["id"];
-					}
-				];
+				Relationships: [];
 			};
 		};
 		Functions: {
@@ -539,6 +497,7 @@ export interface Database {
 					owner_id: string | null;
 					path_tokens: string[] | null;
 					updated_at: string | null;
+					user_metadata: Json | null;
 					version: string | null;
 				};
 				Insert: {
@@ -552,6 +511,7 @@ export interface Database {
 					owner_id?: string | null;
 					path_tokens?: string[] | null;
 					updated_at?: string | null;
+					user_metadata?: Json | null;
 					version?: string | null;
 				};
 				Update: {
@@ -565,6 +525,7 @@ export interface Database {
 					owner_id?: string | null;
 					path_tokens?: string[] | null;
 					updated_at?: string | null;
+					user_metadata?: Json | null;
 					version?: string | null;
 				};
 				Relationships: [
@@ -573,6 +534,104 @@ export interface Database {
 						columns: ["bucket_id"];
 						isOneToOne: false;
 						referencedRelation: "buckets";
+						referencedColumns: ["id"];
+					}
+				];
+			};
+			s3_multipart_uploads: {
+				Row: {
+					bucket_id: string;
+					created_at: string;
+					id: string;
+					in_progress_size: number;
+					key: string;
+					owner_id: string | null;
+					upload_signature: string;
+					user_metadata: Json | null;
+					version: string;
+				};
+				Insert: {
+					bucket_id: string;
+					created_at?: string;
+					id: string;
+					in_progress_size?: number;
+					key: string;
+					owner_id?: string | null;
+					upload_signature: string;
+					user_metadata?: Json | null;
+					version: string;
+				};
+				Update: {
+					bucket_id?: string;
+					created_at?: string;
+					id?: string;
+					in_progress_size?: number;
+					key?: string;
+					owner_id?: string | null;
+					upload_signature?: string;
+					user_metadata?: Json | null;
+					version?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "s3_multipart_uploads_bucket_id_fkey";
+						columns: ["bucket_id"];
+						isOneToOne: false;
+						referencedRelation: "buckets";
+						referencedColumns: ["id"];
+					}
+				];
+			};
+			s3_multipart_uploads_parts: {
+				Row: {
+					bucket_id: string;
+					created_at: string;
+					etag: string;
+					id: string;
+					key: string;
+					owner_id: string | null;
+					part_number: number;
+					size: number;
+					upload_id: string;
+					version: string;
+				};
+				Insert: {
+					bucket_id: string;
+					created_at?: string;
+					etag: string;
+					id?: string;
+					key: string;
+					owner_id?: string | null;
+					part_number: number;
+					size?: number;
+					upload_id: string;
+					version: string;
+				};
+				Update: {
+					bucket_id?: string;
+					created_at?: string;
+					etag?: string;
+					id?: string;
+					key?: string;
+					owner_id?: string | null;
+					part_number?: number;
+					size?: number;
+					upload_id?: string;
+					version?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "s3_multipart_uploads_parts_bucket_id_fkey";
+						columns: ["bucket_id"];
+						isOneToOne: false;
+						referencedRelation: "buckets";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "s3_multipart_uploads_parts_upload_id_fkey";
+						columns: ["upload_id"];
+						isOneToOne: false;
+						referencedRelation: "s3_multipart_uploads";
 						referencedColumns: ["id"];
 					}
 				];
@@ -607,7 +666,7 @@ export interface Database {
 				Args: {
 					name: string;
 				};
-				Returns: unknown;
+				Returns: string[];
 			};
 			get_size_by_bucket: {
 				Args: Record<PropertyKey, never>;
@@ -615,6 +674,41 @@ export interface Database {
 					size: number;
 					bucket_id: string;
 				}[];
+			};
+			list_multipart_uploads_with_delimiter: {
+				Args: {
+					bucket_id: string;
+					prefix_param: string;
+					delimiter_param: string;
+					max_keys?: number;
+					next_key_token?: string;
+					next_upload_token?: string;
+				};
+				Returns: {
+					key: string;
+					id: string;
+					created_at: string;
+				}[];
+			};
+			list_objects_with_delimiter: {
+				Args: {
+					bucket_id: string;
+					prefix_param: string;
+					delimiter_param: string;
+					max_keys?: number;
+					start_after?: string;
+					next_token?: string;
+				};
+				Returns: {
+					name: string;
+					id: string;
+					metadata: Json;
+					updated_at: string;
+				}[];
+			};
+			operation: {
+				Args: Record<PropertyKey, never>;
+				Returns: string;
 			};
 			search: {
 				Args: {
@@ -644,11 +738,13 @@ export interface Database {
 			[_ in never]: never;
 		};
 	};
-}
+};
+
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
 	PublicTableNameOrOptions extends
-		| keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+		| keyof (PublicSchema["Tables"] & PublicSchema["Views"])
 		| { schema: keyof Database },
 	TableName extends PublicTableNameOrOptions extends {
 		schema: keyof Database;
@@ -663,10 +759,10 @@ export type Tables<
 	  }
 		? R
 		: never
-	: PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-			Database["public"]["Views"])
-	? (Database["public"]["Tables"] &
-			Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+	: PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+			PublicSchema["Views"])
+	? (PublicSchema["Tables"] &
+			PublicSchema["Views"])[PublicTableNameOrOptions] extends {
 			Row: infer R;
 	  }
 		? R
@@ -675,7 +771,7 @@ export type Tables<
 
 export type TablesInsert<
 	PublicTableNameOrOptions extends
-		| keyof Database["public"]["Tables"]
+		| keyof PublicSchema["Tables"]
 		| { schema: keyof Database },
 	TableName extends PublicTableNameOrOptions extends {
 		schema: keyof Database;
@@ -688,8 +784,8 @@ export type TablesInsert<
 	  }
 		? I
 		: never
-	: PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-	? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+	: PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+	? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
 			Insert: infer I;
 	  }
 		? I
@@ -698,7 +794,7 @@ export type TablesInsert<
 
 export type TablesUpdate<
 	PublicTableNameOrOptions extends
-		| keyof Database["public"]["Tables"]
+		| keyof PublicSchema["Tables"]
 		| { schema: keyof Database },
 	TableName extends PublicTableNameOrOptions extends {
 		schema: keyof Database;
@@ -711,8 +807,8 @@ export type TablesUpdate<
 	  }
 		? U
 		: never
-	: PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-	? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+	: PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+	? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
 			Update: infer U;
 	  }
 		? U
@@ -721,13 +817,28 @@ export type TablesUpdate<
 
 export type Enums<
 	PublicEnumNameOrOptions extends
-		| keyof Database["public"]["Enums"]
+		| keyof PublicSchema["Enums"]
 		| { schema: keyof Database },
 	EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
 		? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
 		: never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
 	? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-	: PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-	? Database["public"]["Enums"][PublicEnumNameOrOptions]
+	: PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+	? PublicSchema["Enums"][PublicEnumNameOrOptions]
+	: never;
+
+export type CompositeTypes<
+	PublicCompositeTypeNameOrOptions extends
+		| keyof PublicSchema["CompositeTypes"]
+		| { schema: keyof Database },
+	CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+		schema: keyof Database;
+	}
+		? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+		: never = never
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+	? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+	: PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+	? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
 	: never;

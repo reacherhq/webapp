@@ -14,6 +14,7 @@
 		"build": "next build",
 		"gen:geist": "ts-node -P scripts/tsconfig.json scripts/geist.ts",
 		"gen:license": "ts-node -P scripts/tsconfig.json scripts/license.ts",
+		"gen:db-ts": "supabase gen types typescript --linked > ./src/supabase/database.types.ts",
 		"lint": "tsc --noEmit && prettier -w */**/*.{ts,tsx} && next lint",
 		"start": "next start"
 	},

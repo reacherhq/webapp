@@ -14,14 +14,13 @@ type UserWithSub = {
 };
 
 /**
- * Checks the user's authorization token and retrieves user information.
- * Also checks the user's subscription status and sets the rate limit headers.
+ * Retrieves user information from the database using an API token.
  *
- * @param req - The NextRequest object.
- * @returns A Promise that resolves to a UserWithSub object.
- * @throws An error if the API token is missing or invalid.
+ * @param token - The API token to authenticate with
+ * @returns The user record if found
+ * @throws An error if the token is invalid
  */
-export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
+export async function getUserInDB(req: NextRequest): Promise<Tables<"users">> {
 	const token =
 		req.headers.get("Authorization") || req.headers.get("authorization");
 
@@ -53,20 +52,32 @@ export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
 			)
 		);
 	}
-	const user = data[0];
+	return data[0];
+}
 
-	const res2 = await supabaseAdmin
+/**
+ * Checks the user's authorization token and retrieves user information.
+ * Also checks the user's subscription status and sets the rate limit headers.
+ *
+ * @param req - The NextRequest object.
+ * @returns A Promise that resolves to a UserWithSub object.
+ * @throws An error if the API token is missing or invalid.
+ */
+export async function checkUserInDB(req: NextRequest): Promise<UserWithSub> {
+	const user = await getUserInDB(req);
+
+	const res = await supabaseAdmin
 		.from("sub_and_calls")
 		.select("*")
 		.eq("user_id", user.id)
 		.order("current_period_start", { ascending: false })
 		.limit(1)
 		.single();
-	if (res2.error) {
-		throw convertPgError(res2.error);
+	if (res.error) {
+		throw convertPgError(res.error);
 	}
 
-	const subAndCalls = res2.data;
+	const subAndCalls = res.data;
 	const numberOfCalls = subAndCalls.number_of_calls || 0;
 
 	// Set rate limit headers.
@@ -116,7 +127,7 @@ interface SubAndCalls {
  * @param rateLimiterRes - The response object from rate-limiter-flexible.
  * @param limit - The limit per interval.
  */
-function getRateLimitHeaders(
+export function getRateLimitHeaders(
 	rateLimiterRes: RateLimiterRes,
 	limit: number
 ): HeadersInit {
