@@ -99,8 +99,13 @@
 			"dont_worry": "Ne vous inquiétez pas, j'ai préparé un [guide pour débutants](https://docs.reacher.email/getting-started/quickstart) pour utiliser l'API, avec un programme appelé Postman. Si vous avez encore des questions, utilisez simplement le widget de chat en bas à droite pour m'envoyer un message, ou envoyez-moi un e-mail à [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
 		},
 		"get_started_license": {
-			"title": "Comment commencer avec la Licence Commerciale ?",
-			"explanation": "Pour commencer l'auto-hébergement, veuillez vous référer à notre [Guide d'Auto-Hébergement](https://docs.reacher.email/self-hosting/install).\n\nSi vous avez des questions sur l'auto-hébergement, veuillez contacter [✉️ amaury@reacher.email](mailto:amaury@reacher.email)."
+			"run_docker_title": "Installez Reacher en 20 minutes",
+			"run_docker_setup_server": "Suivez le [guide d'installation](https://docs.reacher.email/self-hosting/install) pour installer Reacher sur votre serveur. Lorsqu'on vous demande d'exécuter l'image Docker, entrez cette commande :",
+			"run_docker_features": "Le Dockerfile a les fonctionnalités et limitations suivantes :\n- Utilise un **proxy intégré** fourni par [Proxy4Smtp](https://www.proxy4smtp.com). En savoir plus sur les [proxies](https://docs.reacher.email/self-hosting/proxies).\n- **10000 vérifications** par jour.\n- Résultats de vérification anonymisés **envoyés à Reacher**.",
+			"run_docker_contact": "Si vous rencontrez des problèmes ou avez besoin de personnaliser le Dockerfile fourni (par exemple, utiliser votre propre proxy, augmenter la limite quotidienne, etc.), contactez-moi à [✉️ amaury@reacher.email](mailto:amaury@reacher.email).",
+			"purchase_license_title": "Acheter une Licence Commerciale",
+			"purchase_license_explanation": "Il n'y a pas de limite stricte sur la durée de l'essai de la Licence Commerciale, mais je vous contacterai dans un délai d'environ deux semaines. Une fois que vous aurez testé Reacher de manière approfondie sur votre serveur, achetez une Licence Commerciale pour débloquer les **vérifications d'emails illimitées** et **aucune donnée envoyée à Reacher**. Je vous contacterai peu après l'achat pour vous fournir le nouveau Dockerfile sans limitations.",
+			"purchase_license_button": "Acheter une Licence Commerciale"
 		}
 	},
 	"footer": {
