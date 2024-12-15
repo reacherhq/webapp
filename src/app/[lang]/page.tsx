@@ -11,7 +11,7 @@ export default async function Index({
 	const supabase = createClient(cookieStore);
 	const session = await supabase.auth.getSession();
 
-	if (session) {
+	if (session?.data?.session) {
 		return redirect(`/${lang}/dashboard`);
 	} else {
 		return redirect(`/${lang}/login`);
