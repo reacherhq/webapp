@@ -2,7 +2,7 @@ import {
 	checkUserInDB,
 	isEarlyResponse,
 } from "@/app/api/v0/check_email/checkUserInDb";
-import { updateSendinblue } from "@/util/sendinblue";
+import { updateBrevoLastApiCall } from "@/util/brevo";
 import { sentryException } from "@/util/sentry";
 import { NextRequest } from "next/server";
 import * as Sentry from "@sentry/nextjs";
@@ -27,15 +27,15 @@ export async function POST(req: NextRequest): Promise<Response> {
 		const emailInput = (await req.json()) as CheckEmailInput;
 		const res = await tryAllBackends(emailInput, user);
 
-		// Update the LAST_API_CALL field in Sendinblue.
+		// Update the LAST_API_CALL field in Brevo.
 		const t2 = performance.now();
 		try {
-			await updateSendinblue(user.id, user.sendinblue_contact_id);
+			await updateBrevoLastApiCall(user.id, user.sendinblue_contact_id);
 		} catch (err) {
 			sentryException(err as Error);
 		}
 		console.log(
-			`[🐢] Update Sendinblue: +${Math.round(performance.now() - t2)}ms`
+			`[🐢] Update Brevo: +${Math.round(performance.now() - t2)}ms`
 		);
 
 		console.log(

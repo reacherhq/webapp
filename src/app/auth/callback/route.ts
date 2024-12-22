@@ -1,6 +1,7 @@
 import { createClient } from "@/supabase/server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { createBrevoContact } from "@/util/brevo";
 
 export async function GET(request: Request) {
 	// The `/auth/callback` route is required for the server-side auth flow implemented
@@ -13,8 +14,15 @@ export async function GET(request: Request) {
 		const cookieStore = cookies();
 		const supabase = createClient(cookieStore);
 		await supabase.auth.exchangeCodeForSession(code);
+
+		// On successful sign-up, create a new contact in Brevo.
+		const { data, error } = await supabase.auth.getUser();
+		if (!error && data && data.user) {
+			// Ignore all errors if we can't get the user
+			await createBrevoContact(data.user);
+		}
 	}
 
 	// URL to redirect to after sign in process completes
-	return NextResponse.redirect(requestUrl.origin);
+	return NextResponse.redirect(new URL("/dashboard", request.url));
 }
