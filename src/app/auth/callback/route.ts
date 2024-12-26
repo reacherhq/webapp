@@ -2,6 +2,7 @@ import { createClient } from "@/supabase/server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createBrevoContact } from "@/util/brevo";
+import { sentryException } from "@/util/sentry";
 
 export async function GET(request: Request) {
 	// The `/auth/callback` route is required for the server-side auth flow implemented
@@ -18,8 +19,11 @@ export async function GET(request: Request) {
 		// On successful sign-up, create a new contact in Brevo.
 		const { data, error } = await supabase.auth.getUser();
 		if (!error && data && data.user) {
-			// Ignore all errors if we can't get the user
-			await createBrevoContact(data.user);
+			try {
+				await createBrevoContact(data.user);
+			} catch (err) {
+				sentryException(err);
+			}
 		}
 	}
 
