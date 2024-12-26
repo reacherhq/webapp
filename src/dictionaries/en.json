@@ -100,8 +100,10 @@
 		},
 		"get_started_license": {
 			"run_docker_title": "Commercial License Trial",
-			"run_docker_setup_server": "Check out our [Install Reacher in 20min](https://docs.reacher.email/self-hosting/install) guide to set up self-hosting. When prompted, use this command to run Reacher:",
-			"run_docker_features": "Your trial Docker image includes:\n- A **pre-configured proxy** from [Proxy4Smtp](https://www.proxy4smtp.com). Learn more about [proxy configuration](https://docs.reacher.email/self-hosting/proxies).\n- Up to **10000 email checks** daily.\n- Basic usage metrics **shared with Reacher** (anonymized).",
+			"run_docker_setup_server": "You can get started right away with self-hosting via the Commercial License Trial. Make sure you have [Docker](https://docker.com) installed, and run in a terminal:",
+			"run_docker_api_call": "You should see some Docker logs. Running this command marks the beginning of your trial. To make an email verification, use the following command:",
+			"run_docker_read_more": "If you see a JSON result with `is_reachable=\"safe\"`, then you're all set 💪! You can read more in the [Install Reacher in 20 minutes](https://docs.reacher.email/self-hosting/install) guide, or skip to [Scaling for Production](https://docs.reacher.email/self-hosting/scaling-for-production).",
+			"run_docker_features": "Your trial Docker image includes:\n- A **pre-configured proxy** from [Proxy4Smtp](https://www.proxy4smtp.com), limited to **10000 email checks** daily.\n- Basic usage metrics **shared with Reacher** (anonymized) to prevent abuse.",
 			"run_docker_contact": "Need help or customization? Whether you want to use your own proxy, increase verification limits, or have other requirements - reach out to me at [✉️ amaury@reacher.email](mailto:amaury@reacher.email).",
 			"purchase_license_title": "Ready to Scale? Get a Commercial License",
 			"purchase_license_explanation": "Try the Commercial License Trial with no strict time limit - I'll check in after about two weeks to see how it's going. Once you've put Reacher through its paces, upgrade to a full Commercial License for **unlimited verifications** and **complete data privacy**. After purchase, I'll personally provide your unrestricted Dockerfile.",

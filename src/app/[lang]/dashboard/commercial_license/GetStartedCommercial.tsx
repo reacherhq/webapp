@@ -6,13 +6,15 @@ import Markdown from "marked-react";
 import React from "react";
 import Link from "next/link";
 import { UserDetails } from "@/supabase/supabaseServer";
+import { User } from "@supabase/supabase-js";
 
 export function GetStartedCommercial(props: {
+	user: User;
 	userDetails: UserDetails;
 	d: Dictionary;
 }) {
 	const d = props.d.dashboard.get_started_license;
-	const { userDetails } = props;
+	const { user, userDetails } = props;
 
 	return (
 		<>
@@ -25,6 +27,21 @@ export function GetStartedCommercial(props: {
 					type="lite"
 					width="100%"
 				/>
+				<Markdown>{d.run_docker_api_call}</Markdown>
+				<Snippet
+					symbol=""
+					text={[
+						"curl -X POST \\",
+						"  -H 'Content-Type: application/json' \\",
+						`  -d '{"to_email":"${
+							user.email || "amaury@reacher.email"
+						}}"}' \\`,
+						"  http://localhost:8080/v1/check_email",
+					]}
+					type="lite"
+					width="100%"
+				/>
+				<Markdown>{d.run_docker_read_more}</Markdown>
 				<Markdown>{d.run_docker_features}</Markdown>
 				<Markdown>{d.run_docker_contact}</Markdown>
 			</Card>
