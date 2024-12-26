@@ -17,7 +17,7 @@
 			"verify": "Verify a single email",
 			"bulk": "Bulk verification",
 			"bulk_locked": "Bulk verification (SaaS 100K plan only)",
-			"commercial_license": "Commercial License"
+			"commercial_license": "Commercial License (Self-Hosting)"
 		},
 		"get_started_saas": {
 			"verify_email": "Verify an email (quick & easy 💪)",
@@ -99,8 +99,8 @@
 			"dont_worry": "Don't worry, I have prepared a [beginner's guide](https://docs.reacher.email/getting-started/quickstart) for using the API, with a program called Postman. If you still have questions, just use the chat widget on the bottom right corner to send me a message, or shoot me an email at [📧 amaury@reacher.email](mailto:amaury@reacher.email)."
 		},
 		"get_started_license": {
-			"run_docker_title": "Get Started with Reacher in 20 Minutes",
-			"run_docker_setup_server": "Check out our [installation guide](https://docs.reacher.email/self-hosting/install) to set up Reacher on your server. When prompted, use this command to run Reacher:",
+			"run_docker_title": "Commercial License Trial",
+			"run_docker_setup_server": "Check out our [Install Reacher in 20min](https://docs.reacher.email/self-hosting/install) guide to set up self-hosting. When prompted, use this command to run Reacher:",
 			"run_docker_features": "Your trial Docker image includes:\n- A **pre-configured proxy** from [Proxy4Smtp](https://www.proxy4smtp.com). Learn more about [proxy configuration](https://docs.reacher.email/self-hosting/proxies).\n- Up to **10000 email checks** daily.\n- Basic usage metrics **shared with Reacher** (anonymized).",
 			"run_docker_contact": "Need help or customization? Whether you want to use your own proxy, increase verification limits, or have other requirements - reach out to me at [✉️ amaury@reacher.email](mailto:amaury@reacher.email).",
 			"purchase_license_title": "Ready to Scale? Get a Commercial License",
