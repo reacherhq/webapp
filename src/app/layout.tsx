@@ -3,7 +3,6 @@ import "./geist.gen.css";
 
 import { GeistProvider, myTheme } from "@/components/Geist";
 import Script from "next/script";
-import { Crisp } from "@/components/Crisp";
 
 export const metadata = {
 	title: {
@@ -29,7 +28,6 @@ export default function RootLayout({
 				<GeistProvider themes={[myTheme]} themeType="default">
 					{children}
 				</GeistProvider>
-				<Crisp />
 				<Script
 					async
 					src="https://scripts.simpleanalyticscdn.com/latest.js"
@@ -41,6 +39,11 @@ export default function RootLayout({
 				<Script
 					async
 					src="/js/simpleanalytics.js"
+					type="text/javascript"
+				></Script>
+				<Script
+					async
+					src="/js/brevo.js"
 					type="text/javascript"
 				></Script>
 			</body>
