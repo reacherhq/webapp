@@ -44,6 +44,15 @@ export function GetStartedCommercial(props: {
 				<Markdown>{d.run_docker_read_more}</Markdown>
 				<Markdown>{d.run_docker_features}</Markdown>
 				<Markdown>{d.run_docker_contact}</Markdown>
+				<div className="text-center">
+					<Link
+						href="https://meet.brevo.com/amaury"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<Button type="success">{d.book_call_cta}</Button>
+					</Link>
+				</div>
 			</Card>
 			<Spacer />
 			<Card>

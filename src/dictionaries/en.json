@@ -104,7 +104,8 @@
 			"run_docker_api_call": "You should see some Docker logs. Running this command marks the beginning of your trial. To make an email verification, use the following command:",
 			"run_docker_read_more": "If you see a JSON result with `is_reachable=\"safe\"`, then you're all set 💪! You can read more in the [Install Reacher in 20 minutes](https://docs.reacher.email/self-hosting/install) guide, or skip to [Scaling for Production](https://docs.reacher.email/self-hosting/scaling-for-production).",
 			"run_docker_features": "Your trial Docker image includes:\n- A **pre-configured proxy** from [Proxy4Smtp](https://www.proxy4smtp.com), limited to **10000 email checks** daily.\n- Basic usage metrics **shared with Reacher** (anonymized) to prevent abuse.",
-			"run_docker_contact": "Need help or customization? Whether you want to use your own proxy, increase verification limits, or have other requirements - reach out to me at [✉️ amaury@reacher.email](mailto:amaury@reacher.email).",
+			"run_docker_contact": "Need help or customization? Whether you want to use your own proxy, increase verification limits, or have other requirements - reach out to me at [✉️ amaury@reacher.email](mailto:amaury@reacher.email) or book a call below:",
+			"book_call_cta": "Book a 30-min call with Amaury",
 			"purchase_license_title": "Ready to Scale? Get a Commercial License",
 			"purchase_license_explanation": "Try the Commercial License Trial with no strict time limit - I'll check in after about two weeks to see how it's going. Once you've put Reacher through its paces, upgrade to a full Commercial License for **unlimited verifications** and **complete data privacy**. After purchase, I'll personally provide your unrestricted Dockerfile.",
 			"purchase_license_button": "Get Commercial License"
