@@ -49,7 +49,7 @@
 		"encoding": "^0.1.13",
 		"mailgun-js": "^0.22.0",
 		"markdown-pdf": "^11.0.0",
-		"marked-react": "^2.0.0",
+		"marked-react": "^3.0.0",
 		"mustache": "^4.2.0",
 		"negotiator": "^0.6.3",
 		"next": "^14.0.4",

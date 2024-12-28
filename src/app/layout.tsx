@@ -10,7 +10,7 @@ export const metadata = {
 		default: "Reacher Email Verification",
 	},
 	description:
-		"Reacher is a simple, fast, accurate email verification tool to reduce your bounce rate and avoid spam sign-ups. We check SMTP responses, MX records, catch-all and disposable addresses.",
+		"Reacher is an open-source, fast, and accurate email verification tool designed to reduce bounce rates and prevent spam sign-ups. It checks SMTP responses, MX records, catch-all, and disposable addresses for reliable results.",
 };
 
 export default function RootLayout({

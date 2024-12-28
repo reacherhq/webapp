@@ -10,7 +10,13 @@ import { Locale } from "./Locale";
 import { SignOut } from "./SignOut";
 import { DLink } from "../DLink";
 
-export async function Nav({ d }: { d: Dictionary }) {
+export async function Nav({
+	d,
+	page,
+}: {
+	d: Dictionary;
+	page?: "dashboard" | "blog";
+}) {
 	const cookieStore = cookies();
 	const supabase = createClient(cookieStore);
 
@@ -34,13 +40,22 @@ export async function Nav({ d }: { d: Dictionary }) {
 					/>
 					<Text className={styles.reacher} h3>
 						Reacher
-						{user && (
+						{page == "dashboard" && user && (
 							<Text
 								className={styles.dashboard}
 								span
 								type="secondary"
 							>
 								Dashboard
+							</Text>
+						)}
+						{page == "blog" && (
+							<Text
+								className={styles.dashboard}
+								span
+								type="secondary"
+							>
+								Blog
 							</Text>
 						)}
 					</Text>
