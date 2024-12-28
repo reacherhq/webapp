@@ -1,12 +1,10 @@
-# What's Reacher Secret for Accuracy?
-
 Reacher is [open-source](https://github.com/reacherhq/check-if-email-exists), so there's really no secret. But for those less familiar with the technical aspects, I'll explain a bit more here, hopefully in a beginner-friendly way. The secret is called **"SMTP email verification"**.
 
 ### How SMTP Email Verification Works
 
-SMTP email verification involves a series of commands that interact with the recipient's mail provider (Outlook, Gmail, Yahoo...). Here's a breakdown of the process.
+SMTP email verification involves a series of commands to interact with the recipient's mail provider (Outlook, Gmail, Yahoo...).
 
-Let's take a look at a typical conversation between a sender (Reacher) and the provider of the email you want to check. In our case, we want to verify `someone@gmail.com`, the provider being Gmail.
+Let's take a look at a typical conversation between a sender (Reacher) and the provider of the email you want to check. In our case, we want to verify `someone@gmail.com`, the provider being Gmail. Reacher initiates the protocol, called "SMTP", or "Simple Mail Transfer Protocol".
 
 > **Reacher:** Hi there, Gmail! I'm trying to send an email address. Can I connect to your SMTP server?
 
@@ -28,7 +26,7 @@ Let's take a look at a typical conversation between a sender (Reacher) and the p
 
 > **Gmail:** _(puzzled)_ ...?
 
-Notice that at the end, Reacher does not actually send the email, but ends the conversation fast. By doing this too often, the email provider will mark Reacher as a spam user, which is where [Proxies](https://docs.reacher.email/self-hosting/proxies) come in.
+It's important to note that Reacher doesn't actually send the email at the end of the conversation, but rather terminates it quickly. This is enough to check if the email is deliverable. If this process is repeated excessively, the email provider may flag Reacher as a spam user. This is where [Proxies](https://docs.reacher.email/self-hosting/proxies) play a crucial role.
 
 ### Parsing Responses for Deliverability
 

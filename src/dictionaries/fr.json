@@ -1,7 +1,9 @@
 {
 	"lang": "fr",
 	"blog": {
-		"cta": "Vérifiez les emails avec Reacher"
+		"cta": "Vérifiez les emails avec Reacher",
+		"author": "Auteur",
+		"last_updated": "Dernière mise à jour"
 	},
 	"dashboard": {
 		"header": {
