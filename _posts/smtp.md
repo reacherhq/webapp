@@ -1,3 +1,13 @@
+---
+title: What's Reacher's Secret for Accuracy?
+lastUpdated: 28.12.2024
+author:
+    name: Amaury
+description: Reacher employs SMTP email verification to validate email addresses through commands like EHLO and RCPT TO. Positive responses confirm validity, while negative ones indicate issues. This method improves deliverability, reduces bounce rates, and supports efficient scaling of email verification.
+ogImage:
+    url: /img/blog/smtp/cover.jpg
+---
+
 Reacher is [open-source](https://github.com/reacherhq/check-if-email-exists), so there's really no secret. But for those less familiar with the technical aspects, I'll explain a bit more here, hopefully in a beginner-friendly way. The secret is called **"SMTP email verification"**.
 
 ### How SMTP Email Verification Works

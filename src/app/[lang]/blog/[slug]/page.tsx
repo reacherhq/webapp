@@ -2,33 +2,50 @@ import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav/Nav";
 import { dictionary } from "@/dictionaries";
 import { Button, Container, Text } from "@mantine/core";
-import fs from "fs";
 import Markdown from "marked-react";
 import { DLink } from "@/components/DLink";
 import Image from "next/image";
+import { getAllPosts, getPostBySlug } from "@/util/blog";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 // Cover ideas:
 // - https://unsplash.com/s/photos/geometric-pattern
 // - https://stephaniewalter.design/blog/how-to-make-your-blog-images-stand-out-reflect-your-identity/
-import cover from "./cover.jpg";
 
-export const metadata = {
-	title: "What's Reacher's Secret for Accuracy?",
-	description:
-		"Reacher employs SMTP email verification to validate email addresses through commands like EHLO and RCPT TO. Positive responses confirm validity, while negative ones indicate issues. This method improves deliverability, reduces bounce rates, and supports efficient scaling of email verification.",
-	author: "Amaury",
-	lastUpdated: "28.12.2024",
+type Params = {
+	params: Promise<{
+		slug: string;
+	}>;
 };
 
+export async function generateMetadata(props: Params): Promise<Metadata> {
+	const params = await props.params;
+	const blogPost = getPostBySlug(params.slug);
+	if (!blogPost) {
+		return notFound();
+	}
+
+	return {
+		title: blogPost.title,
+		description: blogPost.description,
+		openGraph: {
+			title: blogPost.title,
+			images: [blogPost.ogImage.url],
+		},
+	};
+}
+
 export default async function Smtp({
-	params: { lang },
+	params: { lang, slug },
 }: {
-	params: { lang: string };
+	params: { lang: string; slug: string };
 }) {
 	const d = await dictionary(lang);
-	const blog = fs
-		.readFileSync("./src/app/[lang]/blog/smtp/smtp.md")
-		.toString();
+	const blogPost = getPostBySlug(slug);
+	if (!blogPost) {
+		return notFound();
+	}
 
 	return (
 		<>
@@ -36,10 +53,10 @@ export default async function Smtp({
 
 			<Container mt="xl" size="45rem">
 				<div className="text-center">
-					<h1>{metadata.title}</h1>
+					<h1>{blogPost.title}</h1>
 					<Text mb="xl">
-						{d.blog.author}: {metadata.author}.{" "}
-						{d.blog.last_updated}: {metadata.lastUpdated}.
+						{d.blog.author}: {blogPost.author.name}.{" "}
+						{d.blog.last_updated}: {blogPost.lastUpdated}.
 					</Text>
 				</div>
 
@@ -52,14 +69,14 @@ export default async function Smtp({
 					}}
 				>
 					<Image
-						src={cover}
-						alt={metadata.title}
+						src={blogPost.ogImage.url}
+						alt={blogPost.title}
 						fill
 						objectFit="cover"
 					/>
 				</div>
 
-				<Markdown>{blog}</Markdown>
+				<Markdown>{blogPost.content}</Markdown>
 			</Container>
 
 			<div className="text-center">
@@ -73,4 +90,12 @@ export default async function Smtp({
 			<Footer d={d} />
 		</>
 	);
+}
+
+export async function generateStaticParams() {
+	const posts = getAllPosts();
+
+	return posts.map((post) => ({
+		slug: post.slug,
+	}));
 }

@@ -49,6 +49,7 @@
 		"cors": "^2.8.5",
 		"date-fns": "^2.30.0",
 		"encoding": "^0.1.13",
+		"gray-matter": "^4.0.3",
 		"mailgun-js": "^0.22.0",
 		"markdown-pdf": "^11.0.0",
 		"marked-react": "^3.0.0",

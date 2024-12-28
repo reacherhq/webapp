@@ -30,11 +30,12 @@ export const config = {
 		 * - _next/image (image optimization files)
 		 * - favicon (favicon file)
 		 * - monitoring (health check)
-		 * - js (JavaScript files)
+		 * - img (static images, in /public)
+		 * - js (JavaScript files, in /public)
 		 * - v0,v1 (api.reacher.email/v0/...)
 		 * - version (api.reacher.email/version)
 		 */
-		"/((?!api|_next/static|_next/image|favicon|monitoring|js|v0|v1|version).*)",
+		"/((?!api|_next/static|_next/image|favicon|monitoring|img|js|v0|v1|version).*)",
 	],
 };
 
