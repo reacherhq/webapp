@@ -1,5 +1,3 @@
-import { Footer } from "@/components/Footer";
-import { Nav } from "@/components/Nav/Nav";
 import { dictionary } from "@/dictionaries";
 import { Button, Container, Text } from "@mantine/core";
 import Markdown from "marked-react";
@@ -8,6 +6,8 @@ import Image from "next/image";
 import { getAllPosts, getPostBySlug } from "@/util/blog";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Footer } from "@/components/Footer";
+import { Nav } from "@/components/Nav/Nav";
 
 // Cover ideas:
 // - https://unsplash.com/s/photos/geometric-pattern

@@ -1,6 +1,4 @@
 import React from "react";
-import { cookies } from "next/headers";
-import { createClient } from "@/supabase/server";
 import { Button, Spacer, Text } from "@/components/Geist";
 import Image from "next/image";
 import logo from "@/assets/logo/reacher.svg";
@@ -9,21 +7,17 @@ import { Dictionary } from "@/dictionaries";
 import { Locale } from "./Locale";
 import { SignOut } from "./SignOut";
 import { DLink } from "../DLink";
+import { User } from "@supabase/supabase-js";
 
 export async function Nav({
 	d,
 	page,
+	user,
 }: {
 	d: Dictionary;
 	page?: "dashboard" | "blog";
+	user?: User;
 }) {
-	const cookieStore = cookies();
-	const supabase = createClient(cookieStore);
-
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
 	return (
 		<header className={styles.container}>
 			<div>
