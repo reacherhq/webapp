@@ -2,8 +2,7 @@ import React from "react";
 import { Text } from "@geist-ui/react";
 import { ProductCard } from "./ProductCard";
 import type { ProductCardProps } from "./ProductCard";
-import Markdown from "marked-react";
-import { SpanRenderer } from "@/components/Markdown";
+import { Features } from "./Features";
 
 export function SaaS10k(
 	props: Omit<ProductCardProps, "title">
@@ -19,14 +18,16 @@ export function SaaS10k(
 				</Text>
 			}
 			features={[
-				d.reacher_ip,
-				<Markdown renderer={SpanRenderer} key="saasFeatures-2">
-					{d.full_feature}
-				</Markdown>,
-				<Markdown renderer={SpanRenderer} key="customer-support">
-					{d.support}
-				</Markdown>,
-				d.cancel,
+				<Features
+					key="what-you-get"
+					title={d.what_you_get}
+					features={[
+						d.reacher_ip,
+						d.full_feature,
+						d.support,
+						d.cancel,
+					]}
+				/>,
 			]}
 			subtitle={<span>{d.subtitle}</span>}
 		/>

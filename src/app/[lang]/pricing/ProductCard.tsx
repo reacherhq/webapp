@@ -13,6 +13,7 @@ import { DLink } from "@/components/DLink";
 
 export interface ProductCardProps {
 	d: Dictionary;
+	ctaInFooter?: boolean;
 	currency: string;
 	isLoggedIn: boolean;
 	product: ProductWithPrice;
@@ -20,7 +21,7 @@ export interface ProductCardProps {
 	extra?: React.ReactElement;
 	header?: React.ReactElement;
 	footer?: React.ReactElement;
-	features?: (string | React.ReactElement)[];
+	features?: React.ReactElement[];
 	subtitle?: React.ReactElement;
 	ctaLabel: string;
 }
@@ -31,6 +32,8 @@ export function ProductCard({
 	product,
 	subscription,
 	ctaLabel,
+	ctaInFooter,
+	footer,
 	...props
 }: ProductCardProps): React.ReactElement {
 	const [priceIdLoading, setPriceIdLoading] = useState<string | false>();
@@ -81,7 +84,7 @@ export function ProductCard({
 		minimumFractionDigits: 0,
 	}).format(price.unit_amount / 100);
 
-	const b = (
+	const ctaButton = (
 		<Button
 			className="full-width"
 			disabled={!!priceIdLoading || active}
@@ -114,10 +117,10 @@ export function ProductCard({
 		<Card
 			cta={
 				isLoggedIn ? (
-					b
+					ctaButton
 				) : (
 					<DLink d={props.d} href="/signup" className="full-width">
-						{b}
+						{ctaButton}
 					</DLink>
 				)
 			}
@@ -128,6 +131,7 @@ export function ProductCard({
 				product.name ||
 				"No Product"
 			} // The latter should never happen
+			footer={footer ? footer : ctaInFooter ? ctaButton : undefined}
 			{...props}
 		/>
 	);

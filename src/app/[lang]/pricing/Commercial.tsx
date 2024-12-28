@@ -1,10 +1,9 @@
 import React from "react";
-import { Check, Info } from "@geist-ui/react-icons";
 import { ProductCard, ProductCardProps } from "./ProductCard";
-import { Spacer, Text } from "@geist-ui/react";
-import styles from "./Card.module.css";
+import { Text } from "@geist-ui/react";
 import Markdown from "marked-react";
 import { SpanRenderer } from "@/components/Markdown";
+import { Features } from "./Features";
 
 export function Commercial(
 	props: Omit<ProductCardProps, "title">
@@ -14,52 +13,30 @@ export function Commercial(
 	return (
 		<ProductCard
 			{...props}
-			extra={
-				<div>
-					<Text b small>
-						{d.what_need_to_do}
-					</Text>
-					<Spacer />
-					<div className="flex align-center">
-						<div>
-							<Check className={styles.icon} width={24} />
-						</div>
-						<Text small>
-							<Markdown renderer={SpanRenderer}>
-								{d.purchase_server}
-							</Markdown>
-						</Text>
-					</div>
-					<Spacer />
-				</div>
-			}
 			features={[
-				<Markdown renderer={SpanRenderer} key="licenseFeatures-3">
-					{d.unlimited_emails}
-				</Markdown>,
-				<Markdown renderer={SpanRenderer} key="licenseFeatures-1">
-					{d.bulk}
-				</Markdown>,
-				d.no_data_reacher,
-				<Markdown renderer={SpanRenderer} key="licenseFeatures-4">
-					{d.support}
-				</Markdown>,
-				<Markdown renderer={SpanRenderer} key="licenseFeatures-6">
-					{d.terms}
-				</Markdown>,
+				<Features
+					key="what-needs-to-do"
+					title={d.what_need_to_do}
+					features={[d.purchase_server]}
+				/>,
+				<Features
+					key="what-you-get"
+					title={d.what_you_get}
+					features={[
+						d.unlimited_emails,
+						d.bulk,
+						d.no_data_reacher,
+						d.support,
+						d.terms,
+					]}
+				/>,
+				<Features
+					key="commercial-license-trial"
+					title={d.free_trial}
+					features={[d["10k_per_day"], d.proxy, d.data_shared]}
+				/>,
 			]}
-			footer={
-				<div className="flex">
-					<div>
-						<Info className={styles.icon} width={24} />
-					</div>
-					<Text small>
-						<Markdown renderer={SpanRenderer}>
-							{d.free_trial}
-						</Markdown>
-					</Text>
-				</div>
-			}
+			ctaInFooter
 			header={
 				<Text b small type="success">
 					{d.overtitle}

@@ -171,7 +171,6 @@
 		"30d_money_back": "All plans include a 30-day money back guarantee.",
 		"cards": {
 			"price": "/mo",
-			"what_you_get": "What you get:",
 			"select_plan_cta": "Choose plan",
 			"redirecting_to_stripe": "Redirecting to Stripe...",
 			"redirecting_to_signup": "Redirecting to signup...",
@@ -182,31 +181,37 @@
 		},
 		"commercial": {
 			"overtitle": "🏠 Self-Hosted",
-			"subtitle": "**Unlimited email** verifications / mo",
+			"subtitle": "**Unlimited** email verifications / mo",
 			"what_need_to_do": "What you need to do:",
 			"purchase_server": "Purchase servers yourself to self-host Reacher. [Read how](https://docs.reacher.email/self-hosting/install).",
+			"what_you_get": "What you get:",
 			"unlimited_emails": "**Unlimited** email verifications.",
 			"bulk": "💪 **Bulk** email verifications. [Read more](https://docs.reacher.email/self-hosting/bulk).",
 			"no_data_reacher": "No data sent back to Reacher.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime.",
 			"terms": "See [full terms and details](https://docs.reacher.email/self-hosting/licensing).",
-			"free_trial": "Want a free trial before committing? Get started with [our docs](https://docs.reacher.email/self-hosting/licensing#does-reacher-offer-a-free-trial), and subscribe once you're ready."
+			"free_trial": "Interested in a Free Trial?",
+			"10k_per_day": "Limited to 10,000 email verifications / day.",
+			"proxy": "Built-in **high-quality proxy** courtesy of [Proxy4Smtp](https://www.proxy4smtp.com).",
+			"data_shared": "Basic usage metrics shared with Reacher to prevent abuse."
 		},
 		"saas10k": {
 			"overtitle": "For individuals",
 			"subtitle": "10,000 email verifications / mo",
+			"what_you_get": "What you get:",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
-			"full_feature": "email verifications.",
+			"full_feature": "Full-featured email verifications.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime."
 		},
 		"saas100k": {
 			"overtitle": "✨ New ✨",
 			"subtitle": "100,000 email verifications / mo",
+			"what_you_get": "What you get:",
 			"reacher_ip": "Use Reacher's servers with high IP reputation.",
 			"bulk": "💪  **Bulk** email verification via CSV list upload.",
-			"full_feature": "email verifications.",
+			"full_feature": "Full-featured email verifications.",
 			"support": "**Customer support** by email/chat.",
 			"cancel": "Cancel anytime."
 		},
@@ -217,7 +222,7 @@
 			"refund_q": "What is your refund policy?",
 			"refund_a": "Sure. If you use Reacher and find that the verifications are slow or incorrect, I'll refund you the full amount if you email me [✉️ amaury@reacher.email](mailto:amaury@reacher.email) within 30 days of your subscription.",
 			"free_trial_q": "Do you offer a free trial?",
-			"free_trial_a": "If you are interested in the SaaS 10K or 100K plans, then no, Reacher does not offer any free trial. There is however a 30-day money back guarantee.\n\nIf you are interested in the Commercial License, you can follow the [self-host guide](https://docs.reacher.email/self-hosting/install) for a free trial.",
+			"free_trial_a": "If you are interested in the SaaS 10K or 100K plans, then no, Reacher does not offer any free trial. There is however a 30-day money back guarantee.\n\nIf you are interested in the Commercial License, then simply sign-up and you'll get a [Commercial License Trial](https://docs.reacher.email/self-hosting/licensing/commercial-license-trial).",
 			"another_q": "Have another question?",
 			"another_a": "Feel free to email me [✉️ amaury@reacher.email](mailto:amaury@reacher.email), I reply pretty fast."
 		}
