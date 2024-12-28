@@ -15,6 +15,7 @@ import { notFound } from "next/navigation";
 
 type Params = {
 	params: Promise<{
+		lang: string;
 		slug: string;
 	}>;
 };
@@ -36,11 +37,8 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
 	};
 }
 
-export default async function Smtp({
-	params: { lang, slug },
-}: {
-	params: { lang: string; slug: string };
-}) {
+export default async function BlogPost(props: Params) {
+	const { lang, slug } = await props.params;
 	const d = await dictionary(lang);
 	const blogPost = getPostBySlug(slug);
 	if (!blogPost) {
