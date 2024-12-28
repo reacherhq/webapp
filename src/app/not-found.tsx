@@ -19,7 +19,6 @@ export default function NotFound() {
 						Something went wrong. Please email a screenshot of this
 						page to amaury@reacher.email, thank you!
 					</p>
-					<p>Page: {window.location.href}</p>
 					<Link href="/">
 						<Button type="secondary">Go home</Button>
 					</Link>
