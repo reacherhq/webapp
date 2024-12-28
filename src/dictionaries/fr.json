@@ -1,5 +1,10 @@
 {
 	"lang": "fr",
+	"blog": {
+		"cta": "Vérifiez les emails avec Reacher",
+		"author": "Auteur",
+		"last_updated": "Dernière mise à jour"
+	},
 	"dashboard": {
 		"header": {
 			"hello": "Bonjour,",
@@ -156,6 +161,7 @@
 	},
 	"nav": {
 		"pricing": "Tarifs",
+		"blog": "Blog",
 		"help": "Documentation",
 		"login": "Se connecter",
 		"signup": "Créer un compte",

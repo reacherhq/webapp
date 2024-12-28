@@ -1,15 +1,14 @@
-import { CustomReactRenderer } from "marked-react/dist/ReactRenderer";
 import type { ReactNode } from "react";
 import { DLink } from "./DLink";
 import { Dictionary } from "@/dictionaries";
 
-export const SpanRenderer: CustomReactRenderer = {
+export const SpanRenderer = {
 	paragraph(children: ReactNode) {
 		return <span>{children}</span>;
 	},
 };
 
-export function LinkRenderer(d: Dictionary): CustomReactRenderer {
+export function LinkRenderer(d: Dictionary) {
 	return {
 		link(href: string, text: ReactNode) {
 			return (

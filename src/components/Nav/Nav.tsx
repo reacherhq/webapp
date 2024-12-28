@@ -1,6 +1,4 @@
 import React from "react";
-import { cookies } from "next/headers";
-import { createClient } from "@/supabase/server";
 import { Button, Spacer, Text } from "@/components/Geist";
 import Image from "next/image";
 import logo from "@/assets/logo/reacher.svg";
@@ -9,15 +7,17 @@ import { Dictionary } from "@/dictionaries";
 import { Locale } from "./Locale";
 import { SignOut } from "./SignOut";
 import { DLink } from "../DLink";
+import { User } from "@supabase/supabase-js";
 
-export async function Nav({ d }: { d: Dictionary }) {
-	const cookieStore = cookies();
-	const supabase = createClient(cookieStore);
-
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
+export async function Nav({
+	d,
+	page,
+	user,
+}: {
+	d: Dictionary;
+	page?: "dashboard" | "blog";
+	user?: User;
+}) {
 	return (
 		<header className={styles.container}>
 			<div>
@@ -34,13 +34,22 @@ export async function Nav({ d }: { d: Dictionary }) {
 					/>
 					<Text className={styles.reacher} h3>
 						Reacher
-						{user && (
+						{page == "dashboard" && user && (
 							<Text
 								className={styles.dashboard}
 								span
 								type="secondary"
 							>
 								Dashboard
+							</Text>
+						)}
+						{page == "blog" && (
+							<Text
+								className={styles.dashboard}
+								span
+								type="secondary"
+							>
+								Blog
 							</Text>
 						)}
 					</Text>
@@ -57,6 +66,15 @@ export async function Nav({ d }: { d: Dictionary }) {
 					data-sa-link-event="nav_pricing_click"
 				>
 					{d.nav.pricing}
+				</DLink>
+
+				<DLink
+					d={d}
+					className={styles.link}
+					href="/blog/smtp"
+					data-sa-link-event="nav_blog_click"
+				>
+					{d.nav.blog}
 				</DLink>
 
 				<a

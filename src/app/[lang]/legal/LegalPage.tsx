@@ -6,6 +6,7 @@ import { Page } from "@/components/Geist";
 import { dictionary } from "@/dictionaries";
 import { Footer } from "@/components/Footer";
 import { removeFrontMatter } from "@/components/Markdown";
+import { getSession } from "@/supabase/supabaseServer";
 
 export async function LegalPage(
 	contentUrl: string,
@@ -18,10 +19,11 @@ export async function LegalPage(
 	const { data } = await axios.get(contentUrl);
 	const content = removeFrontMatter(data);
 	const d = await dictionary(lang);
+	const session = await getSession();
 
 	return (
 		<>
-			<Nav d={d} />
+			<Nav d={d} user={session?.user} />
 			<Page>
 				<Md>{content}</Md>
 			</Page>

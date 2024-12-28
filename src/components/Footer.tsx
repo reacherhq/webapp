@@ -116,7 +116,7 @@ export function Footer({ d }: { d: Dictionary }): React.ReactElement {
 			<Spacer />
 
 			<div className={styles.bottom}>
-				<Text small>© Reacher 2020-2023</Text>
+				<Text small>© Reacher 2020-2025</Text>
 				<a
 					href="https://vercel.com?utm_source=reacherhq&utm_campaign=oss"
 					target="_blank"

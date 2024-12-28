@@ -28,7 +28,7 @@ export default async function Pricing({
 
 	return (
 		<>
-			<Nav d={d} />
+			<Nav d={d} user={session?.user} />
 			<Spacer h={5} />
 			<Text className="text-center" h2>
 				{d.pricing.title}
