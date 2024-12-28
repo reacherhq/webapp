@@ -74,6 +74,15 @@ export async function Nav({
 					{d.nav.pricing}
 				</DLink>
 
+				<DLink
+					d={d}
+					className={styles.link}
+					href="/blog/smtp"
+					data-sa-link-event="nav_blog_click"
+				>
+					{d.nav.blog}
+				</DLink>
+
 				<a
 					className={styles.link}
 					href="https://docs.reacher.email"
