@@ -1,5 +1,8 @@
 {
 	"lang": "fr",
+	"blog": {
+		"cta": "Vérifiez les emails avec Reacher"
+	},
 	"dashboard": {
 		"header": {
 			"hello": "Bonjour,",

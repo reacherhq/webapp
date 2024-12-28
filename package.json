@@ -24,6 +24,8 @@
 		"@geist-ui/react-icons": "^1.0.1",
 		"@getbrevo/brevo": "^2.2.0",
 		"@hcaptcha/react-hcaptcha": "^1.9.2",
+		"@mantine/core": "^7.15.2",
+		"@mantine/hooks": "^7.15.2",
 		"@reacherhq/api": "^0.3.10",
 		"@sentry/nextjs": "^8",
 		"@stripe/stripe-js": "^1.52.0",

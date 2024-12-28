@@ -1,5 +1,8 @@
 {
 	"lang": "en",
+	"blog": {
+		"cta": "Verify emails with Reacher"
+	},
 	"dashboard": {
 		"header": {
 			"hello": "Hello,",
