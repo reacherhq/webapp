@@ -10,7 +10,7 @@ export interface WebhookExtra {
 }
 
 export interface WebhookPayload {
-	output: CheckEmailOutput;
+	result: CheckEmailOutput;
 	extra: WebhookExtra;
 }
 
@@ -20,7 +20,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 	}
 
 	const body: WebhookPayload = await req.json();
-	const { output, extra } = body;
+	const { result, extra } = body;
 
 	// Add to supabase calls
 	const res1 = await supabaseAdmin
@@ -28,15 +28,15 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 		.insert({
 			endpoint: extra.endpoint,
 			user_id: extra.userId,
-			backend: output.debug?.server_name,
-			domain: output.syntax.domain,
+			backend: result.debug?.server_name,
+			domain: result.syntax.domain,
 			duration: Math.round(
-				(output.debug?.duration.secs || 0) * 1000 +
-					(output.debug?.duration.nanos || 0) / 1000000
+				(result.debug?.duration.secs || 0) * 1000 +
+					(result.debug?.duration.nanos || 0) / 1000000
 			),
-			is_reachable: output.is_reachable,
-			verif_method: output.debug?.smtp?.verif_method?.type,
-			result: removeSensitiveData(output),
+			is_reachable: result.is_reachable,
+			verif_method: result.debug?.smtp?.verif_method?.type,
+			result: removeSensitiveData(result),
 			bulk_email_id: extra.bulkEmailId,
 		})
 		.select("*");
