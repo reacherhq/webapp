@@ -1,14 +1,14 @@
 import { NextRequest } from "next/server";
-import amqplib from "amqplib";
 import { supabaseAdmin } from "@/supabase/supabaseAdmin";
 import { sentryException } from "@/util/sentry";
-import { ENABLE_BULK, getWebappURL } from "@/util/helpers";
+import { ENABLE_BULK } from "@/util/helpers";
 import { isEarlyResponse } from "@/app/api/v0/check_email/checkUserInDb";
 import { SAAS_100K_PRODUCT_ID } from "@/util/subs";
 import { Json, Tables } from "@/supabase/database.types";
 import { cookies } from "next/headers";
 import { createClient } from "@/supabase/server";
 import { getSubAndCalls } from "@/supabase/supabaseServer";
+import { sendEmailsToSQS } from "./sqs";
 
 interface BulkPayload {
 	input_type: "array";
@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 					error: "Bulk verification is not enabled",
 				},
 				{
-					status: 403,
+					status: 503,
 				}
 			);
 		}
@@ -83,7 +83,7 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 			throw res1.error;
 		}
 		const bulkJob = res1.data[0];
-		console.log(`[💪] Created job ${bulkJob.id}`);
+		console.log(`[💪 Supabase] Created job ${bulkJob.id}`);
 
 		// Split Array in chunks of 5000 so that Supabase can handle it.
 		const chunkSize = 5000;
@@ -109,59 +109,13 @@ export const POST = async (req: NextRequest): Promise<Response> => {
 			bulkEmails = bulkEmails.concat(res2.data);
 
 			console.log(
-				`[💪] Inserted job ${bulkJob.id} chunk ${i++}/${chunks.length}`
+				`[💪 Supabase] Inserted job ${bulkJob.id} chunk ${i++}/${
+					chunks.length
+				}`
 			);
 		}
 
-		const conn = await amqplib
-			.connect(process.env.RCH_AMQP_ADDR || "amqp://localhost")
-			.catch((err) => {
-				const message = `Error connecting to RabbitMQ: ${
-					(err as AggregateError).errors
-						? (err as AggregateError).errors
-								.map((e) => e.message)
-								.join(", ")
-						: err.message
-				}`;
-
-				throw new Error(message);
-			});
-
-		const ch1 = await conn.createChannel().catch((err) => {
-			throw new Error(`Error creating RabbitMQ channel: ${err.message}`);
-		});
-		const queueName = `check_email.Smtp`; // TODO
-		await ch1.assertQueue(queueName, {
-			maxPriority: 5,
-		});
-
-		bulkEmails.forEach(({ email, id }) => {
-			ch1.sendToQueue(
-				queueName,
-				Buffer.from(
-					JSON.stringify({
-						input: {
-							to_email: email,
-						},
-						webhook: {
-							url: `${getWebappURL()}/api/v1/bulk/webhook`,
-							extra: {
-								bulkEmailId: id,
-								userId: user.id,
-								endpoint: "/v1/bulk",
-							},
-						},
-					})
-				),
-				{
-					contentType: "application/json",
-					priority: 1,
-				}
-			);
-		});
-
-		await ch1.close();
-		await conn.close();
+		await sendEmailsToSQS(bulkEmails, user.id);
 
 		return Response.json({
 			bulk_job_id: bulkJob.id,

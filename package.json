@@ -19,6 +19,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@aws-sdk/client-sqs": "^3.716.0",
 		"@formatjs/intl-localematcher": "^0.5.2",
 		"@geist-ui/react": "^2.2.5",
 		"@geist-ui/react-icons": "^1.0.1",
