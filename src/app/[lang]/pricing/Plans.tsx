@@ -15,9 +15,7 @@ import type {
 	ProductWithPrice,
 	SubscriptionWithPrice,
 } from "@/supabase/supabaseServer";
-
-// Currently the 100K plan per month is disabled.
-const SHOW_100K = false;
+import { ENABLE_BULK } from "@/util/helpers";
 
 interface PlansProps {
 	d: Dictionary;
@@ -73,7 +71,7 @@ export function Plans({ d, products, subscription, isLoggedIn }: PlansProps) {
 					}
 				/>
 			</Grid>
-			{SHOW_100K && (
+			{ENABLE_BULK && (
 				<Grid xs={20} sm={6}>
 					<SaaS100k
 						d={d}

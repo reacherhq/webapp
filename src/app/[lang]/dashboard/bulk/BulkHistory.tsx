@@ -28,7 +28,7 @@ export function BulkHistory(props: {
 			}
 
 			setBulkJobs(res.data);
-		}, 3000);
+		}, 10_000);
 	}, [supabase]);
 
 	const renderStatus: TableColumnRender<Tables<"bulk_jobs_info">> = (
