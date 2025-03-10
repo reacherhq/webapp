@@ -35,7 +35,7 @@ export function GetStartedCommercial(props: {
 						"  -H 'Content-Type: application/json' \\",
 						`  -d '{"to_email":"${
 							user.email || "amaury@reacher.email"
-						}}"}' \\`,
+						}"}' \\`,
 						"  http://localhost:8080/v1/check_email",
 					]}
 					type="lite"
