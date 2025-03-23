@@ -115,4 +115,4 @@ export function convertPgError(err: PostgrestError): Error {
 	);
 }
 
-export const ENABLE_BULK: boolean = true;
+export const ENABLE_BULK: boolean = false;
