@@ -56,9 +56,4 @@ module.exports = withSentryConfig(apiConfig, {
 	// https://docs.sentry.io/product/crons/
 	// https://vercel.com/docs/cron-jobs
 	automaticVercelMonitors: true,
-
-	// https://github.com/simonhaenisch/md-to-pdf/issues/279#issuecomment-1849287532
-	experimental: {
-		serverComponentsExternalPackages: ["md-to-pdf"],
-	},
 });
