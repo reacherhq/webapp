@@ -1,7 +1,7 @@
 import axios from "axios";
 import { format } from "date-fns";
-import mdPdf from "markdown-pdf";
-import { render } from "mustache";
+import { mdToPdf } from "md-to-pdf";
+import M from "mustache";
 
 const LICENSE_TEMPLATE =
 	"https://raw.githubusercontent.com/reacherhq/policies/master/license/commercial.en.md";
@@ -58,31 +58,28 @@ export async function generateLicense(
 	const { data: template } = await axios.get<string>(LICENSE_TEMPLATE);
 
 	// Format date nicely.
-	const filledMd = render(template, {
+	const filledMd = M.render(template, {
 		...metadata,
 		license_end_date: format(metadata.license_end_date, "MMMM dd yyyy"),
 		number_devs: "8 (eight)", // For now we hardcode to 8.
 		stripe_buy_date: format(metadata.stripe_buy_date, "MMMM dd yyyy"),
 	});
-
-	return new Promise<{ filename: string; data: Buffer }>(
-		(resolve, reject) => {
-			mdPdf()
-				.from.string(filledMd)
-				.to.buffer((err: Error, data: Buffer) => {
-					if (err) {
-						return reject(err);
-					}
-
-					const filename = `license_${metadata.stripe_buyer_name
-						.replace(/ /g, "-")
-						.replace(/\./g, "")}_${format(
-						metadata.stripe_buy_date,
-						"yyyyMMdd"
-					)}-${format(metadata.license_end_date, "yyyyMMdd")}.pdf`;
-
-					return resolve({ filename, data });
-				});
+	const pdf = await mdToPdf(
+		{
+			content: filledMd,
+		},
+		{
+			stylesheet: [],
 		}
 	);
+
+	return {
+		filename: `license_${metadata.stripe_buyer_name
+			.replace(/ /g, "-")
+			.replace(/\./g, "")}_${format(
+			metadata.stripe_buy_date,
+			"yyyyMMdd"
+		)}-${format(metadata.license_end_date, "yyyyMMdd")}.pdf`,
+		data: pdf.content,
+	};
 }

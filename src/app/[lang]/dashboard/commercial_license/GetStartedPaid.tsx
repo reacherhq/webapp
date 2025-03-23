@@ -20,9 +20,11 @@ export function GetStartedPaid(props: {
 		<>
 			<Card>
 				<Text h3>{d.thank_you_for_purchase_title}</Text>
-				<Button type="success" icon={<Download />}>
-					{d.download_license}
-				</Button>
+				<Link href="/api/v1/commercial_license">
+					<Button type="success" icon={<Download />}>
+						{d.download_license}
+					</Button>
+				</Link>
 				<Markdown>{d.thank_you_for_purchase_explanation}</Markdown>
 
 				<div className="text-center">
