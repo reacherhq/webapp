@@ -49,7 +49,14 @@ export function SubscriptionHeader({
 			</div>
 			<div>
 				<p className="text-right">
-					{d.dashboard.header.active_subscription}
+					{d.dashboard.header.active_subscription}{" "}
+					{subAndCalls.current_period_start &&
+						subAndCalls.current_period_end &&
+						`(${formatDate(
+							subAndCalls.current_period_start,
+							d.lang
+						)} - 
+					${formatDate(subAndCalls.current_period_end, d.lang)})`}
 				</p>
 				<h3 className="text-right">
 					{productName(subAndCalls.product_id, d)}

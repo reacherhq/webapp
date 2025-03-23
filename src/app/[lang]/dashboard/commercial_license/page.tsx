@@ -1,6 +1,6 @@
 import { dictionary } from "@/dictionaries";
 import React from "react";
-import { GetStartedCommercial } from "./GetStartedCommercial";
+import { GetStartedTrial } from "./GetStartedTrial";
 import { Dashboard } from "../Dashboard";
 import {
 	getSession,
@@ -8,6 +8,8 @@ import {
 	getUserDetails,
 } from "@/supabase/supabaseServer";
 import { redirect } from "next/navigation";
+import { COMMERCIAL_LICENSE_PRODUCT_ID } from "@/util/subs";
+import { GetStartedPaid } from "./GetStartedPaid";
 
 export default async function CommercialLicensePage({
 	params: { lang },
@@ -30,11 +32,19 @@ export default async function CommercialLicensePage({
 			showApiUsage={false}
 			tab="commercial_license"
 		>
-			<GetStartedCommercial
-				d={d}
-				user={session.user}
-				userDetails={userDetails}
-			/>
+			{subAndCalls.product_id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
+				<GetStartedPaid
+					d={d}
+					user={session.user}
+					userDetails={userDetails}
+				/>
+			) : (
+				<GetStartedTrial
+					d={d}
+					user={session.user}
+					userDetails={userDetails}
+				/>
+			)}
 		</Dashboard>
 	);
 }
