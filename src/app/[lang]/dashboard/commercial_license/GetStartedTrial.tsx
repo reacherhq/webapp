@@ -8,7 +8,7 @@ import Link from "next/link";
 import { UserDetails } from "@/supabase/supabaseServer";
 import { User } from "@supabase/supabase-js";
 
-export function GetStartedCommercial(props: {
+export function GetStartedTrial(props: {
 	user: User;
 	userDetails: UserDetails;
 	d: Dictionary;

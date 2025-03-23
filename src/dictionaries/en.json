@@ -113,7 +113,10 @@
 			"book_call_cta": "Book a 30-min call with Amaury",
 			"purchase_license_title": "Ready to Scale? Get a Commercial License",
 			"purchase_license_explanation": "Try the Commercial License Trial with no strict time limit - I'll check in after about two weeks to see how it's going. Once you've put Reacher through its paces, upgrade to a full Commercial License for **unlimited verifications** and **complete data privacy**. After purchase, I'll personally provide your unrestricted Dockerfile.",
-			"purchase_license_button": "Get Commercial License"
+			"purchase_license_button": "Get Commercial License",
+			"thank_you_for_purchase_title": "Thank you for purchasing the Commercial License!",
+			"thank_you_for_purchase_explanation": "With this License, you can now start using **unlimited verifications** with no data sent back to Reacher. Here are the 2 steps to get started:\n1. **Use the unrestricted Dockerfile** to self-host Reacher. If you were previously using the Commercial License Trial, replace the `reacherhq/commercial-license-trial:latest` image with `reacherhq/backend:latest`.\n2. **Configure proxies**. The unrestricted Dockerfile does not include any proxy configuration anymore, so you'll need to configure your own proxies. Simply fill out the `RCH__PROXY__{HOST, PORT, USERNAME, PASSWORD}` environment variables on the Docker container, or read more in the [Proxies documentation](https://docs.reacher.email/self-hosting/proxies).\n\nIf you need any help, just send me an email at [✉️ amaury@reacher.email](mailto:amaury@reacher.email) or book a call with me below:",
+			"download_license": "Commercial License"
 		}
 	},
 	"footer": {
