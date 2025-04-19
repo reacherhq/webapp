@@ -13,7 +13,6 @@
 		"dev": "next dev",
 		"build": "next build",
 		"gen:geist": "ts-node -P scripts/tsconfig.json scripts/geist.ts",
-		"gen:license": "ts-node -P scripts/tsconfig.json scripts/license.ts",
 		"gen:db-ts": "supabase gen types typescript --linked > ./src/supabase/database.types.ts",
 		"lint": "tsc --noEmit && prettier -w */**/*.{ts,tsx} && next lint",
 		"start": "next start"
@@ -28,6 +27,7 @@
 		"@mantine/core": "^7.15.2",
 		"@mantine/hooks": "^7.15.2",
 		"@reacherhq/api": "^0.3.10",
+		"@react-pdf/renderer": "^4.3.0",
 		"@sentry/nextjs": "^8",
 		"@stripe/stripe-js": "^1.52.0",
 		"@supabase/auth-ui-react": "^0.4.6",
@@ -54,7 +54,6 @@
 		"mustache": "^4.2.0",
 		"negotiator": "^0.6.3",
 		"next": "^14.0.4",
-		"puppeteer": "^24.6.1",
 		"rate-limiter-flexible": "^2.4.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
