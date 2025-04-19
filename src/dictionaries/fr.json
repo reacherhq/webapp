@@ -116,7 +116,7 @@
 			"purchase_license_button": "Acheter une Licence Commerciale",
 			"thank_you_for_purchase_title": "Merci pour votre achat de la Licence Commerciale !",
 			"thank_you_for_purchase_explanation": "Vous pouvez maintenant commencer à utiliser des **vérifications illimitées** sans que les données ne soient renvoyées à Reacher. Voici les 2 étapes pour commencer :\n1. **Utilisez le Dockerfile sans restrictions** pour auto-héberger Reacher. Si vous utilisiez précédemment l'essai de la Licence Commerciale, remplacez l'image `reacherhq/commercial-license-trial:latest` par `reacherhq/backend:latest`.\n2. **Configurez les proxies**. Le Dockerfile sans restrictions n'inclut plus de configuration de proxy, vous devrez donc configurer vos propres proxies. Remplissez simplement les variables d'environnement `RCH__PROXY__{HOST, PORT, USERNAME, PASSWORD}` sur le conteneur Docker, ou lisez-en plus dans la [documentation des proxies](https://docs.reacher.email/self-hosting/proxies).\n\nSi vous avez besoin d'aide, envoyez-moi simplement un e-mail à [✉️ amaury@reacher.email](mailto:amaury@reacher.email) ou réservez un appel avec moi ci-dessous :",
-			"download_license": "Licence Commerciale"
+			"download_license": "Télécharger la Licence Commerciale active (%s - %s)"
 		}
 	},
 	"footer": {

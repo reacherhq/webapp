@@ -34,9 +34,11 @@ export default async function CommercialLicensePage({
 		>
 			{subAndCalls.product_id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
 				<GetStartedPaid
+					lang={lang}
 					d={d}
 					user={session.user}
 					userDetails={userDetails}
+					subAndCalls={subAndCalls}
 				/>
 			) : (
 				<GetStartedTrial
