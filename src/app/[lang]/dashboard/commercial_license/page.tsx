@@ -39,7 +39,8 @@ export default async function CommercialLicensePage({
 			showApiUsage={false}
 			tab="commercial_license"
 		>
-			{subAndCalls.product_id === COMMERCIAL_LICENSE_PRODUCT_ID ? (
+			{subAndCalls.product_id === COMMERCIAL_LICENSE_PRODUCT_ID &&
+			subAndCalls.status === "active" ? (
 				<GetStartedPaid
 					lang={lang}
 					d={d}
