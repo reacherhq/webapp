@@ -30,7 +30,9 @@ export default async function CommercialLicensePage({
 	const subAndCalls = await getSubAndCalls(session.user.id);
 	const userDetails = await getUserDetails();
 	const d = await dictionary(lang);
-	const licenseMetadata = await getLicenseMetadata(subAndCalls, session.user);
+	const isCommercialLicenseActive =
+		subAndCalls.product_id === COMMERCIAL_LICENSE_PRODUCT_ID &&
+		subAndCalls.status === "active";
 
 	return (
 		<Dashboard
@@ -39,15 +41,17 @@ export default async function CommercialLicensePage({
 			showApiUsage={false}
 			tab="commercial_license"
 		>
-			{subAndCalls.product_id === COMMERCIAL_LICENSE_PRODUCT_ID &&
-			subAndCalls.status === "active" ? (
+			{isCommercialLicenseActive ? (
 				<GetStartedPaid
 					lang={lang}
 					d={d}
 					user={session.user}
 					userDetails={userDetails}
 					subAndCalls={subAndCalls}
-					licenseMetadata={licenseMetadata}
+					licenseMetadata={await getLicenseMetadata(
+						subAndCalls,
+						session.user
+					)}
 				/>
 			) : (
 				<GetStartedTrial
